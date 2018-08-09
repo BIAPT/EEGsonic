@@ -1,0 +1,5 @@
+OSC functions for Matlab -- by Andy Schmeder
+Requires LibLO 0.22 or later.  See http://plugin.org.uk/liblo/
+License for use and redistribution: GNU Public License
+Comments / bug fixes: andy@a2hd.com
+No warranty, no promises.  Use this software at your own risk.
