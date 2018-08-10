@@ -6,26 +6,24 @@
 
 {|i|
 OSCdef.newMatching(("electrode"++i).asSymbol, {|msg, time, addr, recvPort|
-	 msg.postln;
+		{~electrodes[i].states_([[ "O" ,Color.rand, Color.rand]]);}.defer;
+	msg.postln;
 	}, ("/electrode/"++i++"/alpha").asSymbol, nil);
 	}!~numElectrodes;
 
-)
 
-
-
-
-(
 // Sending Messages
 m = NetAddr.localAddr;
-m.sendMsg("/electrode/0/alpha", 10.rand)
-)
+m.sendMsg("/electrode/0/alpha", 10.rand);
+
+t = Task({
+    inf.do({ arg i;
+		        m.sendMsg("/electrode/"++128.rand++"/alpha", 10.rand);
+        0.1.wait;
+    });
+}).start;
 
 
-
-
-
-(
 ~path = Document.current.dir;
 
 ~posFromFile = TabFileReader.read(~path++"/EGI_electrodes.txt",skipEmptyLines:true);
@@ -38,15 +36,17 @@ m.sendMsg("/electrode/0/alpha", 10.rand)
 
 ~distance.(50);
 
-)
 
-
-(
 w = Window.new("Electrode Positions Numbering", Rect(800,800, 820, 820)).front;
 w.view.background_(Color.white);
+
+~electrodes = {}!~posFromFile.size;
+
     ~posFromFile.do{|item,i|
+	~electrodes[i] =
 	Button(w,Rect((item[14] * 120) + 390,(item[15] * -120) + 400, 35, 35) )
 	.states_([[item[0],Color.black, Color.hsv(item[0].linlin(0, 129, 0,0.9), 1.0, 1.0,  )]])
+
     };
 w.refresh;
 )
