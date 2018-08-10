@@ -1,9 +1,9 @@
-
-
 (
 // Setting Up an OSC Responder
 ~numElectrodes = 128;
 
+
+// setting up the responders
 {|i|
 OSCdef.newMatching(("electrode"++i).asSymbol, {|msg, time, addr, recvPort|
 		{~electrodes[i].states_([[ "O" ,Color.rand, Color.rand]]);}.defer;
@@ -11,11 +11,12 @@ OSCdef.newMatching(("electrode"++i).asSymbol, {|msg, time, addr, recvPort|
 	}, ("/electrode/"++i++"/alpha").asSymbol, nil);
 	}!~numElectrodes;
 
-
-// Sending Messages
+// Sending a single message
 m = NetAddr.localAddr;
 m.sendMsg("/electrode/0/alpha", 10.rand);
 
+// This is a little task that sends messages regularly
+// compare with osc_test_client.m in the oscmex example
 t = Task({
     inf.do({ arg i;
 		        m.sendMsg("/electrode/"++128.rand++"/alpha", 10.rand);
@@ -23,7 +24,7 @@ t = Task({
     });
 }).start;
 
-
+// This is the visualization of the electrodes
 ~path = Document.current.dir;
 
 ~posFromFile = TabFileReader.read(~path++"/EGI_electrodes.txt",skipEmptyLines:true);
@@ -31,8 +32,8 @@ t = Task({
 
 ~distance = {|index|
 	~posFromFile.do({|item,i|
-		~posFromFile[i] = ~posFromFile[i].add((~posFromFile[i].copyRange(8,10) - ~posFromFile[index].copyRange(8,10)).pow(2).sum.sqrt) });
-	};
+         ~posFromFile[i] = ~posFromFile[i].add((~posFromFile[i].copyRange(8,10) -                  ~posFromFile[index].copyRange(8,10)).pow(2).sum.sqrt) });
+      	};
 
 ~distance.(50);
 
