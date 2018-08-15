@@ -1,5 +1,4 @@
 <h1>EEGsonic</h1>
-<p>MATLAB application to collect and sonificate EEG features</p>
 
 <h2> Requirement </h2>
 <ul>
