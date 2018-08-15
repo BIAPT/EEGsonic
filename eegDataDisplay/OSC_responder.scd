@@ -22,7 +22,7 @@ t = Task({
 		        m.sendMsg("/electrode/"++128.rand++"/alpha", 10.rand);
         0.1.wait;
     });
-}).start;
+}).stop;
 
 // This is the visualization of the electrodes
 ~path = Document.current.dir;
