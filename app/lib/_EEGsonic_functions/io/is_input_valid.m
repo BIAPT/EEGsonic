@@ -11,7 +11,10 @@ function [is_valid,reason] = is_input_valid(app,type)
             port = app.PortEditField.Value;
             [is_valid,reason] = check_osc_receiver(path,ip,port);
         case 'spr'
-            
+            window_size = SPRWindowEditField.Value;
+            %TODO CHECK THE REST
+            [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_tapers, ...
+                                theta_bandwith,alpha_bandwith,beta_bandwith,averaging_size)
         case 'td'
             
         case 'pac'
@@ -56,6 +59,12 @@ function [is_valid,reason] = check_osc_receiver(path,ip,port)
        is_valid = 0;
        reason = reason + "Port contains an illegal character. ";
     end
-    
 end
 
+function [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_tapers, ...
+                             theta_bandwith,alpha_bandwith,beta_bandwith,averaging_size)
+    is_valid = 1;
+    reason = "";
+    
+    % HERE MAKE CHECK FOR EACH ONE OF THEM
+end
