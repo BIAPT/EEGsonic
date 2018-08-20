@@ -24,7 +24,9 @@ function [is_valid,reason] = is_input_valid(app,type)
                                 theta_bandwith,is_theta,alpha_bandwith,is_alpha,beta_bandwith,...
                                 is_beta,averaging_size)
         case 'td'
-            
+           window_size = app.TDWindowSizeEditField.Value;
+           frequency = app.TDFrequencyEditField.Value;
+           [is_valid,reason] = check_td(window_size,frequency);
         case 'pac'
             
         case 'fp_wpli'
@@ -100,6 +102,14 @@ function [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_
     end
     
 
+end
+
+function [is_valid,reason] = check_td(window_size,frequency)
+    is_valid = 1;
+    reason = "";
+    
+    % TODO Add possible error over here (some are already handled by the
+    % app GUI.
 end
 
 function [is_valid,reason] = check_bandwith(is_valid,bandwith,type)
