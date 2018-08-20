@@ -10,24 +10,30 @@ function [is_valid,reason] = is_input_valid(app,type)
             port = app.PortEditField.Value;
             [is_valid,reason] = check_osc_receiver(path,ip,port);
         case 'spr'
-            window_size = SPRWindowEditField.Value;
-            time_bandwith_product = SPRTimeBandwithProductEditField.Value;
-            number_tapers = SPRNumberTapersEditField.Value;
-            theta_bandwith = SPRThetaBandwithEditField.Value;
-            is_theta = SPRThetaBandwithCheckBox.Value;
-            alpha_bandwith = SPRAlphaBandwithEditField.Value;
-            is_alpha = SPRAlphaBandwithCheckBox.Value;
-            beta_bandwith = SPRBetaBandwithEditField.Value;
-            is_beta = SPRBetaBandwithCheckBox.Value;
-            averaging_size = SPRAveragingSizeEditField.Value;
-            %TODO CHECK THE REST
+            window_size = app.SPRWindowSizeEditField.Value;
+            time_bandwith_product = app.SPRTimeBandwithProductEditField.Value;
+            number_tapers = app.SPRNumberTapersEditField.Value;
+            theta_bandwith = app.SPRThetaBandwithEditField.Value;
+            is_theta = app.SPRThetaBandwithCheckBox.Value;
+            alpha_bandwith = app.SPRAlphaBandwithEditField.Value;
+            is_alpha = app.SPRAlphaBandwithCheckBox.Value;
+            beta_bandwith = app.SPRBetaBandwithEditField.Value;
+            is_beta = app.SPRBetaBandwithCheckBox.Value;
+            averaging_size = app.SPRAveragingSizeEditField.Value;
             [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_tapers, ...
                                 theta_bandwith,is_theta,alpha_bandwith,is_alpha,beta_bandwith,...
                                 is_beta,averaging_size)
         case 'td'
-            
+           window_size = app.TDWindowSizeEditField.Value;
+           frequency = app.TDFrequencyEditField.Value;
+           [is_valid,reason] = check_td(window_size,frequency);
         case 'pac'
-            
+            window_size = app.PACWindowSizeEditField.Value;
+            frontal_channels = app.PACFrontalChannelsListBox.Value;
+            parietal_channels = app.PACParietalChannelsListBox.Value;
+            extra_low_frequency = app.PACExtraLowFrequencyBandwithEditField.Value;
+            high_frequency = app.PACHighFrequencyBandwithEditField.Value;
+            [is_v
         case 'fp_wpli'
             
         case 'fp_dpli'
@@ -87,33 +93,50 @@ function [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_
     
     %% Theta Bandwith
     if(is_theta)
-        theta_bandwith = erase(theta_bandwith,'[');
-        theta_bandwith = erase(theta_bandwith,']');
-        theta_bandwith = str2double(strsplit(theta_bandwith,{',',' '}));
-        if(length(theta_bandwith) ~= 2)
-           is_valid = 0;
-           reason = reason + "Theta Bandwith is malformated: require [x,y]. "
-        else
-            if(theta_bandwith(1) >= theta_bandwith(2))
-               is_valid = 0;
-               reason = reason + "Theta Bandwith first value is greater than the second. ";
-            end
-        end
+        [is_valid,reason] = check_bandwith(is_valid,theta_bandwith,"Theta");
     end
     
     %% Alpha Bandwith
     if(is_alpha)
-        
+        [is_valid,reason] = check_bandwith(is_valid,alpha_bandwith,"Alpha");        
     end
     
     %% Beta Bandwith
     if(is_beta)
-        
+        [is_valid,reason] = check_bandwith(is_valid,beta_bandwith,"Beta");        
     end
     
 
 end
 
-function [is_valid,reason] = check_bandwith(is_valid,bandwith)
+function [is_valid,reason] = check_td(window_size,frequency)
+    is_valid = 1;
     reason = "";
+    
+    % TODO Add possible error over here (some are already handled by the
+    % app GUI.
+end
+
+function [is_valid,reason] = check_pac(window_size,frontal_channels,parietal_channels,...
+                             extra_low_frequency,high_frequency)
+    is_valid = 1;
+    reason = "";
+    
+    
+end
+
+function [is_valid,reason] = check_bandwith(is_valid,bandwith,type)
+    reason = "";
+    bandwith = erase(bandwith,'[');
+    bandwith = erase(bandwith,']');
+    bandwith = str2double(strsplit(bandwith,{',',' '}));
+    if(length(bandwith) ~= 2)
+       is_valid = 0;
+       reason = reason + type + " Bandwith is malformated: require [x,y]. "
+    else
+        if(bandwith(1) >= bandwith(2))
+           is_valid = 0;
+           reason = reason + type+" Bandwith first value is greater than the second. ";
+        end
+    end
 end

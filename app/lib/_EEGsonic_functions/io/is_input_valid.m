@@ -22,13 +22,19 @@ function [is_valid,reason] = is_input_valid(app,type)
             averaging_size = app.SPRAveragingSizeEditField.Value;
             [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_tapers, ...
                                 theta_bandwith,is_theta,alpha_bandwith,is_alpha,beta_bandwith,...
-                                is_beta,averaging_size)
+                                is_beta,averaging_size);
         case 'td'
            window_size = app.TDWindowSizeEditField.Value;
            frequency = app.TDFrequencyEditField.Value;
            [is_valid,reason] = check_td(window_size,frequency);
         case 'pac'
-            
+            window_size = app.PACWindowSizeEditField.Value;
+            frontal_channels = app.PACFrontalChannelsListBox.Value;
+            parietal_channels = app.PACParietalChannelsListBox.Value;
+            extra_low_frequency = app.PACExtraLowFrequencyBandwithEditField.Value;
+            high_frequency = app.PACHighFrequencyBandwithEditField.Value;
+            [is_valid,reason] = check_pac(window_size,frontal_channels,parietal_channels,...
+                                extra_low_frequency,high_frequency);
         case 'fp_wpli'
             
         case 'fp_dpli'
@@ -88,17 +94,20 @@ function [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_
     
     %% Theta Bandwith
     if(is_theta)
-        [is_valid,reason] = check_bandwith(is_valid,theta_bandwith,"Theta");
+        [is_valid,theta_reason] = check_bandwith(is_valid,theta_bandwith,"Theta");
+        reason = reason + theta_reason;
     end
     
     %% Alpha Bandwith
     if(is_alpha)
-        [is_valid,reason] = check_bandwith(is_valid,alpha_bandwith,"Alpha");        
+        [is_valid,alpha_reason] = check_bandwith(is_valid,alpha_bandwith,"Alpha"); 
+        reason = reason + alpha_reason;
     end
     
     %% Beta Bandwith
     if(is_beta)
-        [is_valid,reason] = check_bandwith(is_valid,beta_bandwith,"Beta");        
+        [is_valid,beta_reason] = check_bandwith(is_valid,beta_bandwith,"Beta");  
+        reason = reason + beta_reason;
     end
     
 
@@ -112,6 +121,29 @@ function [is_valid,reason] = check_td(window_size,frequency)
     % app GUI.
 end
 
+function [is_valid,reason] = check_pac(window_size,frontal_channels,parietal_channels,...
+                             extra_low_frequency,high_frequency)
+    is_valid = 1;
+    reason = "";
+    
+    %% Frontal Channels
+    if(isempty(frontal_channels))
+        is_valid = 0;
+        reason = reason + "No frontal channels were selected. ";
+    end
+    %% Parietal Channels
+    if(isempty(parietal_channels))
+        is_valid = 0;
+        reason = reason + "No parietal channels were selected. ";        
+    end
+    %% Extra Low Frequency
+    [is_valid,extra_low_reason] = check_bandwith(is_valid,extra_low_frequency,"Extra Low Frequency");
+    reason = reason + extra_low_reason;
+    %% High Frequency
+    [is_valid,high_reason] = check_bandwith(is_valid,high_frequency,"High Frequency");
+    reason = reason + high_reason;
+end
+
 function [is_valid,reason] = check_bandwith(is_valid,bandwith,type)
     reason = "";
     bandwith = erase(bandwith,'[');
@@ -119,7 +151,7 @@ function [is_valid,reason] = check_bandwith(is_valid,bandwith,type)
     bandwith = str2double(strsplit(bandwith,{',',' '}));
     if(length(bandwith) ~= 2)
        is_valid = 0;
-       reason = reason + type + " Bandwith is malformated: require [x,y]. "
+       reason = reason + type + " Bandwith is malformated: require [x,y]. ";
     else
         if(bandwith(1) >= bandwith(2))
            is_valid = 0;
