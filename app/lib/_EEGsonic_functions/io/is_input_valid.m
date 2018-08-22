@@ -37,6 +37,8 @@ function [is_valid,reason] = is_input_valid(app,type)
                                 extra_low_frequency,high_frequency);
         case 'fp_wpli'
             
+            [is_valid,reason] = check_fp_wpli(window_size,midline_channels,lateral_channels,...
+                                number_surrogates,p_value)            
         case 'fp_dpli'
             
         case 'hl'
@@ -142,6 +144,31 @@ function [is_valid,reason] = check_pac(window_size,frontal_channels,parietal_cha
     %% High Frequency
     [is_valid,high_reason] = check_bandwith(is_valid,high_frequency,"High Frequency");
     reason = reason + high_reason;
+end
+
+function [is_valid,reason] = check_fp_wpli(window_size,midline_channels,lateral_channels,...
+                             number_surrogates,p_value)
+   is_valid = 1;
+   reason = "";
+   
+   %% Midline Channels
+   if(isempty(midline_channels))
+      is_valid = 0;
+      reason = reason + "No midline channels were selected. ";
+   end
+   
+   %% Lateral Channels
+   if(isempty(lateral_channels))
+       is_valid = 0;
+       reason = reason + "No lateral channels were selected. ";
+   end
+   %% Number of Surrogates
+   max_number = 20; %Need to be setted, but more than 20 is way too much
+   if(number_surrogates > max_number)
+      is_valid = 0;
+      reason = reason + "Number of surrogate exceed a reasonable value: " + num2str(number_surrogates) + " > " + max_number + ". ";
+   end
+   
 end
 
 function [is_valid,reason] = check_bandwith(is_valid,bandwith,type)
