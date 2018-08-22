@@ -59,6 +59,13 @@ function [is_valid,reason] = is_input_valid(app,type)
             [is_valid,reason] = check_hub_location(window_size,number_surrogates,p_value,...
                                 top_connection_threshold)            
         case 'pe'
+            window_size = app.PEWindowSizeEditField.Value;
+            frontal_channels = app.PEFrontalChannelsListBox.Value;
+            posterior_channels = app.PEPosteriorChannelsListBox.Value;
+            embedding_dimension = app.PEEmbeddingDimensionEditField.Value;
+            time_delay = app.PETimeDelayEditField.Value;
+            [is_valid,reason] = check_permutation_entropy(window_size,frontal_channels,...
+                                posterior_channels,embedding_dimension,time_delay)            
     end
 
 end
@@ -188,6 +195,23 @@ function [is_valid,reason] = check_hub_location(window_size,number_surrogates,p_
     % TODO Add possible error over here (some are already handled by the
     % app GUI.
 
+end
+
+function [is_valid,reason] = check_permutation_entropy(window_size,frontal_channels,...
+                             posterior_channels,embedding_dimension,time_delay)
+    is_valid = 1;
+    reason = "";
+    
+    %% Frontal Channels
+    if(isempty(frontal_channels))
+        is_valid = 0;
+        reason = reason + "No frontal channels were selected. ";
+    end    
+    %% Posterior Channels
+    if(isempty(posterior_channels))
+        is_valid = 0;
+        reason = reason + "No posterior channels were selected. ";
+    end    
 end
 
 function [is_valid,reason] = check_bandwith(is_valid,bandwith,type)
