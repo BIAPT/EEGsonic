@@ -42,7 +42,7 @@ function [is_valid,reason] = is_input_valid(app,type)
             number_surrogates = app.FPwPLINumberSurrogatesEditField.Value;
             p_value = app.FPwPLIPValueEditField.Value;
             [is_valid,reason] = check_pli(window_size,midline_channels,lateral_channels,...
-                                number_surrogates,p_value)            
+                                number_surrogates,p_value)  ;          
         case 'fp_dpli'
             window_size = app.FPdPLIWindowSizeEditField.Value;
             midline_channels = app.FPdPLIMidlineChannelsListBox.Value;
@@ -50,14 +50,14 @@ function [is_valid,reason] = is_input_valid(app,type)
             number_surrogates = app.FPdPLINumberSurrogatesEditField.Value;
             p_value = app.FPdPLIPValueEditField.Value;
             [is_valid,reason] = check_pli(window_size,midline_channels,lateral_channels,...
-                                number_surrogates,p_value)            
+                                number_surrogates,p_value);            
         case 'hl'
             window_size = app.HLWindowSizeEditField.Value;
             number_surrogates = app.HLNumberSurrogatesEditField.Value;
             p_value = app.HLPValueEditField.Value;
             top_connection_threshold = app.HLTopConnectionThresholdEditField.Value;
             [is_valid,reason] = check_hub_location(window_size,number_surrogates,p_value,...
-                                top_connection_threshold)            
+                                top_connection_threshold);            
         case 'pe'
             window_size = app.PEWindowSizeEditField.Value;
             frontal_channels = app.PEFrontalChannelsListBox.Value;
@@ -65,7 +65,7 @@ function [is_valid,reason] = is_input_valid(app,type)
             embedding_dimension = app.PEEmbeddingDimensionEditField.Value;
             time_delay = app.PETimeDelayEditField.Value;
             [is_valid,reason] = check_permutation_entropy(window_size,frontal_channels,...
-                                posterior_channels,embedding_dimension,time_delay)            
+                                posterior_channels,embedding_dimension,time_delay);            
     end
 
 end
