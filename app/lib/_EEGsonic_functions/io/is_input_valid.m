@@ -52,7 +52,12 @@ function [is_valid,reason] = is_input_valid(app,type)
             [is_valid,reason] = check_pli(window_size,midline_channels,lateral_channels,...
                                 number_surrogates,p_value)            
         case 'hl'
-            
+            window_size = app.HLWindowSizeEditField.Value;
+            number_surrogates = app.HLNumberSurrogatesEditField.Value;
+            p_value = app.HLPValueEditField.Value;
+            top_connection_threshold = app.HLTopConnectionThresholdEditField.Value;
+            [is_valid,reason] = check_hub_location(window_size,number_surrogates,p_value,...
+                                top_connection_threshold)            
         case 'pe'
     end
 
