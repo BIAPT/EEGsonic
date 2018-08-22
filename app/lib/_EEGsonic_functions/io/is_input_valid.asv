@@ -44,7 +44,13 @@ function [is_valid,reason] = is_input_valid(app,type)
             [is_valid,reason] = check_pli(window_size,midline_channels,lateral_channels,...
                                 number_surrogates,p_value)            
         case 'fp_dpli'
-            
+            window_size = app.FPdPLIWindowSizeEditField.Value;
+            midline_channels = app.FPdPLIMidlineChannelsListBox.Value;
+            lateral_channels = app.FPdPLILateralChannelsListBox.Value;
+            number_surrogates = app.FPdPLINumberSurrogatesEditField.Value;
+            p_value = app.FPdPLIPValueEditField.Value;
+            [is_valid,reason] = check_pli(window_size,midline_channels,lateral_channels,...
+                                number_surrogates,p_value)            
         case 'hl'
             
         case 'pe'
@@ -166,12 +172,14 @@ function [is_valid,reason] = check_pli(window_size,midline_channels,lateral_chan
        is_valid = 0;
        reason = reason + "No lateral channels were selected. ";
    end
-   %% Number of Surrogates
-   if(number_surrogates > max_number_surrogates)
-      is_valid = 0;
-      reason = reason + "Number of surrogate exceed a reasonable value: " + num2str(number_surrogates) + " > " + max_number_surrogates + ". ";
-   end
    
+end
+
+function [is_valid,reason] = check_hub_location(window_size,number_surrogates,p_value,...
+                             top_connection_threshold)
+    is_valid = 1;
+    reason = ""
+
 end
 
 function [is_valid,reason] = check_bandwith(is_valid,bandwith,type)

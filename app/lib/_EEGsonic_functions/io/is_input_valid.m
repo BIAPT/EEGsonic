@@ -175,6 +175,16 @@ function [is_valid,reason] = check_pli(window_size,midline_channels,lateral_chan
    
 end
 
+function [is_valid,reason] = check_hub_location(window_size,number_surrogates,p_value,...
+                             top_connection_threshold)
+    is_valid = 1;
+    reason = "";
+    
+    % TODO Add possible error over here (some are already handled by the
+    % app GUI.
+
+end
+
 function [is_valid,reason] = check_bandwith(is_valid,bandwith,type)
     reason = "";
     bandwith = erase(bandwith,'[');
