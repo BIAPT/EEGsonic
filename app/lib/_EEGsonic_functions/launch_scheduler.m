@@ -8,15 +8,3 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     features_worker = parfeval(p,@calculate_features,0,information,parameters);
 end
 
-function acquire_eeg(information,parameters)
-    while(1)
-        disp('data');
-    end
-end
-
-function calculate_features(information,parameters)
-    while(1)
-        disp('features');
-    end
-end
-
