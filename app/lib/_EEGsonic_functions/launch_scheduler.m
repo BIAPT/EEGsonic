@@ -1,26 +1,22 @@
-function launch_scheduler(app,information,parameters)
+function [data_worker,features_worker] = launch_scheduler(information,parameters)
 %LAUNCH_scheduler Will take care of getting eeg data and calculating
 %features
 %   information: contains data pertaining to saving/loading
 %   parameters: contains user entered data for features calculation/osc
-    
+    p = gcp(); % get the current parallel pool
+    data_worker = parfeval(p,@acquire_eeg,0,information,parameters);
+    features_worker = parfeval(p,@calculate_features,0,information,parameters);
+end
 
-    %Need at least 2 CPUs to do run this properly
-    parfor cpu = 1:2
-        is_running = evalin('base','is_running');
-        if(cpu == 1)
-           while(is_running)
-              % Get the data and save it here
-              a = 1+1
-              is_running = evalin('base','is_running');
-           end
-        else
-            while(is_running)
-               % Calculate features here
-               b = 1+2
-               is_running = evalin('base','is_running');
-            end
-        end
+function acquire_eeg(information,parameters)
+    while(1)
+        disp('data');
+    end
+end
+
+function calculate_features(information,parameters)
+    while(1)
+        disp('features');
     end
 end
 
