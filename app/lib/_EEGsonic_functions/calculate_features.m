@@ -1,4 +1,4 @@
-function calculate_features(information,parameters)
+function calculate_features(data_directory,information,parameters)
 %CALCULATE_FEATURES Summary of this function goes here
 %   Detailed explanation goes here
     while(1)

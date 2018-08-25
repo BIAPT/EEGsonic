@@ -1,11 +1,6 @@
-function acquire_eeg(information,parameters)
+function acquire_eeg(data_directory,information,parameters)
 %ACQUIRE_EEG Summary of this function goes here
 %   Detailed explanation goes here
-
-    %% Creating saving folder
-    folder_name = information.folder_name + "-" + string(now);
-    data_directory = information.saving_directory +"\"+folder_name; 
-    mkdir(data_directory); %dir will always be unique
     
     %% Selecting an headset
     headset = "";
