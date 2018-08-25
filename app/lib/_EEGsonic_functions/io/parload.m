@@ -3,7 +3,14 @@ function [is_ready,data] = parload(path,index)
 %   Detailed explanation goes here
     file_path = path + "\" + index + ".mat";
     
-    is_ready = 0;
-    data = [];
+    %% Try to load the data
+    try
+        data_struct = load(file_path);
+        data = data_struct.data;
+        is_ready = 1;
+    catch
+        is_ready = 0;
+        data = [];
+    end
 end
 
