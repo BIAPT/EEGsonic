@@ -28,6 +28,7 @@ end
 
 function [data] = get_egi_data(parameters)
     data = rand(128,10000);% TODO change this to the data acquisition
+    pause(10)
 end
 
 function [data] = get_dsi_data(parameters)
