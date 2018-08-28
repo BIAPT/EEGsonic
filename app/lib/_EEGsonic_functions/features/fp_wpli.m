@@ -1,7 +1,7 @@
-function [outputArg1,outputArg2] = fp_wpli(inputArg1,inputArg2)
+function [avg_pli_midline,avg_pli_lateral] = fp_wpli(window_size,midline_channels,lateral_channels,...
+                                             number_surrogates,p_value)
 %FP_WPLI Summary of this function goes here
 %   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+
 end
 
