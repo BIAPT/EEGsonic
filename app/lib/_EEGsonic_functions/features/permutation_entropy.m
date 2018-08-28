@@ -1,7 +1,7 @@
-function [outputArg1,outputArg2] = permutation_entropy(inputArg1,inputArg2)
+function [avg_pe_frontal,avg_pe_parietal] = permutation_entropy(window_size,frontal_channels,...
+                                            posterior_channels,embedding_dimension,time_delay)
 %PERMUTATION_ENTROPY Summary of this function goes here
 %   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+
 end
 
