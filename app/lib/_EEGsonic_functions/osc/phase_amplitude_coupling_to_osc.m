@@ -1,7 +1,6 @@
-function [outputArg1,outputArg2] = phase_amplitude_coupling_to_osc(inputArg1,inputArg2)
+function [ratio_peak_through_frontal_osc,ratio_peak_through_parietal_osc] = phase_amplitude_coupling_to_osc(ratio_peak_through_frontal,ratio_peak_through_parietal)
 %PHASE_AMPLITUDE_COUPLING_TO_OSC Summary of this function goes here
 %   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+
 end
 
