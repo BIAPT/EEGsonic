@@ -11,6 +11,7 @@ function [is_valid,reason] = is_input_valid(app,type)
             [is_valid,reason] = check_osc_receiver(path,ip,port);
         case 'spr'
             window_size = app.SPRWindowSizeEditField.Value;
+            step_size = app.SPRStepSizeEditField.Value;
             time_bandwith_product = app.SPRTimeBandwithProductEditField.Value;
             number_tapers = app.SPRNumberTapersEditField.Value;
             theta_bandwith = app.SPRThetaBandwithEditField.Value;
@@ -20,7 +21,7 @@ function [is_valid,reason] = is_input_valid(app,type)
             beta_bandwith = app.SPRBetaBandwithEditField.Value;
             is_beta = app.SPRBetaBandwithCheckBox.Value;
             averaging_size = app.SPRAveragingSizeEditField.Value;
-            [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_tapers, ...
+            [is_valid,reason] = check_spr(window_size,step_size,time_bandwith_product,number_tapers, ...
                                 theta_bandwith,is_theta,alpha_bandwith,is_alpha,beta_bandwith,...
                                 is_beta,averaging_size);
         case 'td'
@@ -101,7 +102,7 @@ function [is_valid,reason] = check_osc_receiver(path,ip,port)
     end
 end
 
-function [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_tapers, ...
+function [is_valid,reason] = check_spr(window_size,step_size,time_bandwith_product,number_tapers, ...
                              theta_bandwith,is_theta,alpha_bandwith,is_alpha,beta_bandwith,...
                              is_beta,averaging_size)
     is_valid = 1;
@@ -115,6 +116,14 @@ function [is_valid,reason] = check_spr(window_size,time_bandwith_product,number_
        is_valid = 0;
        reason = reason + "Window size is longer than the averaging size. ";
     end
+    
+    %% Step Size
+    if(step_size >= window_size)
+       is_valid = 0;
+       reason = reason + "Step size is longer than the window size. ";
+    end
+    
+    %% TODO ADD CHECKS FOR THREE IS
     
     %% Theta Bandwith
     if(is_theta)
