@@ -6,7 +6,7 @@ function [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(eeg_data,ee
 
 %{
 window_size,step_size,time_bandwith_product,number_tapers,theta_bandwith,
-is_theta,alpha_bandwith,is_alpha,beta_bandwith,is_beta,averaging_size
+alpha_bandwith,beta_bandwith,averaging_size
 %}
 
 %% Create params struct for Chronux function
@@ -16,13 +16,22 @@ is_theta,alpha_bandwith,is_alpha,beta_bandwith,is_beta,averaging_size
     window_parameters = [spr.window_size spr.step_size];    
 
     %% Theta
-    params.fpass = [fp];
-    [S, t, f] = mtspecgramc(eeg_data, window_parameters,params);
-
+    params.fpass = [spr.theta_bandwith];
+    [spectrum_theta, time_theta, frequency_theta] = mtspecgramc(eeg_data, window_parameters,params);
+    avg_spectrum_theta = mean(spectrum_theta);
+    
     %% Beta
+    params.fpass = [spr.beta_bandwith];
+    [spectrum_beta, time_beta, frequency_beta] = mtspecgramc(eeg_data, window_parameters,params);
+    avg_spectrum_beta = mean(spectrum_beta);
     
     %% Alpha
+    params.fpass = [spr.alpha_bandwith];
+    [spectrum_alpha, time_alpha, frequency_alpha] = mtspecgramc(eeg_data, window_parameters,params);
+    avg_spectrum_alpha = mean(spectrum_alpha)
     
     %% Ratio
+    ratio_beta_alpha = avg_spectrum_beta/avg_spectrum_alpha;
+    ratio_alpha_theta = avg_spectrum_alpha/avg_spectrum_theta;
 end
 
