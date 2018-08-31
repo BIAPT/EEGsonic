@@ -123,7 +123,11 @@ function [is_valid,reason] = check_spr(window_size,step_size,time_bandwith_produ
        reason = reason + "Step size is longer than the window size. ";
     end
     
-    %% TODO ADD CHECKS FOR THREE IS
+    %% Bandpass
+    if(~is_theta || ~is_alpha || ~is_beta)
+       is_valid = 0;
+       reason = reason + "Theta, alpha or beta bandpass isn't selected. ";
+    end
     
     %% Theta Bandwith
     if(is_theta)
