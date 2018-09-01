@@ -11,7 +11,7 @@ function [ratio_front_back] = topographic_distribution(eeg_data,eeg_info,params)
     %% Spectral topographic map
     [eegspecdB,freqs,~,~,~] = spectopo(eeg_data,length(eeg_data),...,
                               eeg_info.sampling_rate,'chanlocs',...,
-                              eeg_info.channels_info,'freqfac',2,...,
+                              eeg_info.channels_location,'freqfac',2,...,
                               'freq',params.frequency,'plot','off');
     
     %% Normalization
