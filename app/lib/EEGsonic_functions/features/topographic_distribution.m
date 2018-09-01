@@ -1,4 +1,4 @@
-function [ratio_front_back] = topographic_distribution(eeg_data,eeg_info,td)
+function [ratio_front_back] = topographic_distribution(eeg_data,eeg_info,params)
 %TOPOGRAPHIC_DISTRIBUTION Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -12,7 +12,7 @@ function [ratio_front_back] = topographic_distribution(eeg_data,eeg_info,td)
     [eegspecdB,freqs,~,~,~] = spectopo(eeg_data,length(eeg_data),...,
                               eeg_info.sampling_rate,'chanlocs',...,
                               eeg_info.channels_info,'freqfac',2,...,
-                              'freq',td.frequency,'plot','off');
+                              'freq',params.frequency,'plot','off');
     
     %% Normalization
     %Note: Should we normalize the eegspecdB?
