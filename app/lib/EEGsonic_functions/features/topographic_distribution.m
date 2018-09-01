@@ -18,9 +18,10 @@ function [ratio_front_back] = topographic_distribution(eeg_data,eeg_info,td)
     %Note: Should we normalize the eegspecdB?
     
     %% Frontal Averaging
-    
+    frontal_avg = 1; % TODO
     %% Posterior Averaging
-    
+    posterior_avg = 1; % TODO
     %% Ratio Front and Posterior
+    ratio_front_back = frontal_avg/posterior_avg;
 end
 
