@@ -27,12 +27,12 @@ function acquire_eeg(data_directory,information,parameters)
 end
 
 function [data] = get_egi_data(parameters)
-    data = rand(128,10000);% TODO change this to the data acquisition
+    data = rand(128,5000);% TODO change this to the data acquisition
     data = data'; % Need to take the transpose with EGI
-    pause(10)
+    pause(5)
 end
 
 function [data] = get_dsi_data(parameters)
-    data = rand(128,10000);% TODO change this to the data acquisition
+    data = rand(128,5000);% TODO change this to the data acquisition
 end
 
