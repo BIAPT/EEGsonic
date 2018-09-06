@@ -3,14 +3,14 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
 %   Detailed explanation goes here
     index = 0;
     eeg_info = [];
+    data_acquisition_size = 5; %By default(in seconds)
     if(parameters.general.egi129.is_selected)
         eeg_info = information.headset.egi129;
+        
     elseif(parameters.general.dsi24.is_selected)
         eeg_info = information.headset.dsi24;
     end
     
-    % Data acquisition size
-    data_acquisition_size = 5;
     
     % required size variables
     spr_required_data_size = 5;
