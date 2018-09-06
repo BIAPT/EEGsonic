@@ -5,8 +5,14 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
     eeg_info = [];
     data_acquisition_size = 5; %By default(in seconds)
     
-    % required size variables
+    % Required size variables *NEED TO PUT IN GUI (AVERAGING WINDOW)
     spr_required_data_size = 5;
+    td_required_data_size = 5;
+    pac_required_data_size = 30;
+    fp_wpli_required_data_size = 10;
+    fp_dpli_required_data_size = 10; 
+    hl_required_data_size = 30;
+    pe_required_data_size = 10;
     
     % Data for each analysis technique 
     spr_data = [];
@@ -21,7 +27,14 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
         eeg_info = information.headset.egi129;
         data_acquisition_size = parameters.general.egi129.data_acquisition_size;
         sec_to_pts = 1000;
+        % Convert secs to points
         spr_required_data_size = spr_required_data_size*sec_to_pts;
+        td_required_data_size = td_required_data_size*sec_to_pts;
+        pac_required_data_size = pac_required_data_size*sec_to_pts;
+        fp_wpli_required_data_size = fp_wpli_required_data_size*sec_to_pts;
+        fp_dpli_required_data_size = fp_dpli_required_data_size*sec_to_pts;
+        hl_required_data_size = hl_required_data_size*sec_to_pts;
+        pe_required_data_size = pe_required_data_size*sec_to_pts;
         
     elseif(parameters.general.dsi24.is_selected)
         eeg_info = information.headset.dsi24;
@@ -41,7 +54,7 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
                     % Convert to OSC
                     [ratio_beta_alpha_osc,ratio_alpha_theta_osc] = spectral_power_ratio_to_osc(ratio_beta_alpha,ratio_alpha_theta)
                     % Send to OSC receivers
-                    spr_current_data_size = 0;
+                    
                     spr_data = [];
                 end
             end
@@ -75,4 +88,3 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
         end
     end
 end
-
