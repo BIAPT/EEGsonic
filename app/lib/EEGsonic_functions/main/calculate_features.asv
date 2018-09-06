@@ -15,7 +15,6 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
     fp_wpli_data = [];
     fp_dpli_data = [];
     hl_data = [];
-    pe_data = [];
     
     if(parameters.general.egi129.is_selected)
         eeg_info = information.headset.egi129;
