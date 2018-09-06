@@ -28,7 +28,6 @@ end
 
 function [data] = get_egi_data(parameters)
     data = rand(128,5000);% TODO change this to the data acquisition
-    data = data'; % Need to take the transpose with EGI
     pause(5)
 end
 
