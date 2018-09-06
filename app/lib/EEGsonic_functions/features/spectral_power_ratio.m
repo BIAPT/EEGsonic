@@ -24,20 +24,24 @@ function [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(eeg_data,ee
     
     %% Beta
     avg_spectrum_beta = [];
-    params.fpass = [parameters.beta.bandwith];
-    [spectrum_beta, time_beta, frequency_beta] = mtspecgramc(eeg_data, window_parameters,params);
-    overall_spectrum_beta = mean(spectrum_beta,2);
-    avg_spectrum_beta = mean(overall_spectrum_beta);
+    for i = 1:eeg_info.number_channels
+        params.fpass = [parameters.beta.bandwith];
+        [spectrum_beta, time_beta, frequency_beta] = mtspecgramc(eeg_data(:,i), window_parameters,params);
+        overall_spectrum_beta = mean(spectrum_beta,2);
+        avg_spectrum_beta = [avg_spectrum_beta,mean(overall_spectrum_beta)];
+    end
     
     %% Alpha
     avg_spectrum_alpha = [];
-    params.fpass = [parameters.alpha.bandwith];
-    [spectrum_alpha, time_alpha, frequency_alpha] = mtspecgramc(eeg_data, window_parameters,params);
-    overall_spectrum_alpha = mean(spectrum_alpha,2)
-    avg_spectrum_alpha = mean(overall_spectrum_alpha);
+    for i = 1:eeg_info.number_channels
+        params.fpass = [parameters.alpha.bandwith];
+        [spectrum_alpha, time_alpha, frequency_alpha] = mtspecgramc(eeg_data(:,i), window_parameters,params);
+        overall_spectrum_alpha = mean(spectrum_alpha,2);
+        avg_spectrum_alpha = [avg_spectrum_alpha, mean(overall_spectrum_alpha)];
+    end
     
     %% Ratio
-    ratio_beta_alpha = avg_spectrum_beta/avg_spectrum_alpha;
-    ratio_alpha_theta = avg_spectrum_alpha/avg_spectrum_theta;
+    ratio_beta_alpha = avg_spectrum_beta./avg_spectrum_alpha;
+    ratio_alpha_theta = avg_spectrum_alpha./avg_spectrum_theta;
 end
 
