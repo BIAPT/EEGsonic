@@ -43,5 +43,6 @@ function [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(eeg_data,ee
     %% Ratio
     ratio_beta_alpha = avg_spectrum_beta./avg_spectrum_alpha;
     ratio_alpha_theta = avg_spectrum_alpha./avg_spectrum_theta;
+    
 end
 

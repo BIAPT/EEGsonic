@@ -46,7 +46,6 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
         if(is_ready)
             if(parameters.spr.is_selected)
                 spr_data = [spr_data, data]; %OPTIMIZATION POSSIBLE HERE
-                disp(length(spr_data));
                 if(length(spr_data) == spr_required_data_size)
                     [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(spr_data,eeg_info,parameters.spr)
                     % Convert to OSC
@@ -83,6 +82,7 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
             end
             index = index+1; 
         else
+            disp(
             pause(sleep_delay); % wait for a bit that the data is available
         end
     end

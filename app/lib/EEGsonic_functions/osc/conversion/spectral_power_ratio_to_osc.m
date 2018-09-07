@@ -3,12 +3,12 @@ function [ratio_beta_alpha_osc,ratio_alpha_theta_osc] = spectral_power_ratio_to_
 %   Detailed explanation goes here
 
     %% Variable Setup
-    ratio_beta_alpha_osc = cell(1,129);
-    ratio_alpha_theta_osc = cell(1,129);
+    ratio_beta_alpha_osc = strings(1,128);
+    ratio_alpha_theta_osc = strings(1,128);
+    osc_base_string = strings(1,128);
     number_channels = length(ratio_beta_alpha);
     
     %% Create Base string
-    osc_base_string = cell(1,129);
     for i = 1:number_channels
         osc_base_string(i) = "/sensor_"+num2str(i)+"/SpecPowerRatio/";
     end
