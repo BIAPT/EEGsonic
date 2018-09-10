@@ -10,9 +10,9 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
     spr_required_data_size = parameters.spr.required_size;
     td_required_data_size = parameters.td.required_size;
     pac_required_data_size = parameters.pac.required_size;
-    fp_wpli_required_data_size = 10;
-    fp_dpli_required_data_size = 10; 
-    hl_required_data_size = 30;
+    fp_wpli_required_data_size = parameters.fp_wpli.required_size;
+    fp_dpli_required_data_size = parameters.fp_dpli.required_size; 
+    hl_required_data_size = parameters.hl.required_size;
     pe_required_data_size = 10;
     
     % Data for each analysis technique 
