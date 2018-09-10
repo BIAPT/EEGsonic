@@ -8,8 +8,8 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
     
     % Required size variables 
     spr_required_data_size = parameters.spr.required_size;
-    td_required_data_size = 5;
-    pac_required_data_size = 30;
+    td_required_data_size = parameters.td.required_size;
+    pac_required_data_size = parameters.pac.required_size;
     fp_wpli_required_data_size = 10;
     fp_dpli_required_data_size = 10; 
     hl_required_data_size = 30;
