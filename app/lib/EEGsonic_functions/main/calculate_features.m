@@ -5,8 +5,9 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
     eeg_info = [];
     data_acquisition_size = 5; %By default(in seconds)
     osc = parameters.osc;
-    % Required size variables *NEED TO PUT IN GUI (AVERAGING WINDOW)
-    spr_required_data_size = 5;
+    
+    % Required size variables 
+    spr_required_data_size = parameters.spr.required_size;
     td_required_data_size = 5;
     pac_required_data_size = 30;
     fp_wpli_required_data_size = 10;
@@ -38,6 +39,7 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
         
     elseif(parameters.general.dsi24.is_selected)
         eeg_info = information.headset.dsi24;
+        % TODO add acquisition size once we get it;
     end
     
 
