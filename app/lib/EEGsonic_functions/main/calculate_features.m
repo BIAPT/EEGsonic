@@ -3,7 +3,7 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
 %   Detailed explanation goes here
     index = 0;
     eeg_info = [];
-    data_acquisition_size = 5; %By default(in seconds)
+    data_acquisition_size = get_acquisition_size(parameters); %By default(in seconds)
     osc = parameters.osc;
     % Required size variables *NEED TO PUT IN GUI (AVERAGING WINDOW)
     spr_required_data_size = 5;
@@ -86,4 +86,11 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
             pause(sleep_delay); % wait for a bit that the data is available
         end
     end
+end
+
+function [acquisition_size] = get_acquisition_size(parameters)
+    if(parameters.general.egi129.is_selected)
+        
+    end
+
 end

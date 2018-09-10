@@ -27,8 +27,12 @@ function acquire_eeg(data_directory,information,parameters)
 end
 
 function [data] = get_egi_data(parameters)
-    data = rand(128,5000);% TODO change this to the data acquisition
-    pause(5)
+    %% Setting Variables
+    acquisition_size = parameters.general.egi129.acquisition_size * 1000;
+    
+    %% Random Generation (DEBUGGING ONLY!)
+    data = rand(128,acquisition_size);
+    pause(acquisition_size);
 end
 
 function [data] = get_dsi_data(parameters)
