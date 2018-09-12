@@ -22,11 +22,9 @@ function [success] = send_feature(osc_string_list,type,osc)
     % Send osc data one osc receiver at a time
     for osc_index = 1:number_osc_receivers
         u = udp(osc.ip{osc_index},str2num(osc.port{osc_index}));
-        % Make the buffers bigger than 512 bytes (TODO CHECK IF NEED TO BE
-        % CHANGED BASED ON THE INPUT, most likely not)
+        %increase the buffer size (input and output)
         u.InputBufferSize = 3200;
         u.OutputBufferSize = 3200;
-        %
         fopen(u);
         for string_index = 1:length(osc_string_list)
             current_osc_message = strsplit(osc_string_list(string_index)," ");
