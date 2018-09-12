@@ -55,7 +55,7 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
                 if(length(spr_data) == spr_data_required_size)
                     [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(spr_data,eeg_info,parameters.spr)
                     % Convert to OSC
-                    [ratio_beta_alpha_osc,ratio_alpha_theta_osc] = spectral_power_ratio_to_osc(ratio_beta_alpha,ratio_alpha_theta)
+                    %[ratio_beta_alpha_osc,ratio_alpha_theta_osc] = spectral_power_ratio_to_osc(ratio_beta_alpha,ratio_alpha_theta)
                     % Send to OSC receivers
                     send_feature(ratio_beta_alpha_osc,"f",osc);
                     send_feature(ratio_alpha_theta_osc,"f",osc);
