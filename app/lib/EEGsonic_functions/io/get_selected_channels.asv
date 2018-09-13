@@ -44,7 +44,5 @@ function [channels] = get_channels(headset,general)
 end
 
 function [boolean_mask] = find_selected_channels(all_channels,selected_channels)
-    boolean_mask = zeros(1,length(all_channels));
-    
-    %% TODO Iterate over all the channels and find them in the selected channels
+    boolean_mask = zeros(1,length(all
 end
