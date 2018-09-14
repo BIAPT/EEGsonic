@@ -53,13 +53,15 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
     %% Main Loop Calculating the features
     while(1)
         [is_ready,data] = parload(data_directory,index);
+        disp("Looking for index: " + num2str(index)); 
         if(is_ready)
             if(parameters.spr.is_selected)
                 spr_data = [spr_data, data]; %OPTIMIZATION POSSIBLE HERE
                 if(length(spr_data) == spr_data_required_size)
-                    [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(spr_data,eeg_info,parameters.spr)
+                    disp('Calculating SPR');
+                    [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(spr_data,eeg_info,parameters.spr);
                     % Convert to OSC
-                    [ratio_beta_alpha_osc,ratio_alpha_theta_osc] = spectral_power_ratio_to_osc(ratio_beta_alpha,ratio_alpha_theta)
+                    [ratio_beta_alpha_osc,ratio_alpha_theta_osc] = spectral_power_ratio_to_osc(ratio_beta_alpha,ratio_alpha_theta);
                     % Send to OSC receivers
                     send_feature(ratio_beta_alpha_osc,"f",osc);
                     send_feature(ratio_alpha_theta_osc,"f",osc);
@@ -70,6 +72,7 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
             if(parameters.td.is_selected)
                 td_data = [td_data,data];
                 if(length(td_data) == td_data_required_size)
+                    disp('Calculating TD!');
                     frontal_mask = boolean_mask.td.frontal_channels;
                     posterior_mask = boolean_mask.td.posterior_channels;
                     [ratio_front_back] = topographic_distribution(td_data,eeg_info,parameters.td,frontal_mask,posterior_mask);
