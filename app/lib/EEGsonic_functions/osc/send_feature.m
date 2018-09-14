@@ -13,6 +13,7 @@ function [success] = send_feature(osc_string_list,type,osc)
 % 'ffffffffffffff...'
 % Then we send our matrix or whatever. Which means that if we want to send
 % a matrix we don't need to transform it into a string
+
     %% Variable Setup
     success = 1;
     number_osc_receivers = length(osc.path);
@@ -30,7 +31,7 @@ function [success] = send_feature(osc_string_list,type,osc)
             current_osc_message = strsplit(osc_string_list(string_index)," ");
             base_osc_message = char(current_osc_message(1));
             if(strcmp(type,'f'))
-                value_osc_message = char(str2double(current_osc_message(2)));
+                value_osc_message = str2double(current_osc_message(2));
             end
             oscsend(u,base_osc_message,type,value_osc_message);    
         end

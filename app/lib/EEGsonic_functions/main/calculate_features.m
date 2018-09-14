@@ -76,6 +76,10 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
                     frontal_mask = boolean_mask.td.frontal_channels;
                     posterior_mask = boolean_mask.td.posterior_channels;
                     [ratio_front_back] = topographic_distribution(td_data,eeg_info,parameters.td,frontal_mask,posterior_mask);
+                    % Convert to OSC
+                    [ratio_front_back_osc] = topographic_distributionn_to_osc(ratio_front_back);
+                    % Send to OSC Receivers
+                    send_feature(ratio_front_back_osc,"f",osc);
                     td_data = [];
                 end
             end
