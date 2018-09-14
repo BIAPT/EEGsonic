@@ -3,7 +3,7 @@ function [selected_channels] = get_selected_channels(information,parameters)
 %   Detailed explanation goes here
     
     %% Seting up Variables
-    channels = get_channels(information.headset,parameters.general);
+    all_channels = get_channels(information.headset,parameters.general);
     selected_channels = struct();
     
 
@@ -17,10 +17,15 @@ function [selected_channels] = get_selected_channels(information,parameters)
     
     % TD
     % Frontal and Posterior
-    
+    td = parameters.td;
+    frontal_channels = get_ticked_channels(td.frontal_channels,parameters.general);
+    posterior_channels = get_ticked_channels(td.posterior_channels,parameters.general);
+    selected_channels.td.frontal_channels = find_selected_channels(all_channels,frontal_channels);
+    selected_channels.td.posterior_channels = find_selected_channels(all_channels,posterior_channels);
+
     % PAC
     % Frontal and Parietal
-    
+       
     % FP WPLI
     % Midline and Lateral
     
@@ -43,7 +48,16 @@ function [channels] = get_channels(headset,general)
     end
 end
 
-function [boolean_mask] = find_selected_channels(all_channels,selected_channels)
+function [channels] = get_ticked_channels(ticked_channels,general)
+    if(general.egi129.is_selected)
+       channels = ticked_channels.egi129; 
+    elseif(general.dsi24.is_selected)
+        channels = ticked_channels.dsi24;
+    end
+
+end
+
+function [boolean_mask] = find_selected_channels(all_channels,ticked_channels)
     boolean_mask = zeros(1,length(all_channels));
     
     %% TODO Iterate over all the channels and find them in the selected channels
