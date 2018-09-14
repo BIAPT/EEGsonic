@@ -28,10 +28,10 @@ end
 
 function [data] = get_egi_data(parameters)
     %% Setting Variables
-    acquisition_size = parameters.general.egi129.acquisition_size * 1000;
+    acquisition_size = parameters.general.egi129.data_acquisition_size;
     
     %% Random Generation (DEBUGGING ONLY!)
-    data = rand(128,acquisition_size);
+    data = rand(128,acquisition_size*1000);
     pause(acquisition_size);
 end
 

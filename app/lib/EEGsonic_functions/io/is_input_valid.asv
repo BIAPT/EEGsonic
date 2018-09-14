@@ -29,7 +29,7 @@ function [is_valid,reason] = is_input_valid(app,type)
            frequency = app.TDFrequencyEditField.Value;
            [is_valid,reason] = check_td(required_size,frequency);
         case 'pac'
-            required_size = app.PACRequiredSizeEditField.Value;
+            required_size = app.PACWindowSizeEditField.Value;
             frontal_channels = app.PACFrontalChannelsListBox.Value;
             parietal_channels = app.PACParietalChannelsListBox.Value;
             extra_low_frequency = app.PACExtraLowFrequencyBandwithEditField.Value;
@@ -37,7 +37,7 @@ function [is_valid,reason] = is_input_valid(app,type)
             [is_valid,reason] = check_pac(required_size,frontal_channels,parietal_channels,...
                                 extra_low_frequency,high_frequency);
         case 'fp_wpli'
-            required_size = app.FPwPLIRequiredSizeEditField.Value;
+            required_size = app.FPwPLIWindowSizeEditField.Value;
             midline_channels = app.FPwPLIMidlineChannelsListBox.Value;
             lateral_channels = app.FPwPLILateralChannelsListBox.Value;
             number_surrogates = app.FPwPLINumberSurrogatesEditField.Value;
@@ -45,7 +45,7 @@ function [is_valid,reason] = is_input_valid(app,type)
             [is_valid,reason] = check_pli(required_size,midline_channels,lateral_channels,...
                                 number_surrogates,p_value)  ;          
         case 'fp_dpli'
-            required_size = app.FPdPLIRequiredSizeEditField.Value;
+            required_size = app.FPdPLIWindowSizeEditField.Value;
             midline_channels = app.FPdPLIMidlineChannelsListBox.Value;
             lateral_channels = app.FPdPLILateralChannelsListBox.Value;
             number_surrogates = app.FPdPLINumberSurrogatesEditField.Value;
@@ -53,14 +53,14 @@ function [is_valid,reason] = is_input_valid(app,type)
             [is_valid,reason] = check_pli(required_size,midline_channels,lateral_channels,...
                                 number_surrogates,p_value);            
         case 'hl'
-            required_size = app.HLRequiredSizeEditField.Value;
+            required_size = app.HLWindowSizeEditField.Value;
             number_surrogates = app.HLNumberSurrogatesEditField.Value;
             p_value = app.HLPValueEditField.Value;
             top_connection_threshold = app.HLTopConnectionThresholdEditField.Value;
             [is_valid,reason] = check_hub_location(required_size,number_surrogates,p_value,...
                                 top_connection_threshold);            
         case 'pe'
-            required_size = app.PERequiredSizeEditField.Value;
+            required_size = app.PEWindowSizeEditField.Value;
             frontal_channels = app.PEFrontalChannelsListBox.Value;
             posterior_channels = app.PEPosteriorChannelsListBox.Value;
             embedding_dimension = app.PEEmbeddingDimensionEditField.Value;
