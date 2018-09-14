@@ -58,7 +58,6 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
             if(parameters.spr.is_selected)
                 spr_data = [spr_data, data]; %OPTIMIZATION POSSIBLE HERE
                 if(length(spr_data) == spr_data_required_size)
-                    disp('Calculating SPR');
                     [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(spr_data,eeg_info,parameters.spr);
                     % Convert to OSC
                     [ratio_beta_alpha_osc,ratio_alpha_theta_osc] = spectral_power_ratio_to_osc(ratio_beta_alpha,ratio_alpha_theta);
@@ -72,12 +71,11 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
             if(parameters.td.is_selected)
                 td_data = [td_data,data];
                 if(length(td_data) == td_data_required_size)
-                    disp('Calculating TD!');
                     frontal_mask = boolean_mask.td.frontal_channels;
                     posterior_mask = boolean_mask.td.posterior_channels;
                     [ratio_front_back] = topographic_distribution(td_data,eeg_info,parameters.td,frontal_mask,posterior_mask);
                     % Convert to OSC
-                    [ratio_front_back_osc] = topographic_distributionn_to_osc(ratio_front_back);
+                    [ratio_front_back_osc] = topographic_distribution_to_osc(ratio_front_back);
                     % Send to OSC Receivers
                     send_feature(ratio_front_back_osc,"f",osc);
                     td_data = [];
