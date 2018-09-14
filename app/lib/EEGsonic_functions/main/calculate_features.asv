@@ -28,7 +28,17 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
     
     % Populate structure of selected_channels (Boolean mask)
     boolean_mask = get_selected_channels(information,parameters);
-    
+    % Insert boolean mask in parameter data structure
+    %TD
+    parameters.td.selected_channels = boolean_mask.td;
+    parameters.pac.selected_channels = boolean_mask.pac;
+    parameters.fp_wpli.selected_channels = boolean_mask.fp_wpli;
+    parameters.fp_dpli.selected_channels = boolean_mask.fp_dpli;
+    param
+    %PAC
+    %FP_WPLI
+    %FP_DPLI
+    %PE
     %% Transforming the Variable depending on headset
     if(parameters.general.egi129.is_selected)
         eeg_info = information.headset.egi129;
@@ -70,9 +80,7 @@ function calculate_features(data_directory,sleep_delay,information,parameters)
             if(parameters.td.is_selected)
                 td_data = [td_data,data];
                 if(length(td_data) == td_data_required_size)
-                    frontal_mask = boolean_mask.td.frontal_channels;
-                    posterior_mask = boolean_mask.td.posterior_channels;
-                    [ratio_front_back] = topographic_distribution(td_data,eeg_info,parameters.td,frontal_mask,posterior_mask);
+                    [ratio_front_back] = topographic_distribution(td_data,eeg_info,parameters.td)
                     td_data = [];
                 end
             end

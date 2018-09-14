@@ -4,14 +4,7 @@ function [selected_channels] = get_selected_channels(information,parameters)
     
     %% Seting up Variables
     all_channels = get_channels(information.headset,parameters.general);
-    selected_channels = struct();
-    
-
-    %% TODO:
-    % create a boolean mask for each analysis technique that has channels
-    % selection and then populate this structure with each of these boolean
-    % mask.
-    
+    selected_channels = struct(); 
     
     %% Creating the Masks
     
@@ -89,5 +82,4 @@ function [boolean_mask] = find_selected_channels(all_channels,ticked_channels)
             end
         end
     end
-    %% TODO Iterate over all the channels and find them in the selected channels
 end
