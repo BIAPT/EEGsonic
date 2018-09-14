@@ -35,18 +35,25 @@ function [selected_channels] = get_selected_channels(information,parameters)
     % Midline and Lateral
     fp_wpli = parameters.fp_wpli;
     midline_channels = get_ticked_channels(fp_wpli.midline_channels,parameters.general);
-    lateral_channels = get_ticked_channels(fp_wpli.l_channels,parameters.general);
-    selected_channels.td.frontal_channels = find_selected_channels(all_channels,frontal_channels);
-    selected_channels.td.posterior_channels = find_selected_channels(all_channels,posterior_channels);
+    lateral_channels = get_ticked_channels(fp_wpli.lateral_channels,parameters.general);
+    selected_channels.fp_wpli.midline_channels = find_selected_channels(all_channels,midline_channels);
+    selected_channels.fp_wpli.lateral_channels = find_selected_channels(all_channels,lateral_channels);
     
     % FP DPLI
     % Midline and Lateral
+    fp_dpli = parameters.fp_dpli;
+    midline_channels = get_ticked_channels(fp_dpli.midline_channels,parameters.general);
+    lateral_channels = get_ticked_channels(fp_dpli.lateral_channels,parameters.general);
+    selected_channels.fp_dpli.midline_channels = find_selected_channels(all_channels,midline_channels);
+    selected_channels.fp_dpli.lateral_channels = find_selected_channels(all_channels,lateral_channels);
     
     % PE
     % Frontal and Posterior
-    
-    
-    
+    pe = parameters.pe;
+    frontal_channels = get_ticked_channels(pe.frontal_channels,parameters.general);
+    posterior_channels = get_ticked_channels(pe.posterior_channels,parameters.general);
+    selected_channels.pe.frontal_channels = find_selected_channels(all_channels,frontal_channels);
+    selected_channels.pe.posterior_channels = find_selected_channels(all_channels,posterior_channels);
     
 end
 
@@ -68,7 +75,19 @@ function [channels] = get_ticked_channels(ticked_channels,general)
 end
 
 function [boolean_mask] = find_selected_channels(all_channels,ticked_channels)
-    boolean_mask = zeros(1,length(all_channels));
+    number_all_channels = length(all_channels);
+    number_ticked_channels = length(ticked_channels);
+    boolean_mask = zeros(1,number_all_channels);
     
+    for i = 1:number_all_channels
+        current_boolean_channel = all_channels{i};
+        for j = 1:number_ticked_channels
+            current_ticked_channel = ticked_channels{j};
+            if(strcmp(current_boolean_channel,current_ticked_channel)
+                
+                break; 
+            end
+        end
+    end
     %% TODO Iterate over all the channels and find them in the selected channels
 end

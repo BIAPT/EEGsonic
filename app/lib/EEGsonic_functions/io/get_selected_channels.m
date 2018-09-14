@@ -75,7 +75,19 @@ function [channels] = get_ticked_channels(ticked_channels,general)
 end
 
 function [boolean_mask] = find_selected_channels(all_channels,ticked_channels)
-    boolean_mask = zeros(1,length(all_channels));
+    number_all_channels = length(all_channels);
+    number_ticked_channels = length(ticked_channels);
+    boolean_mask = zeros(1,number_all_channels);
     
+    for i = 1:number_all_channels
+        current_boolean_channel = all_channels{i};
+        for j = 1:number_ticked_channels
+            current_ticked_channel = ticked_channels{j};
+            if(strcmp(current_boolean_channel,current_ticked_channel))
+                boolean_mask(i) = 1;
+                break; 
+            end
+        end
+    end
     %% TODO Iterate over all the channels and find them in the selected channels
 end
