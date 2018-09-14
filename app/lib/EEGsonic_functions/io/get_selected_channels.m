@@ -25,18 +25,35 @@ function [selected_channels] = get_selected_channels(information,parameters)
 
     % PAC
     % Frontal and Parietal
+    pac = parameters.pac;
+    frontal_channels = get_ticked_channels(pac.frontal_channels,parameters.general);
+    parietal_channels = get_ticked_channels(pac.parietal_channels,parameters.general);
+    selected_channels.pac.frontal_channels = find_selected_channels(all_channels,frontal_channels);
+    selected_channels.pac.parietal_channels = find_selected_channels(all_channels,parietal_channels);
        
     % FP WPLI
     % Midline and Lateral
+    fp_wpli = parameters.fp_wpli;
+    midline_channels = get_ticked_channels(fp_wpli.midline_channels,parameters.general);
+    lateral_channels = get_ticked_channels(fp_wpli.lateral_channels,parameters.general);
+    selected_channels.fp_wpli.midline_channels = find_selected_channels(all_channels,midline_channels);
+    selected_channels.fp_wpli.lateral_channels = find_selected_channels(all_channels,lateral_channels);
     
     % FP DPLI
     % Midline and Lateral
+    fp_dpli = parameters.fp_dpli;
+    midline_channels = get_ticked_channels(fp_dpli.midline_channels,parameters.general);
+    lateral_channels = get_ticked_channels(fp_dpli.lateral_channels,parameters.general);
+    selected_channels.fp_dpli.midline_channels = find_selected_channels(all_channels,midline_channels);
+    selected_channels.fp_dpli.lateral_channels = find_selected_channels(all_channels,lateral_channels);
     
     % PE
     % Frontal and Posterior
-    
-    
-    
+    pe = parameters.pe;
+    frontal_channels = get_ticked_channels(pe.frontal_channels,parameters.general);
+    posterior_channels = get_ticked_channels(pe.posterior_channels,parameters.general);
+    selected_channels.pe.frontal_channels = find_selected_channels(all_channels,frontal_channels);
+    selected_channels.pe.posterior_channels = find_selected_channels(all_channels,posterior_channels);
     
 end
 

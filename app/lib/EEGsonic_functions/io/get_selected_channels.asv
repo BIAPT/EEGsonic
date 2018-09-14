@@ -25,9 +25,19 @@ function [selected_channels] = get_selected_channels(information,parameters)
 
     % PAC
     % Frontal and Parietal
-    
+    pac = parameters.pac;
+    frontal_channels = get_ticked_channels(pac.frontal_channels,parameters.general);
+    parietal_channels = get_ticked_channels(pac.parietal_channels,parameters.general);
+    selected_channels.pac.frontal_channels = find_selected_channels(all_channels,frontal_channels);
+    selected_channels.pac.parietal_channels = find_selected_channels(all_channels,parietal_channels);
+       
     % FP WPLI
     % Midline and Lateral
+    fp_wpli = parameters.fp_wpli;
+    midline_channels = get_ticked_channels(fp_wpli.midline_channels,parameters.general);
+    lateral_channels = get_ticked_channels(fp_wpli.l_channels,parameters.general);
+    selected_channels.td.frontal_channels = find_selected_channels(all_channels,frontal_channels);
+    selected_channels.td.posterior_channels = find_selected_channels(all_channels,posterior_channels);
     
     % FP DPLI
     % Midline and Lateral
