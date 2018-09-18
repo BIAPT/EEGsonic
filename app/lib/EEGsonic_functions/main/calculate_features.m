@@ -1,4 +1,4 @@
-function calculate_features(data_directory,sleep_delay,information,parameters)
+function calculate_features(data_directory,parameters_directory,sleep_delay,information,parameters)
 %CALCULATE_FEATURES Summary of this function goes here
 %   Detailed explanation goes here
     
