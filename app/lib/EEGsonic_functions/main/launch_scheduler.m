@@ -20,6 +20,8 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     
     %% Save parameters
     parsave(parameters_directory,"parameters",parameters);
+    % TODO: Log parameters into a file on the top level of the directory
+    log_parameters_to_file(base_directory,"information.txt",parameters)
     
     %% Launch and return the two workers
     sleep_delay = 0.1; % in seconds
