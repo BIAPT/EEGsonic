@@ -10,11 +10,16 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     base_directory = information.saving_directory +"\"+folder_name;
     data_directory = base_directory+"\data";
     features_directory = base_directory+"\features";
+    parameters_directory = base_directory+"\parameters"
     
     % Directory creation
     mkdir(base_directory);
     mkdir(data_directory); 
-    mkdir(features_directory); 
+    mkdir(features_directory);
+    mkdir(parameters_directory);
+    
+    %% Save parameters
+    parsave(parameters_directory,"parameters",parameters);
     
     %% Launch and return the two workers
     sleep_delay = 0.1; % in seconds
