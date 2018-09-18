@@ -62,12 +62,27 @@ end
 
 function write_osc(file_id,osc)
     for i = 1:length(osc.path)
-       osc_receiver =  "Path: " + osc.path{i} + ", Ip: " + osc.ip{i} + ", Port: " + osc.por 
+       osc_receiver =  "Path: " + osc.path{i} + ", Ip: " + osc.ip{i} + ", Port: " + osc.port{i} + "\n";
+       fprintf(file_id,"Osc receiver("+num2str(i)+"): " + osc_receiver);
     end
 
 end
 
 function write_spr(file_id,spr)
+
+    if(spr.is_selected)
+        fprintf(file_id,"Is selected? YES\n");
+        fprintf(file_id,"Window size: " + num2str(spr.window_size) + " sec \n");
+        fprintf(file_id,"Step size: " + num2str(spr.step_size) + " sec \n");
+        fprintf(file_id,"Time bandwidth product: " + num2str(spr.time_bandwith_product) + " \n");
+        fprintf(file_id,"Number of tapers: " + num2str(spr.number_tapers) + " \n");
+        fprintf(file_id,"Theta bandwidth(" "): ");
+        fprintf(file_id,"Alpha bandwidth(): ");
+        fprintf(file_id,"Beta bandwidth(): ");
+        fprintf(file_id,"Required size for computation: ");
+    else
+        fprintf(file_id,"Is selected? NO\n");
+    end
 
 end
 

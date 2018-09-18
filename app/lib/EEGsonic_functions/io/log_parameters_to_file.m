@@ -70,10 +70,28 @@ end
 
 function write_spr(file_id,spr)
 
+    if(spr.is_selected)
+        fprintf(file_id,"Is selected? YES\n");
+        fprintf(file_id,"Window size: " + num2str(spr.window_size) + " sec \n");
+        fprintf(file_id,"Step size: " + num2str(spr.step_size) + " sec \n");
+        fprintf(file_id,"Time bandwidth product: " + num2str(spr.time_bandwith_product) + " \n");
+        fprintf(file_id,"Number of tapers: " + num2str(spr.number_tapers) + " \n");
+        fprintf(file_id,"Theta bandwidth("+num2str(spr.theta.is_selected)+"): " + mat2str(spr.theta.bandwith) + " \n");
+        fprintf(file_id,"Alpha bandwidth("+num2str(spr.alpha.is_selected)+"): " + mat2str(spr.alpha.bandwith) + " \n");
+        fprintf(file_id,"Beta bandwidth("+num2str(spr.beta.is_selected)+"): " + mat2str(spr.beta.bandwith) + " \n");
+        fprintf(file_id,"Required size for computation: " + num2str(spr.required_size) + " sec \n");
+    else
+        fprintf(file_id,"Is selected? NO\n");
+    end
+
 end
 
 function write_td(file_id,td)
-
+    if(td.is_selected)
+        fprintf(file_id,"Is selected? YES\n");
+    else
+        fprintf(file_id,"Is selected? NO\n");
+    end
 end
 
 function write_pac(file_id,pac)
