@@ -61,6 +61,10 @@ function write_general(file_id,general)
 end
 
 function write_osc(file_id,osc)
+    for i = 1:length(osc.path)
+       osc_receiver =  "Path: " + osc.path{i} + ", Ip: " + osc.ip{i} + ", Port: " + osc.port{i} + "\n";
+       fprintf(file_id,"Osc receiver("+num2str(i)+"): " + osc_receiver);
+    end
 
 end
 

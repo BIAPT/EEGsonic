@@ -5,6 +5,7 @@ Headset: EGI 129
 Data acquisition size: 5 sec
 
 Open Sound Control: 
+Osc receiver(1): Path: external, Ip: 127.0.0.1, Port: 57120
 
 Spectral Power Ratio: 
 
