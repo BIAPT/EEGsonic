@@ -8,17 +8,31 @@ Open Sound Control:
 Osc receiver(1): Path: external, Ip: 127.0.0.1, Port: 57120
 
 Spectral Power Ratio: 
-Is selected? NO
+Is selected? YES
+Window size: 2 sec 
+Step size: 0.5 sec 
+Time bandwidth product: 2 
+Number of tapers: 3 
+Theta bandwidth(1): [4 8] 
+Alpha bandwidth(1): [8 13] 
+Beta bandwidth(1): [13 25] 
+Required size for computation: 5 sec 
 
 Topgraphic Distribution: 
+Is selected? YES
 
 Phase Amplitude Coupling: 
+Is selected? NO
 
 Fronto-Parietal wPLI: 
+Is selected? NO
 
 Fronto-Parietal dPLI: 
+Is selected? NO
 
 Hub Location: 
+Is selected? NO
 
 Permutation Entropy: 
+Is selected? NO
 

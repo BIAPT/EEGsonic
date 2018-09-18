@@ -95,21 +95,41 @@ function write_td(file_id,td)
 end
 
 function write_pac(file_id,pac)
-
+    if(pac.is_selected)
+        fprintf(file_id,"Is selected? YES\n");
+    else
+        fprintf(file_id,"Is selected? NO\n");
+    end
 end
 
 function write_fp_wpli(file_id,fp_wpli)
-
+    if(fp_wpli.is_selected)
+        fprintf(file_id,"Is selected? YES\n");
+    else
+        fprintf(file_id,"Is selected? NO\n");
+    end
 end
 
 function write_fp_dpli(file_id,fp_dpli)
-
+    if(fp_dpli.is_selected)
+        fprintf(file_id,"Is selected? YES\n");
+    else
+        fprintf(file_id,"Is selected? NO\n");
+    end
 end
 
 function write_hl(file_id,hl)
-
+    if(hl.is_selected)
+        fprintf(file_id,"Is selected? YES\n");
+    else
+        fprintf(file_id,"Is selected? NO\n");
+    end
 end
 
 function write_pe(file_id,pe)
-
+    if(pe.is_selected)
+        fprintf(file_id,"Is selected? YES\n");
+    else
+        fprintf(file_id,"Is selected? NO\n");
+    end
 end
