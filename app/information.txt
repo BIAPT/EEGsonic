@@ -20,6 +20,10 @@ Required size for computation: 5 sec
 
 Topgraphic Distribution: 
 Is selected? YES
+Window size: 5 sec 
+Frequency: 10 Hz 
+Frontal channels: E1,E2,E3,E4 
+Posterior channels: E5 
 
 Phase Amplitude Coupling: 
 Is selected? NO

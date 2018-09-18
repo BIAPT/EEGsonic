@@ -21,7 +21,7 @@ write_spr(file_id,parameters.spr);
 fprintf(file_id,"\n");
 
 fprintf(file_id,"Topgraphic Distribution: \n");
-write_td(file_id,parameters.td);
+write_td(file_id,parameters.td,parameters.general);
 fprintf(file_id,"\n");
 
 fprintf(file_id,"Phase Amplitude Coupling: \n");
@@ -86,9 +86,50 @@ function write_spr(file_id,spr)
 
 end
 
-function write_td(file_id,td)
+function write_td(file_id,td,general)
     if(td.is_selected)
         fprintf(file_id,"Is selected? YES\n");
+        fprintf(file_id,"Window size: " + num2str(td.required_size) + " sec \n");
+        fprintf(file_id,"Frequency: " + num2str(td.frequency) + " Hz \n");
+        frontal_channels = "";
+        posterior_channels = "";
+        if(general.egi129.is_selected)
+            for i = 1:length(td.frontal_channels.egi129)
+                if(i == 1)
+                    separator = "";
+                else
+                    separator = ",";
+                end
+                frontal_channels = frontal_channels + separator + td.frontal_channels.egi129{i};
+            end
+            for i = 1:length(td.posterior_channels.egi129)
+                if(i == 1)
+                    separator = "";
+                else
+                    separator = ",";
+                end                
+                posterior_channels = posterior_channels + separator + td.posterior_channels.egi129{i};
+            end            
+        elseif(general.dsi24.is_selected)
+            for i = 1:length(td.frontal_channels.dsi24)
+                if(i == 1)
+                    separator = "";
+                else
+                    separator = ",";
+                end                
+                frontal_channels = frontal_channels + separator + td.frontal_channels.dsi24{i};
+            end
+            for i = 1:length(td.posterior_channels.dsi24)
+                if(i == 1)
+                    separator = "";
+                else
+                    separator = ",";
+                end                
+                posterior_channels = posterior_channels + separator +td.posterior_channels.dsi24{i};
+            end            
+        end
+        fprintf(file_id,"Frontal channels: " + frontal_channels + " \n");   
+        fprintf(file_id,"Posterior channels: " + posterior_channels + " \n");           
     else
         fprintf(file_id,"Is selected? NO\n");
     end
