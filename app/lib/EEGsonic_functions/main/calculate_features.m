@@ -1,4 +1,4 @@
-function calculate_features(data_directory,parameters_directory,sleep_delay,information,parameters)
+function calculate_features(data_directory,features_directory,sleep_delay,information,parameters)
 %CALCULATE_FEATURES Summary of this function goes here
 %   Detailed explanation goes here
     
@@ -64,6 +64,11 @@ function calculate_features(data_directory,parameters_directory,sleep_delay,info
                     % Send to OSC receivers
                     send_feature(ratio_beta_alpha_osc,"f",osc);
                     send_feature(ratio_alpha_theta_osc,"f",osc);
+                    % Save the features
+                    spr_saved_data = struct();
+                    spr_saved_data.ratio_beta_alpha = ratio_beta_alpha;
+                    spr_saved_data.ratio_alpha_theta = ratio_alpha_theta;
+                    parsave(features_directory,num2str(index)+"_spr",spr_saved_data);
                     spr_data = [];
                 end
             end
