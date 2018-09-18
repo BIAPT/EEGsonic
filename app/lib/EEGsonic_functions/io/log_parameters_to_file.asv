@@ -46,6 +46,7 @@ fprintf(file_id,"\n");
 fclose(file_id);
 end
 
+%% Writer functions
 function write_general(file_id,general)
     headset = "none";
     data_acquisition_size = "not specified";
@@ -89,17 +90,44 @@ end
 function write_td(file_id,td,general)
     if(td.is_selected)
         fprintf(file_id,"Is selected? YES\n");
-        fprintf(file_id,"Window size: ");
-        fprintf(file_id,"Frequency: ");
+        fprintf(file_id,"Window size: " + num2str(td.required_size) + " sec \n");
+        fprintf(file_id,"Frequency: " + num2str(td.frequency) + " Hz \n");
         frontal_channels = "";
         posterior_channels = "";
         if(general.egi129.is_selected)
             for i = 1:length(td.frontal_channels.egi129)
-                frontal_channels = frontal_channels + td.frontal_channels.egi129{i};
-                posterior_channels = posterior_channels + td._channels.egi129{i};
+                if(i == 1)
+                    separator = "";
+                else
+                    separator = ",";
+                end
+                frontal_channels = frontal_channels + separator + td.frontal_channels.egi129{i};
             end
+            for i = 1:length(td.posterior_channels.egi129)
+                if(i == 1)
+                    separator = "";
+                else
+                    separator = ",";
+                end                
+                posterior_channels = posterior_channels + separator + td.posterior_channels.egi129{i};
+            end            
         elseif(general.dsi24.is_selected)
-            
+            for i = 1:length(td.frontal_channels.dsi24)
+                if(i == 1)
+                    separator = "";
+                else
+                    separator = ",";
+                end                
+                frontal_channels = frontal_channels + separator + td.frontal_channels.dsi24{i};
+            end
+            for i = 1:length(td.posterior_channels.dsi24)
+                if(i == 1)
+                    separator = "";
+                else
+                    separator = ",";
+                end                
+                posterior_channels = posterior_channels + separator +td.posterior_channels.dsi24{i};
+            end            
         end
         fprintf(file_id,"Frontal channels: " + frontal_channels + " \n");   
         fprintf(file_id,"Posterior channels: " + posterior_channels + " \n");           
@@ -146,4 +174,16 @@ function write_pe(file_id,pe)
     else
         fprintf(file_id,"Is selected? NO\n");
     end
+end
+
+%% Helper function
+function [channels_string] = make_channels_string(channels)
+            for i = 1:length(td.frontal_channels.egi129)
+                if(i == 1)
+                    separator = "";
+                else
+                    separator = ",";
+                end
+                frontal_channels = frontal_channels + separator + td.frontal_channels.egi129{i};
+            end
 end
