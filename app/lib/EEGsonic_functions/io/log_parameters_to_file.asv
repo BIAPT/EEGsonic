@@ -51,12 +51,11 @@ function write_general(file_id,general)
     data_acquisition_size = "not specified";
     if(general.egi129.is_selected)
         headset = "EGI 129";
-        data_acquisition_size = num2str(general.egi129.data_acquisition_size)+" sec";
+        
     elseif(general.dsi24.is_selected)
         headset = "DSI 24";
     end
-    fprintf(file_id,"Headset: " + headset + "\n");
-    fprintf(file_id,"Data acquisition size: " + data_acquisition_size + "\n");
+    fprintf(file_id,"Headset: " + headset);
     
 end
 

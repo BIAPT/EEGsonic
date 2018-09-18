@@ -1,0 +1,22 @@
+Information EEG session - 18-Sep-2018
+
+General: 
+Headset: EGI 129
+Data acquisition size: 5 sec
+
+Open Sound Control: 
+
+Spectral Power Ratio: 
+
+Topgraphic Distribution: 
+
+Phase Amplitude Coupling: 
+
+Fronto-Parietal wPLI: 
+
+Fronto-Parietal dPLI: 
+
+Hub Location: 
+
+Permutation Entropy: 
+
