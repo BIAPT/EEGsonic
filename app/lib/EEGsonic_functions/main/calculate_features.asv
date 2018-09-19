@@ -90,9 +90,8 @@ function calculate_features(data_directory,features_directory,sleep_delay,inform
                     [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(pac_data,eeg_info,parameters.pac,frontal_mask,parietal_mask);
                     % Convert to osc
                     [rpt_frontal_osc,rpt_parietal_osc] = phase_amplitude_coupling_to_osc(rpt_frontal,rpt_parietal);
-                    % Send to OSC receivers
-                    send_feature(rpt_frontal_osc,"f",osc);
-                    send_feature(rpt_parietal_osc,"f",osc);
+                 
+                    % 
                     pac_data = [];
                 end
             end
