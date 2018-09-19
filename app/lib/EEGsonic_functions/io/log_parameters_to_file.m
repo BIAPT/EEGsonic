@@ -29,11 +29,11 @@ write_pac(file_id,parameters.pac,parameters.general);
 fprintf(file_id,"\n");
 
 fprintf(file_id,"Fronto-Parietal wPLI: \n");
-write_fp_wpli(file_id,parameters.fp_wpli);
+write_fp_wpli(file_id,parameters.fp_wpli,parameters.general);
 fprintf(file_id,"\n");
 
 fprintf(file_id,"Fronto-Parietal dPLI: \n");
-write_fp_dpli(file_id,parameters.fp_dpli);
+write_fp_dpli(file_id,parameters.fp_dpli,parameters.general);
 fprintf(file_id,"\n");
 
 fprintf(file_id,"Hub Location: \n");
@@ -126,15 +126,27 @@ function write_pac(file_id,pac,general)
     end
 end
 
-function write_fp_wpli(file_id,fp_wpli)
+function write_fp_wpli(file_id,fp_wpli,general)
     if(fp_wpli.is_selected)
         fprintf(file_id,"Is selected? YES\n");
+        fprintf(file_id,"Window size: " + num2str(fp_wpli.required_size) + " sec \n");
+        if(general.egi129.is_selected)
+            midline_channels = make_channels_string(fp_wpli.midline_channels.egi129);
+            lateral_channels = make_channels_string(fp_wpli.lateral_channels.egi129);
+        elseif(general.dsi24.is_selected)
+            midline_channels = make_channels_string(fp_wpli.midline_channels.dsi24);
+            lateral_channels = make_channels_string(fp_wpli.lateral_channels.dsi24);
+        end     
+        fprintf(file_id,"Midline channels: " + midline_channels + " \n");   
+        fprintf(file_id,"Lateral channels: " + lateral_channels + " \n");  
+        fprintf(file_id,"Number of surrogates: " + num2str(fp_wpli.number_surrogates) + " \n");
+        fprintf(file_id,"p value: " + num2str(fp_wpli.p_value) + " \n");        
     else
         fprintf(file_id,"Is selected? NO\n");
     end
 end
 
-function write_fp_dpli(file_id,fp_dpli)
+function write_fp_dpli(file_id,fp_dpli,general)
     if(fp_dpli.is_selected)
         fprintf(file_id,"Is selected? YES\n");
     else
