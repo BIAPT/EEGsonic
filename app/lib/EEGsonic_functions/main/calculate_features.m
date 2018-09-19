@@ -53,7 +53,6 @@ function calculate_features(data_directory,features_directory,sleep_delay,inform
     %% Main Loop Calculating the features
     while(1)
         [is_ready,data] = parload(data_directory,index);
-        disp("Looking for index: " + num2str(index)); 
         if(is_ready)
             if(parameters.spr.is_selected)
                 spr_data = [spr_data, data]; 
