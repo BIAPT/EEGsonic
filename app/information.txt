@@ -19,14 +19,15 @@ Beta bandwidth(1): [13 25]
 Required size for computation: 5 sec 
 
 Topgraphic Distribution: 
-Is selected? YES
-Window size: 5 sec 
-Frequency: 10 Hz 
-Frontal channels: E1,E2,E3,E4 
-Posterior channels: E5 
+Is selected? NO
 
 Phase Amplitude Coupling: 
-Is selected? NO
+Is selected? YES
+Window size: 30 sec 
+Frontal channels:  
+Parietal channels:  
+Extra-low frequency bandwidth: NaN 
+High frequency bandwidth: NaN 
 
 Fronto-Parietal wPLI: 
 Is selected? NO

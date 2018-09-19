@@ -25,7 +25,7 @@ write_td(file_id,parameters.td,parameters.general);
 fprintf(file_id,"\n");
 
 fprintf(file_id,"Phase Amplitude Coupling: \n");
-write_pac(file_id,parameters.pac);
+write_pac(file_id,parameters.pac,parameters.general);
 fprintf(file_id,"\n");
 
 fprintf(file_id,"Fronto-Parietal wPLI: \n");
@@ -92,8 +92,6 @@ function write_td(file_id,td,general)
         fprintf(file_id,"Is selected? YES\n");
         fprintf(file_id,"Window size: " + num2str(td.required_size) + " sec \n");
         fprintf(file_id,"Frequency: " + num2str(td.frequency) + " Hz \n");
-        frontal_channels = "";
-        posterior_channels = "";
         if(general.egi129.is_selected)
             frontal_channels = make_channels_string(td.frontal_channels.egi129);
             posterior_channels = make_channels_string(td.posterior_channels.egi129);
@@ -108,9 +106,21 @@ function write_td(file_id,td,general)
     end
 end
 
-function write_pac(file_id,pac)
+function write_pac(file_id,pac,general)
     if(pac.is_selected)
         fprintf(file_id,"Is selected? YES\n");
+        fprintf(file_id,"Window size: " + num2str(pac.required_size) + " sec \n");
+        if(general.egi129.is_selected)
+            frontal_channels = make_channels_string(pac.frontal_channels.egi129);
+            parietal_channels = make_channels_string(pac.parietal_channels.egi129);
+        elseif(general.dsi24.is_selected)
+            frontal_channels = make_channels_string(pac.frontal_channels.dsi24);
+            parietal_channels = make_channels_string(pac.parietal_channels.dsi24);
+        end        
+        fprintf(file_id,"Frontal channels: " + frontal_channels + " \n");   
+        fprintf(file_id,"Parietal channels: " + parietal_channels + " \n"); 
+        fprintf(file_id,"Extra-low frequency bandwidth: " + mat2str(pac.extra_low_frequency.bandwith) + " \n");
+        fprintf(file_id,"High frequency bandwidth: " + mat2str(pac.high_frequency.bandwith) + " \n");        
     else
         fprintf(file_id,"Is selected? NO\n");
     end
