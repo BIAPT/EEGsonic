@@ -48,5 +48,10 @@ p value: 0.05
 Top connection threshold: 0 
 
 Permutation Entropy: 
-Is selected? NO
+Is selected? YES
+Window size: 10 sec 
+Frontal channels:  
+Posterior channels:  
+Embedding dimension: 0 
+Time delay: 0 
 

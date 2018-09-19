@@ -181,18 +181,6 @@ end
 function write_pe(file_id,pe,general)
     if(pe.is_selected)
         fprintf(file_id,"Is selected? YES\n");
-        fprintf(file_id,"Window size: " + num2str(pe.required_size) + " sec \n");
-        if(general.egi129.is_selected)
-            frontal_channels = make_channels_string(pe.frontal_channels.egi129);
-            posterior_channels = make_channels_string(pe.posterior_channels.egi129);
-        elseif(general.dsi24.is_selected)
-            frontal_channels = make_channels_string(pe.frontal_channels.dsi24);
-            posterior_channels = make_channels_string(pe.posterior_channels.dsi24);
-        end
-        fprintf(file_id,"Frontal channels: " + frontal_channels + " \n");   
-        fprintf(file_id,"Posterior channels: " + posterior_channels + " \n");   
-        fprintf(file_id,"Embedding dimension: " + num2str(pe.embedding_dimension) + " \n");
-        fprintf(file_id,"Time delay: " + num2str(pe.time_delay) + " \n");        
     else
         fprintf(file_id,"Is selected? NO\n");
     end
