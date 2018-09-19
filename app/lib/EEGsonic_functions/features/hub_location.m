@@ -1,5 +1,4 @@
-function [avg_location_hd_node] = hub_location(window_size,number_surrogates,p_value,...
-                                  top_connection_threshold)
+function [avg_location_hd_node] = hub_location(eeg_data,eeg_info,parameters)
 %HUB_LOCATION Summary of this function goes here
 %   Detailed explanation goes here
 

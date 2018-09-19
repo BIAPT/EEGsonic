@@ -1,5 +1,4 @@
-function [avg_dpli_midline,avg_dpli_lateral] = fp_dpli(window_size,midline_channels,lateral_channels,...
-                                               number_surrogates,p_value)
+function [avg_dpli_midline,avg_dpli_lateral] = fp_dpli(eeg_data,eeg_info,parameters,midline_mask,lateral_mask)
 %FP_DPLI Summary of this function goes here
 %   Detailed explanation goes here
 
