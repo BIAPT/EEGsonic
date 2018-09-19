@@ -149,6 +149,18 @@ end
 function write_fp_dpli(file_id,fp_dpli,general)
     if(fp_dpli.is_selected)
         fprintf(file_id,"Is selected? YES\n");
+        fprintf(file_id,"Window size: " + num2str(fp_dpli.required_size) + " sec \n");
+        if(general.egi129.is_selected)
+            midline_channels = make_channels_string(fp_dpli.midline_channels.egi129);
+            lateral_channels = make_channels_string(fp_dpli.lateral_channels.egi129);
+        elseif(general.dsi24.is_selected)
+            midline_channels = make_channels_string(fp_dpli.midline_channels.dsi24);
+            lateral_channels = make_channels_string(fp_dpli.lateral_channels.dsi24);
+        end     
+        fprintf(file_id,"Midline channels: " + midline_channels + " \n");   
+        fprintf(file_id,"Lateral channels: " + lateral_channels + " \n");  
+        fprintf(file_id,"Number of surrogates: " + num2str(fp_dpli.number_surrogates) + " \n");
+        fprintf(file_id,"p value: " + num2str(fp_dpli.p_value) + " \n");               
     else
         fprintf(file_id,"Is selected? NO\n");
     end

@@ -30,15 +30,15 @@ Extra-low frequency bandwidth: NaN
 High frequency bandwidth: NaN 
 
 Fronto-Parietal wPLI: 
-Is selected? YES
-Window size: 10 sec 
-Midline channels: E4 
-Lateral channels: E3 
-Number of surrogates: 0 
-p value: 0.05 
+Is selected? NO
 
 Fronto-Parietal dPLI: 
-Is selected? NO
+Is selected? YES
+Window size: 10 sec 
+Midline channels:  
+Lateral channels:  
+Number of surrogates: 0 
+p value: 0.05 
 
 Hub Location: 
 Is selected? NO
