@@ -41,7 +41,11 @@ Number of surrogates: 0
 p value: 0.05 
 
 Hub Location: 
-Is selected? NO
+Is selected? YES
+Window size: 30 
+Number of surrogates: 0 
+p value: 0.05 
+Top connection threshold: 0 
 
 Permutation Entropy: 
 Is selected? NO

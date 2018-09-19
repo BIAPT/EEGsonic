@@ -169,6 +169,10 @@ end
 function write_hl(file_id,hl)
     if(hl.is_selected)
         fprintf(file_id,"Is selected? YES\n");
+        fprintf(file_id,"Window size: " + num2str(hl.required_size) + " \n");
+        fprintf(file_id,"Number of surrogates: " + num2str(hl.number_surrogates) + " \n");        
+        fprintf(file_id,"p value: " + num2str(hl.p_value) + " \n");
+        fprintf(file_id,"Top connection threshold: " + num2str(hl.top_connection_threshold) + " \n");        
     else
         fprintf(file_id,"Is selected? NO\n");
     end
