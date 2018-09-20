@@ -25,8 +25,6 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     Extract the extra low-frequency (0.1 to 1 Hz) and alpha (8-13 Hz) oscillations. 
     Use a Hilbert transform to calculate instantaneous phase and amplitude within each bandwidth.  
 %}
-
-    %Here we extract the phase and the amplitude from LFO and HFO
     low_frequency_phase = angle(hilbert(eeg_low_frequency)); %Take the angle of the Hilbert to get the phase
     high_frequency_amplitude = abs(hilbert(eeg_high_frequency)); %calculating the amplitude by taking absolute value of hilber
 
@@ -35,6 +33,10 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     Use the PAC code you have implemented in EEGapp to construct a phase-amplitude modulgram,
     assigning each temporal sample to one of n = 18 equally spaced phase bins.  
 %}
+
+    %To note: number of bins = 18, as said by slack. May have to make this
+    %modular
+    bin_amount = 18;
 
 %% Step 3: Find the Through and Peak
 %{
