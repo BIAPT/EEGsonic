@@ -54,6 +54,7 @@ function calculate_features(data_directory,features_directory,sleep_delay,inform
     while(1)
         [is_ready,data] = parload(data_directory,index);
         if(is_ready)
+            disp("Analyzing: " + num2str(index));
             if(parameters.spr.is_selected)
                 spr_data = [spr_data, data]; 
                 if(length(spr_data) == spr_data_required_size)
@@ -162,6 +163,7 @@ function calculate_features(data_directory,features_directory,sleep_delay,inform
             end
             index = index+1; 
         else
+            disp("Waiting " + num2str(sleep_delay) + " sec for " + num2str(index)); 
             pause(sleep_delay); % wait for a bit that the data is available
         end
     end

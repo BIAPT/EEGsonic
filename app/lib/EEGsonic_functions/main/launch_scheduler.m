@@ -10,7 +10,7 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     base_directory = information.saving_directory +"\"+folder_name;
     data_directory = base_directory+"\data";
     features_directory = base_directory+"\features";
-    parameters_directory = base_directory+"\parameters"
+    parameters_directory = base_directory+"\parameters";
     
     % Directory creation
     mkdir(base_directory);
