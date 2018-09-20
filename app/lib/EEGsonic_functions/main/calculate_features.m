@@ -1,4 +1,4 @@
-function calculate_features(data_directory,features_directory,sleep_delay,information,parameters)
+function calculate_features(data_directory,features_directory,information,parameters)
 %CALCULATE_FEATURES Summary of this function goes here
 %   Detailed explanation goes here
     
@@ -33,6 +33,7 @@ function calculate_features(data_directory,features_directory,sleep_delay,inform
     if(parameters.general.egi129.is_selected)
         eeg_info = information.headset.egi129;
         data_acquisition_size = parameters.general.egi129.data_acquisition_size;
+        sleep_delay = data_acquisition_size/10;
         sec_to_pts = 1000;
         % Convert secs to points
         spr_data_required_size = spr_data_required_size*sec_to_pts;
@@ -46,6 +47,7 @@ function calculate_features(data_directory,features_directory,sleep_delay,inform
         
     elseif(parameters.general.dsi24.is_selected)
         eeg_info = information.headset.dsi24;
+        sleep_delay = data_acquizition_size/10;
         % TODO add acquisition size once we get it;
     end
     
