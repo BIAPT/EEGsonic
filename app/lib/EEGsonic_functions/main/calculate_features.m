@@ -43,8 +43,7 @@ function calculate_features(data_directory,features_directory,information,parame
         fp_dpli_data_required_size = fp_dpli_data_required_size*sec_to_pts;
         hl_data_required_size = hl_data_required_size*sec_to_pts;
         pe_data_required_size = pe_data_required_size*sec_to_pts;
-        
-        
+           
     elseif(parameters.general.dsi24.is_selected)
         eeg_info = information.headset.dsi24;
         sleep_delay = data_acquizition_size/10;
