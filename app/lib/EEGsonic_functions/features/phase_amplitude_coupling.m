@@ -2,6 +2,10 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
 %PHASE_AMPLITUDE_COUPLING Summary of this function goes here
 %   Detailed explanation goes here
 
+%% NOTES:
+%   We can have some speedup if we setup the analysis techniques as to
+%   remove the eeg channels that we don't need.
+
 %%  Setting the variables
     sampling_rate = eeg_info.headset.egi129.sampling_rate
     low_frequency_bandwith = parameters.extra_low_frequency.bandwith;
@@ -21,6 +25,10 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     Extract the extra low-frequency (0.1 to 1 Hz) and alpha (8-13 Hz) oscillations. 
     Use a Hilbert transform to calculate instantaneous phase and amplitude within each bandwidth.  
 %}
+
+    %Here we extract the phase and the amplitude from LFO and HFO
+    low_frequency_phase = angle(hilbert(eeg_low_frequency)); %Take the angle of the Hilbert to get the phase
+    high_frequency_amplitude = abs(hilbert(eeg_high_frequency)); %calculating the amplitude by taking absolute value of hilber
 
 %% Step 2: Calculate the Modulagram
 %{
