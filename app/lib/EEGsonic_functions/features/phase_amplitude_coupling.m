@@ -6,6 +6,9 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
 %   We can have some speedup if we setup the analysis techniques as to
 %   remove the eeg channels that we don't need.
 
+%% TODO
+% THIS WILL REQUIRE SOME REFACTORING AND SOME COMMENTING
+
 %%  Setting the variables
     number_bins = 18;
     sampling_rate = eeg_info.sampling_rate;

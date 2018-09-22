@@ -1,40 +1,23 @@
-function [z_score_wpli] = wpli(eeg_data,eeg_info,parameters)
+function [corrected_wpli] = wpli(eeg_data,eeg_info,parameters)
 %WPLI Summary of this function goes here
 %   Detailed explanation goes here
 
+%% Seting up variables
+%% NOTE: Do we need the p_value? Seems like no from the information in the documentation
+    number_surrogates = parameters.number_surrogates;
+    p_value = parameters.value;
+    number_channels = size(eeg_data,1);
     
-
-    %% Note: do we calculate segments of data like before and then average?
-    %% TODO: Make this a standalone function by adding the w_PhaseLagIndex + surrogate 
-    %        into this
+    uncorrected_wpli = zeros(number_channels,number_channels);
+    surrogates_wpli = zeros(number_surrogates,number_channels,number_channels);
+    corrected_wpli = zeros(number_channels,number_channels);
     
     %% Calculate wPLI
-    uncorrected_wpli = w_PhaseLagIndex(eeg_data);
-    surrogates_wpli = [];
-    corrected_wpli = [];
-    
-    length_wpli = length(uncorrected_wpli);
-    
-    %% Calculate surrogates
-    for i = 1:parameters.number_surrogates
-        surrogates_wpli = [surrogates_wpli, w_PhaseLagIndex_surrogate(eeg_data)];
+    uncorrected_wpli = w_PhaseLagIndex(eeg_data); % uncorrected
+    for i = 1:number_surrogates
+        surrogates_wpli(index,:,:) = w_PhaseLagIndex_surrogate(eeg_data);
     end
+    corrected_wpli = uncorrected_wpli - squeeze(mean(surrogates_wpli,1));
     
-    %% Threshold with p value     
-    for m = 1:length_wpli
-        for n = 1:length_wpli
-            test = surrogates_wpli(:,m,n);
-            p = signrank(test, uncorrected_wpli(m,n));       
-            if p < parameters.p_value && uncorrected_wpli(m,n) - median(test) > 0
-                corrected_wpli(i,m,n) = uncorrected_wpli(m,n) - median(test);
-            else
-                corrected_wpli(i,m,n) = 0;
-            end          
-        end
-    end
-    
-    %% Take the Z score across all segments        
-    z_score_wpli = mean(corrected_wpli,3); %average across the right dimension (FIND WHAT IT IS)
-
 end
 

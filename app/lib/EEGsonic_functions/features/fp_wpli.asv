@@ -11,17 +11,21 @@ function [avg_pli_midline,avg_pli_lateral] = fp_wpli(eeg_data,eeg_info,parameter
     midline_eeg = eeg_data(midline_mask == 1,:);
     lateral_eeg = eeg_data(lateral_mask == 1,:);
     
-    midline_wpli = wpli(midline_eeg,eeg_info,parameters);
-    lateral_wpli = wpli(lateral_eeg,eeg_info,parameters);
-% Meaning calculate wPLI for midline and wPLI for lateral channels
+    midline_wpli = eeg_data(midline_eeg,eeg_info,parameters);
+    lateral
+%Meaning calculate wPLI for midline and wPLI for lateral channels
+
+%% Step 2: Calculate surrogates
+%{
+    We will need to test the next part to see if it is feasible in real-time, but ideally: shuffle the data ~10 times to develop an approximate surrogate wPLI.
+    Find the average surrogate wPLI, subtract it from the calculated wPLI.
+%}
 
 %% Step 3: Average
 %{
     Average surrogate-corrected frontoparietal PLI values for all midline electrodes, and lateral electrodes.
     Output these two values to OSC every 10 seconds.
 %}
-   avg_pli_midline = mean2(midline_wpli);
-   avg_pli_lateral = mean2(lateral_wpli);
     
 end
 
