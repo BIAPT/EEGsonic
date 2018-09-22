@@ -14,21 +14,19 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     
 %% Calculate Modulogram (Frontal)
     frontal_eeg = eeg_data(frontal_mask == 1,:);
+    number_channels_frontal = size(frontal_eeg,1)
     [lfo_phase_frontal,hfo_amplitude_frontal] = extract_lfo_hfo(frontal_eeg,sampling_rate,...,
-                                low_frequency_bandwith,high_frequency_bandwith);
+                                                low_frequency_bandwith,high_frequency_bandwith);
     [modulogram_frontal] = calculate_modulogram(number_bins,lfo_phase_frontal,hfo_amplitude_frontal,...,
-                                        number_channels);
+                                                number_channels_frontal);
                                     
 %% Calculate Modulogram (Parietal)
     parietal_eeg = eeg_data(parietal_mask == 1,:);
+    number_channels_parietal = size(parietal_eeg,1);
     [lfo_phase_parietal,hfo_amplitude_parietal] = extract_lfo_hfo(parietal_eeg,sampling_rate,...,
-                                low_frequency_bandwith,high_frequency_bandwith);
-    [modulogram_parietal] = calculate_modulogram(number_bins,lfo_phase_parietal,hfo_amplitude_fronta,...,
-                                        number_channels);
-    
-    %% Debug (TODO test this out)
-    figure
-    imagesc(modulogram)
+                                                  low_frequency_bandwith,high_frequency_bandwith);
+    [modulogram_parietal] = calculate_modulogram(number_bins,lfo_phase_parietal,hfo_amplitude_parietal,...,
+                                                 number_channels_parietal);
     
 %% Step 3: Find the Through and Peak
 %{
@@ -44,10 +42,9 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     start_index_through = [0,stop_index_peak+1];
     stop_index_through = [stop_index_peak-1,number_bins];
 
-%% Step 4: Average and Take Ratio
-%{
-Average the peak / trough ratio for all frontal electrodes, and for all parietal electrodes.
-%}
+    peak_frontal = modulogram(star_index_peak:stop_index_peak);
+    through_frontal = modulogram(start_index_through(1):stop_index_through(1)) + ...
+                      modulogram(start_index_through(2):stop_index_th
 
 end
 

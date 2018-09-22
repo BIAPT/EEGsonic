@@ -39,13 +39,19 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     start_index_peak = floor(number_bins/4);
     stop_index_peak = floor(3*number_bins/4);
     
-    start_index_through = [0,stop_index_peak+1];
-    stop_index_through = [stop_index_peak-1,number_bins];
+    start_index_through = [1,stop_index_peak+1];
+    stop_index_through = [start_index_peak-1,number_bins];
 
-%% Step 4: Average and Take Ratio
-%{
-Average the peak / trough ratio for all frontal electrodes, and for all parietal electrodes.
-%}
+    peak_frontal = mean(modulogram_frontal(start_index_peak:stop_index_peak));
+    through_frontal = mean([modulogram_frontal(start_index_through(1):stop_index_through(1));
+                       modulogram_frontal(start_index_through(2):stop_index_through(2))]);
+    
+    peak_parietal = mean(modulogram_parietal(start_index_peak:stop_index_peak));
+    through_parietal = mean([modulogram_parietal(start_index_through(1):stop_index_through(1));
+                        modulogram_parietal(start_index_through(2):stop_index_through(2))]);
+    
+    rpt_frontal = peak_frontal/through_frontal;
+    rpt_parietal = peak_parietal/through_parietal;
 
 end
 
