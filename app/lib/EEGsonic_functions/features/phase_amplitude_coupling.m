@@ -7,17 +7,49 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
 %   remove the eeg channels that we don't need.
 
 %%  Setting the variables
+    number_bins = 18;
     sampling_rate = eeg_info.sampling_rate;
     low_frequency_bandwith = parameters.extra_low_frequency.bandwith;
     high_frequency_bandwith = parameters.high_frequency.bandwith;
-
-%% Step -1: Select only the relevant channels with the masks
-    frontal_eeg = eeg_data(frontal_mask == 1,:);
-    parietal_eeg = eeg_data(parietal_mask == 1,:);
-    eeg_data = [frontal_eeg;parietal_eeg];
-    % To get the number of channels need to use size(eeg,1);
     
-%% Step 0: Filter the Signal
+%% Calculate Modulogram (Frontal)
+    frontal_eeg = eeg_data(frontal_mask == 1,:);
+    number_channels_frontal = size(frontal_eeg,1)
+    [lfo_phase_frontal,hfo_amplitude_frontal] = extract_lfo_hfo(frontal_eeg,sampling_rate,...,
+                                                low_frequency_bandwith,high_frequency_bandwith);
+    [modulogram_frontal] = calculate_modulogram(number_bins,lfo_phase_frontal,hfo_amplitude_frontal,...,
+                                                number_channels_frontal);
+                                    
+%% Calculate Modulogram (Parietal)
+    parietal_eeg = eeg_data(parietal_mask == 1,:);
+    number_channels_parietal = size(parietal_eeg,1);
+    [lfo_phase_parietal,hfo_amplitude_parietal] = extract_lfo_hfo(parietal_eeg,sampling_rate,...,
+                                                  low_frequency_bandwith,high_frequency_bandwith);
+    [modulogram_parietal] = calculate_modulogram(number_bins,lfo_phase_parietal,hfo_amplitude_parietal,...,
+                                                 number_channels_parietal);
+    
+%% Step 3: Find the Through and Peak
+%{
+    In order to determine if we have “trough-max” or “peak-max” coupling, for each of the 11 electrodes,
+    calculate the ratio of the PAC from the trough (-?/2 to ?/2) and from the peak (-2 ? to -3 ?/2 PLUS 3 ?/2 to 2 ?).  
+%}
+
+% The peak region = -pi/2 to pi/2 , sor from 1/4 of the modulogram to 3/4
+% of the modulogram.
+    start_index_peak = floor(number_bins/4);
+    stop_index_peak = floor(3*number_bins/4);
+    
+    start_index_through = [0,stop_index_peak+1];
+    stop_index_through = [stop_index_peak-1,number_bins];
+
+%% Step 4: Average and Take Ratio
+%{
+Average the peak / trough ratio for all frontal electrodes, and for all parietal electrodes.
+%}
+
+end
+
+function [low_frequency_phase,high_frequency_amplitude] = extract_lfo_hfo(eeg_data,sampling_rate,low_frequency_bandwith,high_frequency_bandwith)
     %LFO filtering
     eeg_low_frequency = bpfilter(low_frequency_bandwith(1),low_frequency_bandwith(2),sampling_rate,double(eeg_data'));
     eeg_low_frequency = eeg_low_frequency';
@@ -25,22 +57,16 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     %HFO filtering
     eeg_high_frequency = bpfilter(high_frequency_bandwith(1),high_frequency_bandwith(2),sampling_rate,double(eeg_data'));
     eeg_high_frequency = eeg_high_frequency';
-
-%% Step 1: Extract Phase and Frequency
-    % Extract the extra low-frequency (0.1 to 1 Hz) and alpha (8-13 Hz) oscillations. 
-    % Use a Hilbert transform to calculate instantaneous phase and amplitude within each bandwidth.  
+    
+    % Calculate the LFO phase and HFO amplitude 
     low_frequency_phase = angle(hilbert(eeg_low_frequency)); %Take the angle of the Hilbert to get the phase
     high_frequency_amplitude = abs(hilbert(eeg_high_frequency)); %calculating the amplitude by taking absolute value of hilber
 
-%% Step 2: Calculate the Modulagram
-    % Use the PAC code you have implemented in EEGapp to construct a phase-amplitude modulgram,
-    % assigning each temporal sample to one of n = 18 equally spaced phase bins.  
+end
 
-    %To note: number of bins = 18, as said by slack. May have to make this
-    %modular
-    number_bins = 18;
+function [modulogram] = calculate_modulogram(number_bins,low_frequency_phase,...,
+                                            high_frequency_amplitude,number_channels)
     bin_size = (2*pi)/number_bins; 
-    number_channels = size(eeg_data,1);
     % ! Speedup can be gained over here, leave that for now  ! %
     sorted_amplitude = zeros(number_bins,2);
     
@@ -81,24 +107,6 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     modulogram = modulogram - 1;            % Do this because median filter assumes 0 on each side
     modulogram = medfilt1(modulogram, 2);   % January 16, 2014
     modulogram = modulogram + 1;
-    
-    %% Debug (TODO test this out)
-    figure
-    imagesc(modulogram)
-    
-%% Step 3: Find the Through and Peak
-%{
-    In order to determine if we have “trough-max” or “peak-max” coupling, for each of the 11 electrodes,
-    calculate the ratio of the PAC from the trough (-?/2 to ?/2) and from the peak (-2 ? to -3 ?/2 PLUS 3 ?/2 to 2 ?).  
-%}
-
-%% TODO NOTE: we are looking for rise time PAC (-pi/2 to pi/2) and everything else is decay time PAC.
-
-%% Step 4: Average and Take Ratio
-%{
-Average the peak / trough ratio for all frontal electrodes, and for all parietal electrodes.
-%}
-
 end
 
 function [is_in_range] = is_phase_in_range(channel_phase,point_index,bin,bin_size)
