@@ -14,7 +14,7 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
 %% Step -1: Select only the relevant channels with the masks
     frontal_eeg = eeg_data(frontal_mask == 1,:);
     parietal_eeg = eeg_data(parietal_mask == 1,:);
-    eeg_data = [frontal_eeg;parietal_eeg];
+    eeg_data = [frontal_eeg,parietal_eeg];
     % To get the number of channels need to use size(eeg,1);
     
 %% Step 0: Filter the Signal
@@ -91,8 +91,6 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     In order to determine if we have “trough-max” or “peak-max” coupling, for each of the 11 electrodes,
     calculate the ratio of the PAC from the trough (-?/2 to ?/2) and from the peak (-2 ? to -3 ?/2 PLUS 3 ?/2 to 2 ?).  
 %}
-
-%% TODO NOTE: we are looking for rise time PAC (-pi/2 to pi/2) and everything else is decay time PAC.
 
 %% Step 4: Average and Take Ratio
 %{
