@@ -7,7 +7,7 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
 %   remove the eeg channels that we don't need.
 
 %%  Setting the variables
-    sampling_rate = eeg_info.headset.egi129.sampling_rate
+    sampling_rate = eeg_info.sampling_rate
     low_frequency_bandwith = parameters.extra_low_frequency.bandwith;
     high_frequency_bandwith = parameters.high_frequency.bandwith;
 
@@ -68,7 +68,7 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     
     % For each bins set the value at that position
     modulogram = zeros(number_bins,1);
-    for bin = 1:numberOfBin
+    for bin = 1:number_bins
         modulogram(bin) = ((avg_sorted_amplitude(bin)-avg_amplitude)/avg_amplitude) + 1;
     end   
     
@@ -76,6 +76,10 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     modulogram = modulogram - 1;            % Do this because median filter assumes 0 on each side
     modulogram = medfilt1(modulogram, 2);   % January 16, 2014
     modulogram = modulogram + 1;
+    
+    %% Debug (TODO test this out)
+    figure
+    imagesc(modulogram)
     
 %% Step 3: Find the Through and Peak
 %{
