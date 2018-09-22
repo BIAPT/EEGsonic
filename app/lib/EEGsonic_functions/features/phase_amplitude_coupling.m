@@ -64,6 +64,18 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
                 avg_sorted_amplitude(bin) = (sorted_amplitude(bin,1)/sorted_amplitude(bin,2));
             end
     end   
+    avg_amplitude = mean(avg_sorted_amplitude);
+    
+    % For each bins set the value at that position
+    modulogram = zeros(number_bins,1);
+    for bin = 1:numberOfBin
+        modulogram(bin) = ((avg_sorted_amplitude(bin)-avg_amplitude)/avg_amplitude) + 1;
+    end   
+    
+    % Filter the modulogram
+    modulogram = modulogram - 1;            % Do this because median filter assumes 0 on each side
+    modulogram = medfilt1(modulogram, 2);   % January 16, 2014
+    modulogram = modulogram + 1;
     
 %% Step 3: Find the Through and Peak
 %{

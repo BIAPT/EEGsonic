@@ -28,10 +28,8 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     high_frequency_amplitude = abs(hilbert(eeg_high_frequency)); %calculating the amplitude by taking absolute value of hilber
 
 %% Step 2: Calculate the Modulagram
-%{
-    Use the PAC code you have implemented in EEGapp to construct a phase-amplitude modulgram,
-    assigning each temporal sample to one of n = 18 equally spaced phase bins.  
-%}
+    % Use the PAC code you have implemented in EEGapp to construct a phase-amplitude modulgram,
+    % assigning each temporal sample to one of n = 18 equally spaced phase bins.  
 
     %To note: number of bins = 18, as said by slack. May have to make this
     %modular
@@ -40,12 +38,14 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     number_channels = size(eeg_data,1);
     % ! Speedup can be gained over here, leave that for now  ! %
     sorted_amplitude = zeros(number_bins,2);
+    
+    % Here we sort amplitude according to the phase
     for channel = 1:number_channels
         channel_phase = low_frequency_phase(channel,:);
         channel_amplitude = high_frequency_amplitude(channel,:);
         
         for point_index = 1:length(channel_phase)
-            % Incrementing the amplitude 
+            % Incrementing the amplitude and putting in the right bin
             for bin = 1:number_bins
                 if(is_phase_in_range(channel_phase,point_index,bin,bin_size))
                     sorted_amplitude(bin,1) = sorted_amplitude(bin) + channel_amplitude(point_index);
@@ -54,6 +54,23 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
             end
         end
     end
+    
+    % Calculate the average amplitude
+    avg_sorted_amplitude = zeros(number_bins,1);
+    for bin = 1:number_bins
+            if sorted_amplitude(bin,2) == 0
+                avg_sorted_amplitude(bin) = 0;
+            else
+                avg_sorted_amplitude(bin) = (sorted_amplitude(bin,1)/sorted_amplitude(bin,2));
+            end
+    end   
+    
+    avg_amplitude = mean(avg_sorted_amplitude);
+    pac_modulogram = zeros(number_bins,1);
+    %For each bins set the value at that position
+    for i = 1:numberOfBin
+        modulogram(i) = (avgsortamp(i)-avg_amplitude)/avg_amplitude + 1;
+    end    
 %% Step 3: Find the Through and Peak
 %{
     In order to determine if we have “trough-max” or “peak-max” coupling, for each of the 11 electrodes,
