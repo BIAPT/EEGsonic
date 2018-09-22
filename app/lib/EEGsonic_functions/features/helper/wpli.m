@@ -5,12 +5,10 @@ function [corrected_wpli] = wpli(eeg_data,eeg_info,parameters)
 %% Seting up variables
 %% NOTE: Do we need the p_value? Seems like no from the information in the documentation
     number_surrogates = parameters.number_surrogates;
-    p_value = parameters.value;
+    p_value = parameters.p_value;
     number_channels = size(eeg_data,1);
-    
-    uncorrected_wpli = zeros(number_channels,number_channels);
+   
     surrogates_wpli = zeros(number_surrogates,number_channels,number_channels);
-    corrected_wpli = zeros(number_channels,number_channels);
     
     %% Calculate wPLI
     uncorrected_wpli = w_PhaseLagIndex(eeg_data); % uncorrected
