@@ -137,11 +137,11 @@ function calculate_features(data_directory,features_directory,information,parame
                 hl_data = [hl_data,data];
                 if(length(hl_data) == hl_data_required_size)
                     % Calculate hl
-                    [avg_location_hd_node] = hub_location(eeg_data,eeg_info,parameters.hl);
+                    [hd_channel_index] = hub_location(eeg_data,eeg_info,parameters.hl);
                     % Convert to OSC
-                    [avg_location_hd_node_osc] = hub_location_to_osc(avg_location_hd_node);
+                    [hd_channel_index_osc] = hub_location_to_osc(hd_channel_index);
                     % Send to OSC receivers
-                    send_feature(avg_location_hd_node_osc,"f",osc);                    
+                    send_feature(hd_channel_index_osc,"f",osc);                    
                     hl_data = [];
                 end
                 

@@ -1,4 +1,4 @@
-function [avg_location_hd_node] = hub_location(eeg_data,eeg_info,parameters)
+function [hd_channel_index] = hub_location(eeg_data,eeg_info,parameters)
 %HUB_LOCATION Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -18,6 +18,7 @@ function [avg_location_hd_node] = hub_location(eeg_data,eeg_info,parameters)
     treshold_index = floor((1-parameters.top_connection_threshold)*length(sorted_wpli));
     treshold_value = sorted_wpli(threshold_index);
     
+    % Here we binarized the wpli
     full_wpli(full_wpli >= threshold_value) = 1;
     full_wpli(full_wpli < threshold_value) = 0;
     
@@ -26,11 +27,13 @@ function [avg_location_hd_node] = hub_location(eeg_data,eeg_info,parameters)
 %{
 -	Calculate the degree of each electrode.
 %}
+    channels_degree = degrees_und(full_wpli);
 
 %% Step 4: Find the location of the electrode
 %{
 -	Find the electrode with the highest degree. 
 %}
+    [~,hd_channel_index] = max(channels_degree);
 
 end
 
