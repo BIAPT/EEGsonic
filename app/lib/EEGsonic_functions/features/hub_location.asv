@@ -20,8 +20,7 @@ function [avg_location_hd_node] = hub_location(eeg_data,eeg_info,parameters)
     
     full_wpli(full_wpli >= threshold_value) = 1;
     full_wpli(full_wpli < threshold_value) = 0;
-    
-    
+    %% TODO Here check degree calculation in eegapp
 %% Step 3: Calculate the Degree of each node
 %{
 -	Calculate the degree of each electrode.
