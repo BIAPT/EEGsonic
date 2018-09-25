@@ -1,4 +1,4 @@
-function [time] = get_time_estimate(type,information,parameters,time_estimate)
+function [time] = get_time_estimate(type,information,parameters)
 %GET_TIME_ESTIMATE Summary of this function goes here
 %   Detailed explanation goes here
 
