@@ -6,6 +6,7 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     p = gcp(); % get the current parallel pool
     
     %% Creating saving folder
+    % Folder names creation
     folder_name = information.folder_name + "-" + string(now);
     base_directory = information.saving_directory +"\"+folder_name;
     data_directory = base_directory+"\data";
@@ -20,7 +21,6 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     
     %% Save parameters
     parsave(parameters_directory,"parameters",parameters);
-    % TODO: Log parameters into a file on the top level of the directory
     log_parameters_to_file(base_directory,"information.txt",parameters)
     
     %% Launch and return the two workers
