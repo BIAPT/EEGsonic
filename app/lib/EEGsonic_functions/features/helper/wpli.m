@@ -9,10 +9,10 @@ function [corrected_wpli] = wpli(eeg_data,eeg_info,parameters)
     number_channels = size(eeg_data,1);
    
     surrogates_wpli = zeros(number_surrogates,number_channels,number_channels);
-    
+    eeg_data = eeg_data'; % TODO CHECK IF THIS IS LEGIT
     %% Calculate wPLI
     uncorrected_wpli = w_PhaseLagIndex(eeg_data); % uncorrected
-    for i = 1:number_surrogates
+    for index = 1:number_surrogates
         surrogates_wpli(index,:,:) = w_PhaseLagIndex_surrogate(eeg_data);
     end
     corrected_wpli = uncorrected_wpli - squeeze(mean(surrogates_wpli,1));

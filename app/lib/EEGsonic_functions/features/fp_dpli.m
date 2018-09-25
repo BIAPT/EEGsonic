@@ -8,7 +8,7 @@ function [avg_dpli_midline,avg_dpli_lateral] = fp_dpli(eeg_data,eeg_info,paramet
     midline_dpli = dpli(midline_eeg,eeg_info,parameters);
     lateral_dpli = dpli(lateral_eeg,eeg_info,parameters);
     
-    avg_dpli_midline = mean2(midline_wpli);
-    avg_dpli_lateral = mean2(lateral_wpli);
+    avg_dpli_midline = mean2(midline_dpli);
+    avg_dpli_lateral = mean2(lateral_dpli);
 end
 
