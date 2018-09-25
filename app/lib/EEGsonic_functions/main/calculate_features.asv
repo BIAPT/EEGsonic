@@ -63,8 +63,11 @@ function calculate_features(data_directory,features_directory,information,parame
                 if(length(spr_data) == spr_data_required_size)
                     % Calculate spr
                     [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(spr_data,eeg_info,parameters.spr);
-                    % Convert and Send to OSC
-                    send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc);
+                    % Convert to OSC and Send
+                    [ratio_beta_alpha_osc,ratio_alpha_theta_osc] = send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta);
+                    % Send to OSC receivers
+                    send_feature(ratio_beta_alpha_osc,"f",osc);
+                    send_feature(ratio_alpha_theta_osc,"f",osc);
                     spr_data = [];
                 end
             end
@@ -77,8 +80,10 @@ function calculate_features(data_directory,features_directory,information,parame
                     posterior_mask = boolean_mask.td.posterior_channels;
                     % Calculate td
                     [ratio_front_back] = topographic_distribution(td_data,eeg_info,parameters.td,frontal_mask,posterior_mask);
-                    % Convert and Send to OSC
-                    send_topographic_distribution(ratio_front_back,osc);
+                    % Convert to OSC
+                    [ratio_front_back_osc] = topographic_distribution_to_osc(ratio_front_back);
+                    % Send to OSC Receivers
+                    send_feature(ratio_front_back_osc,"f",osc);
                     td_data = [];
                 end
             end
@@ -91,8 +96,11 @@ function calculate_features(data_directory,features_directory,information,parame
                     parietal_mask = boolean_mask.pac.parietal_channels;                    
                     % Calculate pac
                     [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(pac_data,eeg_info,parameters.pac,frontal_mask,parietal_mask);
-                    % Convert and Send to OSC
-                    send_phase_amplitude_coupling(rpt_frontal,rpt_parietal,osc);
+                    % Convert to osc
+                    [rpt_frontal_osc,rpt_parietal_osc] = phase_amplitude_coupling_to_osc(rpt_frontal,rpt_parietal);
+                    % Send to OSC receivers
+                    send_feature(rpt_frontal_osc,"f",osc);
+                    send_feature(rpt_parietal_osc,"f",osc);
                     pac_data = [];
                 end
             end
@@ -105,8 +113,11 @@ function calculate_features(data_directory,features_directory,information,parame
                     lateral_mask = boolean_mask.fp_wpli.lateral_channels; 
                     % Calculate fp_wpli
                     [avg_pli_midline,avg_pli_lateral] = fp_wpli(fp_wpli_data,eeg_info,parameters.fp_wpli,midline_mask,lateral_mask);                   
-                    % Convert and Send to OSC
-                    send_fp_wpli(avg_pli_midline,avg_pli_lateral,osc);
+                    % Convert to OSC
+                    [avg_pli_midline_osc,avg_pli_lateral_osc] = fp_wpli_to_osc(avg_pli_midline,avg_pli_lateral);
+                    % Send to OSC receivers
+                    send_feature(avg_pli_midline_osc,"f",osc);
+                    send_feature(avg_pli_lateral_osc,"f",osc);                    
                     fp_wpli_data = [];
                 end
             end
@@ -119,8 +130,11 @@ function calculate_features(data_directory,features_directory,information,parame
                     lateral_mask = boolean_mask.fp_dpli.lateral_channels;                     
                     % Calculate fp_dpli
                     [avg_dpli_midline,avg_dpli_lateral] = fp_dpli(fp_dpli_data,eeg_info,parameters.fp_dpli,midline_mask,lateral_mask);                   
-                    % Convert and Send to OSC
-                    send_fp_dpli(avg_dpli_midline,avg_dpli_lateral,osc);
+                    % Convert to OSC
+                    [avg_dpli_midline_osc,avg_dpli_lateral_osc] = fp_dpli_to_osc(avg_dpli_midline,avg_dpli_lateral);
+                    % Send to OSC receivers
+                    send_feature(avg_dpli_midline_osc,"f",osc);
+                    send_feature(avg_dpli_lateral_osc,"f",osc);                     
                     fp_dpli_data = [];
                 end
             end
@@ -131,8 +145,10 @@ function calculate_features(data_directory,features_directory,information,parame
                 if(length(hl_data) == hl_data_required_size)
                     % Calculate hl
                     [hd_channel_index] = hub_location(eeg_data,eeg_info,parameters.hl);
-                    % Convert and Send to OSC
-                    send_hub_location(hd_channel_index,osc);                    
+                    % Convert to OSC
+                    [hd_channel_coordinate_osc] = hub_location_to_osc(hd_channel_index);
+                    % Send to OSC receivers
+                    send_feature(hd_channel_coordinate_osc,"f",osc);                    
                     hl_data = [];
                 end
                 
@@ -146,8 +162,11 @@ function calculate_features(data_directory,features_directory,information,parame
                     posterior_mask = boolean_mask.pe.posterior_channels;  
                     % Calculate pe
                     [avg_pe_frontal,avg_pe_parietal] = permutation_entropy(eeg_data,eeg_info,parameters.pe,frontal_mask,posterior_mask);
-                    % Convert and Send to OSC
-                    send_permutation_entropy(avg_pe_frontal,avg_pe_parietal,osc);
+                    % Convert to OSC
+                    [avg_pe_frontal_osc,avg_pe_parietal_osc] = permutation_entropy_to_osc(avg_pe_frontal,avg_pe_parietal);
+                    % Send to OSC receivers
+                    send_feature(avg_pe_frontal_osc,"f",osc);
+                    send_feature(avg_pe_parietal_osc,"f",osc);
                     pe_data = [];
                end
             end
