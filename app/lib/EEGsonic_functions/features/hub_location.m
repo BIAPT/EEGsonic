@@ -16,12 +16,13 @@ function [hd_channel_index] = hub_location(eeg_data,eeg_info,parameters)
 
     sorted_wpli = sort(full_wpli(:));
     treshold_index = floor((1-parameters.top_connection_threshold)*length(sorted_wpli));
-    treshold_value = sorted_wpli(threshold_index);
+    treshold_value = sorted_wpli(treshold_index);
     
     % Here we binarized the wpli
-    full_wpli(full_wpli >= threshold_value) = 1;
-    full_wpli(full_wpli < threshold_value) = 0;
-    
+    full_wpli(full_wpli >= treshold_value) = 1;
+    full_wpli(full_wpli < treshold_value) = 0;
+     
+
     
 %% Step 3: Calculate the Degree of each node
 %{
