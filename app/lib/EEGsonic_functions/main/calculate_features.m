@@ -145,9 +145,9 @@ function calculate_features(data_directory,features_directory,information,parame
                     frontal_mask = boolean_mask.pe.frontal_channels;
                     posterior_mask = boolean_mask.pe.posterior_channels;  
                     % Calculate pe
-                    [avg_pe_frontal,avg_pe_parietal] = permutation_entropy(eeg_data,eeg_info,parameters.pe,frontal_mask,posterior_mask);
+                    [avg_pe_frontal,avg_pe_posterior] = permutation_entropy(eeg_data,eeg_info,parameters.pe,frontal_mask,posterior_mask);
                     % Convert and Send to OSC
-                    send_permutation_entropy(avg_pe_frontal,avg_pe_parietal,osc);
+                    send_permutation_entropy(avg_pe_frontal,avg_pe_posterior,osc);
                     pe_data = [];
                end
             end

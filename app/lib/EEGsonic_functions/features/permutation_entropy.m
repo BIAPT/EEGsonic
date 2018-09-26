@@ -12,8 +12,8 @@ function [avg_pe_frontal,avg_pe_posterior] = permutation_entropy(eeg_data,eeg_in
     
     % Here we use code from our collaborator (in
     % lib/EEGsonic_function/features/helper
-    frontal_pe = permutation_entropy_mv(frontal_eeg,embedding_dimension,time_delay); 
-    posterior_pe = permutation_entropy_mv(posterior_eeg,embedding_dimension,time_delay);
+    [~,frontal_pe] = permutation_entropy_mv(frontal_eeg,embedding_dimension,time_delay); 
+    [~,posterior_pe] = permutation_entropy_mv(posterior_eeg,embedding_dimension,time_delay);
   
 %% STEP N: Average 
 %{
