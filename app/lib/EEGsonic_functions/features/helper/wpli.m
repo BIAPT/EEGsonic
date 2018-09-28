@@ -27,6 +27,7 @@ function [corrected_wpli] = get_corrected_wpli(uncorrected_wpli,surrogates_wpli,
     correction_type = parameters.correction_type;
     if(strcmp(correction_type,"substraction"))
         corrected_wpli = uncorrected_wpli - squeeze(mean(surrogates_wpli,1));
+        corrected_wpli(corrected_wpli<0) = 0;
     elseif(strcmp(correction_type,"p value"))
             p_value = parameters.p_value;
             %Here we compare the calculated dPLI versus the surrogate
