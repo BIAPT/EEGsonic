@@ -33,6 +33,7 @@ function calculate_features(data_directory,features_directory,information,parame
     if(parameters.general.egi129.is_selected)
         eeg_info = information.headset.egi129;
         data_acquisition_size = parameters.general.egi129.data_acquisition_size;
+        channels_location = information.headset.egi129.channels_location;
         sleep_delay = data_acquisition_size/10;
         sec_to_pts = 1000;
         % Convert secs to points
@@ -47,6 +48,7 @@ function calculate_features(data_directory,features_directory,information,parame
     elseif(parameters.general.dsi24.is_selected)
         eeg_info = information.headset.dsi24;
         sleep_delay = data_acquizition_size/10;
+        channels_location = information.headset.dsi24.channels_location;        
         % TODO add acquisition size once we get it;
     end
     
@@ -132,7 +134,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     % Calculate hl
                     [hd_channel_index] = hub_location(eeg_data,eeg_info,parameters.hl);
                     % Convert and Send to OSC
-                    send_hub_location(hd_channel_index,osc);                    
+                    send_hub_location(hd_channel_index,channels_location,parameters.hl,osc);                    
                     hl_data = [];
                 end
                 
