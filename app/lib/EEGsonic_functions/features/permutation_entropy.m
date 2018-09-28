@@ -2,7 +2,6 @@ function [avg_pe_frontal,avg_pe_posterior] = permutation_entropy(eeg_data,eeg_in
 %PERMUTATION_ENTROPY Summary of this function goes here
 %   Detailed explanation goes here
 
-%% TODO SEE CODE IN PERMUTATION ENTROPY AND USE IT HERE !
 
     frontal_eeg = eeg_data(frontal_mask == 1,:)';
     posterior_eeg = eeg_data(posterior_mask == 1,:)';
