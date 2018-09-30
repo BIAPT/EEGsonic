@@ -17,18 +17,13 @@ function [corrected_wpli] = wpli(eeg_data,eeg_info,parameters)
     end
     
     %% Correct the wPLI (either by substracting or doing a p test)
-    type = "substraction"; %TODO need to put that into the GUI
-    parameters.correction_type = type;
     uncorrected_wpli(isnan(uncorrected_wpli)) = 0; %Have to do this otherwise NaN break the code
     corrected_wpli = get_corrected_wpli(uncorrected_wpli,surrogates_wpli,parameters);
 end
 
 function [corrected_wpli] = get_corrected_wpli(uncorrected_wpli,surrogates_wpli,parameters)
-    correction_type = parameters.correction_type;
-    if(strcmp(correction_type,"substraction"))
-        corrected_wpli = uncorrected_wpli - squeeze(mean(surrogates_wpli,1));
-        corrected_wpli(corrected_wpli<0) = 0;
-    elseif(strcmp(correction_type,"p value"))
+    is_surrogates = parameters.is_surrogates;
+    if(is_surrogates)
             p_value = parameters.p_value;
             %Here we compare the calculated dPLI versus the surrogate
             %and test for significance
@@ -44,6 +39,9 @@ function [corrected_wpli] = get_corrected_wpli(uncorrected_wpli,surrogates_wpli,
                     end          
                 end
             end
-    end   
+    else
+        corrected_wpli = uncorrected_wpli - squeeze(mean(surrogates_wpli,1));
+        corrected_wpli(corrected_wpli<0) = 0;
+    end
 
 end

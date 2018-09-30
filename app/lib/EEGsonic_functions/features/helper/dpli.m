@@ -15,19 +15,15 @@ function [corrected_dpli] = dpli(eeg_data,eeg_info,parameters)
         disp(index);
         surrogates_dpli(index,:,:) = d_PhaseLagIndex_surrogate(eeg_data);
     end
-    type = "substraction"; %TODO need to put that into the GUI
-    parameters.correction_type = type;
+
     uncorrected_dpli(isnan(uncorrected_dpli)) = 0.5; %Have to do this otherwise NaN break the code
     corrected_dpli = get_corrected_dpli(uncorrected_dpli,surrogates_dpli,parameters);
 
 end
 
 function [corrected_dpli] = get_corrected_dpli(uncorrected_dpli,surrogates_dpli,parameters)
-    correction_type = parameters.correction_type;
-    if(strcmp(correction_type,"substraction"))
-        corrected_dpli = uncorrected_dpli - squeeze(mean(surrogates_dpli,1));
-        corrected_dpli(corrected_dpli<0) = 0;
-    elseif(strcmp(correction_type,"p value"))
+    is_surrogates = parameters.is_surrogates;
+    if(is_surrogates)
         p_value = parameters.p_value;
         corrected_dpli = zeros(size(uncorrected_dpli));
         %Here we compare the calculated dPLI versus the surrogate
@@ -73,6 +69,11 @@ function [corrected_dpli] = get_corrected_dpli(uncorrected_dpli,surrogates_dpli,
                         corrected_dpli(m,n) = 0.5;
                     end
                 end
-            end 
+            end
+    else
+        corrected_dpli = uncorrected_dpli - squeeze(mean(surrogates_dpli,1));
+        corrected_dpli(corrected_dpli<0) = 0;
     end
+    
+    
 end
