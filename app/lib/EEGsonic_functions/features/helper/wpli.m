@@ -12,7 +12,6 @@ function [corrected_wpli] = wpli(eeg_data,eeg_info,parameters)
     %% Calculate wPLI
     uncorrected_wpli = w_PhaseLagIndex(eeg_data); % uncorrected
     for index = 1:number_surrogates
-        disp(index);
         surrogates_wpli(index,:,:) = w_PhaseLagIndex_surrogate(eeg_data);
     end
     
