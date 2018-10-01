@@ -5,15 +5,12 @@ function [time] = time_topographic_distribution(information,parameters)
     if(parameters.general.egi129.is_selected)
         number_channels = information.headset.egi129.number_channels;
         data_size = parameters.general.egi129.data_acquisition_size*1000;
-        eeg_info = information.headset.egi129;
     elseif(parameters.general.dsi24.is_selected)
         number_channels = information.headset.dsi24.number_channels;
         data_size = parameters.general.dsi24.data_acquisition_size*1000;
-        eeg_info = information.headset.dsi24;
     end
     eeg_data = rand(number_channels,data_size);
-    osc = parameters.osc;
-    % Populate structure of selected_channels (Boolean mask)
+       % Populate structure of selected_channels (Boolean mask)
     boolean_mask = get_selected_channels(information,parameters);
     
     
