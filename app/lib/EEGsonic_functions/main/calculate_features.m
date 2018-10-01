@@ -132,7 +132,7 @@ function calculate_features(data_directory,features_directory,information,parame
                 hl_data = [hl_data,data];
                 if(length(hl_data) == hl_data_required_size)
                     % Calculate hl
-                    [hd_channel_index] = hub_location(eeg_data,eeg_info,parameters.hl);
+                    [hd_channel_index] = hub_location(hl_data,eeg_info,parameters.hl);
                     % Convert and Send to OSC
                     send_hub_location(hd_channel_index,channels_location,parameters.hl,osc);                    
                     hl_data = [];
@@ -147,7 +147,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     frontal_mask = boolean_mask.pe.frontal_channels;
                     posterior_mask = boolean_mask.pe.posterior_channels;  
                     % Calculate pe
-                    [avg_pe_frontal,avg_pe_posterior] = permutation_entropy(eeg_data,eeg_info,parameters.pe,frontal_mask,posterior_mask);
+                    [avg_pe_frontal,avg_pe_posterior] = permutation_entropy(pe_data,eeg_info,parameters.pe,frontal_mask,posterior_mask);
                     % Convert and Send to OSC
                     send_permutation_entropy(avg_pe_frontal,avg_pe_posterior,osc);
                     pe_data = [];
