@@ -2,7 +2,7 @@ function [time] = time_permutation_entropy(information,parameters)
 %TIME_PERMUTATION_ENTROPY Summary of this function goes here
 %   Detailed explanation goes here
 
-%   % Get variables from information and parameters
+    %% Get variables from information and parameters
     headset = get_headset(information,parameters);
     number_channels = headset.number_channels;
     data_size = parameters.pe.required_size*1000;
