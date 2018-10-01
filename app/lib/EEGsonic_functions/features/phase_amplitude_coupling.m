@@ -17,7 +17,7 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     
 %% Calculate Modulogram (Frontal)
     frontal_eeg = eeg_data(frontal_mask == 1,:);
-    number_channels_frontal = size(frontal_eeg,1)
+    number_channels_frontal = size(frontal_eeg,1);
     [lfo_phase_frontal,hfo_amplitude_frontal] = extract_lfo_hfo(frontal_eeg,sampling_rate,...,
                                                 low_frequency_bandwith,high_frequency_bandwith);
     [modulogram_frontal] = calculate_modulogram(number_bins,lfo_phase_frontal,hfo_amplitude_frontal,...,

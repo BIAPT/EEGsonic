@@ -5,7 +5,7 @@ function [time] = time_topographic_distribution(information,parameters)
     %% Get variables from information and parameters
     headset = get_headset(information,parameters);
     number_channels = headset.number_channels;
-    data_size = get_data_acquisition_size(parameters);
+    data_size = parameters.td.required_size*1000;
     boolean_mask = get_selected_channels(information,parameters);
     osc = parameters.osc;
     

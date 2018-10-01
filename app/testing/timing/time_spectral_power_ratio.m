@@ -4,7 +4,7 @@ function [time] = time_spectral_power_ratio(information,parameters)
     %% Get variables from information and parameters
     headset = get_headset(information,parameters);
     number_channels = headset.number_channels;
-    data_size = get_data_acquisition_size(parameters);
+    data_size = parameters.spr.required_size*1000;
     osc = parameters.osc;
     
     %% Generate the EEG data
