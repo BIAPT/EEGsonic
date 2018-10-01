@@ -12,7 +12,7 @@ function [time] = time_permutation_entropy(information,parameters)
     %% Generate the EEG data
     eeg_data = rand(number_channels,data_size);
     tic;
-        frontal_mask = boolean_mask.pe.frontal_channels;
+        frontal_mask = boolean_mask.pe.frontal_channeuls;
         posterior_mask = boolean_mask.pe.posterior_channels;  
         % Calculate pe
         [avg_pe_frontal,avg_pe_posterior] = permutation_entropy(eeg_data,headset,parameters.pe,frontal_mask,posterior_mask);
