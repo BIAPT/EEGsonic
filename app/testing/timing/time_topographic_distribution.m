@@ -12,7 +12,7 @@ function [time] = time_topographic_distribution(information,parameters)
     %% Generate the EEG data
     eeg_data = rand(number_channels,data_size);
     
-    %% Time the critical part of the pipeline
+    %% Time the critical part of the pipeline for td
     tic;
         frontal_mask = boolean_mask.td.frontal_channels;
         posterior_mask = boolean_mask.td.posterior_channels;
