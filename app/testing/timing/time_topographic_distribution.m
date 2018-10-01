@@ -2,6 +2,7 @@ function [time] = time_topographic_distribution(information,parameters)
 %TIME_ Summary of this function goes here
 %   Detailed explanation goes here
 
+    headset = get_headset(information,parameters);
     if(parameters.general.egi129.is_selected)
         number_channels = information.headset.egi129.number_channels;
         data_size = parameters.general.egi129.data_acquisition_size*1000;
