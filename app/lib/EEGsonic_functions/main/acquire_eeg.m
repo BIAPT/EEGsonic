@@ -21,7 +21,7 @@ function acquire_eeg(data_directory,information,parameters)
                 data = get_dsi_data(parameters);
         end
         %of whatever system we selected to use
-        parsave(data_directory,index,data);
+        parsave(data_directory,num2str(index),data);
         index = index + 1;
     end
 end

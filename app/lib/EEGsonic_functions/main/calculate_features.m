@@ -55,7 +55,7 @@ function calculate_features(data_directory,features_directory,information,parame
 
     %% Main Loop Calculating the features
     while(1)
-        [is_ready,data] = parload(data_directory,index);
+        [is_ready,data] = parload(data_directory,num2str(index));
         if(is_ready)
             disp("Analyzing: " + num2str(index));
             
@@ -67,6 +67,8 @@ function calculate_features(data_directory,features_directory,information,parame
                     [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(spr_data,eeg_info,parameters.spr);
                     % Convert and Send to OSC
                     send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc);
+                    parsave(features_directory,"ratio_beta_alpha_"+num2str(index),ratio_beta_alpha);
+                    parsave(features_directory,"ratio_alpha_theta_"+num2str(index),ratio_alpha_theta);
                     spr_data = [];
                 end
             end

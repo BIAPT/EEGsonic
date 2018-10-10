@@ -3,7 +3,7 @@ function log_parameters_to_file(path,name,parameters)
 %   Detailed explanation goes here
 
 %% TODO WRITE THIS FUNCTION TO SAVE  PARAMETERS INTO FILE!
-file_name = path + "\"+name;
+file_name = strcat(path,filesep,name);
 file_id = fopen(file_name,'w');
 fprintf(file_id,"Information EEG session - " + (date) + "\n");
 fprintf(file_id,"\n");
