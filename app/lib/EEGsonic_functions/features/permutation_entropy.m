@@ -1,6 +1,10 @@
 function [avg_pe_frontal,avg_pe_posterior] = permutation_entropy(eeg_data,eeg_info,parameters,frontal_mask,posterior_mask)
-%PERMUTATION_ENTROPY Summary of this function goes here
-%   Detailed explanation goes here
+%SEND_SPECTRAL_POWER_RATIO send to the osc receivers the data in string
+%format
+%   Input:
+%       ratio_beta_alpha: vector for the ratio for each channels
+%       ratio_alpha_theta: vector for the ratio for each channels
+%       osc: osc data structure
 
 
     frontal_eeg = eeg_data(frontal_mask == 1,:)';

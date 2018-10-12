@@ -1,6 +1,10 @@
 function send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc)
-%SPR_TO_OSC Summary of this function goes here
-%   Detailed explanation goes here
+%SEND_SPECTRAL_POWER_RATIO send to the osc receivers the data in string
+%format
+%   Input:
+%       ratio_beta_alpha: vector for the ratio for each channels
+%       ratio_alpha_theta: vector for the ratio for each channels
+%       osc: osc data structure
 
     %% Variable Setup
     ratio_beta_alpha_osc = strings(1,128);

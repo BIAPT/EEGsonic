@@ -1,6 +1,11 @@
 function [success] = send_feature(osc_string_list,type,osc)
-%SEND_DATA_OSC Summary of this function goes here
-%   Detailed explanation goes here
+%SEND_FEATURE send to the osc receivers the list of string to osc
+%   Input:
+%       osc_string_list: ?
+%       type: type of data to send
+%       osc: osc data structure
+
+% THIS FUNCTION NEED REVISION!
 
 %% NOTE:
 % We have to convert from string to character array for the oscsend function
