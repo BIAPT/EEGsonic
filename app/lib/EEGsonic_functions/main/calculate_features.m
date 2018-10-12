@@ -2,6 +2,11 @@ function calculate_features(data_directory,features_directory,information,parame
 %CALCULATE_FEATURES Summary of this function goes here
 %   Detailed explanation goes here
     
+    %% Warm up 
+    %  This function will call each analysis technique once to not have a
+    %  slow down during the first pass of the pipeline
+    warm_up(information,parameters);
+
     %% Variables Initialization
     index = 0;
     eeg_info = [];
