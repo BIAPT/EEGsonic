@@ -14,10 +14,10 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     %% Creating saving folder
     % Folder names creation
     folder_name = information.folder_name + "-" + string(now);
-    base_directory = information.saving_directory +"\"+folder_name;
-    data_directory = base_directory+"\data";
-    features_directory = base_directory+"\features";
-    parameters_directory = base_directory+"\parameters";
+    base_directory = strcat(information.saving_directory,filesep,folder_name);
+    data_directory = strcat(base_directory,filesep,"data");
+    features_directory = strcat(base_directory,filesep,"features");
+    parameters_directory = strcat(base_directory,filesep,"parameters");
     
     % Directory creation
     mkdir(base_directory);
