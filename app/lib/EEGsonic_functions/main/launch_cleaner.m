@@ -1,6 +1,9 @@
-function launch_cleaner(parameters)
-%LAUNCH_CLEANER Summary of this function goes here
-%   Detailed explanation goes here
+function launch_cleaner(information,parameters)
+%LAUNCH_CLEANER cleaner function to finish some amplifier specific task
+%before closing
+%   Input:
+%      information: static data of the app
+%      parameters: inputed data by the user
     
     %% Close and clean the amplifiers
     if(parameters.general.egi129.is_selected)
