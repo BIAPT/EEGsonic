@@ -9,22 +9,26 @@ function [time] = get_time_estimate(type,information,parameters)
     %   time: time it took to run the analysis and to generate the outputs
     %         in seconds
 
-   
-    %% Calling the right timer function 
+    %% TODO: Depending on the type of analysis technique we want to do
+    % we will fetch the function that best approximate the time required
+    % for our analysis technique to finsh and then give our inputs
+    % into that function (functions will be stored in time_estimate
+    % structure)
+    
     if(strcmp(type,"spr"))
         time = time_spectral_power_ratio(information,parameters);
     elseif(strcmp(type,"td"))
         time = time_topographic_distribution(information,parameters);
     elseif(strcmp(type,"pac"))
-        time = time_phase_amplitude_coupling(information,parameters);
+        time = time
     elseif(strcmp(type,"fp_wpli"))
-        time = time_fp_wpli(information,parameters);
+        
     elseif(strcmp(type,"fp_dpli"))
-        time = time_fp_dpli(information,parameters);
+        
     elseif(strcmp(type,"hl"))
-        time = time_hub_location(information,parameters);
+        
     elseif(strcmp(type,"pe"))
-        time = time_permutation_entropy(information,parmeters);
+        
     end
 end
 
