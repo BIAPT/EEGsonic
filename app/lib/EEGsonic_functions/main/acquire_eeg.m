@@ -20,9 +20,9 @@ function acquire_eeg(data_directory,information,parameters)
         % here depending on the eeg system we will acquire eeg in diff ways
         switch headset
             case "egi129"
-                data = get_egi_data(parameters);
+                data = get_egi_data(information,parameters);
             case "dsi24"
-                data = get_dsi_data(parameters);
+                data = get_dsi_data(information,parameters);
         end
         % save the EEG data acquired into the data directory
         parsave(data_directory,index,data);
@@ -30,16 +30,23 @@ function acquire_eeg(data_directory,information,parameters)
     end
 end
 
-function [data] = get_egi_data(parameters)
+function [data] = get_egi_data(information,parameters)
     %% Setting Variables
     data_acquisition_size = parameters.general.egi129.data_acquisition_size;
     
-    %% Random Generation (DEBUGGING ONLY!)
-    data = rand(128,data_acquisition_size*1000);
-    pause(data_acquisition_size);
+    
+    if(information.debug_mode == 1)
+        %% Random Generation for debugging
+        data = rand(128,data_acquisition_size*1000);
+        pause(data_acquisition_size);
+    end
 end
 
-function [data] = get_dsi_data(parameters)
-    data = rand(128,5000);% TODO change this to the data acquisition
+function [data] = get_dsi_data(information,parameters)
+    if(information.debug_mode == 1)
+        %% Random Generation for debugging
+        data = rand(128,5000);
+        pause(5000);
+    end
 end
 
