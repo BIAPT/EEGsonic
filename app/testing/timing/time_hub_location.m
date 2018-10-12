@@ -25,7 +25,7 @@ function [time] = time_hub_location(information,parameters)
         [hd_channel_index] = hub_location(eeg_data,headset,parameters.hl);
         
         % Convert and send to OSC
-        send_hub_location(hd_channel_index,channels_location,parameters.hl,osc); 
+        send_hub_location(parameters.hl.output_type,hd_channel_index,channels_location,osc); 
         
         % Clear the data
         eeg_data = [];

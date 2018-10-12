@@ -12,7 +12,6 @@ function [is_enough,time_left] = is_enough_time(information,parameters)
         % TODO add this in the GUI
     end
     
-    warm_up(information,parameters); % first warmup to remove the latency for first pass
     time_left = max_time - warm_up(information,parameters); % second warmup to check for real
     is_enough =  time_left > 0;
         

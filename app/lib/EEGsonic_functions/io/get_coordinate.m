@@ -3,7 +3,7 @@ function [coordinate] = get_coordinate(type,channel_index,channels_location)
 %   Detailed explanation goes here
     
     %% Get the coordinate in the right format
-    if(strcmp(type,"cartesian"))
+    if(strcmp(type,'cartesian'))
         coordinate = get_cartesian(channel_index,channels_location);
     end
     %% TODO add spherical if needed
