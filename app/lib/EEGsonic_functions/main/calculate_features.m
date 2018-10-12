@@ -60,7 +60,7 @@ function calculate_features(data_directory,features_directory,information,parame
 
     %% Main Loop Calculating the features
     while(1)
-        [is_ready,data] = parload(data_directory,num2str(index));
+        [is_ready,data] = parload(data_directory,index);
         if(is_ready)
             disp("Analyzing: " + num2str(index));
             
