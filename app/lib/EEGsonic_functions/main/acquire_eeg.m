@@ -1,6 +1,10 @@
 function acquire_eeg(data_directory,information,parameters)
-%ACQUIRE_EEG Summary of this function goes here
-%   Detailed explanation goes here
+%ACQUIRE_EEG generate (debugmode == 1) or acquire EEG data and save it into
+%the data_directory
+%   Input:
+%       data_directory: directory where the EEG data need to be saved
+%       information: static data of the app
+%       parameters: inputed data by the user
     
     %% Selecting an headset
     headset = "";
@@ -12,7 +16,7 @@ function acquire_eeg(data_directory,information,parameters)
     
     %% Acquiring EEG data
     index = 0;    
-    while(1)
+    while(1) % will never stop, need to be interupted by the maint thread
         % here depending on the eeg system we will acquire eeg in diff ways
         switch headset
             case "egi129"
@@ -20,7 +24,7 @@ function acquire_eeg(data_directory,information,parameters)
             case "dsi24"
                 data = get_dsi_data(parameters);
         end
-        %of whatever system we selected to use
+        % save the EEG data acquired into the data directory
         parsave(data_directory,index,data);
         index = index + 1;
     end
