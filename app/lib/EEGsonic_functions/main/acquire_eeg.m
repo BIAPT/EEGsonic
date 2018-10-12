@@ -14,6 +14,8 @@ function acquire_eeg(data_directory,information,parameters)
         headset = "dsi24";
     end
     
+    pause(parameters.warm_up_wait_time);
+    
     %% Acquiring EEG data
     index = 0;    
     while(1) % will never stop, need to be interupted by the maint thread

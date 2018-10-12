@@ -30,7 +30,9 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     log_parameters_to_file(base_directory,"information.txt",parameters)
     
     %% Launch and return the two workers
+    parameters.warm_up_wait_time = 10;
     data_worker = parfeval(p,@acquire_eeg,0,data_directory,information,parameters);
     features_worker = parfeval(p,@calculate_features,0,data_directory,features_directory,information,parameters);
+    pause(parameters.warm_up_wait_time);
 end
 
