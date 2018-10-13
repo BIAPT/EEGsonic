@@ -1,52 +1,73 @@
 function log_parameters_to_file(path,name,parameters)
-%LOG_TO_FILE Summary of this function goes here
-%   Detailed explanation goes here
+%LOG_TO_FILE will save the parameters into a files to know the inputs of
+%this session
+%   Input:
+%       path: path where to save the parameters and the logfile
+%       name: name of the logfile
+%       parameters: data we wish to save
 
-%% TODO WRITE THIS FUNCTION TO SAVE  PARAMETERS INTO FILE!
-file_name = strcat(path,filesep,name);
-file_id = fopen(file_name,'w');
-fprintf(file_id,"Information EEG session - " + (date) + "\n");
-fprintf(file_id,"\n");
+    %% Setting up variables
+    file_name = strcat(path,filesep,name);
+    file_id = fopen(file_name,'w');
+    
+    %% Writing to the opened logfile
+    % Header
+    fprintf(file_id,"Information EEG session - " + (date) + "\n");
+    fprintf(file_id,"\n");
 
-fprintf(file_id,"General: \n");
-write_general(file_id,parameters.general);
-fprintf(file_id,"\n");
+    % General
+    fprintf(file_id,"General: \n");
+    write_general(file_id,parameters.general);
+    fprintf(file_id,"\n");
 
-fprintf(file_id,"Open Sound Control: \n");
-write_osc(file_id,parameters.osc);
-fprintf(file_id,"\n");
+    % OSC
+    fprintf(file_id,"Open Sound Control: \n");
+    write_osc(file_id,parameters.osc);
+    fprintf(file_id,"\n");
 
-fprintf(file_id,"Spectral Power Ratio: \n");
-write_spr(file_id,parameters.spr);
-fprintf(file_id,"\n");
+    % Spectral Power Ratio
+    fprintf(file_id,"Spectral Power Ratio: \n");
+    write_spr(file_id,parameters.spr);
+    fprintf(file_id,"\n");
 
-fprintf(file_id,"Topgraphic Distribution: \n");
-write_td(file_id,parameters.td,parameters.general);
-fprintf(file_id,"\n");
+    % Topographic Distribution
+    fprintf(file_id,"Topgraphic Distribution: \n");
+    write_td(file_id,parameters.td,parameters.general);
+    fprintf(file_id,"\n");
 
-fprintf(file_id,"Phase Amplitude Coupling: \n");
-write_pac(file_id,parameters.pac,parameters.general);
-fprintf(file_id,"\n");
+    % Phase Amplitude Coupling
+    fprintf(file_id,"Phase Amplitude Coupling: \n");
+    write_pac(file_id,parameters.pac,parameters.general);
+    fprintf(file_id,"\n");
 
-fprintf(file_id,"Fronto-Parietal wPLI: \n");
-write_fp_wpli(file_id,parameters.fp_wpli,parameters.general);
-fprintf(file_id,"\n");
+    % Fronto-Parietal wPLi
+    fprintf(file_id,"Fronto-Parietal wPLI: \n");
+    write_fp_wpli(file_id,parameters.fp_wpli,parameters.general);
+    fprintf(file_id,"\n");
 
-fprintf(file_id,"Fronto-Parietal dPLI: \n");
-write_fp_dpli(file_id,parameters.fp_dpli,parameters.general);
-fprintf(file_id,"\n");
+    % Fronto-Parietal dPLI
+    fprintf(file_id,"Fronto-Parietal dPLI: \n");
+    write_fp_dpli(file_id,parameters.fp_dpli,parameters.general);
+    fprintf(file_id,"\n");
 
-fprintf(file_id,"Hub Location: \n");
-write_hl(file_id,parameters.hl);
-fprintf(file_id,"\n");
+    % Hub Location
+    fprintf(file_id,"Hub Location: \n");
+    write_hl(file_id,parameters.hl);
+    fprintf(file_id,"\n");
 
-fprintf(file_id,"Permutation Entropy: \n");
-write_pe(file_id,parameters.pe,parameters.general);
-fprintf(file_id,"\n");
-fclose(file_id);
+    % Permutation Entropy
+    fprintf(file_id,"Permutation Entropy: \n");
+    write_pe(file_id,parameters.pe,parameters.general);
+    fprintf(file_id,"\n");
+    
+    % Closing the file
+    fclose(file_id);
 end
 
-%% Writer functions
+    %% Writer functions
+    % All function work the same way
+    % given a data structure they will read it and print it to the file
+    % (pointed to by the file_id) in a readable format
 function write_general(file_id,general)
     headset = "none";
     data_acquisition_size = "not specified";
@@ -198,7 +219,8 @@ function write_pe(file_id,pe,general)
     end
 end
 
-%% Helper function
+    %% Helper function
+    % function to turn a channel array into a string
 function [channels_string] = make_channels_string(channels)
     channels_string = "";
     for i = 1:length(channels)
