@@ -14,6 +14,7 @@ function acquire_eeg(data_directory,information,parameters)
         headset = "dsi24";
     end
     
+    % Pause to give some time for the other thread to warm-up
     pause(parameters.warm_up_wait_time);
     
     %% Acquiring EEG data
@@ -32,21 +33,23 @@ function acquire_eeg(data_directory,information,parameters)
     end
 end
 
+% Get the data directly from an EGI system
 function [data] = get_egi_data(information,parameters)
-    %% Setting Variables
+    % Setting Variables
     data_acquisition_size = parameters.general.egi129.data_acquisition_size;
     
     
     if(information.debug_mode == 1)
-        %% Random Generation for debugging
+        % Random Generation for debugging
         data = rand(128,data_acquisition_size*1000);
         pause(data_acquisition_size);
     end
 end
 
+% Get the data from the dsi24 system
 function [data] = get_dsi_data(information,parameters)
     if(information.debug_mode == 1)
-        %% Random Generation for debugging
+        % Random Generation for debugging
         data = rand(128,5000);
         pause(5000);
     end
