@@ -1,6 +1,15 @@
 function [ratio_front_back] = topographic_distribution(eeg_data,eeg_info,parameters,frontal_mask,posterior_mask)
-%TOPOGRAPHIC_DISTRIBUTION Summary of this function goes here
-%   Detailed explanation goes here
+%TOPOGRAPHIC_DISTRIBUTION Calculate the ratio of front to back power at a
+%specific frequency
+%   Input:
+%       eeg_data: data to calculate the measures on
+%       eeg_info: headset information
+%       parameters: variables data as inputed by the user
+%       frontal_mask: boolean mask for the midline electrodes
+%       posterior_mask: boolean mask for the lateral electrode
+%   Output:
+%       ratio_front_back: ratio of the power between front and back
+%       electrodes
 
     % Relevant channels = frontal_channels and posterior_channels
     %% Spectral topographic map
