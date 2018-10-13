@@ -1,31 +1,32 @@
 function [avg_pe_frontal,avg_pe_posterior] = permutation_entropy(eeg_data,eeg_info,parameters,frontal_mask,posterior_mask)
-%SEND_SPECTRAL_POWER_RATIO send to the osc receivers the data in string
-%format
+%PERMUTATION_ENTROPY calculate the permutation entropy for the frontal and
+%posterior channels and return an average of both values
 %   Input:
-%       ratio_beta_alpha: vector for the ratio for each channels
-%       ratio_alpha_theta: vector for the ratio for each channels
-%       osc: osc data structure
+%       eeg_data: data to calculate the measures on
+%       eeg_info: headset information
+%       parameters: variables data as inputed by the user
+%       frontal_mask: boolean mask for the frontal electrodes
+%       posterior_mask: boolean mask for the posterior electrode
+%   Output:
+%       avg_pe_frontal: singular value representing pe of frontal
+%       electrodes
+%       avg_pe_posterior: singular value representing pe of posterior
+%       electrodes
 
-
+    %% Apply boolean mask
     frontal_eeg = eeg_data(frontal_mask == 1,:)';
     posterior_eeg = eeg_data(posterior_mask == 1,:)';
 
+    %% Extract parameters from data structure
     embedding_dimension = parameters.embedding_dimension;
     time_delay = parameters.time_delay;
     
-    % Here we use code from our collaborator (in
-    % lib/EEGsonic_function/features/helper
+    %% Calculate permutation entropy
+    % Here we use code from our collaborator (in lib/EEGsonic_function/features/helper
     [~,frontal_pe] = permutation_entropy_mv(frontal_eeg,embedding_dimension,time_delay); 
     [~,posterior_pe] = permutation_entropy_mv(posterior_eeg,embedding_dimension,time_delay);
   
-%% STEP N: Average 
-%{
-    Using a 10-second window of EEG, for frontal (Fp1, Fp2, F3, F4 and Fz) and posterior (P3, P4, Pz, O1, O2 and Oz)
-    for both EGI and DSI-24 headset, calculate PE for each channel.  
-    Average over all frontal channels and all parietal channels. 
-    Output these values to OSC every 10 seconds.  
-%}
-
+    %% Average the values received
     avg_pe_frontal = mean(frontal_pe);
     avg_pe_posterior = mean(posterior_pe);
 end
