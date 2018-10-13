@@ -1,25 +1,32 @@
 function [corrected_wpli] = wpli(eeg_data,eeg_info,parameters)
-%WPLI Summary of this function goes here
-%   Detailed explanation goes here
+%WPLI calculate weighted PLI and do some correction
+%   Input:
+%       eeg_data: data to calculate pli on
+%       eeg_info: info about the headset
+%       parameters: variable data as inputed by the user
+%   Output:
+%       corrected_wpli: PLI with a correction (either p value or
+%       substraction)
 
 %% Seting up variables
-%% NOTE: Do we need the p_value? Seems like no from the information in the documentation
     number_surrogates = parameters.number_surrogates;
     number_channels = size(eeg_data,1);
    
     surrogates_wpli = zeros(number_surrogates,number_channels,number_channels);
-    eeg_data = eeg_data'; % TODO CHECK IF THIS IS LEGIT
+    eeg_data = eeg_data';
     %% Calculate wPLI
     uncorrected_wpli = w_PhaseLagIndex(eeg_data); % uncorrected
     for index = 1:number_surrogates
         surrogates_wpli(index,:,:) = w_PhaseLagIndex_surrogate(eeg_data);
     end
+    uncorrected_wpli(isnan(uncorrected_wpli)) = 0; %Have to do this otherwise NaN break the code
     
     %% Correct the wPLI (either by substracting or doing a p test)
-    uncorrected_wpli(isnan(uncorrected_wpli)) = 0; %Have to do this otherwise NaN break the code
     corrected_wpli = get_corrected_wpli(uncorrected_wpli,surrogates_wpli,parameters);
 end
 
+% this function correct the wPLI either by doing a substraction or
+% significance testing
 function [corrected_wpli] = get_corrected_wpli(uncorrected_wpli,surrogates_wpli,parameters)
     is_surrogates = parameters.is_surrogates;
     if(is_surrogates)
@@ -39,6 +46,8 @@ function [corrected_wpli] = get_corrected_wpli(uncorrected_wpli,surrogates_wpli,
                 end
             end
     else
+        % Here we simply substract the surrogates wPLI from the uncorrected
+        % wPLi
         corrected_wpli = uncorrected_wpli - squeeze(mean(surrogates_wpli,1));
         corrected_wpli(corrected_wpli<0) = 0;
     end
