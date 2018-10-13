@@ -1,6 +1,11 @@
 function calculate_features(data_directory,features_directory,information,parameters)
-%CALCULATE_FEATURES Summary of this function goes here
-%   Detailed explanation goes here
+%CALCULATE_FEATURES Main pipeline to calculate the features based on data
+%recorder from the data_thread
+%   Input:
+%       data_directory: directory where to find the collected data
+%       features_directory: directory where to save the features
+%       information: static data in the app
+%       parameters: variable data in the app as given by the user
     
     %% Warm up 
     %  This function will call each analysis technique once to not have a
@@ -41,6 +46,7 @@ function calculate_features(data_directory,features_directory,information,parame
         channels_location = information.headset.egi129.channels_location;
         sleep_delay = data_acquisition_size/10;
         sec_to_pts = 1000;
+        
         % Convert secs to points
         spr_data_required_size = spr_data_required_size*sec_to_pts;
         td_data_required_size = td_data_required_size*sec_to_pts;
@@ -60,7 +66,7 @@ function calculate_features(data_directory,features_directory,information,parame
 
     %% Main Loop Calculating the features
     while(1)
-        [is_ready,data] = parload(data_directory,index);
+        [is_ready,data] = parload(data_directory,index); % try to load the data
         if(is_ready)
             disp("Analyzing: " + num2str(index));
             
@@ -72,6 +78,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(spr_data,eeg_info,parameters.spr);
                     % Convert and Send to OSC
                     send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc);
+                    % Saving
                     parsave(features_directory,"ratio_beta_alpha_"+num2str(index),ratio_beta_alpha);
                     parsave(features_directory,"ratio_alpha_theta_"+num2str(index),ratio_alpha_theta);
                     spr_data = [];
@@ -82,6 +89,7 @@ function calculate_features(data_directory,features_directory,information,parame
             if(parameters.td.is_selected)
                 td_data = [td_data,data];
                 if(length(td_data) == td_data_required_size)
+                    % Get the right mask 
                     frontal_mask = boolean_mask.td.frontal_channels;
                     posterior_mask = boolean_mask.td.posterior_channels;
                     % Calculate td
@@ -96,6 +104,7 @@ function calculate_features(data_directory,features_directory,information,parame
             if(parameters.pac.is_selected)
                 pac_data = [pac_data,data];
                 if(length(pac_data) == pac_data_required_size)
+                    % Get the right mask
                     frontal_mask = boolean_mask.pac.frontal_channels;
                     parietal_mask = boolean_mask.pac.parietal_channels;                    
                     % Calculate pac
@@ -110,6 +119,7 @@ function calculate_features(data_directory,features_directory,information,parame
             if(parameters.fp_wpli.is_selected)
                 fp_wpli_data = [fp_wpli_data,data];
                 if(length(fp_wpli_data) == fp_wpli_data_required_size)
+                    % Get the right mask
                     midline_mask = boolean_mask.fp_wpli.midline_channels;
                     lateral_mask = boolean_mask.fp_wpli.lateral_channels; 
                     % Calculate fp_wpli
@@ -124,6 +134,7 @@ function calculate_features(data_directory,features_directory,information,parame
             if(parameters.fp_dpli.is_selected)
                 fp_dpli_data = [fp_dpli_data,data];
                 if(length(fp_dpli_data) == fp_dpli_data_required_size)
+                    % Get the right mask
                     midline_mask = boolean_mask.fp_dpli.midline_channels;
                     lateral_mask = boolean_mask.fp_dpli.lateral_channels;                     
                     % Calculate fp_dpli
@@ -151,6 +162,7 @@ function calculate_features(data_directory,features_directory,information,parame
             if(parameters.pe.is_selected)
                pe_data = [pe_data,data];
                if(length(pe_data) == pe_data_required_size)
+                    % Get the right mask
                     frontal_mask = boolean_mask.pe.frontal_channels;
                     posterior_mask = boolean_mask.pe.posterior_channels;  
                     % Calculate pe

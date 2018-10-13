@@ -13,10 +13,12 @@ function launch_cleaner(information,parameters)
     end
 end
 
+% Cleaner for EGI129
 function clean_egi129()
 
 end
 
+% Cleaner for DSI24
 function clean_dsi24()
 
 end
