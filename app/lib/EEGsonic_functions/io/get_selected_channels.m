@@ -1,6 +1,11 @@
 function [selected_channels] = get_selected_channels(information,parameters)
-%GET_SELECTED_CHANNELS Summary of this function goes here
-%   Detailed explanation goes here
+%GET_SELECTED_CHANNELS will create all the boolean mask and will return
+%them as an array of 1 and 0
+%   Input: 
+%       information: static data in the app
+%       parameters: variables data as inputed by the user
+%   Output:
+%       selected_channels: structure containing the boolean masks
     
     %% Seting up Variables
     all_channels = get_channels(information.headset,parameters.general);
@@ -50,6 +55,7 @@ function [selected_channels] = get_selected_channels(information,parameters)
     
 end
 
+% Return the channels depending on the headset selected
 function [channels] = get_channels(headset,general)
     if(general.egi129.is_selected)
        channels = {headset.egi129.channels_location.labels};
@@ -58,6 +64,7 @@ function [channels] = get_channels(headset,general)
     end
 end
 
+% return the channels that were selected for a specific analysis technique
 function [channels] = get_ticked_channels(ticked_channels,general)
     if(general.egi129.is_selected)
        channels = ticked_channels.egi129; 
@@ -67,11 +74,15 @@ function [channels] = get_ticked_channels(ticked_channels,general)
 
 end
 
+% create the boolean mask, by checking which channels are ticked.
+% this create an array of 1s and 0s
 function [boolean_mask] = find_selected_channels(all_channels,ticked_channels)
+    % Setting up variables
     number_all_channels = length(all_channels);
     number_ticked_channels = length(ticked_channels);
     boolean_mask = zeros(1,number_all_channels);
     
+    % Iterate over all channels and set boolean_mask{i} to 1 if ticked
     for i = 1:number_all_channels
         current_boolean_channel = all_channels{i};
         for j = 1:number_ticked_channels
