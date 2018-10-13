@@ -1,13 +1,15 @@
 function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info,parameters,frontal_mask,parietal_mask)
-%PHASE_AMPLITUDE_COUPLING Summary of this function goes here
-%   Detailed explanation goes here
-
-%% NOTES:
-%   We can have some speedup if we setup the analysis techniques as to
-%   remove the eeg channels that we don't need.
-
-%% TODO
-% THIS WILL REQUIRE SOME REFACTORING AND SOME COMMENTING
+%PHASE_AMPLITUDE_COUPLING calculate the PAC on the eeg data and return the
+%ratio peak through for the selected frontal and parietal electrodes
+%   Input:
+%       eeg_data: data to calculate the measures on
+%       eeg_info: headset information
+%       parameters: variables data as inputed by the user
+%       frontal_mask: boolean mask for the frontal electrodes
+%       parietal_mask: boolean mask for the parietal electrode
+%   Output:
+%       rpt_frontal: ratio peak through for the frontal electrodes
+%       rpt_parietal: ratio peak through for the parietal electrodes
 
 %%  Setting the variables
     number_bins = 18;
@@ -31,28 +33,25 @@ function [rpt_frontal,rpt_parietal] = phase_amplitude_coupling(eeg_data,eeg_info
     [modulogram_parietal] = calculate_modulogram(number_bins,lfo_phase_parietal,hfo_amplitude_parietal,...,
                                                  number_channels_parietal);
     
-%% Step 3: Find the Through and Peak
-%{
-    In order to determine if we have “trough-max” or “peak-max” coupling, for each of the 11 electrodes,
-    calculate the ratio of the PAC from the trough (-?/2 to ?/2) and from the peak (-2 ? to -3 ?/2 PLUS 3 ?/2 to 2 ?).  
-%}
-
-% The peak region = -pi/2 to pi/2 , sor from 1/4 of the modulogram to 3/4
-% of the modulogram.
+    %% Find the through and peak
+    % calculate start index and stop index for peak and through
     start_index_peak = floor(number_bins/4);
     stop_index_peak = floor(3*number_bins/4);
     
     start_index_through = [1,stop_index_peak+1];
     stop_index_through = [start_index_peak-1,number_bins];
 
+    % Get the peak and through out of the modulogram for frontal and
+    % parietal channels and average them
     peak_frontal = mean(modulogram_frontal(start_index_peak:stop_index_peak));
     through_frontal = mean([modulogram_frontal(start_index_through(1):stop_index_through(1));
                        modulogram_frontal(start_index_through(2):stop_index_through(2))]);
-    
+
     peak_parietal = mean(modulogram_parietal(start_index_peak:stop_index_peak));
     through_parietal = mean([modulogram_parietal(start_index_through(1):stop_index_through(1));
                         modulogram_parietal(start_index_through(2):stop_index_through(2))]);
     
+    %% Calulate the ratio peak through
     rpt_frontal = peak_frontal/through_frontal;
     rpt_parietal = peak_parietal/through_parietal;
 

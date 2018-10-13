@@ -1,6 +1,13 @@
 function [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(eeg_data,eeg_info,parameters)
-%SPECTRAL POWER RATIO Summary of this function goes here
-%   Detailed explanation goes here
+%SPECTRAL_POWER_RATIO calculate the spectral power ratio between the beta
+%and alpha band & between the alpha and theta band
+%   Input:
+%       eeg_data: data to calculate the measures on
+%       eeg_info: headset information
+%       parameters: variables data as inputed by the user
+%   Output:
+%       ratio_beta_alpha: ratio between the beta and alpha band
+%       ratio_alpha_theta: ratio between the alpha and theta band
 
 %NOTE: Gram mistake in the whole app (bandwith -> need to be bandwidth)
     
