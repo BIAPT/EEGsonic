@@ -1,9 +1,20 @@
 function [is_valid,reason] = is_input_valid(app,type)
-%IS_INPUT_VALID Check if the input entered by the user is valid
+%IS_INPUT_VALID Check if the inputs entered by the user in the GUI are valid
+%   Input:
+%       app: data structure containing the whole app data
+%       type: type of analysis technique to check
+%   Output:
+%       is_valid: boolean, true means valid and false means input non valid
+%       reason: reason for not being valid ("" if valid)
+
+    %% Setting up variables
     is_valid = 1;
     reason = '';
     
+    %% Decide which analysis technique to check
     switch type
+        % All the case work the same: they extract the data out of the app
+        % and give them to a function that will check the given
         case 'osc'
             path = app.PathEditField.Value;
             ip = app.IPAddressEditField.Value;
@@ -71,6 +82,11 @@ function [is_valid,reason] = is_input_valid(app,type)
 
 end
 
+%% Checker function
+%  All checker function work the same way: receive input from the main
+%  function and return is_valid and the reason for not being valid.
+%  The functions contains a series of check and if something doesn't work
+%  then it will concatenate the reason to the reason variables
 function [is_valid,reason] = check_osc_receiver(path,ip,port)
     is_valid = 1;
     reason = "";
