@@ -38,7 +38,9 @@ function [is_valid,reason] = is_input_valid(app,type)
         case 'td'
            required_size = app.TDRequiredSizeEditField.Value;
            frequency = app.TDFrequencyEditField.Value;
-           [is_valid,reason] = check_td(required_size,frequency);
+           frontal_channels = app.TDFrontalChannelsListBox.Value;
+           posterior_channels = app.TDPosteriorChannelsListBox.Value;
+           [is_valid,reason] = check_td(required_size,frequency,frontal_channels,posterior_channels);
         case 'pac'
             required_size = app.PACRequiredSizeEditField.Value;
             frontal_channels = app.PACFrontalChannelsListBox.Value;
@@ -166,12 +168,23 @@ function [is_valid,reason] = check_spr(window_size,step_size,time_bandwith_produ
 
 end
 
-function [is_valid,reason] = check_td(window_size,frequency)
+function [is_valid,reason] = check_td(window_size,frequency,frontal_channels,posterior_channels)
     is_valid = 1;
     reason = "";
     
     % TODO Add possible error over here (some are already handled by the
     % app GUI.
+    
+        %% Frontal Channels
+    if(isempty(frontal_channels))
+        is_valid = 0;
+        reason = reason + "No frontal channels were selected. ";
+    end
+    %% Parietal Channels
+    if(isempty(posterior_channels))
+        is_valid = 0;
+        reason = reason + "No posterior channels were selected. ";        
+    end
 end
 
 function [is_valid,reason] = check_pac(window_size,frontal_channels,parietal_channels,...

@@ -26,10 +26,9 @@ function send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc)
         ratio_alpha_theta_osc(i) = osc_base_string(i) + "ratio_alpha_theta " + num2str(ratio_alpha_theta(i));
     end
     
-    number_osc_receivers = length(osc.path);
-    
     %% Sending OSC
     % Send osc data one osc receiver at a time
+    number_osc_receivers = length(osc.path);
     for osc_index = 1:number_osc_receivers
         % Create a connection to the OSC receivers
         u = udp(osc.ip{osc_index},str2num(osc.port{osc_index}));
