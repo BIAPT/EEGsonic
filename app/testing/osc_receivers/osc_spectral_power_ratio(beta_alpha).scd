@@ -5,21 +5,21 @@
 
 // setting up the responders
 {|i|
-OSCdef.newMatching(("electrode"++i).asSymbol, {|msg, time, addr, recvPort|
+OSCdef.newMatching(("sensor_"++i).asSymbol, {|msg, time, addr, recvPort|
 		{~electrodes[i].states_([[ "O" ,Color.rand, Color.rand]]);}.defer;
 	msg.postln;
-	}, ("/electrode/"++i++"/alpha").asSymbol, nil);
+	}, ("/sensor_"++i++"/spectral_power_ratio/ratio_beta_alpha").asSymbol, nil);
 	}!~numElectrodes;
 
 // Sending a single message
 m = NetAddr.localAddr;
-m.sendMsg("/electrode/0/alpha", 10.rand);
+m.sendMsg("/sensor_0/spectral_power_ratio/ratio_beta_alpha", 10.rand);
 
 // This is a little task that sends messages regularly
 // compare with osc_test_client.m in the oscmex example
 t = Task({
     inf.do({ arg i;
-		        m.sendMsg("/electrode/"++128.rand++"/alpha", 10.rand);
+		        m.sendMsg("/sensor_"++128.rand++"/spectral_power_ratio/ratio_beta_alpha", 10.rand);
         0.1.wait;
     });
 }).stop;
