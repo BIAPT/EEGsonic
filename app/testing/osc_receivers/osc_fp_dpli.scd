@@ -17,16 +17,29 @@ OSCdef.newMatching(("string").asSymbol, {|msg, time, addr, recvPort|
 )
 
 
+(
+~numElectrodes = 128;
+
+// setting up the responders
+{|i|
+	OSCdef.newMatching(("fp_dpli/").asSymbol, {|msg, time, addr, recvPort|
+	msg.postln;
+	},
+	("/fp_dpli/avg_dpli_midline").asSymbol, // change the receiver string here
+	nil);
+	}!~numElectrodes;
+
+)
 
 (
 ~numElectrodes = 128;
 
 // setting up the responders
 {|i|
-OSCdef.newMatching(("electrode"++i).asSymbol, {|msg, time, addr, recvPort|
+	OSCdef.newMatching(("fp_dpli/").asSymbol, {|msg, time, addr, recvPort|
 	msg.postln;
 	},
-	("/electrode/"++i++"/alpha").asSymbol, // change the receiver string here
+	("/fp_dpli/avg_dpli_lateral").asSymbol, // change the receiver string here
 	nil);
 	}!~numElectrodes;
 
