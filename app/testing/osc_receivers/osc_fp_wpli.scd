@@ -23,10 +23,24 @@ OSCdef.newMatching(("string").asSymbol, {|msg, time, addr, recvPort|
 
 // setting up the responders
 {|i|
-OSCdef.newMatching(("electrode"++i).asSymbol, {|msg, time, addr, recvPort|
+	OSCdef.newMatching(("fp_wpli/").asSymbol, {|msg, time, addr, recvPort|
 	msg.postln;
 	},
-	("/electrode/"++i++"/alpha").asSymbol, // change the receiver string here
+	("/fp_wpli/avg_pli_midline").asSymbol, // change the receiver string here
+	nil);
+	}!~numElectrodes;
+
+)
+
+(
+~numElectrodes = 128;
+
+// setting up the responders
+{|i|
+	OSCdef.newMatching(("fp_wpli/").asSymbol, {|msg, time, addr, recvPort|
+	msg.postln;
+	},
+	("/fp_wpli/avg_pli_lateral").asSymbol, // change the receiver string here
 	nil);
 	}!~numElectrodes;
 
