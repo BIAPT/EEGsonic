@@ -79,7 +79,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     % Convert and Send to OSC
                     send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc);
                     % Saving
-                    if(information.debug_mode)
+                    if(information.is_save_features)
                         parsave(features_directory,"ratio_beta_alpha_"+num2str(index),ratio_beta_alpha);
                         parsave(features_directory,"ratio_alpha_theta_"+num2str(index),ratio_alpha_theta);
                     end
@@ -99,7 +99,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     % Convert and Send to OSC
                     send_topographic_distribution(ratio_front_back,osc);
                     % Saving
-                    if(information.debug_mode)
+                    if(information.is_save_features)
                         parsave(features_directory,"ratio_front_back_"+num2str(index),ratio_front_back);
                     end
                     td_data = [];
@@ -118,7 +118,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     % Convert and Send to OSC
                     send_phase_amplitude_coupling(rpt_frontal,rpt_parietal,osc);
                     % Saving
-                    if(information.debug_mode)
+                    if(information.is_save_features)
                         parsave(features_directory,"rpt_frontal_"+num2str(index),rpt_frontal);
                         parsave(features_directory,"rpt_parietal_"+num2str(index),rpt_parietal);
                     end
@@ -138,7 +138,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     % Convert and Send to OSC
                     send_fp_wpli(avg_pli_midline,avg_pli_lateral,osc);
                     % Saving
-                    if(information.debug_mode)
+                    if(information.is_save_features)
                         parsave(features_directory,"avg_pli_midline_"+num2str(index),avg_pli_midline);
                         parsave(features_directory,"avg_pli_lateral_"+num2str(index),avg_pli_lateral);
                     end
@@ -158,7 +158,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     % Convert and Send to OSC
                     send_fp_dpli(avg_dpli_midline,avg_dpli_lateral,osc);
                     % Saving
-                    if(information.debug_mode)
+                    if(information.is_save_features)
                         parsave(features_directory,"avg_dpli_midline_"+num2str(index),avg_dpli_midline);
                         parsave(features_directory,"avg_dpli_lateral"+num2str(index),avg_dpli_lateral);
                     end
@@ -175,7 +175,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     % Convert and Send to OSC
                     send_hub_location(parameters.hl.output_type,hd_channel_index,channels_location,osc);                    
                     % Saving
-                    if(information.debug_mode)
+                    if(information.is_save_features)
                         parsave(features_directory,"hd_channel_index_"+num2str(index),hd_channel_index);
                     end
                     hl_data = [];
@@ -195,7 +195,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     % Convert and Send to OSC
                     send_permutation_entropy(avg_pe_frontal,avg_pe_posterior,osc);
                     % Saving
-                    if(information.debug_mode)
+                    if(information.is_save_features)
                         parsave(features_directory,"avg_pe_frontal_"+num2str(index),avg_pe_frontal);
                         parsave(features_directory,"avg_pe_posterior_"+num2str(index),avg_pe_posterior);
                     end
