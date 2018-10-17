@@ -23,10 +23,10 @@ OSCdef.newMatching(("string").asSymbol, {|msg, time, addr, recvPort|
 
 // setting up the responders
 {|i|
-OSCdef.newMatching(("electrode"++i).asSymbol, {|msg, time, addr, recvPort|
+	OSCdef.newMatching(("hub_location/").asSymbol, {|msg, time, addr, recvPort|
 	msg.postln;
 	},
-	("/electrode/"++i++"/alpha").asSymbol, // change the receiver string here
+	("/hub_location/coordinate").asSymbol, // change the receiver string here
 	nil);
 	}!~numElectrodes;
 
