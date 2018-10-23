@@ -15,7 +15,6 @@ end
 
 % Cleaner for EGI129
 function clean_egi129()
-    disp("Shutting down EGI 129 amplifier");
     clean_amp("egi129");
 end
 

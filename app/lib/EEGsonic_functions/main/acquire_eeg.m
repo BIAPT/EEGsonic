@@ -13,9 +13,9 @@ function acquire_eeg(data_directory,information,parameters)
     elseif(parameters.general.dsi24.is_selected)
         headset = "dsi24";
     end
-    
+    boot_amp(information,parameters.general);
     % Pause to give some time for the other thread to warm-up
-    pause(parameters.warm_up_wait_time);
+    %pause(parameters.warm_up_wait_time);
     
     %% Acquiring EEG data
     index = 0;    
@@ -46,7 +46,7 @@ function [data] = get_egi_data(information,parameters)
         data = rand(128,data_acquisition_size*1000);
         pause(data_acquisition_size);
     else
-        ampcollect(data_acquisition_size*1000);
+        data = ampcollect(data_acquisition_size*1000)';
     end
 end
 
