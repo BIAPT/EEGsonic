@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>files</key>
+	<dict>
+		<key>Resources/Base.lproj/MainMenu.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			hXVJGRMzkpGVUjhPDYnO3TN9OnU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/CoordinateLayouts/Geodesic Sensor Net 128 2.1.xml</key>
+		<data>
+		NZzrpIohVSB5rsL2qhH6F8WU7sc=
+		</data>
+		<key>Resources/CoordinateLayouts/Geodesic Sensor Net 256 2.1.xml</key>
+		<data>
+		Ij09WU5s0fkHMvdyRH57kpBZowU=
+		</data>
+		<key>Resources/CoordinateLayouts/Geodesic Sensor Net 64 2.0.xml</key>
+		<data>
+		3fqEMkSMqZvwpsKwIvDNVn48xSQ=
+		</data>
+		<key>Resources/CoordinateLayouts/HydroCel GSN 128 1.0.xml</key>
+		<data>
+		mRNP7yMdK8Pv8555bYeES8zgs+Y=
+		</data>
+		<key>Resources/CoordinateLayouts/HydroCel GSN 256 1.0.xml</key>
+		<data>
+		SpMhYh/FOkhiPwi/dgxAyYBXAqM=
+		</data>
+		<key>Resources/CoordinateLayouts/HydroCel GSN 32 1.0.xml</key>
+		<data>
+		zpfKDTz0OyYNqG0k5gDzH14ujzY=
+		</data>
+		<key>Resources/CoordinateLayouts/HydroCel GSN 64 1.0.xml</key>
+		<data>
+		3TfXgoWYxgwm+CgcvbV17+jb+qQ=
+		</data>
+		<key>Resources/CoordinateLayouts/MicroCel GSN 100 128 1.0.xml</key>
+		<data>
+		tDNgPX3KEmT7X9HyPW0c9WYm99U=
+		</data>
+		<key>Resources/CoordinateLayouts/MicroCel GSN 100 256 1.0.xml</key>
+		<data>
+		6nYTFYcCXmIAdUXr/OvVMOJqOF4=
+		</data>
+		<key>Resources/CoordinateLayouts/MicroCel GSN 100 32 1.0.xml</key>
+		<data>
+		XF7L9q2Cj1p8nKAOIjua6ADEKr8=
+		</data>
+		<key>Resources/CoordinateLayouts/MicroCel GSN 100 64 1.0.xml</key>
+		<data>
+		YZC+zDEvlPEfmqpzp/sfbYe/Qvg=
+		</data>
+		<key>Resources/SensorLayouts/Amp Sample.xml</key>
+		<data>
+		O+Kt3LZq873QatrL/QaWp0vnUPw=
+		</data>
+		<key>Resources/SensorLayouts/Geodesic Sensor Net 128 2.1.xml</key>
+		<data>
+		nyAtcFIH4f9/G4RaSoaK4AeV1J8=
+		</data>
+		<key>Resources/SensorLayouts/Geodesic Sensor Net 256 2.1.xml</key>
+		<data>
+		Io9AVRAKKsKUV4TCFHySYnw5Ev4=
+		</data>
+		<key>Resources/SensorLayouts/Geodesic Sensor Net 64 2.0.xml</key>
+		<data>
+		VMC5XntY1PxDrSIqzxlEDIYsKy0=
+		</data>
+		<key>Resources/SensorLayouts/HydroCel GSN 128 1.0.xml</key>
+		<data>
+		8wUOFuAxGcdZvblCUMa9uN3Tp1Y=
+		</data>
+		<key>Resources/SensorLayouts/HydroCel GSN 256 1.0.xml</key>
+		<data>
+		IlLcCVlTXCku7Jm/tDRiOLg+FMM=
+		</data>
+		<key>Resources/SensorLayouts/HydroCel GSN 32 1.0.xml</key>
+		<data>
+		DYxnSVMMc8r1FkOyHBwogijlgB8=
+		</data>
+		<key>Resources/SensorLayouts/HydroCel GSN 64 1.0.xml</key>
+		<data>
+		iU5EwLhYiVT9SqLgoC3xKtXIYd4=
+		</data>
+		<key>Resources/SensorLayouts/MicroCel GSN 100 128 1.0.xml</key>
+		<data>
+		3jayhx6lk1v/nKmepqLEVhQIdLE=
+		</data>
+		<key>Resources/SensorLayouts/MicroCel GSN 100 256 1.0.xml</key>
+		<data>
+		Xdo596VYSwzYwM2D6EwzekZmeAI=
+		</data>
+		<key>Resources/SensorLayouts/MicroCel GSN 100 32 1.0.xml</key>
+		<data>
+		CytdtIn91bVVpRiWUW5SUq3jdEM=
+		</data>
+		<key>Resources/SensorLayouts/MicroCel GSN 100 64 1.0.xml</key>
+		<data>
+		8vAHZmygrZFJDtwdotVKFpUzljQ=
+		</data>
+	</dict>
+	<key>files2</key>
+	<dict>
+		<key>Resources/Base.lproj/MainMenu.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			hXVJGRMzkpGVUjhPDYnO3TN9OnU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/CoordinateLayouts/Geodesic Sensor Net 128 2.1.xml</key>
+		<data>
+		NZzrpIohVSB5rsL2qhH6F8WU7sc=
+		</data>
+		<key>Resources/CoordinateLayouts/Geodesic Sensor Net 256 2.1.xml</key>
+		<data>
+		Ij09WU5s0fkHMvdyRH57kpBZowU=
+		</data>
+		<key>Resources/CoordinateLayouts/Geodesic Sensor Net 64 2.0.xml</key>
+		<data>
+		3fqEMkSMqZvwpsKwIvDNVn48xSQ=
+		</data>
+		<key>Resources/CoordinateLayouts/HydroCel GSN 128 1.0.xml</key>
+		<data>
+		mRNP7yMdK8Pv8555bYeES8zgs+Y=
+		</data>
+		<key>Resources/CoordinateLayouts/HydroCel GSN 256 1.0.xml</key>
+		<data>
+		SpMhYh/FOkhiPwi/dgxAyYBXAqM=
+		</data>
+		<key>Resources/CoordinateLayouts/HydroCel GSN 32 1.0.xml</key>
+		<data>
+		zpfKDTz0OyYNqG0k5gDzH14ujzY=
+		</data>
+		<key>Resources/CoordinateLayouts/HydroCel GSN 64 1.0.xml</key>
+		<data>
+		3TfXgoWYxgwm+CgcvbV17+jb+qQ=
+		</data>
+		<key>Resources/CoordinateLayouts/MicroCel GSN 100 128 1.0.xml</key>
+		<data>
+		tDNgPX3KEmT7X9HyPW0c9WYm99U=
+		</data>
+		<key>Resources/CoordinateLayouts/MicroCel GSN 100 256 1.0.xml</key>
+		<data>
+		6nYTFYcCXmIAdUXr/OvVMOJqOF4=
+		</data>
+		<key>Resources/CoordinateLayouts/MicroCel GSN 100 32 1.0.xml</key>
+		<data>
+		XF7L9q2Cj1p8nKAOIjua6ADEKr8=
+		</data>
+		<key>Resources/CoordinateLayouts/MicroCel GSN 100 64 1.0.xml</key>
+		<data>
+		YZC+zDEvlPEfmqpzp/sfbYe/Qvg=
+		</data>
+		<key>Resources/SensorLayouts/Amp Sample.xml</key>
+		<data>
+		O+Kt3LZq873QatrL/QaWp0vnUPw=
+		</data>
+		<key>Resources/SensorLayouts/Geodesic Sensor Net 128 2.1.xml</key>
+		<data>
+		nyAtcFIH4f9/G4RaSoaK4AeV1J8=
+		</data>
+		<key>Resources/SensorLayouts/Geodesic Sensor Net 256 2.1.xml</key>
+		<data>
+		Io9AVRAKKsKUV4TCFHySYnw5Ev4=
+		</data>
+		<key>Resources/SensorLayouts/Geodesic Sensor Net 64 2.0.xml</key>
+		<data>
+		VMC5XntY1PxDrSIqzxlEDIYsKy0=
+		</data>
+		<key>Resources/SensorLayouts/HydroCel GSN 128 1.0.xml</key>
+		<data>
+		8wUOFuAxGcdZvblCUMa9uN3Tp1Y=
+		</data>
+		<key>Resources/SensorLayouts/HydroCel GSN 256 1.0.xml</key>
+		<data>
+		IlLcCVlTXCku7Jm/tDRiOLg+FMM=
+		</data>
+		<key>Resources/SensorLayouts/HydroCel GSN 32 1.0.xml</key>
+		<data>
+		DYxnSVMMc8r1FkOyHBwogijlgB8=
+		</data>
+		<key>Resources/SensorLayouts/HydroCel GSN 64 1.0.xml</key>
+		<data>
+		iU5EwLhYiVT9SqLgoC3xKtXIYd4=
+		</data>
+		<key>Resources/SensorLayouts/MicroCel GSN 100 128 1.0.xml</key>
+		<data>
+		3jayhx6lk1v/nKmepqLEVhQIdLE=
+		</data>
+		<key>Resources/SensorLayouts/MicroCel GSN 100 256 1.0.xml</key>
+		<data>
+		Xdo596VYSwzYwM2D6EwzekZmeAI=
+		</data>
+		<key>Resources/SensorLayouts/MicroCel GSN 100 32 1.0.xml</key>
+		<data>
+		CytdtIn91bVVpRiWUW5SUq3jdEM=
+		</data>
+		<key>Resources/SensorLayouts/MicroCel GSN 100 64 1.0.xml</key>
+		<data>
+		8vAHZmygrZFJDtwdotVKFpUzljQ=
+		</data>
+	</dict>
+	<key>rules</key>
+	<dict>
+		<key>^Resources/</key>
+		<true/>
+		<key>^Resources/.*\.lproj/</key>
+		<dict>
+			<key>optional</key>
+			<true/>
+			<key>weight</key>
+			<real>1000</real>
+		</dict>
+		<key>^Resources/.*\.lproj/locversion.plist$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>1100</real>
+		</dict>
+		<key>^version.plist$</key>
+		<true/>
+	</dict>
+	<key>rules2</key>
+	<dict>
+		<key>.*\.dSYM($|/)</key>
+		<dict>
+			<key>weight</key>
+			<real>11</real>
+		</dict>
+		<key>^(.*/)?\.DS_Store$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>2000</real>
+		</dict>
+		<key>^(Frameworks|SharedFrameworks|PlugIns|Plug-ins|XPCServices|Helpers|MacOS|Library/(Automator|Spotlight|LoginItems))/</key>
+		<dict>
+			<key>nested</key>
+			<true/>
+			<key>weight</key>
+			<real>10</real>
+		</dict>
+		<key>^.*</key>
+		<true/>
+		<key>^Info\.plist$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^PkgInfo$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^Resources/</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^Resources/.*\.lproj/</key>
+		<dict>
+			<key>optional</key>
+			<true/>
+			<key>weight</key>
+			<real>1000</real>
+		</dict>
+		<key>^Resources/.*\.lproj/locversion.plist$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>1100</real>
+		</dict>
+		<key>^[^/]+$</key>
+		<dict>
+			<key>nested</key>
+			<true/>
+			<key>weight</key>
+			<real>10</real>
+		</dict>
+		<key>^embedded\.provisionprofile$</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^version\.plist$</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+	</dict>
+</dict>
+</plist>
