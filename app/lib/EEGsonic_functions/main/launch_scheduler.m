@@ -36,3 +36,4 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     pause(parameters.warm_up_wait_time); % This is used to give some time for the warmup of the feature calculation
 end
 
+

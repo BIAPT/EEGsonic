@@ -33,6 +33,8 @@ function acquire_eeg(data_directory,information,parameters)
     end
 end
 
+
+
 % Get the data directly from an EGI system
 function [data] = get_egi_data(information,parameters)
     % Setting Variables
@@ -43,6 +45,8 @@ function [data] = get_egi_data(information,parameters)
         % Random Generation for debugging
         data = rand(128,data_acquisition_size*1000);
         pause(data_acquisition_size);
+    else
+        ampcollect(data_acquisition_size*1000);
     end
 end
 
