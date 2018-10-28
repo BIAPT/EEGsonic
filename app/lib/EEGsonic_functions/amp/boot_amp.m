@@ -4,7 +4,7 @@ function boot_amp(information,parameters)
 
     if(parameters.egi129.is_selected == 1 && information.debug_mode == 0)
        clean_amp("egi129");
-       ampinit('10.10.10.51') %TODO this need to be variable
+       ampinit(parameters.egi129.ip)
        ampon;
        ampstart;
     end
