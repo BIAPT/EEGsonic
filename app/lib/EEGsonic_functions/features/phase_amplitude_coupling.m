@@ -108,7 +108,7 @@ function [modulogram] = calculate_modulogram(number_bins,low_frequency_phase,...
     end   
     avg_amplitude = mean(avg_sorted_amplitude);
     
-    %% Set average value
+    %% Create Modulogram
     % For each bins set the value at that position
     modulogram = zeros(number_bins,1);
     for bin = 1:number_bins
