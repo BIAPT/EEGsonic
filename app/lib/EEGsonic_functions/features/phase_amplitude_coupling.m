@@ -74,10 +74,12 @@ end
 
 function [modulogram] = calculate_modulogram(number_bins,low_frequency_phase,...,
                                             high_frequency_amplitude,number_channels)
+    %% Variable Setup
     bin_size = (2*pi)/number_bins; 
     % ! Speedup can be gained over here, leave that for now  ! %
     sorted_amplitude = zeros(number_bins,2);
-    
+   
+    %% Bin Sorting
     % Here we sort amplitude according to the phase
     for channel = 1:number_channels
         channel_phase = low_frequency_phase(channel,:);
@@ -94,6 +96,7 @@ function [modulogram] = calculate_modulogram(number_bins,low_frequency_phase,...
         end
     end
     
+    %% Averaging
     % Calculate the average amplitude
     avg_sorted_amplitude = zeros(number_bins,1);
     for bin = 1:number_bins
@@ -105,12 +108,14 @@ function [modulogram] = calculate_modulogram(number_bins,low_frequency_phase,...
     end   
     avg_amplitude = mean(avg_sorted_amplitude);
     
+    %% Set average value
     % For each bins set the value at that position
     modulogram = zeros(number_bins,1);
     for bin = 1:number_bins
         modulogram(bin) = ((avg_sorted_amplitude(bin)-avg_amplitude)/avg_amplitude) + 1;
     end   
     
+    %% Filtering
     % Filter the modulogram
     modulogram = modulogram - 1;            % Do this because median filter assumes 0 on each side
     modulogram = medfilt1(modulogram, 2);   % January 16, 2014
