@@ -14,12 +14,15 @@ function [corrected_wpli] = wpli(eeg_data,eeg_info,parameters)
    
     surrogates_wpli = zeros(number_surrogates,number_channels,number_channels);
     eeg_data = eeg_data';
+    
     %% Calculate wPLI
     uncorrected_wpli = w_PhaseLagIndex(eeg_data); % uncorrected
+    uncorrected_wpli(isnan(uncorrected_wpli)) = 0; %Have to do this otherwise NaN break the code
+    
+    %% Generate Surrogates
     for index = 1:number_surrogates
         surrogates_wpli(index,:,:) = w_PhaseLagIndex_surrogate(eeg_data);
     end
-    uncorrected_wpli(isnan(uncorrected_wpli)) = 0; %Have to do this otherwise NaN break the code
     
     %% Correct the wPLI (either by substracting or doing a p test)
     corrected_wpli = get_corrected_wpli(uncorrected_wpli,surrogates_wpli,parameters);
