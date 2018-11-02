@@ -8,19 +8,19 @@ function [hd_channel_index] = hub_location(eeg_data,eeg_info,parameters)
 %   Output:
 %       hd_channel_index: index of the channel with the highest degree
 
-    % Calculate the wPLI for the full eeg
+    %% Calculate the wPLI for the full eeg
     full_wpli = wpli(eeg_data,eeg_info,parameters);
 
-    % Threshold the wPLI depending on the top connection threshold
+    %% Threshold the wPLI depending on the top connection threshold
+    % Find the threshold value
     sorted_wpli = sort(full_wpli(:));
     treshold_index = floor((1-parameters.top_connection_threshold)*length(sorted_wpli));
     treshold_value = sorted_wpli(treshold_index);
-    
-    % Here we binarized the wpli
+    % Here we binarized the wpli by thresholding at the value
     full_wpli(full_wpli >= treshold_value) = 1;
     full_wpli(full_wpli < treshold_value) = 0;
      
-    %% Caculate the binary degree of the network
+    %% Caculate the unweighted degree of the network
     channels_degree = degrees_und(full_wpli);
 
     %% Find the channel with the highest degree
