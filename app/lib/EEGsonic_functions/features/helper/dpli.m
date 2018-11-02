@@ -16,10 +16,12 @@ function [corrected_dpli] = dpli(eeg_data,eeg_info,parameters)
     
     %% Calculate dPLI
     uncorrected_dpli = d_PhaseLagIndex(eeg_data); % uncorrected
+    uncorrected_dpli(isnan(uncorrected_dpli)) = 0.5; %Have to do this otherwise NaN break the code
+    
+    %% Generate Surrogates
     for index = 1:number_surrogates
         surrogates_dpli(index,:,:) = d_PhaseLagIndex_surrogate(eeg_data);
     end
-    uncorrected_dpli(isnan(uncorrected_dpli)) = 0.5; %Have to do this otherwise NaN break the code
     
     %% Correct the dPLI
     corrected_dpli = get_corrected_dpli(uncorrected_dpli,surrogates_dpli,parameters);
