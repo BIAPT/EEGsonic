@@ -4,6 +4,12 @@ function launch_cleaner(information,parameters)
 %   Input:
 %      information: static data of the app
 %      parameters: inputed data by the user
+
+    %% Check if in demo mode
+    if(information.debug_mode)
+        % if we are we simply exit;
+       return; 
+    end
     
     %% Close and clean the amplifiers
     if(parameters.general.egi129.is_selected)
