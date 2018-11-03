@@ -5,18 +5,15 @@ function [text] = load_text_file(file_name)
 %   Output:
 %       text: content of the file in string format
 
-    %% Opening the file and setting up the variables 
+    %% Setting up Variables 
     file_id = fopen(file_name,'r');
     current_line = fgets(file_id);
     text = "";
-    
-    %% Reading the file and put inside the text
     while(current_line ~= -1)
-        text = text + current_line;
+        text = current_line + "\n";
         current_line = fgets(file_id);
     end
    
-    %% Close the file
     fclose(file_id);
 end
 
