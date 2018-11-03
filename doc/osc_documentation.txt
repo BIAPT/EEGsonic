@@ -1,1 +1,12 @@
 OSC Receivers Documentation
+
+OSC Receivers: list of the currently selected OSC Receivers
+
+Remove OSC Receivers: By selecting an OSC Receiver and clicking "Remove" It will remove it from the list.
+Add OSC Receivers: By clicking "Add" it will add the OSC Receivers if the input is valid.
+
+OSC Receiver on same machine: Select yes if the OSC Receiver is on the same machine! It will allow you to select the path.
+
+Select OSC Receivers: Select your OSC Receiver using the file explorer.
+IP Adress: The IP Adress used by a given OSC Receiver.
+Port: The port used by a given OSC Receiver.

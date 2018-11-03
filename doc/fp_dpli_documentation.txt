@@ -1,1 +1,8 @@
 Frontoparietal dPLI Documentation
+
+Window Size:
+Midline Channels:
+Lateral Channels:
+Number of Surrogates:
+p Value:
+Enable Surrogates Analysis:

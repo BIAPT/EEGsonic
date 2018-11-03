@@ -1,1 +1,7 @@
 Phase Amplitude Coupling Documentation
+
+Window Size:
+Frontal Channels:
+Parietal Channels:
+Extra Low Frequency:
+Higher Frequency:

@@ -1,1 +1,13 @@
 General Documentation
+
+Select Saving Directory : Where you want to save the data,features and informations.
+Folder Name : The name of the folder that will contain your saved data.
+EEG device : Select which device you want to connect EEGsonic with.
+
+EGI-129 Tab:
+Data acquisition size: size of the chunk of EEG data to gather.
+Amplifier IP : The IP adress of your EGI-129 amplifier.
+
+DSI-24 Tab:
+
+Save Features: If checked, will save your features inside the saving folder. Warning! It will create an overhead and will increase the running time of the analysis techniques.

@@ -1,1 +1,7 @@
 Permutation Entropy Documentation
+
+Window Size:
+Frontal Channels:
+Posterior Channels:
+Embedding Dimension:
+Time Delay:

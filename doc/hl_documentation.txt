@@ -1,1 +1,8 @@
 Hub Location Documentation
+
+Window Size:
+Number of Surrogates:
+p Value:
+Top Connection Threshold:
+Output Type:
+Enable Surrogates Analysis:

@@ -1,1 +1,6 @@
 Topographic Distribution Documentation
+
+Window Size:
+Frequency:
+Frontal Channels:
+Posterior Channels:

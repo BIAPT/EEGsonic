@@ -1,1 +1,5 @@
 Home Documentation
+Something not working? 
+You have an idea for enhancement?
+Click on "Check Repository" and raise an issue on Github!
+For direct contact: yacine.mahdid@mail.mcgill.ca

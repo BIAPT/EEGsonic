@@ -1,1 +1,10 @@
 Spectral Power Ratio Documentation
+
+Window Size:
+Step Size:
+Time Bandwidth Product:
+Number of Taper:
+Theta Bandwidth:
+Alpha Bandwidth:
+Beta Bandwidth:
+Required Size:
