@@ -12,6 +12,10 @@ function send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc)
     osc_base_string = strings(1,128);
     number_channels = length(ratio_beta_alpha);
     
+    %% TODO create a vector version of this with e1, e2, e3, e4... e129
+    osc_base_string_ba = "spectral_power_ratio_ba";
+    osc_base_string_at = "spectral_power_ration_at";
+    
     %% Create Base string
     for i = 1:number_channels
         osc_base_string(i) = "/sensor_"+num2str(i)+"/spectral_power_ratio/";

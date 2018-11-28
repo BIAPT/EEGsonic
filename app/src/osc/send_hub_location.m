@@ -8,7 +8,7 @@ function send_hub_location(output_type,is_graph,channel_index,graph,channels_loc
     coordinate = get_coordinate(output_type,channel_index,channels_location);
     
     %% TODO change below to be coordinate instead of the channel index
-    osc_base_string = "/hub_location/coordinate ";
+    osc_base_string = "/hub_location";
     if(is_graph)
        connectivity_vector = make_connectivity_vector(channel_index,graph);
     else

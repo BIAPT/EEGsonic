@@ -8,7 +8,7 @@ function send_fp_wpli(avg_pli_midline,avg_pli_lateral,osc)
 %       osc: osc data structure
 
     %% Create the OSC String
-    osc_base_string = "/fp_wpli/";
+    osc_base_string = "/fp_wpli_midline_lateral";
     avg_pli_midline_osc = osc_base_string + "avg_pli_midline " + num2str(avg_pli_midline);
     avg_pli_lateral_osc = osc_base_string + "avg_pli_lateral " + num2str(avg_pli_lateral);
     
