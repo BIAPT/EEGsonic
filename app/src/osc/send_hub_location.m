@@ -1,4 +1,4 @@
-function send_hub_location(output_type,channel_index,channels_location,osc)
+function send_hub_location(output_type,channel_index,graph,channels_location,osc)
 %SEND_HUB_LOCATION send to the osc receivers the data in string format
 %   Input:
 %       output_type: type of coordinate to output
