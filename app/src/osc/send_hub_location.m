@@ -41,10 +41,15 @@ function send_hub_location(output_type,is_graph,channel_index,graph,channels_loc
     end    
 end
 
-% Array of this type:
-%1) Either index only
-%2) Or index, e1, weight, index, e2, weight, etc...
+% Helper function to construct a vector of the following type:
+% hd_index, electrode_x, weight_hd_x, hd_index, electrode_y, weight_hd_y
+% where the weight are given by a thresholded graph
 function [connectivity_vector] = make_connectivity_vector(channel_index,graph)
-
-
+    connectivity_vector = [];
+    for i = 1:length(graph)
+        weight = graph(channel_index,i);
+        if(i ~= channel_index && weight > 0)
+           connectivity_vector = [connectivity_vector, channel_index, i, weight]; 
+        end
+    end
 end

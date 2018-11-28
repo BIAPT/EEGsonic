@@ -12,7 +12,7 @@ function send_hub_location(output_type,is_graph,channel_index,graph,channels_loc
     if(is_graph)
        connectivity_vector = make_connectivity_vector(channel_index,graph);
     else
-       connectivity_vector = coordinate; % The X Y and Z are now the connectivity vector or only t
+       connectivity_vector = coordinate; % The X Y and Z are now the connectivity vector or only the index
     end
     coordinate_osc = osc_base_string + num2str(channel_index); % This last part need to change!
     
@@ -45,6 +45,11 @@ end
 %1) Either index only
 %2) Or index, e1, weight, index, e2, weight, etc...
 function [connectivity_vector] = make_connectivity_vector(channel_index,graph)
-
+    connectivity_vector = [];
+    for i = 1:length(graph)
+        if(i ~= channel_index && graph(channel_index,i) > 0)
+           connectivity_vector = [connectivity_vector, channel_index,  
+        end
+    end
 
 end
