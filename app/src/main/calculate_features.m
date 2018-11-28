@@ -173,7 +173,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     % Calculate hl
                     [hd_channel_index,hd_graph] = hub_location(hl_data,eeg_info,parameters.hl);
                     % Convert and Send to OSC
-                    send_hub_location(parameters.hl.output_type,hd_channel_index,hd_graph,channels_location,osc);                    
+                    send_hub_location(parameters.hl.output_type,parameters.hl.is_graph,hd_channel_index,hd_graph,channels_location,osc);                    
                     % Saving
                     if(information.is_save_features)
                         parsave(features_directory,"hd_channel_index_"+num2str(index),hd_channel_index);

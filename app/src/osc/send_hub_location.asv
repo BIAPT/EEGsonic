@@ -12,7 +12,7 @@ function send_hub_location(output_type,is_graph,channel_index,graph,channels_loc
     if(is_graph)
        connectivity_vector = make_connectivity_vector(channel_index,graph);
     else
-       connectivity_vector = coordinate; % The X Y and Z are now the connectivity vector or only the index
+       connectivity_vector = coordinate; % The X Y and Z are now the connectivity vector or only t
     end
     coordinate_osc = osc_base_string + num2str(channel_index); % This last part need to change!
     
