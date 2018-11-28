@@ -11,6 +11,8 @@ function [coordinate] = get_coordinate(type,channel_index,channels_location)
     %% Get the coordinate in the right format
     if(strcmp(type,'cartesian'))
         coordinate = get_cartesian(channel_index,channels_location);
+    elseif(strcmp(type,'index'))
+        coordinate = channel_index;
     end
     %% TODO add spherical if needed
     
