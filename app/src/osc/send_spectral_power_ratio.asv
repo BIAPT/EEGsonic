@@ -7,10 +7,12 @@ function send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc)
 %       osc: osc data structure
 
     %% Variable Setup
-    osc_base_ba = "spectral_power_ratio_ba";
-    osc_base_at = "spectral_power_ration_at";
+    
+    osc_base_string_ba = "spectral_power_ratio_ba";
+    osc_base_string_at = "spectral_power_ration_at";
+    
     osc_message_type_ba = get_osc_message_type(ratio_beta_alpha);
-    osc_message_type_at = get_osc_message_type(ratio_alpha_theta);
+    osc
        
     %% Sending OSC
     % Send osc data one osc receiver at a time
@@ -22,13 +24,24 @@ function send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc)
         u.InputBufferSize = 3200;
         u.OutputBufferSize = 3200;
         
-        % Sending the messages to the OSC receiver
+        % Sending the messages to the OSC receivers
         fopen(u);
+        
         %% Sending Ratio Beta Alpha
-        oscsend(u,osc_base_ba,osc_message_type_ba,ratio_beta_alpha);
+        for string_index = 1:length(ratio_beta_alpha_osc)
+            current_osc_message = strsplit(ratio_beta_alpha_osc(string_index)," ");
+            base_osc_message = char(current_osc_message(1));
+            value_osc_message = str2double(current_osc_message(2));
+            oscsend(u,base_osc_message,'f',value_osc_message);    
+        end
+        
         %% Sending Ratio Alpha Theta
-        oscsend(u,osc_base_at,osc_message_type_at,ratio_alpha_theta);
-        % Close communication with OSC receivers
+        for string_index = 1:length(ratio_alpha_theta_osc)
+            current_osc_message = strsplit(ratio_alpha_theta_osc(string_index)," ");
+            base_osc_message = char(current_osc_message(1));
+            value_osc_message = str2double(current_osc_message(2));
+            oscsend(u,base_osc_message,'f',value_osc_message);    
+        end
         fclose(u);
     end
 end
