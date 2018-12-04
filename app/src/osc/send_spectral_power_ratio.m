@@ -7,10 +7,10 @@ function send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc)
 %       osc: osc data structure
 
     %% Variable Setup
-    osc_base_ba = "spectral_power_ratio_ba";
-    osc_base_at = "spectral_power_ration_at";
-    osc_message_type_ba = get_osc_message_type(ratio_beta_alpha);
-    osc_message_type_at = get_osc_message_type(ratio_alpha_theta);
+    osc_base_ba = "/spectral_power_ratio_ba";
+    osc_base_at = "/spectral_power_ration_at";
+    osc_message_type_ba = char(get_osc_message_type(ratio_beta_alpha));
+    osc_message_type_at = char(get_osc_message_type(ratio_alpha_theta));
        
     %% Sending OSC
     % Send osc data one osc receiver at a time
@@ -25,11 +25,12 @@ function send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc)
         % Sending the messages to the OSC receiver
         fopen(u);
         %% Sending Ratio Beta Alpha
-        oscsend(u,osc_base_ba,osc_message_type_ba,ratio_beta_alpha);
+        oscsend(u,osc_base_ba,osc_message_type_ba,double(ratio_beta_alpha));
         %% Sending Ratio Alpha Theta
-        oscsend(u,osc_base_at,osc_message_type_at,ratio_alpha_theta);
+        oscsend(u,osc_base_at,osc_message_type_at,double(ratio_alpha_theta));
         % Close communication with OSC receivers
         fclose(u);
+        %% TODO TURN THE RATIO ALPHA THETA INTO A STRING ARRAY
     end
 end
 
