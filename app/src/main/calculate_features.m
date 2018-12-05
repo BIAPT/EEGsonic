@@ -13,7 +13,7 @@ function calculate_features(data_directory,features_directory,information,parame
     warm_up(information,parameters);
 
     %% Variables Initialization
-    index = 0;
+    index = 0; %%TODO Load the index
     eeg_info = [];
     data_acquisition_size = 5; %By default(in seconds)
     osc = parameters.osc;
@@ -60,7 +60,7 @@ function calculate_features(data_directory,features_directory,information,parame
         eeg_info = information.headset.dsi24;
         sleep_delay = data_acquizition_size/10;
         channels_location = information.headset.dsi24.channels_location;        
-        % TODO add acquisition size once we get it;
+        %% TODO add acquisition size once we get it;
     end
     
 
@@ -202,7 +202,7 @@ function calculate_features(data_directory,features_directory,information,parame
                     pe_data = [];
                end
             end
-            index = index+1; 
+            index = index+1; %%TODO load the index 
         else
             disp("Waiting " + num2str(sleep_delay) + " sec for " + num2str(index)); 
             pause(sleep_delay); % wait for a bit that the data is available

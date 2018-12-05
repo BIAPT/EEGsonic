@@ -30,7 +30,6 @@ function send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc)
         oscsend(u,osc_base_at,osc_message_type_at,double(ratio_alpha_theta));
         % Close communication with OSC receivers
         fclose(u);
-        %% TODO TURN THE RATIO ALPHA THETA INTO A STRING ARRAY
     end
 end
 
