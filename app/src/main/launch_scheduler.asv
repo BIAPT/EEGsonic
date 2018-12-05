@@ -19,17 +19,21 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     features_directory = strcat(base_directory,filesep,"features");
     parameters_directory = strcat(base_directory,filesep,"parameters");
     
+    % Save the information
+    information.data_directory = data_directory;
+    information.parameters_directory = parameters_directory;
+    
     % Directory creation
     mkdir(base_directory);
     mkdir(data_directory); 
     mkdir(features_directory);
     mkdir(parameters_directory);
     
-    %% Save parameters and information of the app
+    %% Save parameters and information of the app (app_data)
     app_data = struct();
     app_data.parameters = parameters;
     app_data.information = information;
-    parsave(parameters_directory,"parameters",parameters);
+    parsave(parameters_directory,"app_data",app_data);
     log_parameters_to_file(base_directory,"information.txt",parameters)
     
     %% Boot up amplifier

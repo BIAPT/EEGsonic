@@ -1,10 +1,14 @@
-function acquire_eeg(data_directory,information,parameters)
+function acquire_eeg(information,parameters)
 %ACQUIRE_EEG generate (debugmode == 1) or acquire EEG data and save it into
 %the data_directory
 %   Input:
 %       data_directory: directory where the EEG data need to be saved
 %       information: static data of the app
 %       parameters: inputed data by the user
+    
+
+    %% Variables initialization
+    data_directory = information.data_directory;
     
     %% Selecting an headset
     headset = "";

@@ -1,4 +1,4 @@
-function calculate_features(data_directory,features_directory,information,parameters)
+function calculate_features(information,parameters)
 %CALCULATE_FEATURES Main pipeline to calculate the features based on data
 %recorder from the data_thread
 %   Input:
@@ -17,6 +17,8 @@ function calculate_features(data_directory,features_directory,information,parame
     eeg_info = [];
     data_acquisition_size = 5; %By default(in seconds)
     osc = parameters.osc;
+    data_directory = information.data_directory;
+    features_directory = information.features_directory;
     
     % Required size variables 
     spr_data_required_size = parameters.spr.required_size;
