@@ -34,7 +34,8 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     app_data = struct();
     app_data.parameters = parameters;
     app_data.information = information;
-    parsave(parameters_directory,"app_data",app_data);
+    parameters_path = strcat(parameters_directory,filesep,"app_data.mat");
+    save(parameters_path,'app_data');
     log_parameters_to_file(base_directory,"information.txt",parameters)
     
     %% Boot up amplifier
