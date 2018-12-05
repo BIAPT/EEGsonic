@@ -13,7 +13,7 @@ function calculate_features(information,parameters)
     warm_up(information,parameters);
 
     %% Variables Initialization
-    index = 0; %%TODO Load the index
+    index = -1; %%TODO Load the index
     eeg_info = [];
     data_acquisition_size = 5; %By default(in seconds)
     osc = parameters.osc;
@@ -68,8 +68,13 @@ function calculate_features(information,parameters)
 
     %% Main Loop Calculating the features
     while(1)
-        [is_ready,data] = parload(data_directory,index); % try to load the data
-        if(is_ready)
+        % Get the next index
+        replay_data = load(information.replay_path);
+        next_index = replay_data.index;
+        
+        if(index ~= next_index)
+            index = next_index;
+            [~,data] = parload(data_directory,index); % try to load the data
             disp("Analyzing: " + num2str(index));
             
             % Spectral Power Ratio
@@ -204,7 +209,6 @@ function calculate_features(information,parameters)
                     pe_data = [];
                end
             end
-            index = index+1; %%TODO load the index 
         else
             disp("Waiting " + num2str(sleep_delay) + " sec for " + num2str(index)); 
             pause(sleep_delay); % wait for a bit that the data is available

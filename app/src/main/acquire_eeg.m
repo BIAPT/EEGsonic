@@ -9,6 +9,7 @@ function acquire_eeg(information,parameters)
 
     %% Variables initialization
     data_directory = information.data_directory;
+    replay_path = information.replay_path;
     
     %% Selecting an headset
     headset = "";
@@ -33,6 +34,7 @@ function acquire_eeg(information,parameters)
         end
         % save the EEG data acquired into the data directory
         parsave(data_directory,index,data);
+        save(replay_path,'index');
         index = index + 1;
     end
 end
