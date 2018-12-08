@@ -1,0 +1,216 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration file="C:\Users\biapt\Documents\GitHub\EEGsonic\app\EEGSonic.prj" location="C:\Users\biapt\Documents\GitHub\EEGsonic\app" name="EEGSonic" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>EEGSonic</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.1</param.version>
+    <param.authnamewatermark>Yacine Mahdid</param.authnamewatermark>
+    <param.email>yacine.mahdid@mail.mcgill.ca</param.email>
+    <param.company>BIAPT</param.company>
+    <param.summary>First standalone</param.summary>
+    <param.description />
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>\BIAPT\EEGSonic\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes />
+    <param.intermediate>${PROJECT_ROOT}\EEGSonic\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\EEGSonic\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\EEGSonic\for_redistribution</param.output>
+    <param.logdir>${PROJECT_ROOT}\EEGSonic</param.logdir>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.web.mcr>false</param.web.mcr>
+    <param.package.mcr>true</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <param.native.matlab>false</param.native.matlab>
+    <param.checkbox>false</param.checkbox>
+    <param.example />
+    <param.help.text />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.description />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.target.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.logdir />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.target.type />
+      <param.support.packages />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+      <param.native.matlab />
+      <param.checkbox />
+      <param.example />
+      <param.help.text />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\EEGsonic_app.mlapp</file>
+    </fileset.main>
+    <fileset.resources />
+    <fileset.package />
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\companion_apps\documentation_viewer_app.mlapp</file>
+      <file>${PROJECT_ROOT}\companion_apps\headset_viewer_app.mlapp</file>
+      <file>${PROJECT_ROOT}\companion_apps\replayer_app.mlapp</file>
+      <file>${PROJECT_ROOT}\lib\2017_01_15_BCT\degrees_und.m</file>
+      <file>${PROJECT_ROOT}\lib\AmpServerProSDK_version2.1\AmpServerProSDK_2.1_Mac_10.10\examples\AmpLab\ampcollect.m</file>
+      <file>${PROJECT_ROOT}\lib\AmpServerProSDK_version2.1\AmpServerProSDK_2.1_Mac_10.10\examples\AmpLab\ampdeinit.m</file>
+      <file>${PROJECT_ROOT}\lib\AmpServerProSDK_version2.1\AmpServerProSDK_2.1_Mac_10.10\examples\AmpLab\ampinit.m</file>
+      <file>${PROJECT_ROOT}\lib\AmpServerProSDK_version2.1\AmpServerProSDK_2.1_Mac_10.10\examples\AmpLab\ampon.m</file>
+      <file>${PROJECT_ROOT}\lib\AmpServerProSDK_version2.1\AmpServerProSDK_2.1_Mac_10.10\examples\AmpLab\ampsrvinit.m</file>
+      <file>${PROJECT_ROOT}\lib\AmpServerProSDK_version2.1\AmpServerProSDK_2.1_Mac_10.10\examples\AmpLab\ampstart.m</file>
+      <file>${PROJECT_ROOT}\lib\chronux_2_12\spectral_analysis\continuous\mtfftc.m</file>
+      <file>${PROJECT_ROOT}\lib\chronux_2_12\spectral_analysis\continuous\mtspecgramc.m</file>
+      <file>${PROJECT_ROOT}\lib\chronux_2_12\spectral_analysis\continuous\mtspectrumc.m</file>
+      <file>${PROJECT_ROOT}\lib\chronux_2_12\spectral_analysis\helper\change_row_to_column.m</file>
+      <file>${PROJECT_ROOT}\lib\chronux_2_12\spectral_analysis\helper\dpsschk.m</file>
+      <file>${PROJECT_ROOT}\lib\chronux_2_12\spectral_analysis\helper\getfgrid.m</file>
+      <file>${PROJECT_ROOT}\lib\chronux_2_12\spectral_analysis\helper\getparams.m</file>
+      <file>${PROJECT_ROOT}\lib\chronux_2_12\spectral_analysis\helper\specerr.m</file>
+      <file>${PROJECT_ROOT}\lib\EEGapp_functions\bpfilter.m</file>
+      <file>${PROJECT_ROOT}\lib\EEGapp_functions\d_PhaseLagIndex.m</file>
+      <file>${PROJECT_ROOT}\lib\EEGapp_functions\d_PhaseLagIndex_surrogate.m</file>
+      <file>${PROJECT_ROOT}\lib\EEGapp_functions\delayRecons.m</file>
+      <file>${PROJECT_ROOT}\lib\EEGapp_functions\w_PhaseLagIndex.m</file>
+      <file>${PROJECT_ROOT}\lib\EEGapp_functions\w_PhaseLagIndex_surrogate.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\error_bc.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\intersect_bc.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\ismatlab.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\setdiff_bc.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\union_bc.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\unique_bc.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\guifunc\finputcheck.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\miscfunc\averef.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\octavefunc\signal\checkfunctionmatlab.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\octavefunc\signal\filtfilt.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\octavefunc\signal\pwelch.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_chantype.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\adjustlocs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\axcopy.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\blockave.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\cbar.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\changeunits.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\convertlocs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\icadefs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\loadtxt.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\matsel.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\mattocell.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\nan_mean.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\readeetraklocs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\readelp.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\readlocs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\readneurolocs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\sbplot.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\spec.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\spectopo.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\sph2topo.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\textsc.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\topo2sph.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\topoplot.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\timefreqfunc\dftfilt.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\timefreqfunc\timef.m</file>
+      <file>${PROJECT_ROOT}\lib\oscsend_lib\oscsend.m</file>
+      <file>${PROJECT_ROOT}\src\amp\boot_amp.m</file>
+      <file>${PROJECT_ROOT}\src\amp\clean_amp.m</file>
+      <file>${PROJECT_ROOT}\src\features\fp_dpli.m</file>
+      <file>${PROJECT_ROOT}\src\features\fp_wpli.m</file>
+      <file>${PROJECT_ROOT}\src\features\helper\dpli.m</file>
+      <file>${PROJECT_ROOT}\src\features\helper\permutation_entropy_mv.m</file>
+      <file>${PROJECT_ROOT}\src\features\helper\wpli.m</file>
+      <file>${PROJECT_ROOT}\src\features\hub_location.m</file>
+      <file>${PROJECT_ROOT}\src\features\permutation_entropy.m</file>
+      <file>${PROJECT_ROOT}\src\features\phase_amplitude_coupling.m</file>
+      <file>${PROJECT_ROOT}\src\features\spectral_power_ratio.m</file>
+      <file>${PROJECT_ROOT}\src\features\topographic_distribution.m</file>
+      <file>${PROJECT_ROOT}\src\io\check_replay_directory.m</file>
+      <file>${PROJECT_ROOT}\src\io\fix_name.m</file>
+      <file>${PROJECT_ROOT}\src\io\get_coordinate.m</file>
+      <file>${PROJECT_ROOT}\src\io\get_headset.m</file>
+      <file>${PROJECT_ROOT}\src\io\get_selected_channels.m</file>
+      <file>${PROJECT_ROOT}\src\io\is_input_valid.m</file>
+      <file>${PROJECT_ROOT}\src\io\load_text_file.m</file>
+      <file>${PROJECT_ROOT}\src\io\log_parameters_to_file.m</file>
+      <file>${PROJECT_ROOT}\src\io\parload.m</file>
+      <file>${PROJECT_ROOT}\src\io\parsave.m</file>
+      <file>${PROJECT_ROOT}\src\main\acquire_eeg.m</file>
+      <file>${PROJECT_ROOT}\src\main\calculate_features.m</file>
+      <file>${PROJECT_ROOT}\src\main\launch_cleaner.m</file>
+      <file>${PROJECT_ROOT}\src\main\launch_replayer.m</file>
+      <file>${PROJECT_ROOT}\src\main\launch_scheduler.m</file>
+      <file>${PROJECT_ROOT}\src\main\warm_up.m</file>
+      <file>${PROJECT_ROOT}\src\osc\get_osc_message_type.m</file>
+      <file>${PROJECT_ROOT}\src\osc\send_fp_dpli.m</file>
+      <file>${PROJECT_ROOT}\src\osc\send_fp_wpli.m</file>
+      <file>${PROJECT_ROOT}\src\osc\send_hub_location.m</file>
+      <file>${PROJECT_ROOT}\src\osc\send_permutation_entropy.m</file>
+      <file>${PROJECT_ROOT}\src\osc\send_phase_amplitude_coupling.m</file>
+      <file>${PROJECT_ROOT}\src\osc\send_spectral_power_ratio.m</file>
+      <file>${PROJECT_ROOT}\src\osc\send_topographic_distribution.m</file>
+      <file>${PROJECT_ROOT}\src\time\is_enough_time.m</file>
+      <file>${PROJECT_ROOT}\testing\timing\time_fp_dpli.m</file>
+      <file>${PROJECT_ROOT}\testing\timing\time_fp_wpli.m</file>
+      <file>${PROJECT_ROOT}\testing\timing\time_hub_location.m</file>
+      <file>${PROJECT_ROOT}\testing\timing\time_permutation_entropy.m</file>
+      <file>${PROJECT_ROOT}\testing\timing\time_phase_amplitude_coupling.m</file>
+      <file>${PROJECT_ROOT}\testing\timing\time_spectral_power_ratio.m</file>
+      <file>${PROJECT_ROOT}\testing\timing\time_topographic_distribution.m</file>
+    </fileset.depfun>
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\EEGSonic\for_testing" name="readme.txt" optional="true">C:\Users\biapt\Documents\GitHub\EEGsonic\app\EEGSonic\for_testing\readme.txt</file>
+      <file location="${PROJECT_ROOT}\EEGSonic\for_testing" name="splash.png" optional="false">C:\Users\biapt\Documents\GitHub\EEGsonic\app\EEGSonic\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\EEGSonic\for_testing" name="EEGSonic.exe" optional="false">C:\Users\biapt\Documents\GitHub\EEGsonic\app\EEGSonic\for_testing\EEGSonic.exe</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2018a</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
