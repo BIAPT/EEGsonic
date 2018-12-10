@@ -5,8 +5,8 @@ function send_hub_location(output_type,is_graph,channel_index,graph,channels_loc
 %       channel_index: the index of the channel we want to send
 %       channels_location: location data of the channels
 %       osc: osc data structure
-    coordinate = get_coordinate(output_type,channel_index,channels_location);
-    
+    %coordinate = get_coordinate(output_type,channel_index,channels_location);
+    coordinate = "";
     %% TODO change below to be coordinate instead of the channel index
     osc_base_string = "/hub_location";
     if(is_graph)
