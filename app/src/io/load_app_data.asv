@@ -1,8 +1,0 @@
-function [information,parameters] = load_app_data(path,isDefault)
-%LOAD_APP_DATA Summary of this function goes here
-%   Detailed explanation goes here
-    data = load(path);
-    information = data.app_data.information;
-    parameters = data.app_data.parameters;
-end
-

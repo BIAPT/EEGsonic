@@ -72,6 +72,17 @@ function calculate_features(information,parameters)
         replay_data = load(information.replay_path);
         next_index = replay_data.index;
         
+        if(next_index < index)
+            % Reset all the collected data yet 
+            spr_data = [];
+            td_data = [];
+            pac_data = [];
+            fp_wpli_data = [];
+            fp_dpli_data = [];
+            hl_data = [];
+            pe_data = [];
+        end
+        
         if(index ~= next_index)
             index = next_index;
             [~,data] = parload(data_directory,index); % try to load the data
