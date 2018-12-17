@@ -9,7 +9,7 @@ function send_phase_amplitude_coupling(rpt_frontal,rpt_parietal,osc)
 %       osc: osc data structure
 
     %% Create the OSC String
-    osc_base_string = "/phase_amplitude_coupling_frontal_parietal";
+    osc_base_string = "/phase_amplitude_coupling_frontal_and_parietal";
     rpt_frontal_osc = osc_base_string + "rpt_frontal " + num2str(rpt_frontal);
     rpt_parietal_osc = osc_base_string + "rpt_parietal " + num2str(rpt_parietal);
     

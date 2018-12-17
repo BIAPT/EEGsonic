@@ -6,7 +6,7 @@ function send_topographic_distribution(ratio_front_back,osc)
 %       osc: osc data structure
 
     
-    osc_base_string = "/topographic_distribution";
+    osc_base_string = "/topographic_distribution_front_over_back";
     ratio_front_back_osc = osc_base_string + num2str(ratio_front_back);
     
     %% Sending OSC

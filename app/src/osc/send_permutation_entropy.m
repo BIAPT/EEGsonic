@@ -9,7 +9,7 @@ function send_permutation_entropy(avg_pe_frontal,avg_pe_parietal,osc)
 %       osc: osc data structure
 
    %% Create the OSC String
-    osc_base_string = "/permutation_entropy_frontal_parietal";
+    osc_base_string = "/permutation_entropy_frontal_and_parietal";
     avg_pe_frontal_osc = osc_base_string + "avg_pe_frontal " + num2str(avg_pe_frontal);
     avg_pe_parietal_osc = osc_base_string + "avg_pe_parietal " + num2str(avg_pe_parietal);
     

@@ -8,7 +8,7 @@ function send_fp_dpli(avg_dpli_midline,avg_dpli_lateral,osc)
 %       osc: osc data structure
 
     %% Create the OSC String
-    osc_base_string = "/fp_dpli_midline_lateral";
+    osc_base_string = "/fp_dpli_midline_and_lateral";
     avg_dpli_midline_osc = osc_base_string + "avg_dpli_midline " + num2str(avg_dpli_midline);
     avg_dpli_lateral_osc = osc_base_string + "avg_dpli_lateral " + num2str(avg_dpli_lateral);
     
