@@ -4,10 +4,8 @@ function send_topographic_distribution(ratio_front_back,osc)
 %   Input:
 %       ratio_front_back: singular value representing ratio_front_back
 %       osc: osc data structure
-
-    
-    osc_base_string = "/topographic_distribution_front_over_back";
-    ratio_front_back_osc = osc_base_string + num2str(ratio_front_back);
+    osc_base = '/topographic_distribution_front_over_back';
+    osc_type = get_osc_message_type(ratio_front_back);
     
     %% Sending OSC
     % Send osc data one osc receiver at a time
@@ -22,13 +20,8 @@ function send_topographic_distribution(ratio_front_back,osc)
         % Sending the messages to the OSC receivers
         fopen(u);
         
-        %% Sending Ratio Beta Alpha
-        for string_index = 1:length(ratio_front_back_osc)
-            current_osc_message = strsplit(ratio_front_back_osc(string_index)," ");
-            base_osc_message = char(current_osc_message(1));
-            value_osc_message = str2double(current_osc_message(2));
-            oscsend(u,base_osc_message,'f',value_osc_message);    
-        end
+        %% Sending ratio front back
+        oscsend(u,osc_base,osc_type,ratio_front_back);
         
         fclose(u);
     end
