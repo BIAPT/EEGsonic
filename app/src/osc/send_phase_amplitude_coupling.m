@@ -9,9 +9,9 @@ function send_phase_amplitude_coupling(rpt_frontal,rpt_parietal,osc)
 %       osc: osc data structure
 
     %% Create the OSC String
-    osc_base_string = "/phase_amplitude_coupling_frontal_and_parietal";
-    rpt_frontal_osc = osc_base_string + "rpt_frontal " + num2str(rpt_frontal);
-    rpt_parietal_osc = osc_base_string + "rpt_parietal " + num2str(rpt_parietal);
+    osc_base = '/phase_amplitude_coupling_frontal_and_parietal';
+    rpt_frontal_parietal = [rpt_frontal,rpt_parietal];
+    osc_type = get_osc_message_type(rpt_frontal_parietal);
     
     %% Sending OSC
     % Send osc data one osc receiver at a time
@@ -26,21 +26,8 @@ function send_phase_amplitude_coupling(rpt_frontal,rpt_parietal,osc)
         % Sending the messages to the OSC receivers
         fopen(u);
         
-        %% Sending rpt frontal
-        for string_index = 1:length(rpt_frontal_osc)
-            current_osc_message = strsplit(rpt_frontal_osc(string_index)," ");
-            base_osc_message = char(current_osc_message(1));
-            value_osc_message = str2double(current_osc_message(2));
-            oscsend(u,base_osc_message,'f',value_osc_message);    
-        end
-        
-        %% Sending rpt parietal
-        for string_index = 1:length(rpt_parietal_osc)
-            current_osc_message = strsplit(rpt_parietal_osc(string_index)," ");
-            base_osc_message = char(current_osc_message(1));
-            value_osc_message = str2double(current_osc_message(2));
-            oscsend(u,base_osc_message,'f',value_osc_message);    
-        end
+        %% Sending rpt frontal and parietal
+        oscsend(u,osc_base,osc_type,rpt_frontal_parietal);    
         
         fclose(u);
     end    
