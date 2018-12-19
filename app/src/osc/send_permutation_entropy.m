@@ -9,9 +9,9 @@ function send_permutation_entropy(avg_pe_frontal,avg_pe_parietal,osc)
 %       osc: osc data structure
 
    %% Create the OSC String
-    osc_base_string = "/permutation_entropy_frontal_and_parietal";
-    avg_pe_frontal_osc = osc_base_string + "avg_pe_frontal " + num2str(avg_pe_frontal);
-    avg_pe_parietal_osc = osc_base_string + "avg_pe_parietal " + num2str(avg_pe_parietal);
+    osc_base = '/permutation_entropy_frontal_and_parietal';
+    pe_frontal_parietal = [avg_pe_frontal,avg_pe_parietal];
+    osc_type = get_osc_message_type(pe_frontal_parietal);
     
     %% Sending OSC
     % Send osc data one osc receiver at a time
@@ -26,21 +26,8 @@ function send_permutation_entropy(avg_pe_frontal,avg_pe_parietal,osc)
         % Sending the messages to the OSC receivers
         fopen(u);
         
-        %% Sending avg_pe_frontal
-        for string_index = 1:length(avg_pe_frontal_osc)
-            current_osc_message = strsplit(avg_pe_frontal_osc(string_index)," ");
-            base_osc_message = char(current_osc_message(1));
-            value_osc_message = str2double(current_osc_message(2));
-            oscsend(u,base_osc_message,'f',value_osc_message);    
-        end
-        
-        %% Sending avg_pe_parietal
-        for string_index = 1:length(avg_pe_parietal_osc)
-            current_osc_message = strsplit(avg_pe_parietal_osc(string_index)," ");
-            base_osc_message = char(current_osc_message(1));
-            value_osc_message = str2double(current_osc_message(2));
-            oscsend(u,base_osc_message,'f',value_osc_message);    
-        end
+        %% Sending PE frontal parietal
+        oscsend(u,osc_base,osc_type,pe_frontal_parietal);  
         
         fclose(u);
     end    
