@@ -1,4 +1,4 @@
-function [data_worker,features_worker] = launch_scheduler(information,parameters)
+function [data_worker,features_worker] = launch_scheduler(information,parameters,state)
 %LAUNCH_scheduler Will take care of getting eeg data and calculating
 %features
 %   Input:
@@ -34,6 +34,7 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     app_data = struct();
     app_data.parameters = parameters;
     app_data.information = information;
+    app_data.state = state;
     parameters_path = strcat(parameters_directory,filesep,"app_data.mat");
     save(parameters_path,'app_data');
     log_parameters_to_file(base_directory,"information.txt",parameters)
