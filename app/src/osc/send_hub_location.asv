@@ -10,8 +10,7 @@ function send_hub_location(is_graph,channel_index,graph,osc)
     osc_type_hd = get_osc_message_type(channel_index);
     
     if(is_graph)
-       connectivity_vector = make_connectivity_vector(channel_index,graph)
-       disp(length(connectivity_vector))
+       connectivity_vector = make_connectivity_vector(channel_index,graph);
        osc_base_graph = '/hub_location_graph';
        osc_type_graph = get_osc_message_type(connectivity_vector);
     end
@@ -30,9 +29,9 @@ function send_hub_location(is_graph,channel_index,graph,osc)
         fopen(u);
         
         % Send hub location
-        oscsend(u,osc_base_hd,osc_type_hd,channel_index);   
+        oscsend(u,osc_base_hd,osc_type_hd,channel_index); % This also needs to change   
         if(is_graph)
-           oscsend(u,osc_base_graph,osc_type_graph,connectivity_vector); 
+           oscsend(u,osc_base_graph,osc 
         end
         
         fclose(u);
