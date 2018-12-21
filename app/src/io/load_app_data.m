@@ -9,7 +9,7 @@ function [information,parameters,state] = load_app_data(path,is_default)
     else
         information = data.app_data.information;
         parameters = data.app_data.parameters;
-        state = data.app_data.state;
+        state = -1;
     end
 end
 

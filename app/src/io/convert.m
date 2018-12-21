@@ -3,9 +3,10 @@ function convert(output_path,input_path,input_file,type)
 %   Detailed explanation goes here
     %% Static variables
     app_sampling_rate = 5; % in seconds
-
+    
     data_path = strcat(output_path,filesep,'data');
-    [eeg,sampling_frequency] = load_eeg(input_file,input_path,type);
+    [eeg,~] = load_eeg(input_file,input_path,type);
+    sampling_frequency = 1000; % (hard coded 1000 Hz)
     
     recording_length = floor(length(eeg)/sampling_frequency); %in seconds
     max_index = recording_length/5; % Sampling frequency
