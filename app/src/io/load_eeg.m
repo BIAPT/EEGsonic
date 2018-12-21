@@ -4,7 +4,7 @@ function [eeg,sampling_frequency] = load_eeg(file_name,path,type)
 
     % Currently supported format: .set files
     if(strcmp(type,'set'))
-        data = pop_load(file_name,path);
+        data = pop_loadset(file_name,path);
         eeg = data.data;
         sampling_frequency = data.srate;
     end
