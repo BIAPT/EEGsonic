@@ -19,15 +19,15 @@ function [is_replay_directory] = check_replay_directory(path)
     test_features_dir = strcat(path,filesep,'features');
     
     if(~exist(test_parameters_dir, 'dir'))
-        is_replay_directory = 0;
+        
     end
     
-    if(~exist(test_data_dir, 'dir'))
-        is_replay_directory = 0;
+    if(exist(yourFolder, 'dir'))
+        
     end
     
-    if(~exist(test_features_dir, 'dir'))
-        is_replay_directory = 0;
+    if(exist(yourFolder, 'dir'))
+        
     end
 end
 
