@@ -39,8 +39,6 @@ function acquire_eeg(information,parameters)
     end
 end
 
-
-
 % Get the data directly from an EGI system
 function [data] = get_egi_data(information,parameters)
     % Setting Variables
