@@ -14,10 +14,8 @@ function [success] = send_feature(osc_string_list,type,osc)
 % array.
 
 %% TODO:
-% If we want to send arrays we need to send them by giving the type as
-% 'ffffffffffffff...'
-% Then we send our matrix or whatever. Which means that if we want to send
-% a matrix we don't need to transform it into a string
+% Make this more versatile so that it can be used instead of all the
+% send_x functions
 
     %% Variable Setup
     success = 1;
