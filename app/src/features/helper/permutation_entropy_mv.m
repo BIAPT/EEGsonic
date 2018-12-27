@@ -11,6 +11,8 @@ function [pe, pen]=permutation_entropy_mv(data, m, L)
 %   pe: (unnormalized) permutation entropy
 %   pen: normalized permutation entropy
 
+%% TODO refactor this to be a bit more readable
+
 numpat=factorial(m); % number of patterns
 denom=log2(numpat); % normalization factor
 Ddata=delayRecons(data, L, m); % delay reconstruction

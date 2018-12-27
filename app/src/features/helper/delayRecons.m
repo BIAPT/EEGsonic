@@ -9,6 +9,8 @@ function y=delayRecons(data, L, m)
 %
 % Heonsoo Lee 2011.11.17
 
+%% TODO refactor this to be a bit more readable
+
 [Len,ch]=size(data);
 
 y=zeros(Len-L*(m-1),m,ch);
