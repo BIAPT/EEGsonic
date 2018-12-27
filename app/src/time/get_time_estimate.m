@@ -2,7 +2,7 @@ function [time] = get_time_estimate(type,information,parameters)
 %GET_TIME_ESTIMATE return an estimate of the time it will take to run this
 %analysis technique with the specific set of parameters
     %Input:
-    %   type:
+    %   type: type of analysis technique 
     %   information: static data of the app
     %   parameters: inputed data by the user
     %Output:

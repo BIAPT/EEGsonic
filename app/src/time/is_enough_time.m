@@ -1,6 +1,8 @@
 function [is_enough,time_left] = is_enough_time(information,parameters)
-%IS_ENOUGH_TIME Summary of this function goes here
-%   Detailed explanation goes here
+%IS_ENOUGH_TIME will check if there is enough time to do everything that
+%was selected
+%   information: static data of the app
+%   parameters: inputed data by the user
    
 
     
