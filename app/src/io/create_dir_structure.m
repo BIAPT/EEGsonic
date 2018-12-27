@@ -1,6 +1,7 @@
 function create_dir_structure(output_path,app_data)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%CREATE_DIR_STRUCTURE create the directory structure to save the data into
+%   output_path: String of where to save the data
+%   app_data: data to be saved
 
     %% Variable creation
     data_path = strcat(output_path,filesep,'data');
@@ -16,6 +17,8 @@ function create_dir_structure(output_path,app_data)
     %% Create information.txt
     file_name = strcat(output_path,filesep,'information.txt');
     file_id = fopen(file_name,'w');
+    
+    %% Write the conten into the file
     fprintf(file_id,"Information EEG session converted on the - " + (date) + "\n");
     fprintf(file_id,"\n");
     fclose(file_id);
