@@ -85,6 +85,5 @@ function [corrected_dpli] = get_corrected_dpli(uncorrected_dpli,surrogates_dpli,
         corrected_dpli = uncorrected_dpli - squeeze(mean(surrogates_dpli,1));
         corrected_dpli(corrected_dpli<0) = 0;
     end
-    
-    
+
 end
