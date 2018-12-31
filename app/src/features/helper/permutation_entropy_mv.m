@@ -15,7 +15,7 @@ function [pe, pen]=permutation_entropy_mv(data, m, L)
 
 numpat=factorial(m); % number of patterns
 denom=log2(numpat); % normalization factor
-Ddata=delayRecons(data, L, m); % delay reconstruction
+Ddata=delay_reconstruction(data, L, m); % delay reconstruction
 for c=1:size(data,2)
     %% real value -> symoblic pattern
     udata=zeros(size(Ddata(:,:,c),1), 1);
