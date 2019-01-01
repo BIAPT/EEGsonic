@@ -1,4 +1,4 @@
-function create_dir_structure(output_path,app_data)
+function create_dir_structure(output_path)
 %CREATE_DIR_STRUCTURE create the directory structure to save the data into
 %   output_path: String of where to save the data
 %   app_data: data to be saved
@@ -22,9 +22,5 @@ function create_dir_structure(output_path,app_data)
     fprintf(file_id,"Information EEG session converted on the - " + (date) + "\n");
     fprintf(file_id,"\n");
     fclose(file_id);
-    
-    %% Create app_data.mat
-    app_data_path = strcat(parameters_path,filesep,'app_data.mat');
-    save(app_data_path,'app_data');
 end
 

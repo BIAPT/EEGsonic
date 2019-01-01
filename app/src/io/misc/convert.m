@@ -1,4 +1,4 @@
-function convert(output_path,input_path,input_file,type)
+function [sampling_rate] = convert(output_path,input_path,input_file,type)
 %CONVERT will load the EEG data and segment it into chunks
 %   output_path: String of where to save the sliced data (root lvl folder)
 %   input_path: String of where the data is currently located
@@ -12,14 +12,14 @@ function convert(output_path,input_path,input_file,type)
     data_path = strcat(output_path,filesep,'data');
     
     %% Loading EEG
-    [eeg,sampling_frequency] = load_eeg(input_file,input_path,type);
-    recording_length = floor(length(eeg)/sampling_frequency); %in seconds
+    [eeg,sampling_rate] = load_eeg(input_file,input_path,type);
+    recording_length = floor(length(eeg)/sampling_rate); %in seconds
     max_index = recording_length/5; % Sampling frequency
     
     %% Slicing EEG into data chunks
     for i = 0:(max_index-1)
-       start = i*sampling_frequency*app_sampling_rate + 1;
-       stop = (i+1)*sampling_frequency*app_sampling_rate;
+       start = i*sampling_rate*app_sampling_rate + 1;
+       stop = (i+1)*sampling_rate*app_sampling_rate;
        data = eeg(:,start:stop);
        % Saving the data at the right place
        parsave(data_path,i,data);
