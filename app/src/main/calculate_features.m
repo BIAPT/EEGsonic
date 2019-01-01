@@ -47,16 +47,16 @@ function calculate_features(information,parameters)
         data_acquisition_size = parameters.general.egi129.data_acquisition_size;
         channels_location = information.headset.egi129.channels_location;
         sleep_delay = data_acquisition_size/10;
-        sec_to_pts = 1000;
+        sampling_rate = parameters.general.egi129.sampling_rate;
         
         % Convert secs to points
-        spr_data_required_size = spr_data_required_size*sec_to_pts;
-        td_data_required_size = td_data_required_size*sec_to_pts;
-        pac_data_required_size = pac_data_required_size*sec_to_pts;
-        fp_wpli_data_required_size = fp_wpli_data_required_size*sec_to_pts;
-        fp_dpli_data_required_size = fp_dpli_data_required_size*sec_to_pts;
-        hl_data_required_size = hl_data_required_size*sec_to_pts;
-        pe_data_required_size = pe_data_required_size*sec_to_pts;
+        spr_data_required_size = spr_data_required_size*sampling_rate;
+        td_data_required_size = td_data_required_size*sampling_rate;
+        pac_data_required_size = pac_data_required_size*sampling_rate;
+        fp_wpli_data_required_size = fp_wpli_data_required_size*sampling_rate;
+        fp_dpli_data_required_size = fp_dpli_data_required_size*sampling_rate;
+        hl_data_required_size = hl_data_required_size*sampling_rate;
+        pe_data_required_size = pe_data_required_size*sampling_rate;
            
     elseif(parameters.general.dsi24.is_selected)
         eeg_info = information.headset.dsi24;
