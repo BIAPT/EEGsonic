@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration file="C:\Users\biapt\Documents\GitHub\EEGsonic\app\EEGSonic.prj" location="C:\Users\biapt\Documents\GitHub\EEGsonic\app" name="EEGSonic" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration file="C:\Users\biapt\Documents\GitHub\EEGsonic\app\EEGSonic.prj" location="C:\Users\biapt\Documents\GitHub\EEGsonic\app" name="EEGSonic" preferred-package-location="C:\Users\biapt\Documents\GitHub\EEGsonic\app\EEGSonic\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>EEGSonic</param.appname>
     <param.icon />
     <param.icons />
@@ -24,8 +24,8 @@
     <param.user.defined.mcr.options />
     <param.target.type>subtarget.standalone</param.target.type>
     <param.support.packages />
-    <param.web.mcr>false</param.web.mcr>
-    <param.package.mcr>true</param.package.mcr>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
     <param.no.mcr>false</param.no.mcr>
     <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
     <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
@@ -56,6 +56,8 @@
       <param.user.defined.mcr.options />
       <param.target.type />
       <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
       <param.no.mcr />
       <param.web.mcr.name />
       <param.package.mcr.name />
@@ -74,6 +76,7 @@
     <fileset.resources />
     <fileset.package />
     <fileset.depfun>
+      <file>${PROJECT_ROOT}\companion_apps\converter_app.mlapp</file>
       <file>${PROJECT_ROOT}\companion_apps\documentation_viewer_app.mlapp</file>
       <file>${PROJECT_ROOT}\companion_apps\headset_viewer_app.mlapp</file>
       <file>${PROJECT_ROOT}\companion_apps\replayer_app.mlapp</file>
@@ -95,36 +98,114 @@
       <file>${PROJECT_ROOT}\lib\EEGapp_functions\bpfilter.m</file>
       <file>${PROJECT_ROOT}\lib\EEGapp_functions\d_PhaseLagIndex.m</file>
       <file>${PROJECT_ROOT}\lib\EEGapp_functions\d_PhaseLagIndex_surrogate.m</file>
-      <file>${PROJECT_ROOT}\lib\EEGapp_functions\delayRecons.m</file>
       <file>${PROJECT_ROOT}\lib\EEGapp_functions\w_PhaseLagIndex.m</file>
       <file>${PROJECT_ROOT}\lib\EEGapp_functions\w_PhaseLagIndex_surrogate.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\display.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\eegobj.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\fieldnames.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\horzcat2.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\isfield.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\isstruct.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\length.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\orderfields.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\rmfield.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\simpletest.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\subsasgn.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@eegobj\subsref.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\binaryopp.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\bsxfun.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\changefile.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\checkcopies_local.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\checkworkspace.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\ctranspose.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\display.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\double.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\end.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\fft.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\isnumeric.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\length.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\mmo.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\ndims.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\permute.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\reshape.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\size.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\subsasgn.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\subsasgn_old.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\subsref.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\sum.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\transpose.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\unitaryopp.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\@mmo\var.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_checkchanlocs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_checkset.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_eval.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_getdatact.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_getversion.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_hist.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_options.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_optionsbackup.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_retrieve.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeg_store.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeglab_options.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\eeglabexefolder.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\error_bc.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\intersect_bc.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\is_sccn.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\iseeglabdeployed.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\ismatlab.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\ismember_bc.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\setdiff_bc.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\union_bc.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\unique_bc.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\adminfunc\vararg2str.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\guifunc\errordlg2.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\guifunc\finputcheck.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\guifunc\inputgui.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\guifunc\questdlg2.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\guifunc\supergui.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\guifunc\warndlg2.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\miscfunc\averef.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\octavefunc\signal\checkfunctionmatlab.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\octavefunc\signal\filtfilt.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\octavefunc\signal\pwelch.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_chantype.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_decodechan.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_eegrej.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_emptyset.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_insertbound.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_insertboundold.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_interp.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_lat2point.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_point2lat.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\eeg_urlatency.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\pop_editeventvals.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\pop_importepoch.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\pop_loadset.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\pop_saveset.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\popfunc\pop_select.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\adjustlocs.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\axcopy.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\blockave.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\cbar.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\changeunits.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\convertlocs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\eegrej.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\epoch.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\fastif.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\floatwrite.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\gettempfolder.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\icadefs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\isscript.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\loadtxt.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\matsel.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\mattocell.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\nan_mean.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\parsetxt.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\readeetraklocs.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\readelp.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\readlocs.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\readneurolocs.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\readtxtfile.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\sbplot.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\spec.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\spectopo.m</file>
@@ -132,13 +213,18 @@
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\textsc.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\topo2sph.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\topoplot.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\uigetfile2.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\sigprocfunc\uiputfile2.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\studyfunc\std_chaninds.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\timefreqfunc\dftfilt.m</file>
       <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\functions\timefreqfunc\timef.m</file>
+      <file>${PROJECT_ROOT}\lib\eeglab14_1_1b\plugins\dipfit2.3\dipfitdefs.m</file>
       <file>${PROJECT_ROOT}\lib\oscsend_lib\oscsend.m</file>
       <file>${PROJECT_ROOT}\src\amp\boot_amp.m</file>
       <file>${PROJECT_ROOT}\src\amp\clean_amp.m</file>
       <file>${PROJECT_ROOT}\src\features\fp_dpli.m</file>
       <file>${PROJECT_ROOT}\src\features\fp_wpli.m</file>
+      <file>${PROJECT_ROOT}\src\features\helper\delay_reconstruction.m</file>
       <file>${PROJECT_ROOT}\src\features\helper\dpli.m</file>
       <file>${PROJECT_ROOT}\src\features\helper\permutation_entropy_mv.m</file>
       <file>${PROJECT_ROOT}\src\features\helper\wpli.m</file>
@@ -147,23 +233,33 @@
       <file>${PROJECT_ROOT}\src\features\phase_amplitude_coupling.m</file>
       <file>${PROJECT_ROOT}\src\features\spectral_power_ratio.m</file>
       <file>${PROJECT_ROOT}\src\features\topographic_distribution.m</file>
-      <file>${PROJECT_ROOT}\src\io\check_replay_directory.m</file>
-      <file>${PROJECT_ROOT}\src\io\fix_name.m</file>
-      <file>${PROJECT_ROOT}\src\io\get_coordinate.m</file>
-      <file>${PROJECT_ROOT}\src\io\get_headset.m</file>
-      <file>${PROJECT_ROOT}\src\io\get_selected_channels.m</file>
-      <file>${PROJECT_ROOT}\src\io\is_input_valid.m</file>
-      <file>${PROJECT_ROOT}\src\io\load_text_file.m</file>
-      <file>${PROJECT_ROOT}\src\io\log_parameters_to_file.m</file>
-      <file>${PROJECT_ROOT}\src\io\parload.m</file>
-      <file>${PROJECT_ROOT}\src\io\parsave.m</file>
+      <file>${PROJECT_ROOT}\src\gui\get_tab.m</file>
+      <file>${PROJECT_ROOT}\src\gui\is_debug.m</file>
+      <file>${PROJECT_ROOT}\src\gui\is_ticked.m</file>
+      <file>${PROJECT_ROOT}\src\io\get\get_debug_mode.m</file>
+      <file>${PROJECT_ROOT}\src\io\get\get_headset.m</file>
+      <file>${PROJECT_ROOT}\src\io\get\get_number_index.m</file>
+      <file>${PROJECT_ROOT}\src\io\get\get_selected_channels.m</file>
+      <file>${PROJECT_ROOT}\src\io\load\load_app_data.m</file>
+      <file>${PROJECT_ROOT}\src\io\load\load_eeg.m</file>
+      <file>${PROJECT_ROOT}\src\io\load\load_text_file.m</file>
+      <file>${PROJECT_ROOT}\src\io\load\parload.m</file>
+      <file>${PROJECT_ROOT}\src\io\misc\check_replay_directory.m</file>
+      <file>${PROJECT_ROOT}\src\io\misc\convert.m</file>
+      <file>${PROJECT_ROOT}\src\io\misc\create_dir_structure.m</file>
+      <file>${PROJECT_ROOT}\src\io\misc\fix_name.m</file>
+      <file>${PROJECT_ROOT}\src\io\misc\is_input_valid.m</file>
+      <file>${PROJECT_ROOT}\src\io\misc\log_parameters_to_file.m</file>
+      <file>${PROJECT_ROOT}\src\io\misc\process_bandwidth.m</file>
+      <file>${PROJECT_ROOT}\src\io\save\parsave.m</file>
+      <file>${PROJECT_ROOT}\src\io\save\save_app_data.m</file>
       <file>${PROJECT_ROOT}\src\main\acquire_eeg.m</file>
       <file>${PROJECT_ROOT}\src\main\calculate_features.m</file>
       <file>${PROJECT_ROOT}\src\main\launch_cleaner.m</file>
       <file>${PROJECT_ROOT}\src\main\launch_replayer.m</file>
       <file>${PROJECT_ROOT}\src\main\launch_scheduler.m</file>
       <file>${PROJECT_ROOT}\src\main\warm_up.m</file>
-      <file>${PROJECT_ROOT}\src\osc\get_osc_message_type.m</file>
+      <file>${PROJECT_ROOT}\src\osc\helper\get_osc_message_type.m</file>
       <file>${PROJECT_ROOT}\src\osc\send_fp_dpli.m</file>
       <file>${PROJECT_ROOT}\src\osc\send_fp_wpli.m</file>
       <file>${PROJECT_ROOT}\src\osc\send_hub_location.m</file>
