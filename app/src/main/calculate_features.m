@@ -90,13 +90,15 @@ function calculate_features(information,parameters)
             % Spectral Power Ratio
             if(parameters.spr.is_selected)
                 spr_data = [spr_data, data]; 
-                if(length(spr_data) == spr_data_required_size)
+                if(length(spr_data) >= spr_data_required_size)
                     % Calculate spr
                     [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(spr_data,eeg_info,parameters.spr);
                     % Convert and Send to OSC
                     send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc);
                     % Saving
+                    
                     if(information.is_save_features)
+                        
                         parsave(features_directory,"ratio_beta_alpha_"+num2str(index),ratio_beta_alpha);
                         parsave(features_directory,"ratio_alpha_theta_"+num2str(index),ratio_alpha_theta);
                     end
@@ -107,7 +109,7 @@ function calculate_features(information,parameters)
             % Topographic Distribution
             if(parameters.td.is_selected)
                 td_data = [td_data,data];
-                if(length(td_data) == td_data_required_size)
+                if(length(td_data) >= td_data_required_size)
                     % Get the right mask 
                     frontal_mask = boolean_mask.td.frontal_channels;
                     posterior_mask = boolean_mask.td.posterior_channels;
@@ -126,7 +128,7 @@ function calculate_features(information,parameters)
             % Phase Amplitude Coupling
             if(parameters.pac.is_selected)
                 pac_data = [pac_data,data];
-                if(length(pac_data) == pac_data_required_size)
+                if(length(pac_data) >= pac_data_required_size)
                     % Get the right mask
                     frontal_mask = boolean_mask.pac.frontal_channels;
                     parietal_mask = boolean_mask.pac.parietal_channels;                    
@@ -146,7 +148,7 @@ function calculate_features(information,parameters)
             % Fronto-parietal weighted Phase Lag Index
             if(parameters.fp_wpli.is_selected)
                 fp_wpli_data = [fp_wpli_data,data];
-                if(length(fp_wpli_data) == fp_wpli_data_required_size)
+                if(length(fp_wpli_data) >= fp_wpli_data_required_size)
                     % Get the right mask
                     midline_mask = boolean_mask.fp_wpli.midline_channels;
                     lateral_mask = boolean_mask.fp_wpli.lateral_channels; 
@@ -166,7 +168,7 @@ function calculate_features(information,parameters)
             % Fronto-Parietal directed Phase Lag Index
             if(parameters.fp_dpli.is_selected)
                 fp_dpli_data = [fp_dpli_data,data];
-                if(length(fp_dpli_data) == fp_dpli_data_required_size)
+                if(length(fp_dpli_data) >= fp_dpli_data_required_size)
                     % Get the right mask
                     midline_mask = boolean_mask.fp_dpli.midline_channels;
                     lateral_mask = boolean_mask.fp_dpli.lateral_channels;                     
@@ -186,7 +188,7 @@ function calculate_features(information,parameters)
             % Hub Location
             if(parameters.hl.is_selected)
                 hl_data = [hl_data,data];
-                if(length(hl_data) == hl_data_required_size)
+                if(length(hl_data) >= hl_data_required_size)
                     % Calculate hl
                     [hd_channel_index,hd_graph] = hub_location(hl_data,eeg_info,parameters.hl);
                     % Convert and Send to OSC
@@ -203,7 +205,7 @@ function calculate_features(information,parameters)
             % Permutation Entropy
             if(parameters.pe.is_selected)
                pe_data = [pe_data,data];
-               if(length(pe_data) == pe_data_required_size)
+               if(length(pe_data) >= pe_data_required_size)
                     % Get the right mask
                     frontal_mask = boolean_mask.pe.frontal_channels;
                     posterior_mask = boolean_mask.pe.posterior_channels;  

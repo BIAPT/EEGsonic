@@ -16,16 +16,22 @@ function [time] = time_hub_location(information,parameters)
     channels_location = headset.channels_location;
     osc = parameters.osc;
     
+    if(parameters.general.egi129.is_selected)
+        eeg_info = information.headset.egi129;
+    elseif(parameters.general.dsi24.is_selected)
+        eeg_info = information.headset.dsi24;
+    end
+        
     %% Generate the EEG data
     eeg_data = rand(number_channels,data_size);
 
     %% Time the critical part of the pipeline for hl
     tic;
         % Calculate hl
-        [hd_channel_index] = hub_location(eeg_data,headset,parameters.hl);
+        [hd_channel_index,hd_graph] = hub_location(eeg_data,eeg_info,parameters.hl);
         
-        % Convert and send to OSC
-        send_hub_location(parameters.hl.output_type,hd_channel_index,channels_location,osc); 
+        % Convert and Send to OSC
+        send_hub_location(parameters.hl.is_graph,hd_channel_index,hd_graph,osc);
         
         % Clear the data
         eeg_data = [];

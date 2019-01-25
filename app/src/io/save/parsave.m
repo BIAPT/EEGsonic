@@ -4,7 +4,7 @@ function parsave(path,name,data)
 %       path: where to save the data
 %       name: name of the file to be created
 %       data: data to be saved in the specified folder
-    
+
     name = fix_name(name);
     file_path = strcat(path,filesep,name,".mat");
     save(file_path,'data');
