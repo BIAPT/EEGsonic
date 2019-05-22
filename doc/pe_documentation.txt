@@ -5,3 +5,11 @@ Frontal Channels:
 Posterior Channels:
 Embedding Dimension:
 Time Delay:
+
+
+
+Background
+Permutation entropy (PE) measures the local dynamical changes of EEG ? we want to see this in frontal and posterior channels. PE quantifies the regularity structure of a time series, based on a comparison of the order of neighboring signal values, which is conceptually simple, computationally efficient and artifact resistant (Bandt and Pompe, 2002), and has been successfully applied to the separation of wakefulness from unconsciousness (Olofsen et al 2008, Li et al 2008, Jordan et al. 2013, Ranft et al. 2016). 
+The calculation of PE requires two parameters: embedding dimension (d_E) and time delay (t). In line with previous studies, we will use d_E=5 and t=4 in order to provide a sufficient deployment of the trajectories within the state space of the EEG beta activity during wakefulness and anesthesia (Jordan et al. 2013, Ranft et al. 2016).
+Implementation
+Using a 10-second window of EEG, for frontal (Fp1, Fp2, F3, F4 and Fz) and posterior (P3, P4, Pz, O1, O2 and Oz) for both EGI and DSI-24 headset, calculate PE for each channel.  Average over all frontal channels and all parietal channels. Output these values to OSC every 10 seconds.  

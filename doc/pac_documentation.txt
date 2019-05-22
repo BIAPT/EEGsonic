@@ -5,3 +5,12 @@ Frontal Channels:
 Parietal Channels:
 Extra Low Frequency:
 Higher Frequency:
+
+
+Using a 30-second window of EEG from these electrodes:
+For the EGI system, use the EEG data from 6 electrodes around Fz (electrodes 4, 10, 11, 16, 18, 19) and 5 electrodes around Pz (electrodes 61, 62, 67, 72, 77, 78).  
+For the DSI-24 system, use the EEG data from 3 frontal electrodes (F3, Fz, F4) and 3 parietal electrodes (P3, Pz, P4).  
+Extract the extra low-frequency (0.1 to 1 Hz) and alpha (8-13 Hz) oscillations.  Use a Hilbert transform to calculate instantaneous phase and amplitude within each bandwidth.  Use the PAC code you have implemented in EEGapp to construct a phase-amplitude modulgram, assigning each temporal sample to one of n = 18 equally spaced phase bins.  
+In order to determine if we have ?trough-max? or ?peak-max? coupling, for each of the 11 electrodes, calculate the ratio of the PAC from the trough (-?/2 to ?/2) and from the peak (-2 ? to -3 ?/2 PLUS 3 ?/2 to 2 ?).  
+Average the peak / trough ratio for all frontal electrodes, and for all parietal electrodes.
+Output the 2 averages every 30 seconds to OSC.

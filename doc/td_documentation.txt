@@ -4,3 +4,9 @@ Window Size:
 Frequency:
 Frontal Channels:
 Posterior Channels:
+
+
+Using a 5 second window of EEG for all channels:
+Calculate the scalp power distribution at 10 Hz (this will need to be an adjustable parameter) using the topoplot function.  Divide the head anterior and posterior at Cz so that all of the electrodes in front of Cz are part of the "front" of the head and all of the electrodes along Cz and behind it are part of the "back" of the head.  
+Calculate the average power at 10 Hz for the front and the back of the head.  
+Output the ratio: front power / back power every 5 seconds to OSC.

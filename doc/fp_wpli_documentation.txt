@@ -6,3 +6,17 @@ Lateral Channels:
 Number of Surrogates:
 p Value:
 Enable Surrogates Analysis:
+
+
+
+We are interested in how the midline frontoparietal wPLI and lateral frontoparietal wPLI change with consciousness (midline functional connectivity is more connected to internal/self awareness, while lateral functional connectivity is more connected to awareness of the external environment).  
+Using a 10-second window of EEG from these electrodes:
+	Midline:
+For the EGI system, use the EEG data from 6 electrodes around Fz (electrodes 4, 10, 11, 16, 18, 19) and 5 electrodes around Pz (electrodes 61, 62, 67, 72, 77, 78).  
+For the DSI-24 system, use the EEG data from 3 frontal electrodes (F3, Fz, F4) and 3 parietal electrodes (P3, Pz, P4).  
+Lateral:
+For the EGI system use EEG data from electrodes: lateral frontal (27, 33, 34, 116, 122, 123) and lateral parietal (51, 58, 59, 96, 97, 101)
+For the DSI-24 system, use the EEG data from lateral frontal (F7, F8) and lateral parietal (P7, P8).
+For each window, calculate the wPLI for all combinations of frontal to parietal electrodes for the midline, and all frontal to parietal electrodes for lateral.  
+We will need to test the next part to see if it is feasible in real-time, but ideally: shuffle the data ~10 times to develop an approximate surrogate wPLI.  Find the average surrogate wPLI, subtract it from the calculated wPLI.  
+Average surrogate-corrected frontoparietal PLI values for all midline electrodes, and lateral electrodes.  Output these two values to OSC every 10 seconds.  

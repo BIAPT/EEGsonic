@@ -8,3 +8,14 @@ Theta Bandwidth:
 Alpha Bandwidth:
 Beta Bandwidth:
 Required Size:
+
+Calculate the spectral power of a 2 second window of EEG, for all channels, using Chronux.  
+Step size = 0.5 s (this may increase to 1 s if it?s too computationally intensive for real-time); 
+time-bandwidth product NW = 2; 
+number of tapers K = 3.
+Calculate overall power for theta (4-8 Hz), alpha (8-13 Hz), beta (13-25 Hz) bandwidths.  
+Average the power for each bandwidth over the x overlapping windows that span an interval of 5 seconds 
+(e.g. if your step size is 0.5 s, 10 windows; if your step size is 1 s, 5 windows).  
+Every 5 seconds, output the following ratios to OSC:
+Beta power / alpha power
+Alpha power / theta power

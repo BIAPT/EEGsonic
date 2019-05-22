@@ -6,3 +6,14 @@ Lateral Channels:
 Number of Surrogates:
 p Value:
 Enable Surrogates Analysis:
+
+
+Same instructions as 4, but using dPLI instead of PLI.  Same output to OSC every 10 seconds.  
+Hub locations
+This feature will only be possible to calculate with the EGI amplifier (e.g. 128 channels).  
+Again, we will need to see if this is feasible in real-time.  For a window of 10 seconds of EEG data:
+Calculate the wPLI values of all combinations of electrodes, corrected with 10 iterations of surrogate wPLI.  
+Choose the top 10% of wPLI values (this value will also need to be adjustable).
+Calculate the degree of each electrode.
+Find the electrode with the highest degree. 
+Every 30 seconds, output the average location (check with Florian how he wants this ? MNI coordinates?) of the highest degree node to OSC.
