@@ -442,8 +442,8 @@ m = NetAddr("127.0.0.1", 57120); // loopback
 
 // m.sendMsg("/fp_wpli_midline_and_lateral", "WPLI MID LATERAL");
 // m.sendMsg("/fp_dpli_midline_and_lateral", "DPLI MID LATERAL");
-m.sendMsg("/hub_location", "HUB LOCATION");
-m.sendMsg("/hub_location_graph", "HUB LOCATION GRAPH");
+//m.sendMsg("/hub_location", "HUB LOCATION");
+//m.sendMsg("/hub_location_graph", "HUB LOCATION GRAPH");
 // m.sendMsg("/permutation_entropy_frontal_and_parietal", "PERMUTATION ENTROPY FRONTAL PARIETAL");
 // m.sendMsg("/phase_amplitude_coupling_frontal_and_parietal", "PHASE AMPLITUDE COUPLING FRONTAL PARIETAL");
 // m.sendMsg("/spectral_power_ratio_all_beta_over_alpha", "BETA OVER ALPHA");
