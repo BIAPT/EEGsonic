@@ -85,6 +85,7 @@ function calculate_features(information,parameters)
             end
             index = next_index;
             [~,data] = parload(data_directory,index); % try to load the data
+            data = filter_channels(data,eeg_info); % filter the data
             disp("Analyzing: " + num2str(index));
             
             % Spectral Power Ratio

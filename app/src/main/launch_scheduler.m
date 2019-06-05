@@ -31,7 +31,19 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     mkdir(parameters_directory);
     
     %% Save parameters and information of the app (app_data)
-    save_app_data(information,parameters,base_directory);
+    app_data_path = strcat(parameters_directory,filesep,"app_data.mat");
+    app_data = struct();
+    app_data.parameters = parameters;
+    app_data.information = information;
+    save(app_data_path,'app_data');
+    
+    % But we also save the recording_info to the src folder.
+    recording_info_path = strcat(base_directory, filesep, "recording_info.mat");
+    recording_info = get_headset(information,parameters);
+    save(recording_info_path,'recording_info');
+    
+    % Log the app data into a text file
+    log_parameters_to_file(base_directory,"information.txt",parameters)
     
     %% Launch and return the two workers
     parameters.warm_up_wait_time = 10;

@@ -1,7 +1,8 @@
-function [outputArg1,outputArg2] = filter_channels(inputArg1,inputArg2)
+function [filtered_data] = filter_channels(data,eeg_info)
 %FILTER_CHANNELS Summary of this function goes here
 %   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+
+    filtered_data = data;
+
 end
 
