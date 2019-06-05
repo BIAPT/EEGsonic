@@ -31,7 +31,10 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     mkdir(parameters_directory);
     
     %% Save parameters and information of the app (app_data)
-    save_app_data(information,parameters,base_directory);
+    save_app_data(information,parameters,base
+    log_parameters_to_file(base_directory,"information.txt",parameters)
+    
+    %% Boot up amplifier
     
     %% Launch and return the two workers
     parameters.warm_up_wait_time = 10;
