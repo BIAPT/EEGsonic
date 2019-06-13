@@ -1,4 +1,4 @@
-function [filtered_data] = filter_channels(data,eeg_info)
+function [filtered_data, filtered_eeg_info] = filter_channels(data,eeg_info)
 %FILTER_CHANNELS Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -24,9 +24,12 @@ function [filtered_data] = filter_channels(data,eeg_info)
        
     end
     
-    
-    
+    % Filter the data using the mask
+    % Note: It's useless to filter the eeg_info over and over again. Fix
+    % this is it becomes a bootleneck (optimization possible)
     filtered_data = data(mask,:);
-
+    eeg_info.channels_location = eeg_info.channels_location(mask);
+    eeg_info.number_channels = length(mask);
+    filtered_eeg_info = eeg_info;
 end
 
