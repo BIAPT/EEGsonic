@@ -1,4 +1,0 @@
-
-ampdeinit;
-
-return
