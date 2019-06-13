@@ -24,6 +24,7 @@ function [filtered_data, filtered_eeg_info] = filter_channels(data,eeg_info)
        
     end
     
+    
     % Filter the data using the mask
     % Note: It's useless to filter the eeg_info over and over again. Fix
     % this is it becomes a bootleneck (optimization possible)
