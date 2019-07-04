@@ -23,5 +23,9 @@ function [avg_pli_midline,avg_pli_lateral] = fp_wpli(eeg_data,eeg_info,parameter
     avg_pli_midline = mean2(midline_wpli);
     avg_pli_lateral = mean2(lateral_wpli);
     
+    %%TODO: change this to get only one set of channels for the wPLI
+    %%TODO: use the assign_side_region function to make the following
+    %%groups: avg_left_lateral, avg_left_midline, avg_right_midline,
+    %%avg_right_lateral
 end
 

@@ -22,5 +22,10 @@ function [avg_dpli_midline,avg_dpli_lateral] = fp_dpli(eeg_data,eeg_info,paramet
     %% Calculate the average for the midline and lateral electrodes
     avg_dpli_midline = mean2(midline_dpli);
     avg_dpli_lateral = mean2(lateral_dpli);
+    
+    %%TODO: change this to get only one set of channels for the wPLI
+    %%TODO: use the assign_side_region function to make the following
+    %%groups: avg_left_lateral, avg_left_midline, avg_right_midline,
+    %%avg_right_lateral
 end
 

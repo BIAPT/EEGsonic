@@ -1,4 +1,4 @@
-function [side,region] = assign_region(x,y)
+function [side,region] = assign_side_region(x,y)
 %ASSIGN_PLI_REGION Summary of this function goes here
 %   Detailed explanation goes here
     
