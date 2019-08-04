@@ -1,0 +1,79 @@
+
+Steps to run examples:
+
+Note 1: Please see the Amp Server Pro SDK 2.1 Users Guide and Amp Server Pro SDK 2.1
+        Network Protocols, Data Formats, and Technical Details for the overall architecture
+        of Amp Server and Amp Server.
+
+Note 2: The below steps are if you would like to compile the examples. If you merely wish to run
+        run them without modification, you can find the precompiled binaries in the ./examples/bin
+        directory.
+
+######
+
+Note: For all Xcode-based applications, please open the project file (for example, in
+      the Amp Server Pro SDK Write to MFF Application, AmpServerProSDKWriteToMFF.xcodeproj,
+      and build either from the menu, or by typing: (cmd-'b').
+
+--- Simple Client ---
+
+1) type: make
+2) type: ./simpleClient
+
+The simpleClient application has various command line options. To see what these are, execute:
+3) ./simpleClient -h 
+
+Note: The scripting for this example is primative and easily defeated. Modify as you desire.
+
+######
+
+--- Amp Server Pro SDK Write to MFF Application ---
+
+1) Build.
+2) Usage of this application is mostly self-evident. For any questions, please contact EGI Support.
+
+######
+
+--- Low-level API example ---
+
+Note: The Low level api verison is standalone.
+
+1) type: g++ low_level_api.cpp
+
+######
+
+--- Amp Lab ---
+
+Please read the readme.txt file in the Amp Lab directory. It contains detailed instructs on
+how to use this example.
+
+######
+
+--- ECI ---
+
+The ECI example is a simple example of a client / server application using the ECI protocol. To use
+this example, you need to:
+
+1) Build.
+2) Run the ECIServer and ECIClient applications.
+3) Start the ECI Server. You may specify a different port than the default if you desire.
+4) Connect the ECI Client to the ECI Server (using the same port).
+5) Send some test commands.
+
+Please note, this is ONLY a very basic example. It does not "do" anything, other than provide an
+example of how to use the ECI networking protocols. Full encoding and decoding of events is provided
+within the Amp Server Pro SDK libraries from an MFFEvent object.
+
+For any questions, please contact EGI support.
+
+######
+
+All the above assumes:
+1) You have an amplifier connected with the correct IP address.
+2) The Amp Server (in the case of an NA 300) is from the SAME Amp Server Pro SDK release package.
+
+------
+
+* Please report any comments/bugs to:
+* Web Page: www.egi.com
+* Email: support@egi.com

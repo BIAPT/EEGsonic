@@ -1,0 +1,36 @@
+
+# A script for testing various commands.
+print *** Script Output ***: Running command sequence.
+sleep 1
+sendCommand cmd_SetPower 0 -1 1 # Turn on the amplifier.
+sleep 2
+
+print *** Script Output ***: Setting sampling rate to: 1000sps
+sendCommand cmd_SetDecimatedRate 0 -1 1000 # Set the decimation rate.
+sleep 2
+sendCommand cmd_DefaultAcquisitionState 0 -1 -1 # Default acquisition state.
+sleep 2
+sendCommand cmd_Start 0 -1 -1 # Start the amplifier.
+sleep 10
+print *** Script Output ***: Setting the amp to default signal generation state.
+sendCommand cmd_DefaultSignalGeneration 0 0 0 # Default signal generation state.
+print *** Script Output ***: Setting signal frequency to 2
+sendCommand cmd_SetCalibrationSignalFreq 0 0 2
+sleep 10
+print *** Script Output ***: Setting signal frequency to 3
+sendCommand cmd_SetCalibrationSignalFreq 0 0 3
+sleep 10
+print *** Script Output ***: Setting signal frequency to 4
+sendCommand cmd_SetCalibrationSignalFreq 0 0 4
+sleep 10
+print *** Script Output ***: Setting signal amplitude to 100
+sendCommand cmd_SetCalibrationSignalAmplitude 0 0 100
+sleep 10
+
+print *** Script Output ***: Resetting to the default acquisition state, stopping and powering off the amplifier.
+sendCommand cmd_DefaultAcquisitionState 0 -1 -1 # Default acquisition state.
+sendCommand cmd_Stop 0 -1 -1 # Stop the amplifier.
+sendCommand cmd_SetPower 0 -1 0 # Turn off the amplifier.
+
+print *** Script Output ***: Exiting script...
+exit
