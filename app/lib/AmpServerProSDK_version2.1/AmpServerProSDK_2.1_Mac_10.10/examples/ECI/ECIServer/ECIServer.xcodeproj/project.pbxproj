@@ -1,0 +1,541 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C40B86291A1533A800B52E4A /* libPocoFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C40B86281A1533A800B52E4A /* libPocoFoundation.a */; };
+		C40B862C1A15363E00B52E4A /* ECICommandDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = C40B862B1A15363E00B52E4A /* ECICommandDelegate.mm */; };
+		C40B862E1A153A7900B52E4A /* libAS_Network_Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C40B862D1A153A7900B52E4A /* libAS_Network_Client.a */; };
+		C440964B15CA8B00003997A3 /* libtinyxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C440964A15CA8B00003997A3 /* libtinyxml.a */; };
+		C440969F15D29270003997A3 /* ECIServerController.mm in Sources */ = {isa = PBXBuildFile; fileRef = C440969E15D29270003997A3 /* ECIServerController.mm */; };
+		C441A6D215C8347C003EA26B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C441A6D115C8347C003EA26B /* Cocoa.framework */; };
+		C441A6DC15C8347C003EA26B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C441A6DA15C8347C003EA26B /* InfoPlist.strings */; };
+		C441A6DF15C8347C003EA26B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C441A6DE15C8347C003EA26B /* main.m */; };
+		C441A6E215C8347C003EA26B /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C441A6E015C8347C003EA26B /* Credits.rtf */; };
+		C441A6E515C8347C003EA26B /* ECIServerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C441A6E415C8347C003EA26B /* ECIServerAppDelegate.m */; };
+		C441A6E815C8347C003EA26B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C441A6E615C8347C003EA26B /* MainMenu.xib */; };
+		C441A6EF15C8347C003EA26B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C441A6D115C8347C003EA26B /* Cocoa.framework */; };
+		C441A6F715C8347C003EA26B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C441A6F515C8347C003EA26B /* InfoPlist.strings */; };
+		C441A6FA15C8347C003EA26B /* ECIServerTests.h in Resources */ = {isa = PBXBuildFile; fileRef = C441A6F915C8347C003EA26B /* ECIServerTests.h */; };
+		C441A6FC15C8347C003EA26B /* ECIServerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C441A6FB15C8347C003EA26B /* ECIServerTests.m */; };
+		C4B47B1A15C98C1A00EE3F96 /* libAS_Network_Server.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4B47B1815C98C1A00EE3F96 /* libAS_Network_Server.a */; };
+		C4B47B2115C98C3000EE3F96 /* libmff_cpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4B47B1E15C98C3000EE3F96 /* libmff_cpp.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C441A6F015C8347C003EA26B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C441A6C415C8347C003EA26B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C441A6CC15C8347C003EA26B;
+			remoteInfo = ECIServer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C40B86281A1533A800B52E4A /* libPocoFoundation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPocoFoundation.a; path = ../../../libs/poco/libPocoFoundation.a; sourceTree = "<group>"; };
+		C40B862A1A15363E00B52E4A /* ECICommandDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECICommandDelegate.h; sourceTree = "<group>"; };
+		C40B862B1A15363E00B52E4A /* ECICommandDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ECICommandDelegate.mm; sourceTree = "<group>"; };
+		C40B862D1A153A7900B52E4A /* libAS_Network_Client.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAS_Network_Client.a; path = ../../../libs/sdk/libAS_Network_Client.a; sourceTree = "<group>"; };
+		C440964A15CA8B00003997A3 /* libtinyxml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtinyxml.a; path = ../../../libs/tinyxml/libtinyxml.a; sourceTree = "<group>"; };
+		C440969D15D29270003997A3 /* ECIServerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECIServerController.h; sourceTree = "<group>"; };
+		C440969E15D29270003997A3 /* ECIServerController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ECIServerController.mm; sourceTree = "<group>"; };
+		C441A6CD15C8347C003EA26B /* ECIServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECIServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C441A6D115C8347C003EA26B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		C441A6D415C8347C003EA26B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		C441A6D515C8347C003EA26B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C441A6D615C8347C003EA26B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C441A6D915C8347C003EA26B /* ECIServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ECIServer-Info.plist"; sourceTree = "<group>"; };
+		C441A6DB15C8347C003EA26B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C441A6DD15C8347C003EA26B /* ECIServer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ECIServer-Prefix.pch"; sourceTree = "<group>"; };
+		C441A6DE15C8347C003EA26B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C441A6E115C8347C003EA26B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		C441A6E315C8347C003EA26B /* ECIServerAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECIServerAppDelegate.h; sourceTree = "<group>"; };
+		C441A6E415C8347C003EA26B /* ECIServerAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECIServerAppDelegate.m; sourceTree = "<group>"; };
+		C441A6E715C8347C003EA26B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		C441A6EE15C8347C003EA26B /* ECIServerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ECIServerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C441A6F415C8347C003EA26B /* ECIServerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ECIServerTests-Info.plist"; sourceTree = "<group>"; };
+		C441A6F615C8347C003EA26B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C441A6F815C8347C003EA26B /* ECIServerTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ECIServerTests-Prefix.pch"; sourceTree = "<group>"; };
+		C441A6F915C8347C003EA26B /* ECIServerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECIServerTests.h; sourceTree = "<group>"; };
+		C441A6FB15C8347C003EA26B /* ECIServerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECIServerTests.m; sourceTree = "<group>"; };
+		C4B47B1815C98C1A00EE3F96 /* libAS_Network_Server.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAS_Network_Server.a; path = ../../../libs/sdk/libAS_Network_Server.a; sourceTree = "<group>"; };
+		C4B47B1E15C98C3000EE3F96 /* libmff_cpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmff_cpp.a; path = ../../../libs/mff/libmff_cpp.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C441A6CA15C8347C003EA26B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C441A6D215C8347C003EA26B /* Cocoa.framework in Frameworks */,
+				C40B86291A1533A800B52E4A /* libPocoFoundation.a in Frameworks */,
+				C4B47B1A15C98C1A00EE3F96 /* libAS_Network_Server.a in Frameworks */,
+				C4B47B2115C98C3000EE3F96 /* libmff_cpp.a in Frameworks */,
+				C440964B15CA8B00003997A3 /* libtinyxml.a in Frameworks */,
+				C40B862E1A153A7900B52E4A /* libAS_Network_Client.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C441A6EA15C8347C003EA26B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C441A6EF15C8347C003EA26B /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C440969915D29207003997A3 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				C441A6E315C8347C003EA26B /* ECIServerAppDelegate.h */,
+				C441A6E415C8347C003EA26B /* ECIServerAppDelegate.m */,
+				C440969D15D29270003997A3 /* ECIServerController.h */,
+				C440969E15D29270003997A3 /* ECIServerController.mm */,
+			);
+			name = Interface;
+			sourceTree = "<group>";
+		};
+		C441A6C215C8347C003EA26B = {
+			isa = PBXGroup;
+			children = (
+				C4B47B1715C98BF500EE3F96 /* libraries */,
+				C441A6D715C8347C003EA26B /* ECIServer */,
+				C441A6F215C8347C003EA26B /* ECIServerTests */,
+				C441A6D015C8347C003EA26B /* Frameworks */,
+				C441A6CE15C8347C003EA26B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C441A6CE15C8347C003EA26B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C441A6CD15C8347C003EA26B /* ECIServer.app */,
+				C441A6EE15C8347C003EA26B /* ECIServerTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C441A6D015C8347C003EA26B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C441A6D115C8347C003EA26B /* Cocoa.framework */,
+				C441A6D315C8347C003EA26B /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C441A6D315C8347C003EA26B /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C441A6D415C8347C003EA26B /* AppKit.framework */,
+				C441A6D515C8347C003EA26B /* CoreData.framework */,
+				C441A6D615C8347C003EA26B /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		C441A6D715C8347C003EA26B /* ECIServer */ = {
+			isa = PBXGroup;
+			children = (
+				C40B862A1A15363E00B52E4A /* ECICommandDelegate.h */,
+				C40B862B1A15363E00B52E4A /* ECICommandDelegate.mm */,
+				C440969915D29207003997A3 /* Interface */,
+				C441A6E615C8347C003EA26B /* MainMenu.xib */,
+				C441A6D815C8347C003EA26B /* Supporting Files */,
+			);
+			path = ECIServer;
+			sourceTree = "<group>";
+		};
+		C441A6D815C8347C003EA26B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C441A6D915C8347C003EA26B /* ECIServer-Info.plist */,
+				C441A6DA15C8347C003EA26B /* InfoPlist.strings */,
+				C441A6DD15C8347C003EA26B /* ECIServer-Prefix.pch */,
+				C441A6DE15C8347C003EA26B /* main.m */,
+				C441A6E015C8347C003EA26B /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C441A6F215C8347C003EA26B /* ECIServerTests */ = {
+			isa = PBXGroup;
+			children = (
+				C441A6F915C8347C003EA26B /* ECIServerTests.h */,
+				C441A6FB15C8347C003EA26B /* ECIServerTests.m */,
+				C441A6F315C8347C003EA26B /* Supporting Files */,
+			);
+			path = ECIServerTests;
+			sourceTree = "<group>";
+		};
+		C441A6F315C8347C003EA26B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C441A6F415C8347C003EA26B /* ECIServerTests-Info.plist */,
+				C441A6F515C8347C003EA26B /* InfoPlist.strings */,
+				C441A6F815C8347C003EA26B /* ECIServerTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C4B47B1715C98BF500EE3F96 /* libraries */ = {
+			isa = PBXGroup;
+			children = (
+				C40B86281A1533A800B52E4A /* libPocoFoundation.a */,
+				C440964A15CA8B00003997A3 /* libtinyxml.a */,
+				C4B47B1E15C98C3000EE3F96 /* libmff_cpp.a */,
+				C40B862D1A153A7900B52E4A /* libAS_Network_Client.a */,
+				C4B47B1815C98C1A00EE3F96 /* libAS_Network_Server.a */,
+			);
+			name = libraries;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C441A6CC15C8347C003EA26B /* ECIServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C441A6FF15C8347C003EA26B /* Build configuration list for PBXNativeTarget "ECIServer" */;
+			buildPhases = (
+				C441A6C915C8347C003EA26B /* Sources */,
+				C441A6CA15C8347C003EA26B /* Frameworks */,
+				C441A6CB15C8347C003EA26B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ECIServer;
+			productName = ECIServer;
+			productReference = C441A6CD15C8347C003EA26B /* ECIServer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C441A6ED15C8347C003EA26B /* ECIServerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C441A70215C8347C003EA26B /* Build configuration list for PBXNativeTarget "ECIServerTests" */;
+			buildPhases = (
+				C441A6E915C8347C003EA26B /* Sources */,
+				C441A6EA15C8347C003EA26B /* Frameworks */,
+				C441A6EB15C8347C003EA26B /* Resources */,
+				C441A6EC15C8347C003EA26B /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C441A6F115C8347C003EA26B /* PBXTargetDependency */,
+			);
+			name = ECIServerTests;
+			productName = ECIServerTests;
+			productReference = C441A6EE15C8347C003EA26B /* ECIServerTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C441A6C415C8347C003EA26B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Electrical Geodesics, Inc.";
+			};
+			buildConfigurationList = C441A6C715C8347C003EA26B /* Build configuration list for PBXProject "ECIServer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C441A6C215C8347C003EA26B;
+			productRefGroup = C441A6CE15C8347C003EA26B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C441A6CC15C8347C003EA26B /* ECIServer */,
+				C441A6ED15C8347C003EA26B /* ECIServerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C441A6CB15C8347C003EA26B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C441A6DC15C8347C003EA26B /* InfoPlist.strings in Resources */,
+				C441A6E215C8347C003EA26B /* Credits.rtf in Resources */,
+				C441A6E815C8347C003EA26B /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C441A6EB15C8347C003EA26B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C441A6F715C8347C003EA26B /* InfoPlist.strings in Resources */,
+				C441A6FA15C8347C003EA26B /* ECIServerTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C441A6EC15C8347C003EA26B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C441A6C915C8347C003EA26B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C40B862C1A15363E00B52E4A /* ECICommandDelegate.mm in Sources */,
+				C441A6DF15C8347C003EA26B /* main.m in Sources */,
+				C441A6E515C8347C003EA26B /* ECIServerAppDelegate.m in Sources */,
+				C440969F15D29270003997A3 /* ECIServerController.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C441A6E915C8347C003EA26B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C441A6FC15C8347C003EA26B /* ECIServerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C441A6F115C8347C003EA26B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C441A6CC15C8347C003EA26B /* ECIServer */;
+			targetProxy = C441A6F015C8347C003EA26B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C441A6DA15C8347C003EA26B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C441A6DB15C8347C003EA26B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C441A6E015C8347C003EA26B /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C441A6E115C8347C003EA26B /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		C441A6E615C8347C003EA26B /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C441A6E715C8347C003EA26B /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		C441A6F515C8347C003EA26B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C441A6F615C8347C003EA26B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C441A6FD15C8347C003EA26B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C441A6FE15C8347C003EA26B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C441A70015C8347C003EA26B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ECIServer/ECIServer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../include/base\"",
+					"\"$(SRCROOT)/../../../include/sdk\"",
+					"\"$(SRCROOT)/../../../include/mff/cpp/api\"",
+					"\"$(SRCROOT)/../../../include/mff/cpp/protocols\"",
+					"\"$(SRCROOT)/../../../include/mff/cpp/util\"",
+					"\"$(SRCROOT)/../../../include/poco\"",
+					"\"$(SRCROOT)/../../../include/tinyxml\"",
+				);
+				INFOPLIST_FILE = "ECIServer/ECIServer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../libs/sdk\"",
+					"\"$(SRCROOT)/../../../libs/tinyxml\"",
+					"\"$(SRCROOT)/../../../libs/mff\"",
+					"\"$(SRCROOT)/../../../libs/poco\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C441A70115C8347C003EA26B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ECIServer/ECIServer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../include/base\"",
+					"\"$(SRCROOT)/../../../include/sdk\"",
+					"\"$(SRCROOT)/../../../include/mff/cpp/api\"",
+					"\"$(SRCROOT)/../../../include/mff/cpp/protocols\"",
+					"\"$(SRCROOT)/../../../include/mff/cpp/util\"",
+					"\"$(SRCROOT)/../../../include/poco\"",
+					"\"$(SRCROOT)/../../../include/tinyxml\"",
+				);
+				INFOPLIST_FILE = "ECIServer/ECIServer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../libs/sdk\"",
+					"\"$(SRCROOT)/../../../libs/tinyxml\"",
+					"\"$(SRCROOT)/../../../libs/mff\"",
+					"\"$(SRCROOT)/../../../libs/poco\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C441A70315C8347C003EA26B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ECIServer.app/Contents/MacOS/ECIServer";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ECIServerTests/ECIServerTests-Prefix.pch";
+				INFOPLIST_FILE = "ECIServerTests/ECIServerTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		C441A70415C8347C003EA26B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ECIServer.app/Contents/MacOS/ECIServer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ECIServerTests/ECIServerTests-Prefix.pch";
+				INFOPLIST_FILE = "ECIServerTests/ECIServerTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C441A6C715C8347C003EA26B /* Build configuration list for PBXProject "ECIServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C441A6FD15C8347C003EA26B /* Debug */,
+				C441A6FE15C8347C003EA26B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C441A6FF15C8347C003EA26B /* Build configuration list for PBXNativeTarget "ECIServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C441A70015C8347C003EA26B /* Debug */,
+				C441A70115C8347C003EA26B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C441A70215C8347C003EA26B /* Build configuration list for PBXNativeTarget "ECIServerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C441A70315C8347C003EA26B /* Debug */,
+				C441A70415C8347C003EA26B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C441A6C415C8347C003EA26B /* Project object */;
+}

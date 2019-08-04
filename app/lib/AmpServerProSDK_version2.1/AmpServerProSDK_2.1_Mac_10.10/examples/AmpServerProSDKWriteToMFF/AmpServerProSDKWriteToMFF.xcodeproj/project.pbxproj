@@ -1,0 +1,526 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C40524CF1B9F443300FF1E53 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C40524CE1B9F443300FF1E53 /* AppDelegate.m */; };
+		C40524D11B9F443300FF1E53 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C40524D01B9F443300FF1E53 /* main.m */; };
+		C40524D31B9F443300FF1E53 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C40524D21B9F443300FF1E53 /* Images.xcassets */; };
+		C40524D61B9F443300FF1E53 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C40524D41B9F443300FF1E53 /* MainMenu.xib */; };
+		C40524E21B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C40524E11B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests.m */; };
+		C40524ED1B9F737300FF1E53 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = C40524EC1B9F737300FF1E53 /* AppController.mm */; };
+		C40524F11BA1F45D00FF1E53 /* libPocoFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C40524F01BA1F45D00FF1E53 /* libPocoFoundation.a */; };
+		C40524F31BA1F48600FF1E53 /* libmff_cpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C40524F21BA1F48600FF1E53 /* libmff_cpp.a */; };
+		C40524F51BA1F4A100FF1E53 /* libtinyxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C40524F41BA1F4A100FF1E53 /* libtinyxml.a */; };
+		C40524F71BA1F4B800FF1E53 /* libAS_Network_Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C40524F61BA1F4B800FF1E53 /* libAS_Network_Client.a */; };
+		C40D2C181BBC5C630009EB27 /* DataStreamObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C40D2C161BBC5C630009EB27 /* DataStreamObserver.cpp */; };
+		C40D2C281BBD9AA20009EB27 /* AmpPropertiesTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D2C271BBD9AA20009EB27 /* AmpPropertiesTableDelegate.m */; };
+		C42316541C0E0CBD001489EB /* MFFWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = C42316521C0E0CBD001489EB /* MFFWriter.mm */; };
+		C4C11F741C18A29600831854 /* CoordinateLayouts in Resources */ = {isa = PBXBuildFile; fileRef = C4C11F721C18A29600831854 /* CoordinateLayouts */; };
+		C4C11F751C18A29600831854 /* SensorLayouts in Resources */ = {isa = PBXBuildFile; fileRef = C4C11F731C18A29600831854 /* SensorLayouts */; };
+		C4D174D41C14C261007424B9 /* MFFFileWriterUtilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = C4D174D21C14C261007424B9 /* MFFFileWriterUtilities.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C40524DC1B9F443300FF1E53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C40524C01B9F443300FF1E53 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C40524C71B9F443300FF1E53;
+			remoteInfo = AmpServerProSDKWriteToMFF;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C40524C81B9F443300FF1E53 /* AmpServerProSDKWriteToMFF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmpServerProSDKWriteToMFF.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C40524CC1B9F443300FF1E53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C40524CD1B9F443300FF1E53 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C40524CE1B9F443300FF1E53 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C40524D01B9F443300FF1E53 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C40524D21B9F443300FF1E53 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		C40524D51B9F443300FF1E53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		C40524DB1B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmpServerProSDKWriteToMFFTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C40524E01B9F443300FF1E53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C40524E11B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AmpServerProSDKWriteToMFFTests.m; sourceTree = "<group>"; };
+		C40524EB1B9F737300FF1E53 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		C40524EC1B9F737300FF1E53 /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppController.mm; sourceTree = "<group>"; };
+		C40524F01BA1F45D00FF1E53 /* libPocoFoundation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPocoFoundation.a; path = ../../libs/poco/libPocoFoundation.a; sourceTree = "<group>"; };
+		C40524F21BA1F48600FF1E53 /* libmff_cpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmff_cpp.a; path = ../../libs/mff/libmff_cpp.a; sourceTree = "<group>"; };
+		C40524F41BA1F4A100FF1E53 /* libtinyxml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtinyxml.a; path = ../../libs/tinyxml/libtinyxml.a; sourceTree = "<group>"; };
+		C40524F61BA1F4B800FF1E53 /* libAS_Network_Client.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAS_Network_Client.a; path = ../../libs/sdk/libAS_Network_Client.a; sourceTree = "<group>"; };
+		C40D2C161BBC5C630009EB27 /* DataStreamObserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataStreamObserver.cpp; sourceTree = "<group>"; };
+		C40D2C171BBC5C630009EB27 /* DataStreamObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStreamObserver.h; sourceTree = "<group>"; };
+		C40D2C261BBD9AA20009EB27 /* AmpPropertiesTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmpPropertiesTableDelegate.h; sourceTree = "<group>"; };
+		C40D2C271BBD9AA20009EB27 /* AmpPropertiesTableDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmpPropertiesTableDelegate.m; sourceTree = "<group>"; };
+		C42316521C0E0CBD001489EB /* MFFWriter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MFFWriter.mm; sourceTree = "<group>"; };
+		C42316531C0E0CBD001489EB /* MFFWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFFWriter.h; sourceTree = "<group>"; };
+		C4C11F721C18A29600831854 /* CoordinateLayouts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CoordinateLayouts; path = ../../../extras/CoordinateLayouts; sourceTree = "<group>"; };
+		C4C11F731C18A29600831854 /* SensorLayouts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SensorLayouts; path = ../../../extras/SensorLayouts; sourceTree = "<group>"; };
+		C4D174D21C14C261007424B9 /* MFFFileWriterUtilities.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MFFFileWriterUtilities.mm; sourceTree = "<group>"; };
+		C4D174D31C14C261007424B9 /* MFFFileWriterUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFFFileWriterUtilities.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C40524C51B9F443300FF1E53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C40524F51BA1F4A100FF1E53 /* libtinyxml.a in Frameworks */,
+				C40524F11BA1F45D00FF1E53 /* libPocoFoundation.a in Frameworks */,
+				C40524F31BA1F48600FF1E53 /* libmff_cpp.a in Frameworks */,
+				C40524F71BA1F4B800FF1E53 /* libAS_Network_Client.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C40524D81B9F443300FF1E53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C40524BF1B9F443300FF1E53 = {
+			isa = PBXGroup;
+			children = (
+				C40524EF1BA1F43800FF1E53 /* Libraries */,
+				C40524EE1B9F784500FF1E53 /* Frameworks */,
+				C40524CA1B9F443300FF1E53 /* AmpServerProSDKWriteToMFF */,
+				C40524DE1B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests */,
+				C40524C91B9F443300FF1E53 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C40524C91B9F443300FF1E53 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C40524C81B9F443300FF1E53 /* AmpServerProSDKWriteToMFF.app */,
+				C40524DB1B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C40524CA1B9F443300FF1E53 /* AmpServerProSDKWriteToMFF */ = {
+			isa = PBXGroup;
+			children = (
+				C40524CD1B9F443300FF1E53 /* AppDelegate.h */,
+				C40524CE1B9F443300FF1E53 /* AppDelegate.m */,
+				C40524EB1B9F737300FF1E53 /* AppController.h */,
+				C40524EC1B9F737300FF1E53 /* AppController.mm */,
+				C40D2C171BBC5C630009EB27 /* DataStreamObserver.h */,
+				C40D2C161BBC5C630009EB27 /* DataStreamObserver.cpp */,
+				C42316531C0E0CBD001489EB /* MFFWriter.h */,
+				C42316521C0E0CBD001489EB /* MFFWriter.mm */,
+				C4D174D31C14C261007424B9 /* MFFFileWriterUtilities.h */,
+				C4D174D21C14C261007424B9 /* MFFFileWriterUtilities.mm */,
+				C40D2C261BBD9AA20009EB27 /* AmpPropertiesTableDelegate.h */,
+				C40D2C271BBD9AA20009EB27 /* AmpPropertiesTableDelegate.m */,
+				C40524D21B9F443300FF1E53 /* Images.xcassets */,
+				C40524D41B9F443300FF1E53 /* MainMenu.xib */,
+				C40524CB1B9F443300FF1E53 /* Supporting Files */,
+			);
+			path = AmpServerProSDKWriteToMFF;
+			sourceTree = "<group>";
+		};
+		C40524CB1B9F443300FF1E53 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C4C11F721C18A29600831854 /* CoordinateLayouts */,
+				C4C11F731C18A29600831854 /* SensorLayouts */,
+				C40524CC1B9F443300FF1E53 /* Info.plist */,
+				C40524D01B9F443300FF1E53 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C40524DE1B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests */ = {
+			isa = PBXGroup;
+			children = (
+				C40524E11B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests.m */,
+				C40524DF1B9F443300FF1E53 /* Supporting Files */,
+			);
+			path = AmpServerProSDKWriteToMFFTests;
+			sourceTree = "<group>";
+		};
+		C40524DF1B9F443300FF1E53 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C40524E01B9F443300FF1E53 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C40524EE1B9F784500FF1E53 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C40524EF1BA1F43800FF1E53 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				C40524F61BA1F4B800FF1E53 /* libAS_Network_Client.a */,
+				C40524F41BA1F4A100FF1E53 /* libtinyxml.a */,
+				C40524F21BA1F48600FF1E53 /* libmff_cpp.a */,
+				C40524F01BA1F45D00FF1E53 /* libPocoFoundation.a */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C40524C71B9F443300FF1E53 /* AmpServerProSDKWriteToMFF */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C40524E51B9F443300FF1E53 /* Build configuration list for PBXNativeTarget "AmpServerProSDKWriteToMFF" */;
+			buildPhases = (
+				C40524C41B9F443300FF1E53 /* Sources */,
+				C40524C51B9F443300FF1E53 /* Frameworks */,
+				C40524C61B9F443300FF1E53 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AmpServerProSDKWriteToMFF;
+			productName = AmpServerProSDKWriteToMFF;
+			productReference = C40524C81B9F443300FF1E53 /* AmpServerProSDKWriteToMFF.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C40524DA1B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C40524E81B9F443300FF1E53 /* Build configuration list for PBXNativeTarget "AmpServerProSDKWriteToMFFTests" */;
+			buildPhases = (
+				C40524D71B9F443300FF1E53 /* Sources */,
+				C40524D81B9F443300FF1E53 /* Frameworks */,
+				C40524D91B9F443300FF1E53 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C40524DD1B9F443300FF1E53 /* PBXTargetDependency */,
+			);
+			name = AmpServerProSDKWriteToMFFTests;
+			productName = AmpServerProSDKWriteToMFFTests;
+			productReference = C40524DB1B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C40524C01B9F443300FF1E53 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "Robert Bell";
+				TargetAttributes = {
+					C40524C71B9F443300FF1E53 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					C40524DA1B9F443300FF1E53 = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = C40524C71B9F443300FF1E53;
+					};
+				};
+			};
+			buildConfigurationList = C40524C31B9F443300FF1E53 /* Build configuration list for PBXProject "AmpServerProSDKWriteToMFF" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C40524BF1B9F443300FF1E53;
+			productRefGroup = C40524C91B9F443300FF1E53 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C40524C71B9F443300FF1E53 /* AmpServerProSDKWriteToMFF */,
+				C40524DA1B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C40524C61B9F443300FF1E53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4C11F751C18A29600831854 /* SensorLayouts in Resources */,
+				C40524D31B9F443300FF1E53 /* Images.xcassets in Resources */,
+				C4C11F741C18A29600831854 /* CoordinateLayouts in Resources */,
+				C40524D61B9F443300FF1E53 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C40524D91B9F443300FF1E53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C40524C41B9F443300FF1E53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4D174D41C14C261007424B9 /* MFFFileWriterUtilities.mm in Sources */,
+				C40D2C281BBD9AA20009EB27 /* AmpPropertiesTableDelegate.m in Sources */,
+				C40524D11B9F443300FF1E53 /* main.m in Sources */,
+				C42316541C0E0CBD001489EB /* MFFWriter.mm in Sources */,
+				C40D2C181BBC5C630009EB27 /* DataStreamObserver.cpp in Sources */,
+				C40524ED1B9F737300FF1E53 /* AppController.mm in Sources */,
+				C40524CF1B9F443300FF1E53 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C40524D71B9F443300FF1E53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C40524E21B9F443300FF1E53 /* AmpServerProSDKWriteToMFFTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C40524DD1B9F443300FF1E53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C40524C71B9F443300FF1E53 /* AmpServerProSDKWriteToMFF */;
+			targetProxy = C40524DC1B9F443300FF1E53 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C40524D41B9F443300FF1E53 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C40524D51B9F443300FF1E53 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C40524E31B9F443300FF1E53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C40524E41B9F443300FF1E53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C40524E61B9F443300FF1E53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../../include/base\"",
+					"\"$(SRCROOT)/../../include/sdk\"",
+					"\"$(SRCROOT)/../../include/mff/cpp/api\"",
+					"\"$(SRCROOT)/../../include/mff/cpp/protocols\"",
+					"\"$(SRCROOT)/../../include/mff/cpp/util\"",
+					"\"$(SRCROOT)/../../include/poco\"",
+					"\"$(SRCROOT)/../../include/tinyxml\"",
+				);
+				INFOPLIST_FILE = AmpServerProSDKWriteToMFF/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../libs/poco\"",
+					"\"$(SRCROOT)/../../libs/mff\"",
+					"\"$(SRCROOT)/../../libs/tinyxml\"",
+					"\"$(SRCROOT)/../../libs/sdk\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C40524E71B9F443300FF1E53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../../include/base\"",
+					"\"$(SRCROOT)/../../include/sdk\"",
+					"\"$(SRCROOT)/../../include/mff/cpp/api\"",
+					"\"$(SRCROOT)/../../include/mff/cpp/protocols\"",
+					"\"$(SRCROOT)/../../include/mff/cpp/util\"",
+					"\"$(SRCROOT)/../../include/poco\"",
+					"\"$(SRCROOT)/../../include/tinyxml\"",
+				);
+				INFOPLIST_FILE = AmpServerProSDKWriteToMFF/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../libs/poco\"",
+					"\"$(SRCROOT)/../../libs/mff\"",
+					"\"$(SRCROOT)/../../libs/tinyxml\"",
+					"\"$(SRCROOT)/../../libs/sdk\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		C40524E91B9F443300FF1E53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AmpServerProSDKWriteToMFFTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AmpServerProSDKWriteToMFF.app/Contents/MacOS/AmpServerProSDKWriteToMFF";
+			};
+			name = Debug;
+		};
+		C40524EA1B9F443300FF1E53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AmpServerProSDKWriteToMFFTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AmpServerProSDKWriteToMFF.app/Contents/MacOS/AmpServerProSDKWriteToMFF";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C40524C31B9F443300FF1E53 /* Build configuration list for PBXProject "AmpServerProSDKWriteToMFF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C40524E31B9F443300FF1E53 /* Debug */,
+				C40524E41B9F443300FF1E53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C40524E51B9F443300FF1E53 /* Build configuration list for PBXNativeTarget "AmpServerProSDKWriteToMFF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C40524E61B9F443300FF1E53 /* Debug */,
+				C40524E71B9F443300FF1E53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C40524E81B9F443300FF1E53 /* Build configuration list for PBXNativeTarget "AmpServerProSDKWriteToMFFTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C40524E91B9F443300FF1E53 /* Debug */,
+				C40524EA1B9F443300FF1E53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C40524C01B9F443300FF1E53 /* Project object */;
+}
