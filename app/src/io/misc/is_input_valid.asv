@@ -117,7 +117,8 @@ function [is_valid,reason] = check_osc_receiver(path,ip,port)
 end
 
 function [is_valid,reason] = check_spr(window_size,step_size,time_bandwith_product,number_tapers, ...
-                             theta_bandwith,alpha_bandwith,beta_bandwith,averaging_size)
+                             theta_bandwith,is_theta,alpha_bandwith,is_alpha,beta_bandwith,...
+             averaging_size)
     is_valid = 1;
     reason = "";
     
@@ -136,17 +137,29 @@ function [is_valid,reason] = check_spr(window_size,step_size,time_bandwith_produ
        reason = reason + "Step size is longer than the window size. ";
     end
     
+    %% Bandpass
+    if(~is_theta || ~is_alpha || ~is_beta)
+       is_valid = 0;
+       reason = reason + "Theta, alpha or beta bandpass isn't selected. ";
+    end
+    
     %% Theta Bandwith
-    [is_valid,theta_reason] = check_bandwith(is_valid,theta_bandwith,"Theta");
-    reason = reason + theta_reason;
-        
+    if(is_theta)
+        [is_valid,theta_reason] = check_bandwith(is_valid,theta_bandwith,"Theta");
+        reason = reason + theta_reason;
+    end
+    
     %% Alpha Bandwith
-    [is_valid,alpha_reason] = check_bandwith(is_valid,alpha_bandwith,"Alpha"); 
-    reason = reason + alpha_reason;
+    if(is_alpha)
+        [is_valid,alpha_reason] = check_bandwith(is_valid,alpha_bandwith,"Alpha"); 
+        reason = reason + alpha_reason;
+    end
     
     %% Beta Bandwith
-    [is_valid,beta_reason] = check_bandwith(is_valid,beta_bandwith,"Beta");  
-    reason = reason + beta_reason;
+    if(is_beta)
+        [is_valid,beta_reason] = check_bandwith(is_valid,beta_bandwith,"Beta");  
+        reason = reason + beta_reason;
+    end
     
 
 end
