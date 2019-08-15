@@ -34,26 +34,27 @@ function [selected_channels] = get_selected_channels(information,parameters)
     selected_channels.pac.frontal_channels = find_selected_channels(all_channels,anterior_channels);
     selected_channels.pac.parietal_channels = find_selected_channels(all_channels,posterior_channels);
        
-    
-    %TODO: GET THE MIDLINE AND LATERAL ELECTRODE FROM THE FP WPLI and FP
-    %DPLI
     % FP WPLI
-    % Midline and Lateral
+    % Left/Right Midline and Lateral
     fp_wpli = parameters.fp_wpli;    
     channels = fp_wpli.channels;
-    midline_channels = channels;
-    lateral_channels = channels;
-    selected_channels.fp_wpli.midline_channels = find_selected_channels(all_channels,midline_channels);
-    selected_channels.fp_wpli.lateral_channels = find_selected_channels(all_channels,lateral_channels);
+    [left_midline, left_lateral, right_midline, right_lateral] = get_midline_lateral(channels,channels_location);
+    
+    selected_channels.fp_wpli.left_midline_channels = find_selected_channels(all_channels,left_midline);
+    selected_channels.fp_wpli.left_lateral_channels = find_selected_channels(all_channels,left_lateral);
+    selected_channels.fp_wpli.right_midline_channels = find_selected_channels(all_channels,right_midline);
+    selected_channels.fp_wpli.right_lateral_channels = find_selected_channels(all_channels,right_lateral);
     
     % FP DPLI
-    % Midline and Lateral
+    % Left/Right Midline and Lateral
     fp_dpli = parameters.fp_dpli;
     channels = fp_dpli.channels;
-    midline_channels = channels;
-    lateral_channels = channels;
-    selected_channels.fp_dpli.midline_channels = find_selected_channels(all_channels,midline_channels);
-    selected_channels.fp_dpli.lateral_channels = find_selected_channels(all_channels,lateral_channels);
+    [left_midline, left_lateral, right_midline, right_lateral] = get_midline_lateral(channels,channels_location);
+    
+    selected_channels.fp_dpli.left_midline_channels = find_selected_channels(all_channels,left_midline);
+    selected_channels.fp_dpli.left_lateral_channels = find_selected_channels(all_channels,left_lateral);
+    selected_channels.fp_dpli.right_midline_channels = find_selected_channels(all_channels,right_midline);
+    selected_channels.fp_dpli.right_lateral_channels = find_selected_channels(all_channels,right_lateral);
     
     % PE
     % Frontal and Posterior
@@ -147,6 +148,55 @@ function [posterior_channels] = get_posterior(selected_channels,all_channels)
         % headset is defined as posterior
         if(position ~= -1 && all_channels(position).X < 0.001)
             posterior_channels = [posterior_channels, selected_channels(i)];
+        end
+    end
+end
+
+
+function [left_midline, left_lateral, right_midline, right_lateral] = get_midline_lateral(channels, channels_location)
+    left_midline = [];
+    left_lateral = [];
+    right_midline = [];
+    right_lateral = [];
+    for i = 1:length(channels)
+        position = -1;
+        for j = 1:length(channels_location)
+            if(strcmp(channels(i),channels_location(j).labels))
+               position = j;
+               break;
+            end
+        end
+        
+        % Every channels that are in the below the center line of the
+        % headset is defined as posterior
+        if(position ~= -1)
+            X = channels_location(position).X;
+            Y = channels_location(position).Y;
+            [side,region] = assign_side_region(X,Y);
+            
+            % Here we decide into which list we will put our channels(i)
+            % This channel can be in multiple list at the same time
+            if(strcmp(side,"left") || strcmp(side,"both"))
+                % left lateral
+                if(strcmp(region,"lateral") || strcmp(region,"both"))
+                    left_lateral = [left_lateral, channels(i)];
+                end
+                % left midline 
+                if(strcmp(region,"midline") || strcmp(region,"both"))
+                    left_midline = [left_midline, channels(i)];
+                end
+            end
+
+            if(strcmp(side,"right") || strcmp(side,"both"))
+                % right lateral
+                if(strcmp(region,"lateral") || strcmp(region,"both"))
+                    right_lateral = [right_lateral, channels(i)];
+                end
+                % right midline 
+                if(strcmp(region,"midline") || strcmp(region,"both"))
+                    right_midline = [right_midline, channels(i)];
+                end
+            end
         end
     end
 end

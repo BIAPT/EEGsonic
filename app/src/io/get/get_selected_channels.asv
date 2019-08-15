@@ -41,10 +41,14 @@ function [selected_channels] = get_selected_channels(information,parameters)
     % Midline and Lateral
     fp_wpli = parameters.fp_wpli;    
     channels = fp_wpli.channels;
-    midline_channels = channels;
-    lateral_channels = channels;
-    selected_channels.fp_wpli.midline_channels = find_selected_channels(all_channels,midline_channels);
-    selected_channels.fp_wpli.lateral_channels = find_selected_channels(all_channels,lateral_channels);
+    % Here should have left_midline, left_lateral, right_midline and
+    % right_lateral
+    [left_midline, left_lateral, right_midline, right_lateral] = get_midline_lateral(channels,channels_location);
+    
+    selected_channels.fp_wpli.left_midline_channels = find_selected_channels(all_channels,left_midline);
+    selected_channels.fp_wpli.left_lateral_channels = find_selected_channels(all_channels,left_lateral);
+    selected_channels.fp_wpli.right_midline_channels = find_selected_channels(all_channels,right_midline);
+    selected_channels.fp_wpli.right_lateral_channels = find_selected_channels(all_channels,right_lateral);
     
     % FP DPLI
     % Midline and Lateral
@@ -59,8 +63,8 @@ function [selected_channels] = get_selected_channels(information,parameters)
     % Frontal and Posterior
     pe = parameters.pe;
     channels = pe.channels;
-    anterior_channels = get_anterior(channels, all_channels);
-    posterior_channels = get_posterior(channels, all_channels);
+    anterior_channels = get_anterior(channels, channels_location);
+    posterior_channels = get_posterior(channels, channels_location);
     
     selected_channels.pe.frontal_channels = find_selected_channels(all_channels,anterior_channels);
     selected_channels.pe.posterior_channels = find_selected_channels(all_channels,posterior_channels);
@@ -110,7 +114,7 @@ function [anterior_channels] = get_anterior(selected_channels, all_channels)
     for i = 1:length(selected_channels)
         position = -1;
         for j = 1:length(all_channels)
-            if(strcmp(selected_channels(i),all_channels(j)))
+            if(strcmp(selected_channels(i),all_channels(j).labels))
                position = j;
                break;
             end
@@ -147,6 +151,123 @@ function [posterior_channels] = get_posterior(selected_channels,all_channels)
         % headset is defined as posterior
         if(position ~= -1 && all_channels(position).X < 0.001)
             posterior_channels = [posterior_channels, selected_channels(i)];
+        end
+    end
+end
+
+function [side,region] = assign_side_region(x,y)
+%ASSIGN_PLI_REGION Summary of this function goes here
+%   Detailed explanation goes here
+    
+    epsilon = 0.0000001;
+
+    % Midline:
+    X = [7.96264703000000, -6.67669403200000];
+    Y = [0,0];
+    [coefficients] = polyfit(X, Y, 1);
+    slope = coefficients(1);
+    intercept = coefficients(2);
+    
+    if(y < epsilon && y > -epsilon)
+       side = 'both';
+       region = 'midline';
+    elseif(y > 0)
+        side = 'left';
+        region = get_left_region(x,y);
+    else
+        side = 'right';
+        region = get_right_region(x,y);
+    end
+
+end
+
+
+% Helper functions to get either the left or right region
+function region = get_left_region(x,y)
+    X = [6.02115996400000, 0.284948655000000, -4.49482169800000];
+    Y = [4.45938718700000, 5.47913021000000, 5.83124149800000];
+    [coefficients] = polyfit(X, Y, 1);
+    slope = coefficients(1);
+    intercept = coefficients(2);
+    
+    % Check if we are part of the three points
+    for i=1:length(X)
+       if(x == X(i))
+           region = 'both';
+           return;
+       end
+    end
+    
+    %Check if we are lateral and midline
+    y_threshold = slope*x + intercept;
+    if(y > y_threshold)
+       region = 'lateral'; 
+    else
+        region = 'midline';
+    end
+    
+end
+
+function region = get_right_region(x,y)
+    X = [6.02115996400000, 0.284948655000000, -4.49482169800000];
+    Y = [-4.45938718700000, -5.47913021000000, -5.83124149800000];
+    [coefficients] = polyfit(X, Y, 1);
+    slope = coefficients(1);
+    intercept = coefficients(2);
+    
+    % Check if we are part of the three points
+    for i=1:length(X)
+       if(x == X(i))
+           region = 'both';
+           return;
+       end
+    end
+    
+    %Check if we are lateral and midline
+    y_threshold = slope*x + intercept;
+    if(y < y_threshold)
+       region = 'lateral'; 
+    else
+        region = 'midline';
+    end
+end
+
+function [left_midline, left_lateral, right_midline, right_lateral] = get_midline_lateral(channels, channels_location)
+    %% First we find the position location of each channels
+    left_midline = []
+    left_lateral = []
+    right_midline = []
+    right_lateral = []
+    for i = 1:length(selected_channels)
+        position = -1;
+        for j = 1:length(all_channels)
+            if(strcmp(channels(i),channels_location(j).labels))
+               position = j;
+               break;
+            end
+        end
+        
+        % Every channels that are in the below the center line of the
+        % headset is defined as posterior
+        if(position ~= -1)
+            X = channels_location(position).X;
+            Y = channels_location(position).Y;
+            [side,region] = assign_side_region(X,Y);
+            
+            % Here we decide into which list we will put our channels(i)
+            
+            if(strcmp(side,"left") || strcmp(side,"both"))
+                % left lateral
+                if(strcmp(region,"lateral
+                % left midline                
+            end
+
+            if(strcmp(side,"right") || strcmp(side,"both"))
+                % right midline
+                % right lateral
+            end
+
+
         end
     end
 end
