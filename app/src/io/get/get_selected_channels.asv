@@ -59,8 +59,8 @@ function [selected_channels] = get_selected_channels(information,parameters)
     % Frontal and Posterior
     pe = parameters.pe;
     channels = pe.channels;
-    anterior_channels = get_anterior(channels, channels_location);
-    posterior_channels = get_posterior(channels, channels_location);
+    anterior_channels = get_anterior(channels, all_channels);
+    posterior_channels = get_posterior(channels, all_channels);
     
     selected_channels.pe.frontal_channels = find_selected_channels(all_channels,anterior_channels);
     selected_channels.pe.posterior_channels = find_selected_channels(all_channels,posterior_channels);
@@ -110,7 +110,7 @@ function [anterior_channels] = get_anterior(selected_channels, all_channels)
     for i = 1:length(selected_channels)
         position = -1;
         for j = 1:length(all_channels)
-            if(strcmp(selected_channels(i),all_channels(j).labels))
+            if(strcmp(selected_channels(i),all_channels(j)))
                position = j;
                break;
             end
