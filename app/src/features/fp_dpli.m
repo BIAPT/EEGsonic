@@ -1,4 +1,4 @@
-function [avg_dpli_midline,avg_dpli_lateral] = fp_dpli(eeg_data,eeg_info,parameters,midline_mask,lateral_mask)
+function [dpli] = fp_dpli(eeg_data,eeg_info,parameters,mask)
 %FP_DPLI Calculate frontoparietal dPLI measure (average dPLI for midline
 %and lateral electrodes)
 %   Input:
@@ -8,24 +8,29 @@ function [avg_dpli_midline,avg_dpli_lateral] = fp_dpli(eeg_data,eeg_info,paramet
 %       midline_mask: boolean mask for the midline electrodes
 %       lateral_mask: boolean mask for the lateral electrode
 %   Output:
-%       avg_dpli_midline: average dPLI for the midline electrodes
-%       avg_dpli_lateral: average dPLI for the lateral electrodes
+%       dpli is a struct containing the following:    
+%       avg_dpli_left_midline: average dPLI for the left midline electrodes
+%       avg_dpli_left_lateral: average dPLI for the left lateral electrodes
+%       avg_dpli_right_midline: average dPLI for the right midline electrodes
+%       avg_dpli_right_lateral: average dPLI for the right lateral electrodes
 
     %% Use the boolean mask to get relevant data
-    midline_eeg = eeg_data(midline_mask == 1,:);
-    lateral_eeg = eeg_data(lateral_mask == 1,:);
+    left_midline_eeg = eeg_data(mask.left_midline_channels == 1,:);
+    left_lateral_eeg = eeg_data(mask.left_midline_channels == 1,:);
+    right_midline_eeg = eeg_data(mask.right_midline_channels == 1,:);
+    right_lateral_eeg = eeg_data(mask.right_midline_channels == 1,:);
     
-    %% Calculate dPLI
-    midline_dpli = dpli(midline_eeg,eeg_info,parameters);
-    lateral_dpli = dpli(lateral_eeg,eeg_info,parameters);
-    
+    %% Calculate the dPLI
+    left_midline_dpli = dpli(left_midline_eeg,eeg_info,parameters);
+    left_lateral_dpli = dpli(left_lateral_eeg,eeg_info,parameters);
+    right_midline_dpli = dpli(right_midline_eeg,eeg_info,parameters);
+    right_lateral_dpli = dpli(right_lateral_eeg,eeg_info,parameters);
+
     %% Calculate the average for the midline and lateral electrodes
-    avg_dpli_midline = mean2(midline_dpli);
-    avg_dpli_lateral = mean2(lateral_dpli);
-    
-    %%TODO: change this to get only one set of channels for the wPLI
-    %%TODO: use the assign_side_region function to make the following
-    %%groups: avg_left_lateral, avg_left_midline, avg_right_midline,
-    %%avg_right_lateral
+    dpli = struct();
+    dpli.left_midline = mean2(left_midline_dpli);
+    dpli.left_lateral = mean2(left_lateral_dpli);
+    dpli.right_midline = mean2(right_midline_dpli);
+    dpli.right_lateral = mean2(right_lateral_dpli);
 end
 

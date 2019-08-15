@@ -1,4 +1,4 @@
-function [wpli] = fp_wpli(eeg_data,eeg_info,parameters,mask)
+function [avg_pli_left_midline, avg_pli_left_lateral, avg_pli_right_midline, avg_pli_right_lateral] = fp_wpli(eeg_data,eeg_info,parameters,mask)
 %FP_WPLI Calculate frontoparietal dPLI measure (average dPLI for midline
 %and lateral electrodes)
 %   Input:
@@ -8,11 +8,8 @@ function [wpli] = fp_wpli(eeg_data,eeg_info,parameters,mask)
 %       midline_mask: boolean mask for the midline electrodes
 %       lateral_mask: boolean mask for the lateral electrode
 %   Output:
-%       wpli is a structure containing the following
-%       left_midline: average wPLI for the left midline electrodes
-%       left_lateral: average wPLI for the left lateral electrodes
-%       right_midline: average wPLI for the right midline electrodes
-%       right_lateral: average wPLI for the right lateral electrodes
+%       avg_wpli_midline: average wPLI for the midline electrodes
+%       avg_wpli_lateral: average wPLI for the lateral electrodes
 
     %% Use the boolean mask to get relevant data
     left_midline_eeg = eeg_data(mask.left_midline_channels == 1,:);
@@ -27,10 +24,12 @@ function [wpli] = fp_wpli(eeg_data,eeg_info,parameters,mask)
     right_lateral_wpli = wpli(right_lateral_eeg,eeg_info,parameters);
 
     %% Calculate the average for the midline and lateral electrodes
-    wpli = struct();
-    wpli.left_midline = mean2(left_midline_wpli);
-    wpli.left_lateral = mean2(left_lateral_wpli);
-    wpli.right_midline = mean2(right_midline_wpli);
-    wpli.right_lateral = mean2(right_lateral_wpli);
+    avg_pli_left_midline = mean2(midline_wpli);
+    avg_pli_left_lateral = mean2(lateral_wpli);
+    
+    %%TODO: change this to get only one set of channels for the wPLI
+    %%TODO: use the assign_side_region function to make the following
+    %%groups: avg_left_lateral, avg_left_midline, avg_right_midline,
+    %%avg_right_lateral
 end
 

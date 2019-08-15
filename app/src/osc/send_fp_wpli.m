@@ -1,4 +1,4 @@
-function send_fp_wpli(avg_pli_midline,avg_pli_lateral,osc)
+function send_fp_wpli(wpli,osc)
 %SEND_FP_WPLI send to the osc receivers the data in string format
 %   Input:
 %       avg_pli_midline: singular value representing the average pli for
@@ -8,9 +8,9 @@ function send_fp_wpli(avg_pli_midline,avg_pli_lateral,osc)
 %       osc: osc data structure
 
     %% Create the OSC String
-    osc_base = '/fp_wpli_midline_and_lateral';
-    pli_midline_lateral = [avg_pli_midline,avg_pli_lateral];
-    osc_type = get_osc_message_type(pli_midline_lateral);
+    osc_base = '/fp_wpli';
+    wpli_midline_lateral = [wpli.left_midline, wpli.left_lateral, wpli.right_midline, wpli.right_lateral];
+    osc_type = get_osc_message_type(wpli_midline_lateral);
     
     %% Sending OSC
     % Send osc data one osc receiver at a time
@@ -26,7 +26,7 @@ function send_fp_wpli(avg_pli_midline,avg_pli_lateral,osc)
         fopen(u);
         
         %% Sending PLI midline and lateral
-        oscsend(u,osc_base,osc_type,pli_midline_lateral);    
+        oscsend(u,osc_base,osc_type,wpli_midline_lateral);    
         
         fclose(u);
     end    
