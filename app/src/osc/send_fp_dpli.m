@@ -1,4 +1,4 @@
-function send_fp_dpli(avg_dpli_midline,avg_dpli_lateral,osc)
+function send_fp_dpli(dpli,osc)
 %SEND_FP_DPLI send to the osc receivers the data in string format
 %   Input:
 %       avg_dpli_midline: singular value representing the average pli for
@@ -8,8 +8,8 @@ function send_fp_dpli(avg_dpli_midline,avg_dpli_lateral,osc)
 %       osc: osc data structure
 
     %% Create the OSC String
-    osc_base = '/fp_dpli_midline_and_lateral';
-    dpli_midline_lateral = [avg_dpli_midline,avg_dpli_lateral];
+    osc_base = '/fp_dpli';
+    dpli_midline_lateral = [dpli.left_midline, dpli.left_lateral, dpli.right_midline, dpli.right_lateral];
     osc_type = get_osc_message_type(dpli_midline_lateral);
     
     %% Sending OSC
