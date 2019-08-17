@@ -10,10 +10,6 @@ function [selected_channels] = get_selected_channels(information,parameters)
     %% Seting up Variables
     all_channels = get_channels(information.headset,parameters.general);
     channels_location = information.headset.egi129.channels_location;
-    
-    all_channels = all_channels(1:128);
-    channels_location(129) = [];
-    
     selected_channels = struct(); 
     
     %% Creating the Masks
