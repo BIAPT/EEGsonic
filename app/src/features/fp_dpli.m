@@ -1,4 +1,4 @@
-function [dpli] = fp_dpli(eeg_data,eeg_info,parameters,mask)
+function [dpli_struct] = fp_dpli(eeg_data,eeg_info,parameters,mask)
 %FP_DPLI Calculate frontoparietal dPLI measure (average dPLI for midline
 %and lateral electrodes)
 %   Input:
@@ -27,10 +27,10 @@ function [dpli] = fp_dpli(eeg_data,eeg_info,parameters,mask)
     right_lateral_dpli = dpli(right_lateral_eeg,eeg_info,parameters);
 
     %% Calculate the average for the midline and lateral electrodes
-    dpli = struct();
-    dpli.left_midline = mean2(left_midline_dpli);
-    dpli.left_lateral = mean2(left_lateral_dpli);
-    dpli.right_midline = mean2(right_midline_dpli);
-    dpli.right_lateral = mean2(right_lateral_dpli);
+    dpli_struct = struct();
+    dpli_struct.left_midline = mean2(left_midline_dpli);
+    dpli_struct.left_lateral = mean2(left_lateral_dpli);
+    dpli_struct.right_midline = mean2(right_midline_dpli);
+    dpli_struct.right_lateral = mean2(right_lateral_dpli);
 end
 
