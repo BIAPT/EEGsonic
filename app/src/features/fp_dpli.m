@@ -16,9 +16,9 @@ function [dpli_struct] = fp_dpli(eeg_data,eeg_info,parameters,mask)
 
     %% Use the boolean mask to get relevant data
     left_midline_eeg = eeg_data(mask.left_midline_channels == 1,:);
-    left_lateral_eeg = eeg_data(mask.left_midline_channels == 1,:);
+    left_lateral_eeg = eeg_data(mask.left_lateral_channels == 1,:);
     right_midline_eeg = eeg_data(mask.right_midline_channels == 1,:);
-    right_lateral_eeg = eeg_data(mask.right_midline_channels == 1,:);
+    right_lateral_eeg = eeg_data(mask.right_lateral_channels == 1,:);
     
     %% Calculate the dPLI
     left_midline_dpli = dpli(left_midline_eeg,eeg_info,parameters);

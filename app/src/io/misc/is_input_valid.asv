@@ -181,24 +181,22 @@ function [is_valid,reason] = check_pli(window_size,channels,number_surrogates,p_
       reason = reason + "No channels were selected. ";
    end
    
-   %% Number of surrogates
    if(number_surrogates <= 0)
       is_valid = 0;
       reason = reason + "Number of surrogates need to be greater than 0. ";
    end
    
-   %% p value 
-   if(p_value <= 0)
-      is_valid = 0;
-      reason = reason + "p value need to be greater than 0 and smaller than 1. ";
-   end
+   if
 end
 
-function [is_valid,reason] = check_hub_location(window_size,number_surrogates,p_value,top_connection_threshold)
+function [is_valid,reason] = check_hub_location(window_size,number_surrogates,p_value,...
+                             top_connection_threshold)
     is_valid = 1;
     reason = "";
     
-    %% TODO: Add errors
+    % TODO Add possible error over here (some are already handled by the
+    % app GUI.
+
 end
 
 function [is_valid,reason] = check_permutation_entropy(window_size,channels,embedding_dimension,time_delay)

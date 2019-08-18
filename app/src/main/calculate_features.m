@@ -179,9 +179,9 @@ function calculate_features(information,parameters)
                     send_fp_dpli(dpli,osc);
                     % Saving
                     parsave(fp_dpli_directory,"avg_dpli_left_midline_"+num2str(index),dpli.left_midline);
-                    parsave(fp_dpli_directory,"avg_dpli_left_lateral"+num2str(index),dpli.left_lateral);
+                    parsave(fp_dpli_directory,"avg_dpli_left_lateral_"+num2str(index),dpli.left_lateral);
                     parsave(fp_dpli_directory,"avg_dpli_right_midline_"+num2str(index),dpli.right_midline);
-                    parsave(fp_dpli_directory,"avg_dpli_right_lateral"+num2str(index),dpli.right_lateral);
+                    parsave(fp_dpli_directory,"avg_dpli_right_lateral_"+num2str(index),dpli.right_lateral);
                     fp_dpli_data = [];
                 end
             end
