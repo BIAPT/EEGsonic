@@ -111,10 +111,7 @@ function [is_valid,reason] = check_spr(window_size,step_size,time_bandwith_produ
                              theta_bandwith,alpha_bandwith,beta_bandwith,averaging_size)
     is_valid = 1;
     reason = "";
-    
-    % For most of the variable we don't need to check for ridiculous inputs
-    % as the application already take care of that
-    
+        
     %% Window Size and Averaging Size
     if(averaging_size < window_size)
        is_valid = 0;
@@ -139,7 +136,6 @@ function [is_valid,reason] = check_spr(window_size,step_size,time_bandwith_produ
     [is_valid,beta_reason] = check_bandwith(is_valid,beta_bandwith,"Beta");  
     reason = reason + beta_reason;
     
-
 end
 
 function [is_valid,reason] = check_td(window_size,frequency,channels)
@@ -166,9 +162,11 @@ function [is_valid,reason] = check_pac(window_size,channels,extra_low_frequency,
     %% Extra Low Frequency
     [is_valid,extra_low_reason] = check_bandwith(is_valid,extra_low_frequency,"Extra Low Frequency");
     reason = reason + extra_low_reason;
+    
     %% High Frequency
     [is_valid,high_reason] = check_bandwith(is_valid,high_frequency,"High Frequency");
     reason = reason + high_reason;
+    
 end
 
 function [is_valid,reason] = check_pli(window_size,channels,number_surrogates,p_value)
@@ -180,25 +178,12 @@ function [is_valid,reason] = check_pli(window_size,channels,number_surrogates,p_
       is_valid = 0;
       reason = reason + "No channels were selected. ";
    end
-   
-   %% Number of surrogates
-   if(number_surrogates <= 0)
-      is_valid = 0;
-      reason = reason + "Number of surrogates need to be greater than 0. ";
-   end
-   
-   %% p value 
-   if(p_value <= 0)
-      is_valid = 0;
-      reason = reason + "p value need to be greater than 0 and smaller than 1. ";
-   end
 end
 
 function [is_valid,reason] = check_hub_location(window_size,number_surrogates,p_value,top_connection_threshold)
     is_valid = 1;
     reason = "";
     
-    %% TODO: Add errors
 end
 
 function [is_valid,reason] = check_permutation_entropy(window_size,channels,embedding_dimension,time_delay)
@@ -210,14 +195,10 @@ function [is_valid,reason] = check_permutation_entropy(window_size,channels,embe
         is_valid = 0;
         reason = reason + "No channels were selected. ";
     end    
-    
-    %% Embedding Dimension and Time Delay
-    if(embedding_dimension <= 0 || time_delay <= 0)
-        is_valid = 0;
-        reason = reason + "Embedding dimension and time delay need to be greater than 0. ";
-    end
 end
 
+
+%% Helper Checkers
 function [is_valid,reason] = check_bandwith(is_valid,bandwith,type)
     reason = "";
     bandwith = erase(bandwith,'[');

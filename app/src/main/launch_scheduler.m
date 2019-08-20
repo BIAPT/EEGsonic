@@ -51,7 +51,6 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     save(information.replay_path,'index');
     data_worker = parfeval(p,@acquire_eeg,0,information,parameters);
     features_worker = parfeval(p,@calculate_features,0,information,parameters);
-    pause(parameters.warm_up_wait_time); % This is used to give some time for the warmup of the feature calculation
 end
 
 

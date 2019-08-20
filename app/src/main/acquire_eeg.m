@@ -19,8 +19,6 @@ function acquire_eeg(information,parameters)
         headset = "dsi24";
     end
     boot_amp(information,parameters.general);
-    % Pause to give some time for the other thread to warm-up
-    %pause(parameters.warm_up_wait_time);
     
     %% Acquiring EEG data
     index = 0;    

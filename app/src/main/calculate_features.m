@@ -7,10 +7,6 @@ function calculate_features(information,parameters)
 %       information: static data in the app
 %       parameters: variable data in the app as given by the user
     
-    %% Warm up 
-    %  This function will call each analysis technique once to not have a
-    %  slow down during the first pass of the pipeline
-
     %% Variables Initialization
     index = -1; %%TODO Load the index
     eeg_info = [];
@@ -62,6 +58,7 @@ function calculate_features(information,parameters)
         eeg_info = information.headset.egi129;
         data_acquisition_size = parameters.general.egi129.data_acquisition_size;
         channels_location = information.headset.egi129.channels_location;
+        non_scalp_channels = parameters.general.egi129.non_scalp_channels;
         sleep_delay = data_acquisition_size/10;
         sampling_rate = parameters.general.egi129.sampling_rate;
         
@@ -79,9 +76,7 @@ function calculate_features(information,parameters)
     %% Main Loop Calculating the features
     while(1)
         % Get the next index
-        % NOTE: This might be a problem for analysis technique that takes
-        % more than 5 seconds to calculate. We keep everything under 5
-        % seconds and we should be good.
+        % This part is loading stuff but its useless right now
         replay_data = load(information.replay_path);
         next_index = replay_data.index;
         
@@ -97,9 +92,9 @@ function calculate_features(information,parameters)
                 pe_data = [];
             end
             index = next_index;
-            [~,data] = parload(data_directory,index); % try to load the data
-%            [data,eeg_info] = filter_channels(data,eeg_info); % filter the data
-% TODO: Fix problem with filter channels
+            [is_ready,data] = parload(data_directory,index); % try to load the data
+            [data,eeg_info] = filter_channels(data,eeg_info, non_scalp_channels); % filter the data
+            
             disp("Analyzing: " + num2str(index));
             
             % Spectral Power Ratio

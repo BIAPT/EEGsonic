@@ -1,4 +1,4 @@
-function [hd_channel_index,hd_graph] = hub_location(eeg_data,eeg_info,parameters)
+function [hd_value, hd_graph] = hub_location(eeg_data,eeg_info,parameters)
 %HUB_LOCATION choose from the the channels the channel with the highest
 %degree
 %   Input:
@@ -28,6 +28,7 @@ function [hd_channel_index,hd_graph] = hub_location(eeg_data,eeg_info,parameters
 
     %% Find the channel with the highest degree
     [~,hd_channel_index] = max(channels_degree);
-
+    
+    hd_value = threshold_anterior_posterior(hd_channel_index,eeg_info.channels_location);
 end
 
