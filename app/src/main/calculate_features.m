@@ -79,6 +79,9 @@ function calculate_features(information,parameters)
     %% Main Loop Calculating the features
     while(1)
         % Get the next index
+        % NOTE: This might be a problem for analysis technique that takes
+        % more than 5 seconds to calculate. We keep everything under 5
+        % seconds and we should be good.
         replay_data = load(information.replay_path);
         next_index = replay_data.index;
         
@@ -159,10 +162,7 @@ function calculate_features(information,parameters)
                     % Convert and Send to OSC
                     send_fp_wpli(wpli,osc);
                     % Saving
-                    parsave(fp_wpli_directory,"avg_wpli_left_midline_"+num2str(index),wpli.left_midline);
-                    parsave(fp_wpli_directory,"avg_wpli_left_lateral_"+num2str(index),wpli.left_lateral);
-                    parsave(fp_wpli_directory,"avg_wpli_right_midline_"+num2str(index),wpli.right_midline);
-                    parsave(fp_wpli_directory,"avg_wpli_right_lateral_"+num2str(index),wpli.right_lateral);
+                    parsave(fp_wpli_directory,"avg_wpli_"+num2str(index),wpli);
                     fp_wpli_data = [];
                 end
             end
@@ -178,10 +178,7 @@ function calculate_features(information,parameters)
                     % Convert and Send to OSC
                     send_fp_dpli(dpli,osc);
                     % Saving
-                    parsave(fp_dpli_directory,"avg_dpli_left_midline_"+num2str(index),dpli.left_midline);
-                    parsave(fp_dpli_directory,"avg_dpli_left_lateral_"+num2str(index),dpli.left_lateral);
-                    parsave(fp_dpli_directory,"avg_dpli_right_midline_"+num2str(index),dpli.right_midline);
-                    parsave(fp_dpli_directory,"avg_dpli_right_lateral_"+num2str(index),dpli.right_lateral);
+                    parsave(fp_dpli_directory,"avg_dpli_"+num2str(index),dpli);
                     fp_dpli_data = [];
                 end
             end
