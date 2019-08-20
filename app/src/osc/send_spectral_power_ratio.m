@@ -9,6 +9,7 @@ function send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc)
     %% Variable Setup
     osc_base_ba = '/spr_beta_alpha';
     osc_base_at = '/spr_alpha_theta';
+    
     osc_type_ba = get_osc_message_type(ratio_beta_alpha);
     osc_type_at = get_osc_message_type(ratio_alpha_theta);
        
