@@ -124,7 +124,7 @@ function [anterior_channels] = get_anterior(selected_channels, all_channels)
         
         % Every channels that are anterior to the center line of the
         % headset is defined as anterior
-        if(position ~= -1 && all_channels(i).X > -0.001)
+        if(position ~= -1 && all_channels(position).X > -0.001)
             anterior_channels = [anterior_channels, selected_channels(i)];
         end
     end
