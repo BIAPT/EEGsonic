@@ -34,8 +34,7 @@ function [is_valid,reason] = is_input_valid(app,type)
         case 'td'
            required_size = app.TDRequiredSizeEditField.Value;
            frequency = app.TDFrequencyEditField.Value;
-           channels = app.TDChannelsListBox.Value;
-           [is_valid,reason] = check_td(required_size,frequency,channels);
+           [is_valid,reason] = check_td(required_size,frequency);
         case 'pac'
             required_size = app.PACRequiredSizeEditField.Value;
             channels = app.PACChannelsListBox.Value;
@@ -138,15 +137,9 @@ function [is_valid,reason] = check_spr(window_size,step_size,time_bandwith_produ
     
 end
 
-function [is_valid,reason] = check_td(window_size,frequency,channels)
+function [is_valid,reason] = check_td(window_size,frequency)
     is_valid = 1;
     reason = "";
-    
-    %% Channels
-    if(isempty(channels))
-        is_valid = 0;
-        reason = reason + "No channels were selected. ";
-    end
 end
 
 function [is_valid,reason] = check_pac(window_size,channels,extra_low_frequency,high_frequency)

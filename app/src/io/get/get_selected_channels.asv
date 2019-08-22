@@ -9,12 +9,10 @@ function [selected_channels] = get_selected_channels(information,parameters)
     
     %% Seting up Variables
     all_channels = get_channels(information.headset,parameters.general);
-    eeg_info = information.headset.egi129;
-    non_scalp_channels = parameters.general.egi129.non_scalp_channels;
+    channels_location = information.headset.egi129.channels_location;
     
     %% Should filter both the channels location and all_channels
-    [filtered_channels, filtered_eeg_info] = filter_channels_labels(all_channels, eeg_info, non_scalp_channels);
-    channels_location = filtered_eeg_info.channels_location;
+    [filtered_labels, filtered_eeg_info] = filter_channels(all_channels, eeg_info, non_scalp_channels)
     selected_channels = struct(); 
     
     %% Creating the Masks
@@ -22,12 +20,12 @@ function [selected_channels] = get_selected_channels(information,parameters)
     % TD
     % Frontal and Posterior
     td = parameters.td;
-    channels = filtered_channels;
+    channels = all_channels;
     anterior_channels = get_anterior(channels, channels_location);
     posterior_channels = get_posterior(channels, channels_location);
     
-    selected_channels.td.frontal_channels = find_selected_channels(filtered_channels,anterior_channels);
-    selected_channels.td.posterior_channels = find_selected_channels(filtered_channels,posterior_channels);
+    selected_channels.td.frontal_channels = find_selected_channels(all_channels,anterior_channels);
+    selected_channels.td.posterior_channels = find_selected_channels(all_channels,posterior_channels);
 
     % PAC
     % Frontal and Parietal
@@ -36,8 +34,8 @@ function [selected_channels] = get_selected_channels(information,parameters)
     anterior_channels = get_anterior(channels, channels_location);
     posterior_channels = get_posterior(channels, channels_location);
     
-    selected_channels.pac.frontal_channels = find_selected_channels(filtered_channels,anterior_channels);
-    selected_channels.pac.parietal_channels = find_selected_channels(filtered_channels,posterior_channels);
+    selected_channels.pac.frontal_channels = find_selected_channels(all_channels,anterior_channels);
+    selected_channels.pac.parietal_channels = find_selected_channels(all_channels,posterior_channels);
        
     % FP WPLI
     % Left/Right Midline and Lateral
@@ -45,10 +43,10 @@ function [selected_channels] = get_selected_channels(information,parameters)
     channels = fp_wpli.channels;
     [left_midline, left_lateral, right_midline, right_lateral] = get_midline_lateral(channels,channels_location);
     
-    selected_channels.fp_wpli.left_midline_channels = find_selected_channels(filtered_channels,left_midline);
-    selected_channels.fp_wpli.left_lateral_channels = find_selected_channels(filtered_channels,left_lateral);
-    selected_channels.fp_wpli.right_midline_channels = find_selected_channels(filtered_channels,right_midline);
-    selected_channels.fp_wpli.right_lateral_channels = find_selected_channels(filtered_channels,right_lateral);
+    selected_channels.fp_wpli.left_midline_channels = find_selected_channels(all_channels,left_midline);
+    selected_channels.fp_wpli.left_lateral_channels = find_selected_channels(all_channels,left_lateral);
+    selected_channels.fp_wpli.right_midline_channels = find_selected_channels(all_channels,right_midline);
+    selected_channels.fp_wpli.right_lateral_channels = find_selected_channels(all_channels,right_lateral);
     
     % FP DPLI
     % Left/Right Midline and Lateral
@@ -56,10 +54,10 @@ function [selected_channels] = get_selected_channels(information,parameters)
     channels = fp_dpli.channels;
     [left_midline, left_lateral, right_midline, right_lateral] = get_midline_lateral(channels,channels_location);
     
-    selected_channels.fp_dpli.left_midline_channels = find_selected_channels(filtered_channels,left_midline);
-    selected_channels.fp_dpli.left_lateral_channels = find_selected_channels(filtered_channels,left_lateral);
-    selected_channels.fp_dpli.right_midline_channels = find_selected_channels(filtered_channels,right_midline);
-    selected_channels.fp_dpli.right_lateral_channels = find_selected_channels(filtered_channels,right_lateral);
+    selected_channels.fp_dpli.left_midline_channels = find_selected_channels(all_channels,left_midline);
+    selected_channels.fp_dpli.left_lateral_channels = find_selected_channels(all_channels,left_lateral);
+    selected_channels.fp_dpli.right_midline_channels = find_selected_channels(all_channels,right_midline);
+    selected_channels.fp_dpli.right_lateral_channels = find_selected_channels(all_channels,right_lateral);
     
     % PE
     % Frontal and Posterior
@@ -68,8 +66,8 @@ function [selected_channels] = get_selected_channels(information,parameters)
     anterior_channels = get_anterior(channels, channels_location);
     posterior_channels = get_posterior(channels, channels_location);
     
-    selected_channels.pe.frontal_channels = find_selected_channels(filtered_channels,anterior_channels);
-    selected_channels.pe.posterior_channels = find_selected_channels(filtered_channels,posterior_channels);
+    selected_channels.pe.frontal_channels = find_selected_channels(all_channels,anterior_channels);
+    selected_channels.pe.posterior_channels = find_selected_channels(all_channels,posterior_channels);
     
 end
 
@@ -204,4 +202,36 @@ function [left_midline, left_lateral, right_midline, right_lateral] = get_midlin
             end
         end
     end
+end
+
+function [filtered_labels, filtered_eeg_info] = filter_channels(all_labels, eeg_info, non_scalp_channels)
+%FILTER_CHANNELS Summary of this function goes here
+%   Detailed explanation goes here
+
+    % Here we will be using the non_scalp_channels from eeg_info
+    number_channels = eeg_info.number_channels;
+    
+    % Create a mask of the index we want to keep in the data
+    mask = [];
+    for i = 1:number_channels
+       is_scalp = 1;
+       for j = 1:length(non_scalp_channels)
+           if(strcmp(non_scalp_channels{j}, eeg_info.channels_location(i).labels))
+               is_scalp = 0;
+               non_scalp_channels(j) = [];
+               break;
+           end
+       end
+       mask = [mask;is_scalp];
+    end
+    
+    
+    % Filter the data using the mask
+    % Note: It's useless to filter the eeg_info over and over again. Fix
+    % this is it becomes a bootleneck (optimization possible)
+    mask = mask == 1;
+    filtered_labels = all_labels(mask);
+    eeg_info.channels_location = eeg_info.channels_location(mask);
+    eeg_info.number_channels = nnz(mask); % Number of non zero element
+    filtered_eeg_info = eeg_info;
 end
