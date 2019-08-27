@@ -9,9 +9,11 @@ function send_permutation_entropy(avg_pe_frontal,avg_pe_parietal,osc)
 %       osc: osc data structure
 
    %% Create the OSC String
-    osc_base = '/permutation_entropy_frontal_and_parietal';
-    pe_frontal_parietal = [avg_pe_frontal,avg_pe_parietal];
-    osc_type = get_osc_message_type(pe_frontal_parietal);
+    osc_base_frontal = '/pe_frontal';
+    osc_base_parietal = '/pe_parietal';
+    
+    osc_type_frontal = get_osc_message_type(avg_pe_frontal);
+    osc_type_parietal = get_osc_message_type(avg_pe_parietal);    
     
     %% Sending OSC
     % Send osc data one osc receiver at a time
@@ -27,7 +29,8 @@ function send_permutation_entropy(avg_pe_frontal,avg_pe_parietal,osc)
         fopen(u);
         
         %% Sending PE frontal parietal
-        oscsend(u,osc_base,osc_type,pe_frontal_parietal);  
+        oscsend(u,osc_base_frontal,osc_type_frontal,avg_pe_frontal);  
+        oscsend(u,osc_base_parietal,osc_type_parietal,avg_pe_parietal);  
         
         fclose(u);
     end    

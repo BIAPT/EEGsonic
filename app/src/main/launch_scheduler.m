@@ -1,4 +1,4 @@
-function [data_worker,features_worker] = launch_scheduler(information,parameters,state)
+function [data_worker,features_worker_1, features_worker_2, features_worker_3] = launch_scheduler(information,parameters,state)
 %LAUNCH_scheduler Will take care of getting eeg data and calculating
 %features
 %   Input:
@@ -50,7 +50,10 @@ function [data_worker,features_worker] = launch_scheduler(information,parameters
     index = -1; % Here we start at -1 to significate we haven't statrted collecting yet
     save(information.replay_path,'index');
     data_worker = parfeval(p,@acquire_eeg,0,information,parameters);
-    features_worker = parfeval(p,@calculate_features,0,information,parameters);
+    
+    
+    %% Launch all worker for all analysis techniques
+    features_worker_1 = parfeval(p,@calculate_features,0,information,parameters);
 end
 
 

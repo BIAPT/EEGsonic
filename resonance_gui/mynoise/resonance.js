@@ -2,12 +2,46 @@
 // Copyright (c) 2019 BiaptLab
 // written by Mathieu Bouchard
 
+/*
+  OSC MESSAGE
+
+  Spectral Power Ratio
+    spr_beta_alpha
+    spr_alpha_theta
+
+  Topographic Distribution
+    td_front_back
+
+  Phase Amplitude Coupling
+    pac_rpt_frontal
+    pac_rpt_parietal
+
+  Weighted Phase Lag Index
+    fp_wpli_left_midline
+    fp_wpli_left_lateral
+    fp_wpli_right_midline
+    fp_wpli_right_lateral
+
+  Directed Phase Lag Index
+    fp_dpli_left_midline
+    fp_dpli_left_lateral
+    fp_dpli_right_midline
+    fp_dpli_right_lateral
+
+  Hub Location
+    hl_relative_position
+
+  Permutation Entropy
+    pe_frontal
+    pe_parietal
+*/
+
 resonanceInputs = [
-    {name:"spr_beta_alpha", min:0, max:1},
-    {name:"spr_alpha_theta", min:0, max:1},
-    {name:"bvp", min:-1000, max:+1000},
-    {name:"hr", min:30, max:150},
-    {name:"eda", min:0, max:3},
+    {name:"spr_beta_alpha", min:-100, max:100},
+    {name:"spr_alpha_theta", min:-100, max:100},
+    {name:"td_front_back", min:-100, max:100},
+    {name:"pac_rpt_frontal", min:-100, max:100},
+    {name:"pac_rpt_parietal", min:-100, max:100},
     {name:"temp", min:32, max:42},
     {name:"lol", min:-1, max:+1},
     //{name:"patate",min:-2,max:+6}
@@ -18,16 +52,16 @@ for (var i=0; i<resonanceInputs.length; i++) resonanceInputsByName[resonanceInpu
 
 // those have to be ordered with no gaps : [i]={name:"s"+i,...} as .name isn't being used.
 resonanceMapping = [
-    {name:"s0", select:"", min:0, max:1},
-    {name:"s1", select:"", min:0, max:1},
-    {name:"s2", select:"", min:0, max:1},
-    {name:"s3", select:"eda", min:1, max:2},
-    {name:"s4", select:"", min:0, max:1},
-    {name:"s5", select:"", min:0, max:1},
-    {name:"s6", select:"hello", min:100, max:200},
-    {name:"s7", select:"", min:0, max:1},
-    {name:"s8", select:"", min:0, max:1},
-    {name:"s9", select:"", min:0, max:1},
+    {name:"s0", select:"", min:-10, max:10},
+    {name:"s1", select:"", min:-10, max:10},
+    {name:"s2", select:"", min:-10, max:10},
+    {name:"s3", select:"eda", min:-10, max:10},
+    {name:"s4", select:"", min:-10, max:10},
+    {name:"s5", select:"", min:-10, max:10},
+    {name:"s6", select:"hello", min:-10, max:10},
+    {name:"s7", select:"", min:-10, max:10},
+    {name:"s8", select:"", min:-10, max:10},
+    {name:"s9", select:"", min:-10, max:10},
 ]
 
 function resonanceSelectChange(id) {

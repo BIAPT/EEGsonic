@@ -32,10 +32,10 @@ function send_fp_dpli(dpli,osc)
         fopen(u);
         
         %% Sending dpli midline lateral
-        oscsend(u,osc_base_left_midline,osc_type_left_midline,dpli.left_midline);
-        oscsend(u,osc_base_left_lateral,osc_type_left_lateral,dpli.left_lateral);
-        oscsend(u,osc_base_right_midline,osc_type_right_midline,dpli.right_midline);
-        oscsend(u,osc_base_right_lateral,osc_type_right_lateral,dpli.right_lateral);
+        oscsend(u,osc_base_left_midline,osc_type,dpli.left_midline);
+        oscsend(u,osc_base_left_lateral,osc_type,dpli.left_lateral);
+        oscsend(u,osc_base_right_midline,osc_type,dpli.right_midline);
+        oscsend(u,osc_base_right_lateral,osc_type,dpli.right_lateral);
         
         fclose(u);
     end    

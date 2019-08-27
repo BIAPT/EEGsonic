@@ -48,7 +48,7 @@ function [data] = get_egi_data(information,parameters)
         data = rand(128,data_acquisition_size*1000);
         pause(data_acquisition_size);
     else
-        data = ampcollect(data_acquisition_size*1000)';
+        data = ampcollect(data_acquisition_size*1000)'
     end
 end
 
