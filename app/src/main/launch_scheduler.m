@@ -53,9 +53,34 @@ function [data_worker,features_worker_1, features_worker_2, features_worker_3] =
     
     
     %% Launch all worker for all analysis techniques
+    % To do so we will turn off any analysis technique that is not part of
+    % the core
+    original_parameters = parameters;
+    
+    % First core = SPR, TD, PAC
+    parameters.fp_wpli.is_selected = 0;
+    parameters.fp_dpli.is_selected = 0;
+    parameters.hl.is_selected = 0;
+    parameters.pe.is_selected = 0;
     features_worker_1 = parfeval(p,@calculate_features,0,information,parameters);
+    
+    % Second core = FP wPLI + FP dPLI + PE
+    parameters = original_parameters;
+    parameters.spr.is_selected = 0;
+    parameters.td.is_selected = 0;
+    parameters.pac.is_selected = 0;
+    parameters.hl.is_selected = 0;
     features_worker_2 = parfeval(p,@calculate_features,0,information,parameters);
-    features_worker_3 = parfeval(p,@calculate_features,0,information,parameters);    
+    
+    % Third core = HL
+    parameters = original_parameters;
+    parameters.spr.is_selected = 0;
+    parameters.td.is_selected = 0;
+    parameters.pac.is_selected = 0;
+    parameters.fp_wpli.is_selected = 0;
+    parameters.fp_dpli.is_selected = 0;
+    parameters.pe.is_selected = 0;
+    features_worker_3 = parfeval(p,@calculate_features,0,information,parameters);  
 end
 
 

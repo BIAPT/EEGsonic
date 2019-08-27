@@ -72,7 +72,6 @@ function calculate_features(information,parameters)
         pe_data_required_size = pe_data_required_size*sampling_rate;       
     end
     
-
     %% Main Loop Calculating the features
     while(1)
         % Get the next index
