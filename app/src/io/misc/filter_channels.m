@@ -1,9 +1,8 @@
-function [filtered_data, filtered_eeg_info] = filter_channels(data,eeg_info)
+function [filtered_data, filtered_eeg_info] = filter_channels(data,eeg_info, non_scalp_channels)
 %FILTER_CHANNELS Summary of this function goes here
 %   Detailed explanation goes here
 
     % Here we will be using the non_scalp_channels from eeg_info
-    non_scalp_channels = eeg_info.non_scalp_channels;
     number_channels = eeg_info.number_channels;
     
     % Create a mask of the index we want to keep in the data
@@ -18,18 +17,18 @@ function [filtered_data, filtered_eeg_info] = filter_channels(data,eeg_info)
            end
        end
        
-       if(is_scalp)
-           mask = [mask i];
-       end
+       mask = [mask;is_scalp];
        
     end
+    
     
     % Filter the data using the mask
     % Note: It's useless to filter the eeg_info over and over again. Fix
     % this is it becomes a bootleneck (optimization possible)
+    mask = mask == 1;
     filtered_data = data(mask,:);
     eeg_info.channels_location = eeg_info.channels_location(mask);
-    eeg_info.number_channels = length(mask);
+    eeg_info.number_channels = nnz(mask); % Number of non zero element
     filtered_eeg_info = eeg_info;
 end
 

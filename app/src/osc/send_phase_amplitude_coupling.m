@@ -9,9 +9,11 @@ function send_phase_amplitude_coupling(rpt_frontal,rpt_parietal,osc)
 %       osc: osc data structure
 
     %% Create the OSC String
-    osc_base = '/phase_amplitude_coupling_frontal_and_parietal';
-    rpt_frontal_parietal = [rpt_frontal,rpt_parietal];
-    osc_type = get_osc_message_type(rpt_frontal_parietal);
+    osc_base_frontal = '/pac_rpt_frontal';
+    osc_base_parietal = '/pac_rpt_parietal';
+    
+    osc_type_frontal = get_osc_message_type(rpt_frontal);
+    osc_type_parietal = get_osc_message_type(rpt_parietal);
     
     %% Sending OSC
     % Send osc data one osc receiver at a time
@@ -27,7 +29,8 @@ function send_phase_amplitude_coupling(rpt_frontal,rpt_parietal,osc)
         fopen(u);
         
         %% Sending rpt frontal and parietal
-        oscsend(u,osc_base,osc_type,rpt_frontal_parietal);    
+        oscsend(u,osc_base_frontal,osc_type_frontal,rpt_frontal);        
+        oscsend(u,osc_base_parietal,osc_type_parietal,rpt_parietal);
         
         fclose(u);
     end    

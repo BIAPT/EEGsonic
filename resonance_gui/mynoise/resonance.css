@@ -1,0 +1,82 @@
+.resonance-slider {
+    display: inline-block;
+    float: none;
+    clear: both;
+}
+
+/* copied from player.css & renamed .mixer to #resonance-settings */
+#resonance-settings {
+	border: solid 0px blue;
+    position:absolute;
+    border: solid 0px #444;
+    left: 200px;
+    top: 315px;
+    width: 802px;
+    //margin-left: -151px;
+    margin-left: auto;
+    margin-right: auto;
+	z-index:42;
+}
+#resonance-test {
+	border: solid 0px blue;
+    position:absolute;
+    border: solid 0px #444;
+    top: 95px;
+    left: 500px;
+    width: 500px;
+    //margin-left: -151px;
+    margin-left: auto;
+    margin-right: auto;
+	z-index:42;
+}
+
+.allContent {
+	padding-top:250px;/*adds to existing "padding-top" !*/
+}
+
+/* only enable this when you have test sliders !*/
+.mixer,.controlers {
+    position:relative;
+    left: 0px;
+    width: 400px;
+    max-width:400px;
+    margin: 0;
+}
+.msg {
+    position:relative;
+    left: 0px;
+    width: 400px;
+    max-width:400px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+.resonance-settings .ui-slider, .resonance-settings .ui-slider-handle {
+  /*  Here I do not want to use border-box because all the sizes in the base CSS are given with !important and I'd have to redefine everything with !important as well. Resetting to the default content-box has no bad consequences here. */
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+/* copied from player.css & replaced # prefix by . */
+.s0 .ui-slider-range { background: rgba(100,50,0,0.3); }
+.s0 .ui-slider-handle { background: #630 !important; }
+.s1 .ui-slider-range { background: rgba(200,0,0,0.3); }
+.s1 .ui-slider-handle { background: #C00 !important; }
+.s2 .ui-slider-range { background: rgba(255,128,0,0.3); }
+.s2 .ui-slider-handle { background: #F80 !important; }
+.s3 .ui-slider-range { background: rgba(150,190,0,0.3); }
+.s3 .ui-slider-handle { background: #9B0 !important; }
+.s4 .ui-slider-range { background: rgba(0,200,0,0.3); }
+.s4 .ui-slider-handle { background: #0C0 !important; }
+.s5 .ui-slider-range { background: rgba(0,200,170,0.3); }
+.s5 .ui-slider-handle { background: #0CA !important; }
+.s6 .ui-slider-range { background: rgba(0,140,220,0.3); }
+.s6 .ui-slider-handle { background: #08D !important; }
+.s7 .ui-slider-range { background: rgba(0,0,255,0.3); }
+.s7 .ui-slider-handle { background: #00F !important; }
+.s8 .ui-slider-range { background: rgba(140,0,170,0.3); }
+.s8 .ui-slider-handle { background: #80A !important; }
+.s9 .ui-slider-range { background: rgba(200,140,255,0.3); }
+.s9 .ui-slider-handle { background: #C8F !important; }

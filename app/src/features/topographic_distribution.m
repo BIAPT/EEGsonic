@@ -11,15 +11,14 @@ function [ratio_front_back] = topographic_distribution(eeg_data,eeg_info,paramet
 %       ratio_front_back: ratio of the power between front and back
 %       electrodes
 
+    %% Channels Filtering
+
     % Relevant channels = frontal_channels and posterior_channels
     %% Spectral topographic map
     [eegspecdB,freqs,~,~,~] = spectopo(eeg_data,length(eeg_data),...,
                               eeg_info.sampling_rate,'chanlocs',...,
                               eeg_info.channels_location,'freqfac',1,...,
                               'freq',parameters.frequency,'plot','off');
-    
-    %% Normalization
-    %Note: Should we normalize the eegspecdB?
     
     %% Frontal Averaging
     frontal_avg = mean(eegspecdB(frontal_mask==1),2);

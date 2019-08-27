@@ -1,4 +1,4 @@
-function send_fp_dpli(avg_dpli_midline,avg_dpli_lateral,osc)
+function send_fp_dpli(dpli,osc)
 %SEND_FP_DPLI send to the osc receivers the data in string format
 %   Input:
 %       avg_dpli_midline: singular value representing the average pli for
@@ -8,9 +8,15 @@ function send_fp_dpli(avg_dpli_midline,avg_dpli_lateral,osc)
 %       osc: osc data structure
 
     %% Create the OSC String
-    osc_base = '/fp_dpli_midline_and_lateral';
-    dpli_midline_lateral = [avg_dpli_midline,avg_dpli_lateral];
-    osc_type = get_osc_message_type(dpli_midline_lateral);
+    osc_base_left_midline = '/fp_dpli_left_midline';
+    osc_base_left_lateral = '/fp_dpli_left_lateral';
+    osc_base_right_midline = '/fp_dpli_right_midline';
+    osc_base_right_lateral = '/fp_dpli_right_lateral';
+
+    osc_type_left_midline = get_osc_message_type(dpli.left_midline);
+    osc_type_left_lateral = get_osc_message_type(dpli.left_lateral);
+    osc_type_right_midline = get_osc_message_type(dpli.right_midline);
+    osc_type_right_lateral = get_osc_message_type(dpli.right_lateral);
     
     %% Sending OSC
     % Send osc data one osc receiver at a time
@@ -26,7 +32,10 @@ function send_fp_dpli(avg_dpli_midline,avg_dpli_lateral,osc)
         fopen(u);
         
         %% Sending dpli midline lateral
-        oscsend(u,osc_base,osc_type,dpli_midline_lateral);    
+        oscsend(u,osc_base_left_midline,osc_type_left_midline,dpli.left_midline);
+        oscsend(u,osc_base_left_lateral,osc_type_left_lateral,dpli.left_lateral);
+        oscsend(u,osc_base_right_midline,osc_type_right_midline,dpli.right_midline);
+        oscsend(u,osc_base_right_lateral,osc_type_right_lateral,dpli.right_lateral);
         
         fclose(u);
     end    

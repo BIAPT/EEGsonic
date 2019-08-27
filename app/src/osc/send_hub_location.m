@@ -6,7 +6,7 @@ function send_hub_location(is_graph,channel_index,graph,osc)
 %       channels_location: location data of the channels
 %       osc: osc data structure
 
-    osc_base_hd = '/hub_location';
+    osc_base_hd = '/hl_relative_position';
     osc_type_hd = get_osc_message_type(channel_index);
     
     if(is_graph)

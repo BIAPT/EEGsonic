@@ -6,7 +6,7 @@ function boot_amp(information,parameters)
     %% EGI129 booting routine
     if(parameters.egi129.is_selected == 1 && information.debug_mode == 0)
        clean_amp("egi129");
-       ampinit(parameters.egi129.ip)
+       ampinit('10.10.10.51')
        ampon;
        ampstart;
     end

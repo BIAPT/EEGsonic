@@ -7,11 +7,6 @@ function calculate_features(information,parameters)
 %       information: static data in the app
 %       parameters: variable data in the app as given by the user
     
-    %% Warm up 
-    %  This function will call each analysis technique once to not have a
-    %  slow down during the first pass of the pipeline
-    warm_up(information,parameters);
-
     %% Variables Initialization
     index = -1; %%TODO Load the index
     eeg_info = [];
@@ -19,6 +14,23 @@ function calculate_features(information,parameters)
     osc = parameters.osc;
     data_directory = information.data_directory;
     features_directory = information.features_directory;
+    
+    % Create the right directory
+    mkdir(features_directory,'spr');
+    mkdir(features_directory,'td');
+    mkdir(features_directory,'pac');
+    mkdir(features_directory,'fp_wpli');
+    mkdir(features_directory,'fp_dpli');
+    mkdir(features_directory,'hl');
+    mkdir(features_directory,'pe');
+    
+    spr_directory = strcat(features_directory, filesep,'spr');
+    td_directory = strcat(features_directory, filesep,'td');
+    pac_directory = strcat(features_directory, filesep,'pac');
+    fp_wpli_directory = strcat(features_directory, filesep,'fp_wpli');
+    fp_dpli_directory = strcat(features_directory, filesep,'fp_dpli');
+    hl_directory = strcat(features_directory, filesep,'hl');
+    pe_directory = strcat(features_directory, filesep,'pe');
     
     % Required size variables 
     spr_data_required_size = parameters.spr.required_size;
@@ -46,6 +58,7 @@ function calculate_features(information,parameters)
         eeg_info = information.headset.egi129;
         data_acquisition_size = parameters.general.egi129.data_acquisition_size;
         channels_location = information.headset.egi129.channels_location;
+        non_scalp_channels = parameters.general.egi129.non_scalp_channels;
         sleep_delay = data_acquisition_size/10;
         sampling_rate = parameters.general.egi129.sampling_rate;
         
@@ -56,19 +69,14 @@ function calculate_features(information,parameters)
         fp_wpli_data_required_size = fp_wpli_data_required_size*sampling_rate;
         fp_dpli_data_required_size = fp_dpli_data_required_size*sampling_rate;
         hl_data_required_size = hl_data_required_size*sampling_rate;
-        pe_data_required_size = pe_data_required_size*sampling_rate;
-           
-    elseif(parameters.general.dsi24.is_selected)
-        eeg_info = information.headset.dsi24;
-        sleep_delay = data_acquizition_size/10;
-        channels_location = information.headset.dsi24.channels_location;        
-        %% TODO add acquisition size once we get it;
+        pe_data_required_size = pe_data_required_size*sampling_rate;       
     end
     
 
     %% Main Loop Calculating the features
     while(1)
         % Get the next index
+        % This part is loading stuff but its useless right now
         replay_data = load(information.replay_path);
         next_index = replay_data.index;
         
@@ -84,8 +92,9 @@ function calculate_features(information,parameters)
                 pe_data = [];
             end
             index = next_index;
-            [~,data] = parload(data_directory,index); % try to load the data
-            %[data,eeg_info] = filter_channels(data,eeg_info); % filter the data
+            [is_ready,data] = parload(data_directory,index); % try to load the data
+            [data,eeg_info] = filter_channels(data,eeg_info, non_scalp_channels); % filter the data
+            
             disp("Analyzing: " + num2str(index));
             
             % Spectral Power Ratio
@@ -97,12 +106,8 @@ function calculate_features(information,parameters)
                     % Convert and Send to OSC
                     send_spectral_power_ratio(ratio_beta_alpha,ratio_alpha_theta,osc);
                     % Saving
-                    
-                    if(information.is_save_features)
-                        
-                        parsave(features_directory,"ratio_beta_alpha_"+num2str(index),ratio_beta_alpha);
-                        parsave(features_directory,"ratio_alpha_theta_"+num2str(index),ratio_alpha_theta);
-                    end
+                    parsave(spr_directory,"ratio_beta_alpha_"+num2str(index),ratio_beta_alpha);
+                    parsave(spr_directory,"ratio_alpha_theta_"+num2str(index),ratio_alpha_theta);
                     spr_data = [];
                 end
             end
@@ -119,9 +124,7 @@ function calculate_features(information,parameters)
                     % Convert and Send to OSC
                     send_topographic_distribution(ratio_front_back,osc);
                     % Saving
-                    if(information.is_save_features)
-                        parsave(features_directory,"ratio_front_back_"+num2str(index),ratio_front_back);
-                    end
+                    parsave(td_directory,"ratio_front_back_"+num2str(index),ratio_front_back);
                     td_data = [];
                 end
             end
@@ -138,10 +141,8 @@ function calculate_features(information,parameters)
                     % Convert and Send to OSC
                     send_phase_amplitude_coupling(rpt_frontal,rpt_parietal,osc);
                     % Saving
-                    if(information.is_save_features)
-                        parsave(features_directory,"rpt_frontal_"+num2str(index),rpt_frontal);
-                        parsave(features_directory,"rpt_parietal_"+num2str(index),rpt_parietal);
-                    end
+                    parsave(pac_directory,"rpt_frontal_"+num2str(index),rpt_frontal);
+                    parsave(pac_directory,"rpt_parietal_"+num2str(index),rpt_parietal);
                     pac_data = [];
                 end
             end
@@ -150,18 +151,13 @@ function calculate_features(information,parameters)
             if(parameters.fp_wpli.is_selected)
                 fp_wpli_data = [fp_wpli_data,data];
                 if(length(fp_wpli_data) >= fp_wpli_data_required_size)
-                    % Get the right mask
-                    midline_mask = boolean_mask.fp_wpli.midline_channels;
-                    lateral_mask = boolean_mask.fp_wpli.lateral_channels; 
                     % Calculate fp_wpli
-                    [avg_pli_midline,avg_pli_lateral] = fp_wpli(fp_wpli_data,eeg_info,parameters.fp_wpli,midline_mask,lateral_mask);                   
+                    wpli = fp_wpli(fp_wpli_data,eeg_info,parameters.fp_wpli,boolean_mask.fp_wpli);                   
+                    
                     % Convert and Send to OSC
-                    send_fp_wpli(avg_pli_midline,avg_pli_lateral,osc);
+                    send_fp_wpli(wpli,osc);
                     % Saving
-                    if(information.is_save_features)
-                        parsave(features_directory,"avg_pli_midline_"+num2str(index),avg_pli_midline);
-                        parsave(features_directory,"avg_pli_lateral_"+num2str(index),avg_pli_lateral);
-                    end
+                    parsave(fp_wpli_directory,"avg_wpli_"+num2str(index),wpli);
                     fp_wpli_data = [];
                 end
             end
@@ -170,18 +166,14 @@ function calculate_features(information,parameters)
             if(parameters.fp_dpli.is_selected)
                 fp_dpli_data = [fp_dpli_data,data];
                 if(length(fp_dpli_data) >= fp_dpli_data_required_size)
-                    % Get the right mask
-                    midline_mask = boolean_mask.fp_dpli.midline_channels;
-                    lateral_mask = boolean_mask.fp_dpli.lateral_channels;                     
+                                        
                     % Calculate fp_dpli
-                    [avg_dpli_midline,avg_dpli_lateral] = fp_dpli(fp_dpli_data,eeg_info,parameters.fp_dpli,midline_mask,lateral_mask);                   
+                    dpli = fp_dpli(fp_dpli_data,eeg_info,parameters.fp_dpli,boolean_mask.fp_dpli);                   
+                    
                     % Convert and Send to OSC
-                    send_fp_dpli(avg_dpli_midline,avg_dpli_lateral,osc);
+                    send_fp_dpli(dpli,osc);
                     % Saving
-                    if(information.is_save_features)
-                        parsave(features_directory,"avg_dpli_midline_"+num2str(index),avg_dpli_midline);
-                        parsave(features_directory,"avg_dpli_lateral"+num2str(index),avg_dpli_lateral);
-                    end
+                    parsave(fp_dpli_directory,"avg_dpli_"+num2str(index),dpli);
                     fp_dpli_data = [];
                 end
             end
@@ -195,9 +187,7 @@ function calculate_features(information,parameters)
                     % Convert and Send to OSC
                     send_hub_location(parameters.hl.is_graph,hd_channel_index,hd_graph,osc);                    
                     % Saving
-                    if(information.is_save_features)
-                        parsave(features_directory,"hd_channel_index_"+num2str(index),hd_channel_index);
-                    end
+                    parsave(hl_directory,"hd_channel_index_"+num2str(index),hd_channel_index);
                     hl_data = [];
                 end
                 
@@ -215,10 +205,8 @@ function calculate_features(information,parameters)
                     % Convert and Send to OSC
                     send_permutation_entropy(avg_pe_frontal,avg_pe_posterior,osc);
                     % Saving
-                    if(information.is_save_features)
-                        parsave(features_directory,"avg_pe_frontal_"+num2str(index),avg_pe_frontal);
-                        parsave(features_directory,"avg_pe_posterior_"+num2str(index),avg_pe_posterior);
-                    end
+                    parsave(pe_directory,"avg_pe_frontal_"+num2str(index),avg_pe_frontal);
+                    parsave(pe_directory,"avg_pe_posterior_"+num2str(index),avg_pe_posterior);
                     pe_data = [];
                end
             end
