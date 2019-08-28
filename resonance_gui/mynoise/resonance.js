@@ -37,15 +37,15 @@
 */
 
 resonanceInputs = [
-    {name:"spr_beta_alpha", min:-100, max:100},
-    {name:"spr_alpha_theta", min:-100, max:100},
-    {name:"td_front_back", min:-100, max:100},
-    {name:"pac_rpt_frontal", min:-100, max:100},
-    {name:"pac_rpt_parietal", min:-100, max:100},
-    {name:"temp", min:32, max:42},
-    {name:"lol", min:-1, max:+1},
-    //{name:"patate",min:-2,max:+6}
+    {name:"spr_beta_alpha", min:0, max:1},
+    {name:"spr_alpha_theta", min:0, max:1},
+    {name:"td_front_back", min:0, max:1},
+    {name:"pac_rpt_frontal", min:0.7, max:1.3},
+    {name:"pac_rpt_parietal", min:0.7, max:1.3},
+    {name:"pe_frontal", min:0, max:2},
+    {name:"pe_parietal", min:0, max:2},
 ]
+
 resonanceDummyInput={name:"",min:0,max:1} // written as "(none)"
 resonanceInputsByName = {}
 for (var i=0; i<resonanceInputs.length; i++) resonanceInputsByName[resonanceInputs[i].name]=resonanceInputs[i];
