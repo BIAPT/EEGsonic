@@ -36,33 +36,86 @@
     pe_parietal
 */
 
+// Features used in the first fully conscious workshop
 resonanceInputs = [
-    {name:"spr_beta_alpha", min:0, max:1},
-    {name:"spr_alpha_theta", min:0, max:1},
-    {name:"td_front_back", min:0, max:1},
-    {name:"pac_rpt_frontal", min:0.7, max:1.3},
-    {name:"pac_rpt_parietal", min:0.7, max:1.3},
-    {name:"pe_frontal", min:0, max:2},
-    {name:"pe_parietal", min:0, max:2},
+    {name:"spr_beta_alpha", min:0.15, max:1.7},
+    {name:"spr_alpha_theta", min:0.05, max:1.5},
+    {name:"hl_relative_position", min:0, max:1},
+    {name:"pe_frontal", min:0.85, max:1},
+    {name:"pe_parietal", min:0.8, max:1},
+    {name:"fp_wpli_left_midline", min:0, max:0.2},
+    {name:"fp_dpli_left_midline", min:0.45, max:0.55},
 ]
+
+preset = {
+  anamnesis_1 : [
+        {name:"s0", select:"", min:-10, max:10},
+        {name:"s1", select:"", min:-10, max:10},
+        {name:"s2", select:"", min:-10, max:10},
+        {name:"s3", select:"fp_wpli_left_midline", min:-10, max:10},
+        {name:"s4", select:"fp_dpli_left_midline", min:-10, max:10},
+        {name:"s5", select:"spr_beta_alpha", min:-10, max:10},
+        {name:"s6", select:"spr_alpha_theta", min:-10, max:10},
+        {name:"s7", select:"hl_relative_position", min:-10, max:10},
+        {name:"s8", select:"pe_frontal", min:-10, max:10},
+        {name:"s9", select:"pe_parietal", min:-10, max:10},
+    ],
+  anamnesis_2 : [
+        {name:"s0", select:"", min:-10, max:10},
+        {name:"s1", select:"", min:-10, max:10},
+        {name:"s2", select:"", min:-10, max:10},
+        {name:"s3", select:"fp_wpli_left_midline", min:-10, max:10},
+        {name:"s4", select:"fp_dpli_left_midline", min:-10, max:10},
+        {name:"s5", select:"spr_beta_alpha", min:-10, max:10},
+        {name:"s6", select:"pe_frontal", min:-10, max:10},
+        {name:"s7", select:"hl_relative_position", min:-10, max:10},
+        {name:"s8", select:"spr_alpha_theta", min:-10, max:10},
+        {name:"s9", select:"pe_parietal", min:-10, max:10},
+    ],
+  japanese_garden : [
+        {name:"s0", select:"hl_relative_position", min:-10, max:10},
+        {name:"s1", select:"", min:-10, max:10},
+        {name:"s2", select:"", min:-10, max:10},
+        {name:"s3", select:"", min:-10, max:10},
+        {name:"s4", select:"spr_alpha_theta", min:-10, max:10},
+        {name:"s5", select:"spr_beta_alpha", min:-10, max:10},
+        {name:"s6", select:"fp_wpli_left_midline", min:-10, max:10},
+        {name:"s7", select:"fp_dpli_left_midline", min:-10, max:10},
+        {name:"s8", select:"pe_frontal", min:-10, max:10},
+        {name:"s9", select:"pe_parietal", min:-10, max:10},
+    ],
+  tibetan_choir_1 : [
+        {name:"s0", select:"", min:-10, max:10},
+        {name:"s1", select:"", min:-10, max:10},
+        {name:"s2", select:"fp_wpli_left_midline", min:-10, max:10},
+        {name:"s3", select:"fp_dpli_left_midline", min:-10, max:10},
+        {name:"s4", select:"spr_alpha_theta", min:-10, max:10},
+        {name:"s5", select:"spr_beta_alpha", min:-10, max:10},
+        {name:"s6", select:"hl_relative_position", min:-10, max:10},
+        {name:"s7", select:"pe_parietal", min:-10, max:10},
+        {name:"s8", select:"pe_frontal", min:-10, max:10},
+        {name:"s9", select:"", min:-10, max:10},
+    ],
+  tibetan_choir_2 : [
+        {name:"s0", select:"", min:-10, max:10},
+        {name:"s1", select:"", min:-10, max:10},
+        {name:"s2", select:"fp_wpli_left_midline", min:-10, max:10},
+        {name:"s3", select:"fp_dpli_left_midline", min:-10, max:10},
+        {name:"s4", select:"spr_alpha_theta", min:-10, max:10},
+        {name:"s5", select:"pe_parietal", min:-10, max:10},
+        {name:"s6", select:"hl_relative_position", min:-10, max:10},
+        {name:"s7", select:"pe_frontal", min:-10, max:10},
+        {name:"s8", select:"spr_beta_alpha", min:-10, max:10},
+        {name:"s9", select:"", min:-10, max:10},
+    ],
+}
 
 resonanceDummyInput={name:"",min:0,max:1} // written as "(none)"
 resonanceInputsByName = {}
 for (var i=0; i<resonanceInputs.length; i++) resonanceInputsByName[resonanceInputs[i].name]=resonanceInputs[i];
 
 // those have to be ordered with no gaps : [i]={name:"s"+i,...} as .name isn't being used.
-resonanceMapping = [
-    {name:"s0", select:"", min:-10, max:10},
-    {name:"s1", select:"", min:-10, max:10},
-    {name:"s2", select:"", min:-10, max:10},
-    {name:"s3", select:"eda", min:-10, max:10},
-    {name:"s4", select:"", min:-10, max:10},
-    {name:"s5", select:"", min:-10, max:10},
-    {name:"s6", select:"hello", min:-10, max:10},
-    {name:"s7", select:"", min:-10, max:10},
-    {name:"s8", select:"", min:-10, max:10},
-    {name:"s9", select:"", min:-10, max:10},
-]
+resonanceMapping = preset.tibetan_choir_1;
 
 function resonanceSelectChange(id) {
     var select=document.getElementById(id);

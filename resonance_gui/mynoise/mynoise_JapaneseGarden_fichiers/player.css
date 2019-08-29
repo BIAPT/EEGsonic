@@ -1,0 +1,96 @@
+#s0, #s1, #s2, #s3, #s4, #s5, #s6, #s7, #s8, #s9 {
+    float: left;
+    clear: none;
+	height:120px;
+    margin: 6px;
+}
+
+#s0 .ui-slider-range { background: rgba(100,50,0,0.3); }
+#s0 .ui-slider-handle { background: #630 !important; }
+#s1 .ui-slider-range { background: rgba(200,0,0,0.3); }
+#s1 .ui-slider-handle { background: #C00 !important; }
+#s2 .ui-slider-range { background: rgba(255,128,0,0.3); }
+#s2 .ui-slider-handle { background: #F80 !important; }
+#s3 .ui-slider-range { background: rgba(150,190,0,0.3); }
+#s3 .ui-slider-handle { background: #9B0 !important; }
+#s4 .ui-slider-range { background: rgba(0,200,0,0.3); }
+#s4 .ui-slider-handle { background: #0C0 !important; }
+#s5 .ui-slider-range { background: rgba(0,200,170,0.3); }
+#s5 .ui-slider-handle { background: #0CA !important; }
+#s6 .ui-slider-range { background: rgba(0,140,220,0.3); }
+#s6 .ui-slider-handle { background: #08D !important; }
+#s7 .ui-slider-range { background: rgba(0,0,255,0.3); }
+#s7 .ui-slider-handle { background: #00F !important; }
+#s8 .ui-slider-range { background: rgba(140,0,170,0.3); }
+#s8 .ui-slider-handle { background: #80A !important; }
+#s9 .ui-slider-range { background: rgba(200,140,255,0.3); }
+#s9 .ui-slider-handle { background: #C8F !important; }
+#radioSlider .ui-slider-range { background:  #888; }
+#radioSlider .ui-slider-handle { background: #888 !important; }
+
+
+.ui-slider-vertical {
+  background: rgba(255,255,255,0.2) !important;
+  border: 2px solid rgba(255,255,255,0.5) !important;
+  width: 14px !important;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+  
+.ui-slider .ui-slider-handle {
+  background: #000 !important;
+  border: 2px solid #FFF !important;
+  width: 20px !important;
+  height: 20px !important;
+  outline: none;
+  left: -5px !important;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-bottom: -12px;
+}
+
+.ui-slider-range {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.ui-button {
+	background: rgba(255,255,255,0.2) !important;
+	-webkit-border-radius: 20px;
+  	-moz-border-radius: 20px;
+  	border-radius: 20px;
+  	border: 2px solid rgba(255,255,255,0.2) !important;
+  	color:rgba(255,255,255,0.5);
+	outline: none;
+}
+
+.ui-button:active {
+	background: rgba(255,255,255,0.4) !important;
+	outline: none;
+}
+
+.ui-state-active{
+	color:#FFF;
+	border: 2px solid rgba(255,255,255,0.8) !important;
+}
+
+.ui-tooltip {
+	color:rgb(200,200,200);
+	color:rgba(255,255,255,0.7);
+	background: none !important;
+	border: 0px solid #EEE !important;
+	font-size:11px;
+	line-height:11px;
+	padding: 6px;
+	position: absolute;
+	z-index: 9999;
+	max-width: 600px;
+	box-shadow: 0 0 0px white;
+	-webkit-border-radius: 0px;
+    -moz-border-radius:0 px;
+    border-radius: 0px;
+}

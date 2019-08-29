@@ -1,0 +1,2070 @@
+* {
+	margin:0;
+	padding:0;
+}
+
+/* Local Fonts */
+
+/* raleway-regular - latin */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/raleway-v12-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Raleway'), local('Raleway-Regular'),
+       url('./fonts/raleway-v12-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('./fonts/raleway-v12-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('./fonts/raleway-v12-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('./fonts/raleway-v12-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('./fonts/raleway-v12-latin-regular.svg#Raleway') format('svg'); /* Legacy iOS */
+}
+
+/* delius-regular - latin */
+@font-face {
+  font-family: 'Delius';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/delius-v7-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Delius-Regular'),
+       url('./fonts/delius-v7-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('./fonts/delius-v7-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('./fonts/delius-v7-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('./fonts/delius-v7-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('./fonts/delius-v7-latin-regular.svg#Delius') format('svg'); /* Legacy iOS */
+}
+
+body  {
+	font-family:"Raleway",Arial, Helvetica, sans-serif;
+	font-size:13px;
+	line-height:150%;
+	background:#000;
+	color: #000;
+	min-width:480px;
+	overflow-x:hidden;
+	/* vis 
+	background:#FFF; 
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+	*/
+}
+
+.grecaptcha-badge { 
+    visibility: hidden;
+    z-index:999;
+}
+
+
+/* OVERALL FIXED STRUCTURE */
+
+#onTop {
+	padding:5px 30px;
+	color: #ddd;
+	text-align:center;
+	font-style:italic;
+	border-bottom: solid 1px rgba(128,128,128,0.5);
+}
+
+#container { 
+	color:#d8d8d8;
+}
+
+#lilBoxR{
+	position: absolute;
+	right:0px;
+	width:300px;
+	height:370px;
+	border: solid 0px #00F;
+}
+
+#lilBoxL{
+	position: absolute;
+	left:0px;
+	width:300px;
+	height:370px;
+	border: solid 0px #00F;
+}
+
+.mynoiseTitle {
+	position: absolute;
+	left:50%;
+	width:80%;
+	margin:25px 0 0 -40%;
+	border: solid 0px #444;
+	text-align:center;
+	z-index:4;
+}
+
+.noiseTitle {
+	position: absolute;
+	padding-top:35px;
+	width:100%;
+	border: solid 0px #444;
+	text-align:center;
+	z-index:4;
+}
+
+.player {
+	position: absolute;
+	left:50%;
+	width:716px;
+	height:325px;
+	margin:5px 0 0 -360px;
+	padding-top:0px;
+	z-index:3;
+	text-align:center;
+	border: solid 2px rgba(255,255,255,0.06);
+	-webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0px -3px 40px 10px rgba(0,0,0,1);
+	-moz-box-shadow: 0px -3px 40px 10px rgba(0,0,0,1);
+     box-shadow: 0px -3px 40px 10px rgba(0,0,0,1);
+}
+
+.calGrid {
+	position: absolute;
+	left:-1px;
+	top:110px;
+	width:100%;
+	border: solid 0px #444;
+	text-align:center;
+	z-index:0;
+}
+
+.contextPlay {
+	position: absolute;
+	left:0px;
+	top:120px;
+	width:100%;
+	border: solid 0px #444;
+	text-align:center;
+	z-index:2;
+	display: none;
+	cursor:pointer;
+}
+
+div.btn {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    width: 28px;
+    height:28px;
+    margin:0 3px;
+}
+
+.btnImg{
+	height:100%;
+	width:100%;
+	cursor:pointer;
+	-webkit-transition:opacity 100ms linear;
+	-moz-transition:opacity 100ms linear;
+	-o-transition:opacity 100ms linear;
+	-ms-transition:opacity 100ms linear;
+	transition:opacity 100ms linear;
+	opacity:0.6;
+	padding:4px;
+	border-width: 2px;
+	border-radius: 16px;
+	border-style: solid;
+	border-color: #AAA;
+	vertical-align:middle;
+	background:#444;
+}
+
+.btnImg:hover{
+	opacity:1;
+}
+
+.btnImg:active{
+	background:#888;
+}
+
+.active{
+	border-color:#DDD;
+	background:#E60;
+	opacity:0.9;
+}
+
+.disabled{
+	opacity:0.2;
+}
+
+.inaudible{
+	border-style: dotted;
+}
+
+.btnCaption{
+	margin-top:2px;
+	font-size:13px;
+	font-weight:bold;
+	color:#AAA;
+}
+
+.menuNew {
+	position: fixed;
+	bottom:20px;
+	background-color: #181818;
+	border: solid 1px rgba(255,255,255,0.5);
+	text-align:center;
+	padding:2px 0px;
+	width:520px;
+	left:50%;
+	margin-left:-260px;
+	clear:both;
+	z-index:5;
+    -webkit-box-shadow: 0px 0px 30px 30px rgba(0,0,0,0.8);
+	-moz-box-shadow: 0px 0px 30px 30px rgba(0,0,0,0.8);
+     box-shadow: 0px 0px 30px 30px rgba(0,0,0,0.8);
+     -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.menufixed {
+	position: fixed;
+	top:0px;
+	background-color: #000;
+	border-bottom: solid 1px #666;
+}
+
+.allContent {
+	position: absolute;
+	padding-top:345px;
+	left:50%;
+	width:720.1px;
+	margin:0 0 0 -360px;
+	z-index:2;
+	border: solid 0px #0FF;
+}
+
+.allContentJustBelowTitle {
+	padding-top:120px;
+	position: relative;
+	margin:0 auto 0 auto;
+	width:720px;
+	z-index:2;
+	border: solid 0px #333;
+}
+
+.allContentMini {
+	position: relative;
+	z-index:2;
+	width:500px;
+	margin:10px auto 0 auto;
+}
+
+/* SUBPARTS */
+
+.bigTitle {
+	color:#F80;
+	font-size:30px;
+	padding:3px 0 0 0;
+	letter-spacing:1px;
+}
+
+span.grey {
+	color:#444;
+}
+
+span.smaller {
+	font-size:28px;
+}
+
+span.tm {
+	font-size:11px;
+	vertical-align:super;
+}
+
+span.titlesmall {
+	font-size:13px;
+	color:#888;
+}
+
+.subTitle {
+	padding:6px 0 10px 0;
+	color:#FFF;
+	letter-spacing:1px;
+	opacity:0.5;
+}
+
+.menuNew ul {
+	margin:0;
+	padding-top:3px;
+}
+
+.menuNew li {
+	list-style:none;
+	display:inline;
+	margin:0 10px 0 10px;
+	padding:0;
+	letter-spacing:1px;
+	font-size:14px;
+	
+}
+
+.menuNew li a {
+	color:#CCC;
+	text-decoration:none;
+}
+
+.menuNew li a:hover {
+	color:#F80;
+}
+.menuNew #active a {
+	color:#F80;
+}
+
+.oneCol {
+    float: left;
+    width: 720px;
+}
+
+.col1 {
+    float: left;
+    width: 450px;
+}
+
+.col2 {
+    float: right;
+    width: 260px;
+}
+
+.colA {
+    float: left;
+    width: 225px;
+}
+.colB {
+    float: left;
+    width: 250px;
+    margin: 0px 10px;
+}
+.colC {
+    float: right;
+    width: 225px;
+}
+
+.content {
+	text-align:justify;
+	margin: 0px 0px 10px 0px;
+	padding:10px 20px;
+	border: solid 1px rgba(255,255,255,0.2);
+	-webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.fancy {
+	border: solid 1px rgba(255,255,255,0.3);
+}
+
+.tiny {
+	font-size:12px;
+	line-height:12px;
+}
+
+.contentShrunk {
+	text-align:justify;
+	margin: 0px 0px 10px 0px;
+	padding:0px 20px;
+	border: solid 1px rgba(255,255,255,0.2);
+	-webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.contentYT {
+	margin: 10px 0px 20px 0px;
+	padding:0px;
+	border: solid 0px #000;
+}
+
+.contentText {
+	text-align:left;
+	margin: 0px 0px 10px 0px;
+	padding:10px 20px;
+	border: solid 1px rgba(255,255,255,0.2);
+	-webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.fullContent {
+	color: #ccc;
+	position: relative;
+	width:500px;
+	padding:30px 20px;
+	margin:0 0 40px 0;
+	border: solid 1px rgba(255,255,255,0.2);
+	-webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+} 
+
+.social {
+	margin: 10px 10px 20px 10px;
+	padding:0px 0px 0px 20px;
+	border: solid 1px rgba(255,255,255,0.2);
+	-webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.bgcontainer {
+    position: absolute;
+    width:100%;
+    height:600px;
+	overflow:hidden;
+}
+
+#bgimage {
+	box-shadow: inset 0 -150px 250px 50px black;
+    position: absolute;
+    left: 50%;
+    margin-left: -960px;
+    width:1920px;
+    height:600px;
+    opacity:0;
+    background-size: 1920px 600px;
+	background-repeat: no-repeat;
+	/* Forcing GPU */
+	/* transform: translateZ(0); */
+}
+
+.mixer{
+	border: solid 0px blue;
+    position:absolute;
+    border: solid 0px #444;
+    left: 50%;
+    top: 95px;
+    width: 302px;
+    margin-left: -151px;
+	z-index:0;
+}
+
+.controlers{
+	border: solid 0px #444;
+    position:absolute;
+    left: 50%;
+    top: 240px;
+    width: 500px;
+    margin-left: -250px;
+    text-align:center;
+	font-size:10px;
+	line-height:12px;
+	z-index:1;
+}
+
+.controlersRadio{
+	position:absolute;
+    top:15px;
+    right:10%;
+	font-size:10px;
+	line-height:12px;
+}
+
+.radioMsg {
+	position:absolute;
+	top:45px;
+	right:10%;
+	color:#888;
+	text-align:center;
+}
+
+.radioTag{
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	margin-top:32vh;
+	text-align:center;
+	font-size:5vw;
+	letter-spacing:1vw;
+	line-height:15vh;
+	color:#FFF;
+	opacity:0.8;
+	text-shadow: 0px 0px 5px #000;
+}
+
+.radioWarning{
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	margin-top:47vh;
+	padding:0px 50px;
+	text-align:center;
+	font-size:14px;
+	color:#ddd;
+	opacity:1;
+	text-shadow: 0px 0px 20px #000;
+	z-index:999;
+}
+
+.radioCaroussel{
+	position: absolute;
+	bottom:18vh;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	margin-top:0px;
+	border: solid 0px #CCC;
+	text-align:center;
+	opacity:0.6;
+}
+
+img.radio{
+	width:9%;
+	padding:0px;
+	margin:1%;
+	border: solid 1px #CCC;
+	-webkit-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.4);
+	-moz-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.4);
+	box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.4);
+	opacity:0;
+}
+
+.radioFooter {
+	position:absolute;
+	width:100%;
+	bottom:10px;
+	color:#444;
+	text-align:center;
+}
+
+#radioTouch{
+	position:fixed;
+	width:33%;
+	height:33%;
+	top:35%;
+	bottom:0;
+	left: 16%;
+	right: 0;
+	margin: auto;
+	background-image: url("/Pix/play.png");
+	background-size: 50%;
+	background-repeat: no-repeat;
+	display:none;
+	cursor:pointer;
+}
+
+.msg {
+	position: relative;
+	z-index:3;
+	color:#ccc;
+	text-align:center;
+	margin-top:285px;
+	border: solid 0px #444;
+}
+
+.player.testimonial {
+	width:718px;
+	height:198px;
+	margin:135px 0 0 -360px;
+	border: solid 1px rgba(255,255,255,0.16);
+}
+
+.testimonials{
+	border: solid 0px #00F;
+	margin-top:99px;
+	padding:0px 110px;
+	height:0;
+}
+
+.tleft {
+	position:relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+  	-ms-transform:  translateY(-50%);
+  	-webkit-transform: translateY(-50%);
+  	width: 300px;
+    float: left;
+	text-align: center; 
+  	color:#ccc;
+  	border: solid 0px #800;
+  	text-shadow: 0px 0px 8px #000;
+  	font-size:13px;
+}
+
+.tright {
+	position:relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+  	-ms-transform:  translateY(-50%);
+  	-webkit-transform: translateY(-50%);
+  	width: 100px;
+    float: right;
+	text-align: center; 
+  	color:#ddd;
+  	border: solid 0px #080;
+}
+
+.tcenter {
+	position:relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+  	-ms-transform:  translateY(-50%);
+  	-webkit-transform: translateY(-50%);
+  	margin:0 auto;
+  	width: 420px;
+  	color:#ddd;
+  	border: solid 0px #080;
+}
+
+.testimonialImg {
+	margin-bottom:10px;
+	width:86px;
+	border:solid #BBB 1px;
+	padding:2px;
+	-webkit-border-radius: 96px;
+    -moz-border-radius: 96px;
+    border-radius: 96px;
+}
+
+.testimonialImg:hover {
+	border:solid #FFF 1px;
+}
+
+.suggestImg {
+	margin:0 3px;
+	width:58px;
+	border:solid #666 1px;
+	padding:2px;
+	-webkit-border-radius: 96px;
+    -moz-border-radius: 96px;
+    border-radius: 96px;
+}
+
+.suggestImg:hover {
+	border:solid #567898 2px;
+}
+
+.easyImg {
+	margin:0 3px;
+	width:75px;
+	border:solid #666 1px;
+	padding:2px;
+	-webkit-border-radius: 96px;
+    -moz-border-radius: 96px;
+    border-radius: 96px;
+}
+
+.easyImg:hover {
+	border:solid #567898 2px;
+	width:73px;
+}
+
+
+/* GENERAL */
+
+h1 {
+	font-size:16px;
+	font-weight: normal;
+	padding:5px 0px 5px 0px;
+}
+
+h2 {
+	font-size:14px;
+	font-weight: normal;
+	padding:10px 0px;
+}
+
+a {
+	color:#F80;
+	text-decoration:none;
+	border:none;
+}
+
+a:hover {
+	color:#F80;
+	text-decoration:underline;
+}
+
+a.bigger {
+	font-size:16px;
+}
+
+a.blue {
+	color:#08F;
+	font-size:13px;
+}
+
+a.blue:hover {
+	color:#08F;
+	text-decoration:underline;
+}
+
+p {
+	padding:10px 0px;
+}
+
+hr {
+	margin:0px 20px 0px 20px;
+	display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #444;
+}
+
+img {
+	vertical-align:middle;
+	border:none;
+}
+
+img.lock {
+	vertical-align:text-top;
+	border:none;
+}
+
+img.ss {
+	float:left; 
+	width:100%;
+	border:solid #DDD 1px;
+	margin-bottom:3px;
+}
+
+figcaption {
+	text-align:right;
+	color:#777;
+	font-style:italic;
+	line-height:15px;
+}
+
+figure {
+	margin:10px 0px 10px 0px;
+	width:100%;
+}
+
+img.blog {
+	float:left; 
+	margin:7px 20px 10px 0px;
+	width:450px;
+	height:300px;
+	border:solid #DDD 1px;
+	padding:3px;
+}
+
+img.blogMini {
+	float:left; 
+	margin:7px 20px 10px 0px;
+	width:120px;
+	border:solid #DDD 1px;
+	padding:3px;
+}
+
+img.blogIcon {
+	float:left; 
+	margin:7px 20px 10px 0px;
+	width:48px;
+	border:solid #DDD 0px;
+	padding:3px;
+}
+
+img.blogLong {
+	float:left; 
+	margin:7px 20px 10px 0px;
+	width:200px;
+	border:solid #DDD 1px;
+	padding:3px;
+}
+
+img.blogVert {
+	float:left; 
+	margin:7px 20px 10px 0px;
+	width:270px;
+	border:solid #DDD 1px;
+	padding:3px;
+}
+
+img.blogVertRight {
+	float:right; 
+	margin:7px 0px 10px 20px;
+	width:270px;
+	border:solid #DDD 1px;
+	padding:3px;
+}
+
+img.sectionIcon {
+	float:left; 
+	margin:5px 20px 10px 0px;
+	width:32px;
+	border:solid #DDD 0px;
+	padding:3px;
+	opacity:0.85;
+}
+
+img.amazonLeft {
+	float:left; 
+	margin:0px 20px 10px 0px;
+	height:100px;
+	border:solid #F60 1px;
+	padding:3px;
+}
+
+img.amazonRight {
+	float:right; 
+	margin:0px 0px 10px 20px;
+	height:100px;
+	border:solid #F60 1px;
+	padding:3px;
+}
+
+img.ugLeft {
+	float:left; 
+	margin:0px 20px 10px 0px;
+	width:320px;
+	border:solid #09C 1px;
+	padding:5px;
+}
+
+img.ugRight {
+	float:right; 
+	margin:0px 0px 10px 20px;
+	width:320px;
+	border:solid #D80 1px;
+	padding:5px;
+}
+
+img.ugSingle {
+	float:left; 
+	margin:0px 20px 10px 0px;
+	width:320px;
+	border:solid #AAA 1px;
+	padding:5px;
+}
+
+img.over {
+	opacity:0.85;
+	cursor:pointer;
+}
+
+img.over:hover {
+	opacity:1;
+}
+
+img.album {
+	margin:5px 1%;
+	width:100px;
+	height:100px;
+	border:solid rgba(255,255,255,0.5) 1px;
+	padding:0px;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.3);
+     box-shadow: 5px 5px 15px 0px rgba(0,0,0,0.3);
+     cursor:pointer;
+}
+
+img.album:hover {
+	border:solid rgba(255,255,255,0.8) 1px;
+}
+
+img.albumLeft {
+	float:left; 
+	margin:15px 20px 10px 0px;
+	width:90px;
+	height:90px;
+	border:solid rgba(255,255,255,0.6) 1px;
+	padding:7px;
+}
+
+img.albumLeft:hover {
+	border:solid rgba(255,255,255,0.8) 1px;
+}
+
+img.albumLeftSmall {
+	float:left; 
+	margin:0px 20px 0px 0px;
+	width:90px;
+	border:solid #AAA 1px;
+	padding:0px;
+}
+
+img.albumLeftSmall:hover {
+	border:solid #EEE 1px;
+}
+
+form {
+	margin:0px 0 0px 0;
+}
+
+/* OTHERS */
+
+.logout,.az {
+	font-size:12px;
+	color:#888;
+	cursor:pointer;
+}
+
+span.actionlink {
+	color:#08F;
+	text-decoration:none;
+    cursor:pointer;
+}
+
+span.actionlink:hover {
+	text-decoration:underline;
+}
+
+span.white {
+	color:#fff;
+}
+
+.clearedL {
+	text-align:right;
+	clear:left;
+	color:#D80;
+	font-family:"Delius",cursive;
+	font-size:14px;
+}
+
+.clearedR {
+	text-align:left;
+	clear:right;
+	color:#09C;
+	font-family:"Delius",cursive;
+	font-size:14px;
+}
+
+#footer {
+	clear:both;
+	width:100%;
+	text-align:center;
+	padding:0 0 70px 0;
+} 
+
+#searchTxt {
+	padding: 0px 3px;
+	width:100px;
+	background:#444;
+	color:#ccc;
+	border: solid 0px #777;
+	font-size:13px;
+	font-family:"Raleway",Arial, Helvetica, sans-serif;
+}
+
+#searchInfo {
+	color:#0B4;
+}
+
+.clearfloat {
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+
+.iNB,.iHC,.iST,.iMN,.iEE,.iTN,.iMU,.iCL,.iHP,.iSearch,.iFV,.iUFV,.iCU,.iNA {
+	margin:0px 2px 2px 0px;
+	height:12px;
+	opacity:0.85;
+}
+
+.iFV {
+	display:none;
+}
+
+/* OVERLAYS */
+
+.Lslide{
+    position:absolute;
+    left: -225px;
+    text-align: right;
+    width: 270px;
+    height: 35px;
+	border: solid 0px #000;
+    z-index:4;
+    transition-property:all;
+	transition-duration:0.5s;
+	/* Safari */
+	-webkit-transition-property:all;
+	-webkit-transition-duration:0.75s;
+}
+
+.Lslide:hover{
+    left: 0px;
+    background-color: #222;
+    border: solid 0px #222;
+	background-color: rgba(0,0,0,0.9);
+	-webkit-border-radius: 8px 8px 8px 8px;
+    -moz-border-radius: 8px 8px 8px 8px;
+    border-radius: 8px 8px 8px 8px;
+}
+
+.Rslide{
+    position:absolute;
+    right: -225px;
+    text-align: right;
+    width: 270px;
+    height: 35px;
+	border: solid 0px #000;
+    z-index:4;
+    transition-property:all;
+	transition-duration:0.5s;
+	/* Safari */
+	-webkit-transition-property:all;
+	-webkit-transition-duration:0.75s;
+}
+
+.Rslide:hover{
+    right: 0px;
+    background-color: #222;
+    border: solid 0px #222;
+	background-color: rgba(0,0,0,0.9);
+	-webkit-border-radius: 8px 8px 8px 8px;
+    -moz-border-radius: 8px 8px 8px 8px;
+    border-radius: 8px 8px 8px 8px;
+}
+
+.zeroRight{
+    right: 0px;
+}
+
+.zero{top:8px;}
+.one{top:10px;}
+.two{top:45px;}
+.three{top:80px;}
+.four{top:115px;}
+.five{top:150px;}
+.six{top:185px;}
+.seven{top:220px;}
+.eight{top:255px;}
+
+
+.Lslide.long{
+    top:150px;
+    height: 282px;
+}
+
+.LslideText{
+	text-align: right;
+	border: solid 0px #ccc;
+	margin :5px 45px 5px 5px;
+	font-size:12px;
+	line-height:110%;
+}
+
+.RslideText{
+	text-align: lrft;
+	border: solid 0px #ccc;
+	margin :5px 5px 5px 45px;
+	font-size:12px;
+	line-height:110%;
+}
+
+.LslideImg{
+	float: right;
+	margin-top :5px;
+}
+
+.LfixedImg{
+	padding-top:5px;
+	position:absolute;
+	margin-left:13px;
+	z-index:5;
+}
+
+.RslideImg{
+	float: left;
+	margin-top :5px;
+}
+
+.handwriting{
+	font-family:"Delius",cursive;
+}
+
+.hand{
+	color:#bbb;
+	font-family:"Delius",cursive;
+	font-size:13px;
+	letter-spacing:0px;
+	padding-right:10px;
+}
+
+.onBlack{
+	background-color: #222;
+	background-color: rgba(0,32,32,0.5);
+}
+
+.menubar{
+	text-align:right;
+	border-bottom:1px solid rgba(255,255,255,0.2);;
+	padding:0px 0px 3px 0px;
+	margin:0px;
+}
+
+.highlight{
+	color:#0AD;
+}
+
+.orange{
+	color:#F80;
+}
+
+.blue{
+	color:#08F;
+}
+
+.red{
+	color:#F00;
+}
+
+.carbon{
+	color:#7b3;
+}
+
+.lowlight{
+	color:#777;
+}
+
+.playOff{
+	color:#444;
+}
+
+.playOn{
+	color:#0D6;
+}
+
+.scroll-pane{
+	height: 400px;
+	overflow: auto;
+	padding:0px 15px 0px 0px;
+	text-align:left;
+	outline: none;
+}
+
+table.license{
+	width:100%;
+	border: 0px solid #ccc;
+	border-collapse:collapse;
+}
+
+table.license td {
+    border: 1px solid #333;
+    background-color: #222;
+    padding:5px 10px 5px 10px;
+    text-align:center;
+}
+
+table.keyb{
+	width:100%;
+	border: 1px solid #ccc;
+	border-collapse:collapse;
+}
+
+table.keyb td {
+    border: 1px solid #333;
+    background-color: #222;
+    padding:5px 10px 5px 10px;
+    text-align:left;
+}
+
+table.superGen{
+	border-collapse:collapse;
+}
+
+table.superGen td {
+    border: 1px solid #444;
+    background-color: #000;
+    padding:0px;
+    line-height: 0%;
+}
+
+table.suggestions{
+    border-collapse:collapse;
+}
+
+table.suggestions td.img{
+    width: 10%;
+    text-align: left;
+    vertical-align:top;
+}
+
+table.suggestions td.descr{
+    width: 38%;
+    padding: 0 4% 0 2%;
+    text-align: left;
+    vertical-align:top;
+}
+table.suggestions td.descr2{
+    width: 34%;
+    padding: 0 0px 0 2%;
+    text-align: left;
+    vertical-align:top;
+}
+
+textarea{
+	padding:1px 1px;
+	font-family:"Delius",cursive;
+	font-size:14px;
+	border: solid 1px rgba(128,128,128,0.10);
+	background-color: #222;
+	color: #eee;
+	resize: none;
+	vertical-align:text-bottom;
+	opacity:0.8;
+}
+
+.fullwidth{
+	width:100%;
+}
+
+.submitLink {
+	background-color: transparent;
+	color:#F80;
+	text-decoration:none;
+	border: none;
+	cursor: pointer;
+	font-family:"Raleway",Arial, Helvetica, sans-serif;
+	font-size:13px;
+}
+
+.submitLink:hover {
+	text-decoration:underline;
+}
+
+iframe.superGen {
+	width:498px;
+	height:340px;
+	overflow:hidden;
+    border-style: none;
+}
+
+iframe.masterlist {
+	background-color: #1c1c1c;
+	margin-top: 10px;
+	position: relative;
+    width: 100%;
+    height:600px;
+    z-index: 999;
+    border: solid 1px rgba(128,128,128,0.7);
+	-webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+  
+.ytcontent {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+
+iframe.ytvideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+iframe.preview {
+    width: 100%;
+    height:500px;
+}
+
+blockquote {
+	padding: 0px 10px 0px 20px;
+	margin: 10px;
+	border-left: 1px solid #555;
+	color: #999;
+	font-family:"Delius","Raleway",Arial, Helvetica, sans-serif;
+	font-size:13px;
+	line-height:150%;
+}
+
+#paymentOverlay {
+  display:none;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  padding:10px 20px;
+  z-index: 999999999;
+  color:#0FF;
+  background-color: rgba(32,32,32,0.9);
+}
+
+ul.map {
+    padding: 0 0 0 20px;
+}
+
+/* -----------------------
+Mobile styles
+------------------------*/
+
+@media screen and (max-width: 720px)
+{
+
+.hide{
+	display:none;
+}
+
+.menuNew li {
+	font-size:13px;
+	-webkit-text-size-adjust: 100%;
+}
+.allContent {
+	width:90%;
+	margin:0 0 0 -45%;
+}
+
+.allContentFeedback {
+	top:380px;
+	width:90%;
+	margin:0 0 0 -45%;
+}
+
+.allContentJustBelowTitle {
+	width:90%;
+	margin:0 0 0 5%;
+}
+
+.player {
+	border: 0px;
+	-webkit-box-shadow:  none;
+	-moz-box-shadow:  none;
+    box-shadow:  none;
+}
+
+.player.testimonial {
+	border: none;
+}
+
+.testimonials{
+	padding:0px 150px;
+}
+
+.oneCol {
+    width: 100%;
+    float: left;
+}
+.col1 {
+    width: 100%;
+    float: left;
+}
+
+.col2 {
+    width: 100%;
+    float: left;
+}
+.colA {
+    width: 100%;
+    float: left;
+}
+.colB {
+    width: 100%;
+    float: left;
+    margin: 0px 0px;
+}
+.colC {
+    width: 100%;
+    float: left;
+}
+
+#footer {
+	padding-bottom:60px;
+} 
+
+}
+
+@media screen and (max-width: 540px) {
+  table.license tr {
+    border: 1px solid #333;
+  }
+
+  table.license tr.lowlight {
+    display: none;
+  }
+
+  table.license td {
+    border: none;
+    display: block;
+    padding: 1px 10px;
+    text-align: left;
+  }
+
+  table.license td:first-child {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  table.license td:last-child {
+    padding-bottom: 5px;
+  }
+
+  table.license td:nth-child(4):before {
+    content: 'Contributions: ';
+  }
+}
+
+@media screen and (max-width: 480px) {
+.tleft {
+	display:none;
+	width: 0px;
+}
+.tright {
+  	width: 100%;
+}
+.player.testimonial {
+	width:100%;
+	height:198px;
+	margin:135px 0 0 -50%;
+}
+.testimonials{
+	padding:0px 0px;
+}
+.tcenter {
+  	width: 320px;
+}
+.easyImg {
+	width:40px;
+}
+
+.easyImg:hover {
+	width:38px;
+}
+
+}
+
+@media screen and (max-height: 300px) {
+    .radioWarning{opacity:0.1;}
+}
+
+@media all and (min-width: 1025px) {
+.tleft {
+  	font-size:14px;
+  	line-height:150%;
+}
+}
+
+/*  Liquid theme CSS add-on for mynoise.net
+    Written by Thomas Weiler in May/June 2018
+*/
+
+* {
+  /* This changes the box-model so width includes padding and border instead of padding and border being added to width (makes layout way easier) */
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+  /* Allow page size < 480px */
+    min-width: 0;
+}
+
+h1 {
+  /* Makes too long text that can't word-wrap into the next line get cut off with "..." instead of overflowing its container */
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+.bigTitle, .subTitle {
+  /* Just a bit to keep it away from the phone display edge */
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.bigTitle {
+  /* Keep long titles from word-wrapping into themselves because of too small line height */
+  line-height: 1em;
+}
+
+.subTitle {
+  padding-top: 0;
+}
+
+#onTop {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  background: #000;
+  -webkit-box-shadow: 0 0 20px #000;
+          box-shadow: 0 0 20px #000;
+}
+
+@media all and (min-width: 481px) {
+  #onTop {
+    position: fixed;
+  }
+}
+
+.mynoiseTitle, .noiseTitle {
+  position: relative;
+  left: 0;
+  margin: 20px auto 10px;
+}
+
+@media all and (min-width: 481px) {
+  #onTop ~ .mynoiseTitle, #onTop ~ .noiseTitle {
+    /* If the fixed onTop message is displayed, push this further down */
+    margin-top: 40px;
+  }
+}
+
+.noiseTitle {
+  margin-top: 0;
+}
+
+@media all and (min-width: 721px) {
+  .noiseTitle {
+    position: absolute;
+  }
+}
+
+.bgcontainer {
+  top: 0;
+}
+
+.player, .player.testimonial, .allContent {
+  /* This is mainly rules for resetting container rules from the absolutely positioned base layout */
+  position: relative;
+  left: 0;
+  margin: 0 auto;
+  padding-top: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+}
+
+.player, .player.testimonial {
+  /* Defining free space from the viewport edges. Some of the rules for these .player and .allContent containers might be obsolete now or could be combined with other rules, because they were amongst the first rules written. */
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media all and (min-width: 721px) {
+  .player, .player.testimonial {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+.player > .fixedArea, .player.testimonial > .fixedArea {
+  position: relative;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media all and (min-width: 481px) {
+  .player > .fixedArea, .player.testimonial > .fixedArea {
+    top: 0;
+  }
+}
+
+.player.testimonial {
+  padding-top: 0;
+  height: auto;
+  min-height: 190px;
+}
+
+.allContent {
+  position: relative;
+  display: block;
+  padding-top: 20px;
+}
+
+@media all and (min-width: 721px) {
+  .allContent {
+    /* Using flex layout allows the browser to distribute space according to more flexible rules and keeps whitespace in the source code from interfering with the layout. */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-top: 10px;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .allContent > .contentShrunk {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    width: 100%;
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+  }
+}
+
+.content, .contentYT {
+  width: 100%;
+}
+
+/* Bottom menu */
+.menuNew {
+  margin-left: 0;
+  /* Leave a bit of space to the device edges if necessary. */
+  max-width: calc(100% - 40px);
+  /* Within transform, percentages are calculated based on the width of the element itself instead of its parent element, which results in perfect centering here. */
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+}
+
+.menuNew li {
+  display: inline-block;
+}
+
+@media all and (min-width: 481px) {
+  .player.testimonial {
+    padding-top: 0;
+    height: 190px;
+  }
+}
+
+@media all and (min-width: 721px) {
+  .player:not(.testimonial) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .noiseTitle ~ .player {
+    padding-top: 100px;
+  }
+  .noiseTitle ~ .player.testimonial {
+    height: auto;
+  }
+  .noiseTitle ~ .player.testimonial .handwriting {
+    padding-bottom: 20px;
+  }
+  #lilBoxL, #lilBoxR {
+    /* This is both a technical and a usability fix: Make the side menus available without having to scroll up. */
+    position: fixed;
+    top: 0;
+    z-index: 20;
+    /* Since the overflow is visible, this can be 0 so the menu doesn't cover and block any links in the page */
+    width: 0;
+    overflow: visible;
+}
+
+#onTop ~ #lilBoxL, #onTop ~ #lilBoxR {
+    /* Push them down if the (also fixed) onTop message exists. */
+    top: 30px;
+}
+
+.Lslide, .Rslide {
+    z-index: 2;
+}
+
+.Lslide:hover, .Rslide:hover {
+    z-index: 1;
+}
+
+.Lslide:hover::before, .Rslide:hover::before {
+    /*  This creates a CSS pseudo-element that is larger than the slide it's in, thereby increasing the hoverable area for that slide and removing some frustration with the menu.
+            The z-indices above keep the pseudo-element from covering other menu slides, so you can still easily switch between them.
+         */
+    position: absolute;
+    top: -35px;
+    bottom: -35px;
+    left: -20px;
+    right: -20px;
+    z-index: 1;
+    display: block;
+    content: '';
+  }
+  .LslideImg, .LslideText, .RslideImg, .RslideText {
+    position: relative;
+    z-index: 2;
+  }
+  .player, .player.testimonial, .allContent {
+    /* The centerpiece of the layout: Give all the containers a flexible width that caps at a reasonable size */
+    padding-left: 0;
+    padding-right: 0;
+    /* 1vw = 1% of the viewport width */
+    width: 80vw;
+    min-width: 600px;
+    max-width: 1500px;
+  }
+  .narrow .player, .narrow .player.testimonial, .narrow .allContent {
+    /* Fallback for pages that should still be a little smaller for readability's sake. */
+    max-width: 1000px;
+}
+  /* Background image */
+#bgimage {
+    left: 0;
+    margin-left: 0;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+}
+}
+
+@media all and (min-width: 721px) {
+  /* This was some of the first code written for this theme. Some of these rules might be obsolete or redundant now. */
+    .colA, .colB, .colC {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0 5px;
+        width: 33.33%;
+    /* Any non-IE browser would be fine with "flex: 1 1 33.33%" and no width rule as well. */
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
+
+    .colA {
+    /* This margin creates space for the padding to "slip" into. */
+        margin-left: -5px;
+    }
+
+    .colC {
+        margin-right: -5px;
+        width: 33.34%;
+    }
+  /* 2-column layout */
+    .col1, .col2 {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0 5px;
+    }
+
+    .col1 {
+        margin-left: -5px;
+        width: 70%;
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
+
+    .col1 .contentShrunk::after {
+    /* The content of this container requires floating, so the container needs this pseudo-element in order to get the correct height. */
+        display: table;
+        float: none;
+        clear: both;
+        content: '';
+    }
+
+    .col2 {
+        margin-right: -5px;
+        width: 30%;
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
+
+    .oneCol {
+        width: 100%;
+        float: none;
+    }
+}
+
+.mixer {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0 auto 10px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  /* Font size 0 nullifies source code whitespace affecting the layout. */
+    font-size: 0;
+    line-height: 0;
+}
+
+.mixer .ui-slider, .mixer .ui-slider-handle {
+  /*  Here I do not want to use border-box because all the sizes in the base CSS are given with !important and I'd have to redefine everything with !important as well. Resetting to the default content-box has no bad consequences here. */
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.mixer #s0, .mixer #s1, .mixer #s2, .mixer #s3, .mixer #s4, .mixer #s5, .mixer #s6, .mixer #s7, .mixer #s8, .mixer #s9 {
+  /* Flex layout is problematic here because these sliders have margins, a combination which Internet Explorer can't handle properly. Thus this is done via inline-block, which makes the font-size hack above necessary. */
+    display: inline-block;
+    float: none;
+    clear: both;
+}
+
+.calGrid {
+    top: auto;
+    bottom: 84px;
+}
+
+@media all and (max-width: 480px) {
+    .calGrid {
+        display: none;
+    }
+}
+
+@media all and (min-width: 721px) {
+    .calGrid {
+        bottom: 103px;
+    }
+}
+
+.contextPlay {
+    top: auto;
+    bottom: 103px;
+}
+
+.controlers {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: auto;
+}
+
+.controlers .btn {
+    margin-bottom: 6px;
+}
+
+.controlers .btnImg {
+    width: 100%;
+    height: 100%;
+}
+
+.msg {
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+/* Testimonials */
+.testimonials {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  /* Stretch child elements on the X axis to fill available space... */
+    -webkit-box-pack: stretch;
+    -ms-flex-pack: stretch;
+    justify-content: stretch;
+  /* ... and center them on the Y axis. */
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.tleft, .tright {
+    top: 0;
+    width: auto;
+    -webkit-transform: none;
+    transform: none;
+    float: none;
+}
+
+.tleft {
+  /* First 1 means it can grow if there's more space, second 1 means it can shrink if there's less space, auto is more or less like width. */
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0 5vw;
+}
+
+.tright {
+  /* 0 and 0 mean it can't grow or shrink, it has to stay at 100px. */
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100px;
+          flex: 0 0 100px;
+  padding: 0;
+  line-height: 1.4em;
+}
+
+.tcenter {
+  top: 0;
+  width: 100%;
+  max-width: 600px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  -webkit-transform: none;
+          transform: none;
+}
+
+.tright a:first-child {
+  /* For lack of a class for the image link, I had to resort to first-child. */
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+  border: 1px solid #BBB;
+  border-radius: 50%;
+}
+
+.testimonialImg {
+  left: 0;
+  top: 0;
+  z-index: -1;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 50%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.tleft .handwriting, .tright .handwriting {
+  float: none;
+  display: inline-block;
+}
+
+@media all and (max-width: 480px) {
+  .testimonials {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .tleft {
+    padding: 0;
+    width: 100%;
+  }
+  .tright {
+    width: 100%;
+  }
+}
+
+@media all and (min-width: 481px) {
+  .tright {
+    padding: 0 5vw 0 0;
+  }
+}
+
+.generator-list p {
+  /* Internet Explorer falsely assumes that the first column-count it encounters is the default (even if it is in a media query), so here 1 is explicitly given as default. */
+  -webkit-column-count: 1;
+          column-count: 1;
+}
+
+@media all and (min-width: 481px) and (max-width: 720px) {
+  .generator-list p {
+    -webkit-column-count: 2;
+            column-count: 2;
+  }
+}
+
+@media all and (min-width: 1600px) {
+  .generator-list p {
+    -webkit-column-count: 2;
+            column-count: 2;
+  }
+  .narrow .generator-list p {
+    -webkit-column-count: 1;
+            column-count: 1;
+  }
+}
+
+.generator-list p > span {
+  /* Generator links are laid out as blocks so they can get padding, which keeps them from line-wrapping underneath the favourite star (if wrapping is necessary) */
+  position: relative;
+  display: block;
+}
+
+.logged .generator-list p > span {
+  /* Here is the gap where the star can sit. */
+  padding-left: 20px;
+}
+
+.generator-list p > span .iFV {
+  /* Here is the star itself. */
+  position: absolute;
+  top: 3px;
+  left: 0;
+}
+
+/* Landing page lists */
+table.suggestions {
+  /* This section mainly cancels the table layout because it stretches the cells that hold images as well, which is unwanted. Some width redefining is necessary because of this. */
+  width: 100%;
+  font-size: 0;
+}
+
+table.suggestions td {
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+table.suggestions td.img {
+  display: inline-block;
+  width: 50px;
+}
+
+@media all and (min-width: 481px) {
+  table.suggestions td.img {
+    width: 85px;
+  }
+}
+
+table.suggestions td.img ~ td:not(.img):not(.descr):not(.descr2) {
+  width: calc(100% - 50px);
+}
+
+@media all and (min-width: 481px) {
+  table.suggestions td.img ~ td:not(.img):not(.descr):not(.descr2) {
+    width: calc(100% - 85px);
+  }
+}
+
+table.suggestions td.descr, table.suggestions td.descr2 {
+  display: inline-block;
+  padding: 0 4% 0 2%;
+  width: calc(50% - 50px);
+  /* Cut too long text with "..." instead of overflowing the container. */
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+@media all and (min-width: 481px) {
+  table.suggestions td.descr, table.suggestions td.descr2 {
+    width: calc(50% - 85px);
+  }
+}
+
+@media all and (min-width: 721px) {
+  table.suggestions td.descr, table.suggestions td.descr2 {
+    padding-left: 20px;
+  }
+}
+
+table.suggestions td.descr ~ .descr, table.suggestions td.descr ~ .descr2, table.suggestions td.descr2 ~ .descr, table.suggestions td.descr2 ~ .descr2 {
+  /* This weird-looking selector is necessary because at one point the order of "descr" and "descr2" classes is reversed. */
+  padding-right: 0;
+}
+
+/* Payment request */
+table.payments {
+  /* A bit of visually tidying up the payment section. */
+  width: 100%;
+}
+
+table.payments td {
+  display: inline-block;
+}
+
+table.payments select {
+  width: 100% !important;
+}
+
+table.payments #stripeButton, table.payments #paypalButton, table.payments #EUflag {
+  margin: 3px 6px 3px 0px;
+}
+
+/* Stack & Sequence */
+table.license input {
+  width: 100%;
+}
+
+.scroll-pane p {
+  /* This circumvents a bug in JScrollPane where it would sometimes stretch content underneath the vertical scrollbar and then show a horizontal scrollbar as well. */
+  width: calc(100% - 10px);
+}
+

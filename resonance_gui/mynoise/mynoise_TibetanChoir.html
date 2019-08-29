@@ -1,0 +1,2703 @@
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml" lang="en"><head>
+<link rel="stylesheet" href="mynoise_TibetanChoir_fichiers/jquery-ui.css">
+<link href="mynoise_TibetanChoir_fichiers/player.css" rel="stylesheet" type="text/css">
+<link href="mynoise_TibetanChoir_fichiers/main.css" rel="stylesheet" type="text/css"><link href="mynoise_TibetanChoir_fichiers/jquery_002.css" rel="stylesheet" type="text/css">
+<link href="resonance.css" rel="stylesheet" type="text/css"><script src="node_modules/osc/dist/osc-browser.min.js"></script><script src="resonance.js"></script>
+	<!--<script async="" src="mynoise_TibetanChoir_fichiers/analytics.js"></script>-->
+	<script src="mynoise_TibetanChoir_fichiers/jquery_002.js"></script>
+<script src="mynoise_TibetanChoir_fichiers/jquery-ui.js"></script>
+<script src="mynoise_TibetanChoir_fichiers/jquery_003.js"></script>
+<script src="mynoise_TibetanChoir_fichiers/jquery.js"></script>
+<script src="mynoise_TibetanChoir_fichiers/mousetrap.js"></script>
+<script type="text/javascript" id="sourcecode">
+	$(function(){$('.scroll-pane').jScrollPane({mouseWheelSpeed: 19});});
+	$(window).on("load resize",function() {$('.scroll-pane').jScrollPane({wheelSpeed: 19});});
+</script>
+<!-- Powertip -->
+	<script type="text/javascript" src="mynoise_TibetanChoir_fichiers/core.js"></script>
+	<script type="text/javascript" src="mynoise_TibetanChoir_fichiers/csscoordinates.js"></script>
+	<script type="text/javascript" src="mynoise_TibetanChoir_fichiers/displaycontroller.js"></script>
+	<script type="text/javascript" src="mynoise_TibetanChoir_fichiers/placementcalculator.js"></script>
+	<script type="text/javascript" src="mynoise_TibetanChoir_fichiers/tooltipcontroller.js"></script>
+	<script type="text/javascript" src="mynoise_TibetanChoir_fichiers/utility.js"></script>
+	<link rel="stylesheet" type="text/css" href="mynoise_TibetanChoir_fichiers/jquery.css">
+<!-- end-Powertip -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="Dr. Ir. Stéphane Pigeon">
+
+<link rel="apple-touch-icon" sizes="180x180" href="https://mynoise.net/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="https://mynoise.net/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="https://mynoise.net/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="https://mynoise.net/manifest.json">
+<link rel="mask-icon" href="https://mynoise.net/safari-pinned-tab.svg" color="#0088ff">
+<meta name="theme-color" content="#000000">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="image_src" href="https://mynoise.net/Data/THROAT/fb.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@audiosampling">
+<meta name="twitter:title" content="Overtone Throat Singing • Relaxing Soundscape Generator">
+<meta name="twitter:description" content="Drones offer a very pronounced hypnotic character and are ideal for washing your daily worries away.">
+<meta name="twitter:image:src" content="https://mynoise.net/Data/THROAT/fb.jpg">
+
+
+<!-- Open Graph -->
+<meta property="og:audio" content="https://myNoise.net/Data/THROAT/demo.mp3">
+<meta property="og:audio" content="https://myNoise.net/Data/THROAT/demo.ogg">
+<meta property="og:image" content="https://mynoise.net/Data/THROAT/fb.jpg">
+<!-- App Links -->
+<meta name="apple-itunes-app" content="app-id=813099896, app-argument=mynoise://">
+<meta property="al:ios:url" content="mynoise://play/THROAT/">
+<meta property="al:ios:app_store_id" content="813099896">
+<meta property="al:ios:app_name" content="myNoise">
+
+<title>Overtone Throat Singing • Relaxing Soundscape Generator</title>
+<meta name="keywords" content="noise, noise machine, sleeping machine, sleeping aid, sleeping device, noise device, baby, tinnitus, sound healing, noise masking, noise therapy, sound therapy, hearing thresholds">
+<meta name="description" content="Drones offer a very pronounced hypnotic character and are ideal for washing your daily worries away.">
+
+<script>
+
+
+// Cleverly designed, badly programmed by Stephane Pigeon 
+// (c) Dr. Ir. Stephane Pigeon - myNoise.net 2013-19 - stephane at mynoise.net
+// Last update 2019-06-11
+
+var iNUMBERBANDS=10;
+var bCALIBRATE=0;
+var bMUTE=0;
+var bMUTEsaved=0;
+var bANIMATE=0;
+var bNOWMOVING=0;
+var bNOWMOVINGUP=1;
+var bFINISHEDLOADING=0;
+var bWEBAUDIO=0;
+var bSUPPORTOGG=0;
+var bSUPPORTMP3=0;
+var bZEN=0;
+var bSUSPENDED=0;
+var bSTARTMUTED=0;
+var sSYNCHRO="0123456789";
+var iINITIALANIMATIONSPEED=32;
+
+var iTimer=-1;
+var epoch=0;
+var fLevelMultiplier=1.1;
+var iAnimationFactor=1;
+var iAnimationMode=1;
+var iCurrentAnimationSpeed=iINITIALANIMATIONSPEED;
+var timerTimeout, modulationTimeout, fadeTimeOut;
+var interval = new Array();
+var nextA = new Array();
+var nextB = new Array();
+var lastPlayedA = new Array();
+var lastPlayedB = new Array();
+var randomCounter=0;
+var currentLevel = new Array();
+var savedCurrentLevel = new Array();
+var savedLevel = new Array();
+var randomLevel = new Array();
+var fMotionStates = new Array();
+var cloneURL;
+var detune=0;
+var playbackFactor = new Array();
+var iNowMovingTo=0;
+var iFadeState=0;
+var mmMin, mmMax;
+mmMin=1;mmMax=0;
+var nzSliderIndex = new Array();
+var lastSlider;
+var MAGICsettings='';
+var uID='';
+var uIDS='';
+var gCarbMP3=[ 1,2,3,4,6,8,11,13,16,19,22,25,28,31,35,39,43,47,53,59 ];
+var gCarbOGG=[ 0,1,3,4,5,7,10,13,15,18,22,25,27,30,34,38,42,46,52,58 ];
+var gCarb;
+
+function enableButton(id,bEnable) {
+	var el;
+	for (var i = 0; i < id.length; ++i) {
+		el=document.getElementById(id[i]);
+		if (el) {
+			if (bEnable) {
+					el.style.pointerEvents = 'auto';
+					$("#"+id[i]).removeClass("disabled");
+					if (!id[i].localeCompare("speed"))  $("#speedText").removeClass("disabled");
+					if (!id[i].localeCompare("mode"))  $("#modeText").removeClass("disabled");
+				}
+				else {
+					if (el) el.style.pointerEvents = 'none';
+					$("#"+id[i]).addClass("disabled");
+					if (!id[i].localeCompare("speed"))  $("#speedText").addClass("disabled");
+					if (!id[i].localeCompare("mode"))  $("#modeText").addClass("disabled");
+				}
+		} 
+	}
+}
+
+function activateButton(id,bActivate) { 
+	if (bActivate) for (var i = 0; i < id.length; ++i) $("#"+id[i]).addClass("active");
+	else for (var i = 0; i < id.length; ++i) $("#"+id[i]).removeClass("active");
+}
+
+function audibleButton(id,bAudible) { 
+	if (!bAudible) for (var i = 0; i < id.length; ++i) $("#"+id[i]).addClass("inaudible");
+	else for (var i = 0; i < id.length; ++i) $("#"+id[i]).removeClass("inaudible");
+}
+
+function msg(content) {document.getElementById('msg').innerHTML = content;}
+
+function resumeContext(){
+	 context.resume(); 
+	 nowPlaying();
+	 window.removeEventListener('click', resumeContext);
+	 window.removeEventListener('touched', resumeContext);
+	 bSUSPENDED=0;
+	 $('.contextPlay').hide();
+}
+
+function nowPlaying(){
+ if (bCALIBRATE==0) {msg("Now playing..."); }
+  else {msg("1. Increase your computer's volume until you hear the static noise. Then, 2. move a slider.");}
+  enableButton(["reset","anim","mode","speed","volDown","volUp","mute","timer","calib"],1);
+  audibleButton(["mode","speed"],0);
+  enableSliders();  loadTimerFromURLAndStartTimer();
+}
+
+
+var stretch = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
+
+// html5 audio
+var  sourceFileA = new Array();
+var  sourceFileB = new Array();
+var  sourceA = new Array();
+var  sourceB = new Array();
+var  timeOut1 = new Array();
+var  timeOut2 = new Array();
+var  l = new Array();
+var  movedSlider;
+
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+// SOUNDS
+
+function assignSources(){
+
+	var fileExt=".mp3";
+	gCarb=gCarbMP3;
+	
+	if (bSUPPORTOGG==1) {fileExt=".ogg"; gCarb=gCarbOGG;}
+
+	sourceFileA[0]='mynoise_TibetanChoir_fichiers/Data/THROAT/0a'+fileExt;
+	sourceFileB[0]='mynoise_TibetanChoir_fichiers/Data/THROAT/0b'+fileExt;
+	sourceFileA[1]='mynoise_TibetanChoir_fichiers/Data/THROAT/1b'+fileExt;
+	sourceFileB[1]='mynoise_TibetanChoir_fichiers/Data/THROAT/1a'+fileExt;
+	sourceFileA[2]='mynoise_TibetanChoir_fichiers/Data/THROAT/2b'+fileExt;
+	sourceFileB[2]='mynoise_TibetanChoir_fichiers/Data/THROAT/2a'+fileExt;
+	sourceFileA[3]='mynoise_TibetanChoir_fichiers/Data/THROAT/3a'+fileExt;
+	sourceFileB[3]='mynoise_TibetanChoir_fichiers/Data/THROAT/3b'+fileExt;
+	sourceFileA[4]='mynoise_TibetanChoir_fichiers/Data/THROAT/4b'+fileExt;
+	sourceFileB[4]='mynoise_TibetanChoir_fichiers/Data/THROAT/4a'+fileExt;
+	sourceFileA[5]='mynoise_TibetanChoir_fichiers/Data/THROAT/5b'+fileExt;
+	sourceFileB[5]='mynoise_TibetanChoir_fichiers/Data/THROAT/5a'+fileExt;
+	sourceFileA[6]='mynoise_TibetanChoir_fichiers/Data/THROAT/6a'+fileExt;
+	sourceFileB[6]='mynoise_TibetanChoir_fichiers/Data/THROAT/6b'+fileExt;
+	sourceFileA[7]='mynoise_TibetanChoir_fichiers/Data/THROAT/7a'+fileExt;
+	sourceFileB[7]='mynoise_TibetanChoir_fichiers/Data/THROAT/7b'+fileExt;
+	sourceFileA[8]='mynoise_TibetanChoir_fichiers/Data/THROAT/8a'+fileExt;
+	sourceFileB[8]='mynoise_TibetanChoir_fichiers/Data/THROAT/8b'+fileExt;
+	sourceFileA[9]='mynoise_TibetanChoir_fichiers/Data/THROAT/9b'+fileExt;
+	sourceFileB[9]='mynoise_TibetanChoir_fichiers/Data/THROAT/9a'+fileExt;
+	}
+
+// WEBAUDIO LOADER
+var  gainNodeA = new Array();
+var  gainNodeB = new Array();
+var  bufferList = new Array();
+var  loadCount=0;
+var context;
+
+function loadWebAudioSound(url,i) {
+  var request = new XMLHttpRequest();
+  request.open('GET', url, true);
+  request.responseType = 'arraybuffer';
+		
+  request.onload = function(){
+    context.decodeAudioData(request.response, function(decodedData) {
+      bufferList[i] = decodedData;
+      countIn();
+    });
+  }
+  
+// Automatic Fallback
+  request.onerror= function(){		
+  	if(url.indexOf('https://cdn.mynoise.net') > -1) {
+			url=url.substring(23);
+			loadWebAudioSound(url,i);
+			}};
+		
+  request.send();
+}
+
+function webAudioContextCheck() {
+	if(context.state == "suspended") {
+		bSUSPENDED=1;
+		$('.contextPlay').show();
+		msg("Check your browser settings to enable AutoPlay<br> or click the Play button to start.");
+		window.addEventListener('click', resumeContext, false);
+		window.addEventListener('touched', resumeContext, false);
+	}
+}
+
+function loadHTML5AudioSound(i){
+
+	sourceA[i] = new Audio(sourceFileA[i]);
+	sourceB[i] = new Audio(sourceFileB[i]);
+
+	sourceA[i].preload = 'auto';
+	sourceB[i].preload = 'auto';
+	
+	if (stretch[i]==0) {
+		sourceA[i].loop=1; 
+		sourceB[i].loop=1;
+		}
+	else {
+		sourceA[i].loop=0;
+		sourceB[i].loop=0;
+		}
+	
+	// Automatic Fallback
+	sourceA[i].addEventListener("error", function(){
+		if(sourceFileA[i].indexOf('https://cdn.mynoise.net') > -1) {
+			sourceFileA[i]=sourceFileA[i].substring(23);
+			sourceFileB[i]=sourceFileB[i].substring(23);
+			loadHTML5AudioSound(i);
+			}
+		});
+
+	sourceA[i].addEventListener("canplaythrough", function(){countIn()});
+	sourceB[i].addEventListener("canplaythrough", function(){countIn()});
+	
+	if (stretch[i]!=0) {
+		sourceA[i].addEventListener('playing',function(){willPlayB(i);}, false);
+		sourceB[i].addEventListener('playing',function(){willPlayA(i);}, false);
+		}
+}
+
+function loadAllSounds(){
+//------------------------------------------------------------------
+	if (bWEBAUDIO==1) {
+
+	  if (typeof AudioContext !== 'undefined') {context = new AudioContext();}
+	  else {context = new webkitAudioContext();}
+	  
+	  for (var i = 0; i < iNUMBERBANDS; ++i) loadWebAudioSound(sourceFileA[i],i);
+	  for (var i = 0; i < iNUMBERBANDS; ++i) loadWebAudioSound(sourceFileB[i],i+iNUMBERBANDS);
+	  
+	}
+//------------------------------------------------------------------
+	else{
+		for (var i = 0; i < iNUMBERBANDS; ++i) loadHTML5AudioSound(i);
+	}
+}
+
+function playAllSounds(){
+//------------------------------------------------------------------
+	if (bWEBAUDIO==1) {
+	  for (var i = 0; i < iNUMBERBANDS; ++i) startWebAudio(i)
+	}
+//------------------------------------------------------------------
+	else {
+		for (var i = 0; i < iNUMBERBANDS; ++i) {
+			sourceA[i].play();
+			if (stretch[i]==0) sourceB[i].play();
+		}
+	}
+}
+
+function startWebAudio(i){
+	if (stretch[i]==0) sourceA[i].loop=1;
+	nextA[i]=context.currentTime;
+	nextB[i]=nextA[i]+Math.round(sourceA[i].buffer.duration*10)/20*stretch[i]/playbackFactor[i];
+	sourceA[i].start(nextA[i]);
+	lastPlayedA[i]=nextA[i];
+	if (stretch[i]!=0) {
+		  // take duration of the leader of the sync group
+		  webAudioPlayBAt(i,nextB[i]);
+		  lastPlayedB[i]=nextB[i];
+		}
+	else {
+		  sourceB[i].loop=1;
+		  sourceB[i].start(nextA[i]);
+		  lastPlayedB[i]=nextA[i];
+		}
+}
+
+function getDelayValue(stem,duration) {
+	var delay;
+	delay=duration*500; // in msec
+	delay=delay*parseFloat(stretch[stem]);
+	return delay;
+}
+
+function computeIntervals(){
+	// stems repeat every ((A+B)/2)*stretch and B starts after A/2*stretch - see doc. 
+	var durA, durB;
+	for (var i = 0; i < iNUMBERBANDS; ++i) {
+		// buffer durations vary across browsers! Critical for sync gens, rounding off.
+		durA=Math.round(sourceA[i].buffer.duration*10)/10;
+		durB=Math.round(sourceB[i].buffer.duration*10)/10;
+		interval[i]=(durA+durB)/2*stretch[i]/playbackFactor[i];
+	}
+}
+
+function willPlayA(item){
+	clearTimeout(timeOut1[item]);
+	timeOut1[item] = setTimeout(function(){rewindAndPlayA(item);},getDelayValue(item,sourceB[item].duration));
+}
+
+function willPlayB(item){
+	clearTimeout(timeOut2[item]);	
+	timeOut2[item] = setTimeout(function(){rewindAndPlayB(item);},getDelayValue(item,sourceA[item].duration));
+}
+
+function rewindAndPlayA(item){
+	if (item==sSYNCHRO.indexOf(sSYNCHRO.charAt(item))) { // this is the first occurrence of the Sync group. Launch this sound and all others from the group.
+		for (var i = sSYNCHRO.indexOf(sSYNCHRO.charAt(item)); i < iNUMBERBANDS; ++i) {
+			if (sSYNCHRO.charAt(item)==sSYNCHRO.charAt(i)) { // belongs to the same group
+				if(!sourceA[i].paused) {sourceA[i].pause();}
+				sourceA[i].currentTime=0;
+				sourceA[i].play();
+			}
+		}
+	}
+}
+
+function rewindAndPlayB(item){
+	if (item==sSYNCHRO.indexOf(sSYNCHRO.charAt(item))) { // this is the first occurrence of the Sync group. Launch this sound and all others from the group.
+		for (var i = sSYNCHRO.indexOf(sSYNCHRO.charAt(item)); i < iNUMBERBANDS; ++i) {
+			if (sSYNCHRO.charAt(item)==sSYNCHRO.charAt(i)) { // belongs to the same group
+				if(!sourceB[i].paused) {sourceB[i].pause();}
+				sourceB[i].currentTime=0;
+				sourceB[i].play();
+			}
+		}
+	}
+}
+
+function webAudioPlayAAt(item,onContextTime){
+
+	// console.log('A@ '+context.currentTime+' for '+onContextTime+' on stem '+item);
+
+	if (item==sSYNCHRO.indexOf(sSYNCHRO.charAt(item))) { // this is the first occurrence of the Sync group
+	
+		nextB[item]+=interval[item];
+		sourceB[item].onended=function(){webAudioPlayBAt(item,nextB[item])};
+			
+		// This one and all others (sync)
+		for (var i = sSYNCHRO.indexOf(sSYNCHRO.charAt(item)); i < iNUMBERBANDS; ++i) {
+			if (sSYNCHRO.charAt(item)==sSYNCHRO.charAt(i)) { // belongs to the same group
+				  sourceA[i].disconnect(0); // canary crashed with sourceA[i].noteOff(0);
+				  sourceA[i] = context.createBufferSource();
+				  sourceA[i].buffer = bufferList[i];
+				  sourceA[i].playbackRate.value=playbackFactor[i];
+				  //tbr//gainNodeA[i] = context.createGain();
+				  gainNodeA[i].gain.value = Math.pow(currentLevel[i],3)*(1-bMUTE);
+				  if ((bCALIBRATE==1)&&(i!=movedSlider)&&(movedSlider>-1)) gainNodeA[i].gain.value=0;
+				  sourceA[i].connect(gainNodeA[i]);
+				  //tbr//gainNodeA[i].connect(context.destination);
+				  sourceA[i].start(onContextTime);
+				  lastPlayedA[i]=onContextTime;
+			}
+		}
+	}
+    monitor();
+}
+
+
+function webAudioPlayBAt(item,onContextTime){
+
+	// console.log('B@ '+context.currentTime+' for '+onContextTime+' on stem '+item);
+
+	if (item==sSYNCHRO.indexOf(sSYNCHRO.charAt(item))) { // this is the first occurrence of the Sync group.
+	
+		nextA[item]+=interval[item];
+		sourceA[item].onended=function(){webAudioPlayAAt(item,nextA[item])};
+
+	 	// This one and all others (sync)
+		for (var i = sSYNCHRO.indexOf(sSYNCHRO.charAt(item)); i < iNUMBERBANDS; ++i) {
+			if (sSYNCHRO.charAt(item)==sSYNCHRO.charAt(i)) { // belongs to the same group
+				  sourceB[i].disconnect(0); // canary crashed with sourceB[i].noteOff(0);
+				  sourceB[i] = context.createBufferSource();
+				  sourceB[i].buffer = bufferList[i+iNUMBERBANDS];
+				  sourceB[i].playbackRate.value=playbackFactor[i];
+				  //tbr//gainNodeB[i] = context.createGain();
+				  gainNodeB[i].gain.value = Math.pow(currentLevel[i],3)*(1-bMUTE);
+				  if ((bCALIBRATE==1)&&(i!=movedSlider)&&(movedSlider>-1)) gainNodeB[i].gain.value=0;
+				  sourceB[i].connect(gainNodeB[i]);
+				  //tbr//gainNodeB[i].connect(context.destination);
+				  sourceB[i].start(onContextTime);
+				  lastPlayedB[i]=onContextTime;
+			}
+		}
+	}
+	monitor();
+}
+
+function stemDrop(){
+	var i=Math.floor(Math.random(1)*10);
+	console.log('Dropping stem '+i);
+	sourceA[i].disconnect(0);
+	sourceB[i].disconnect(0);
+}
+
+function monitor(){
+	var currentTime=context.currentTime;
+	var elapsed;
+	for (var i = 0; i < iNUMBERBANDS; ++i) {
+		if (interval[i]>0) {
+		elapsed=Math.min(currentTime-lastPlayedA[i],currentTime-lastPlayedB[i]);
+		if (elapsed>(interval[i]*1.01))  {
+			console.log('Stem '+i+' was lost. Now restarting.');
+			lastPlayedA[i]=currentTime;lastPlayedB[i]=currentTime;
+			restartWebAudio(i);
+			}
+		}
+	}
+}
+
+function restartWebAudio(i){
+	sourceA[i].disconnect(0);
+	sourceB[i].disconnect(0);
+	sourceA[i] = context.createBufferSource();
+	sourceA[i].buffer = bufferList[i];
+	sourceA[i].playbackRate.value=playbackFactor[i];
+	sourceA[i].connect(gainNodeA[i]);
+	sourceB[i] = context.createBufferSource();
+	sourceB[i].buffer = bufferList[i];
+	sourceB[i].playbackRate.value=playbackFactor[i];
+	sourceB[i].connect(gainNodeA[i]);
+	startWebAudio(i);
+}
+
+// INIT
+
+var launchCounter=0;
+
+function countIn(){
+	// document.getElementById('carbonDiv').style.right="0px";
+	$('#carbonDiv').addClass('zeroRight');
+	if (++launchCounter==iNUMBERBANDS*2) {
+		setTimeout(function(){$('#carbonDiv').removeClass('zeroRight');},1250);
+		finishedLoading();
+	};
+	if (launchCounter<iNUMBERBANDS*2) {
+		msg("... now loading " + Math.round(launchCounter/iNUMBERBANDS/2*100) + "% ...");
+		document.getElementById('carbonText').innerHTML="<a href='/carbonFootprintCompensation.php' target='_blank'>myNoise offsets its entire co2 footprint</a><br>   This page = <span class='carbon'>"+gCarb[launchCounter]+" gCO2e 🌱</span>";
+	}
+}
+
+function init() {
+
+if (!navigator.cookieEnabled) {window.location.href = "https://mynoise.net/showMessage.php?msgID=4";}
+
+var a = document.createElement('audio');
+if (!!(a.canPlayType && a.canPlayType('audio/ogg; codecs="vorbis"').replace(/no/, ''))){bSUPPORTOGG=1;};
+if (!!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''))){bSUPPORTMP3=1;};
+
+if(typeof webkitAudioContext !== "undefined") bWEBAUDIO=1;
+if(typeof AudioContext !== "undefined") bWEBAUDIO=1;
+
+	/* var xhttp = new XMLHttpRequest();
+	if (bWEBAUDIO) xhttp.open("GET", "https://mynoise.net/count.php?c=w", true);
+	else xhttp.open("GET", "https://mynoise.net/count.php?c=h", true);
+	xhttp.send(); */
+
+console.log(navigator.userAgent);
+if (bWEBAUDIO) console.log('Web Audio '); else console.log('HTML5 Audio ');
+
+    enableButton(["reset","anim","mode","speed","volDown","volUp","mute","timer","calib"],0);
+	disableSliders();
+	initStates();
+	initTuning();
+	msg("... now loading ...");
+	assignSources();
+	loadAllSounds();
+	
+setPreset(0.36,0.4,0.43,0.48,0.48,0.45,0.35,0.28,0.23,0.21);
+ migrateCookies();	
+ 	initResonance();
+ 	addPreset('some preset',[
+    {"name":"s0","select":"bvp","min":400,"max":1000},
+    {"name":"s1","select":"lol","min":-1,"max":1},
+    {"name":"s2","select":"hr","min":30,"max":150},
+    {"name":"s3","select":"eda","min":2.13,"max":3},
+    {"name":"s4","select":"hello","min":0,"max":255},
+    {"name":"s5","select":"world","min":1,"max":10},
+    {"name":"s6","select":"hello","min":100,"max":200},
+    {"name":"s7","select":"lol","min":-1,"max":1},
+    {"name":"s8","select":"temp","min":32,"max":42},
+    {"name":"s9","select":"lol","min":-1,"max":1},
+]);
+addPreset('whatever',[
+    {"name":"s0","select":"bvp","min":400,"max":1000},
+    {"name":"s1","select":"lol","min":-1,"max":-0.36},
+    {"name":"s2","select":"hr","min":83.08,"max":150},
+    {"name":"s3","select":"eda","min":2.13,"max":3},
+    {"name":"s4","select":"hello","min":0,"max":81.6},
+    {"name":"s5","select":"world","min":1,"max":7.804},
+    {"name":"s6","select":"hello","min":100,"max":200},
+    {"name":"s7","select":"lol","min":-1,"max":1},
+    {"name":"s8","select":"temp","min":32,"max":42},
+    {"name":"s9","select":"lol","min":-1,"max":1},
+]);
+}
+
+function finishedLoading() {
+	
+//------------------------------------------------------------------
+	if (bWEBAUDIO==1) {
+
+	  for (var i = 0; i < iNUMBERBANDS; ++i) {
+		  sourceA[i] = context.createBufferSource();
+		  sourceA[i].buffer = bufferList[i];
+		  sourceA[i].playbackRate.value=playbackFactor[i];
+		  gainNodeA[i] = context.createGain();
+		  gainNodeA[i].gain.value = 0;
+		  sourceA[i].connect(gainNodeA[i]);
+		  gainNodeA[i].connect(context.destination);
+		}
+	  
+	  for (var i = 0; i < iNUMBERBANDS; ++i) {
+		  sourceB[i] = context.createBufferSource();
+		  sourceB[i].buffer = bufferList[i+iNUMBERBANDS];
+		  sourceA[i].playbackRate.value=playbackFactor[i];
+		  gainNodeB[i] = context.createGain();
+		  gainNodeB[i].gain.value = 0;
+		  sourceB[i].connect(gainNodeB[i]);
+		  gainNodeB[i].connect(context.destination);
+		}
+		
+	computeIntervals();
+	}
+//------------------------------------------------------------------
+
+  getCurrentLevelsFromSliders();
+  loadCurrentLevelsFromURLAndSetSliders();
+  setAllLevels();
+  updateDocumentLinks();
+  
+    
+  playAllSounds();
+  
+  bFINISHEDLOADING=1;
+  
+// Suspended Policy by Mobile Browsers and Chrome!
+if (bWEBAUDIO==1) webAudioContextCheck();
+// Enable Buttons
+if (!bSUSPENDED) nowPlaying();
+
+    
+//document.getElementById('calGrid').innerHTML = "<img src='/Pix/calGrid.png' alt='calibration Grid'>"
+  // Timer Gens
+  if (bSTARTMUTED==1) forceMute(1);
+   
+  // SuperGens - Calling Parent Function
+  if (window.parent!=window) window.parent.count();
+  
+  // Highlight Fav icon
+  checkFavGen();
+  
+}
+
+function pad(num) {
+    var s = "000" + num;
+    return s.substr(s.length-2);
+}
+
+function sliderChange(movedSliderName) {
+	if (bFINISHEDLOADING==1) {
+		movedSlider=movedSliderName.substring(1,2);
+		if (bCALIBRATE==1) {
+			for (var i = 0; i < iNUMBERBANDS; ++i){
+				if (i!=movedSlider) {
+				
+					if (bWEBAUDIO==1) {
+						gainNodeA[i].gain.value=0;
+						gainNodeB[i].gain.value=0;
+					}
+					else {
+						sourceA[i].volume=0; 
+						sourceB[i].volume=0; 
+						}
+					}
+			}
+			msg("2. Move each slider so that its associated sound becomes just audible to you.");
+		}
+		else {if (bANIMATE==0) msg("");}
+		currentLevel[movedSlider]=$( "#s"+movedSlider ).slider( "value" );
+		if (bWEBAUDIO==1) {
+			gainNodeA[movedSlider].gain.value=Math.pow(currentLevel[movedSlider],3);
+			gainNodeB[movedSlider].gain.value=Math.pow(currentLevel[movedSlider],3);
+				}
+		else {
+			sourceA[movedSlider].volume=Math.pow(currentLevel[movedSlider],3); 
+			sourceB[movedSlider].volume=Math.pow(currentLevel[movedSlider],3); 
+			}
+	}
+	updateDocumentLinks();
+	if (movedSliderName==lastSlider){ 
+		var db=Math.round(26*Math.log(currentLevel[movedSlider]));
+		msg(db+" dBFS");
+		}
+		else lastSlider=movedSliderName;
+		
+}
+
+function updateDocumentLinks(){
+	URLsettings='l='+packCurrentLevels();
+		strippedDocumentURL='/NoiseMachines/throatSingingDroneGenerator.php';
+	ANIMATEsettings='';
+	if (bANIMATE==1) ANIMATEsettings='&a='+iAnimationFactor+'&am='+iAnimationMode;
+	if (document.getElementById('customTitle')) {
+		$( "#customURL0" ).attr("href", strippedDocumentURL+'?'+URLsettings+ANIMATEsettings+'&m='+MAGICsettings+'&d='+detune+'&title='+encodeURI(document.getElementById('customTitle').textContent));
+		$( "#customURL1" ).attr("href", strippedDocumentURL+'?c=4&'+URLsettings+ANIMATEsettings+'&m='+MAGICsettings+'&d='+detune+'&title='+encodeURI(document.getElementById('customTitle').textContent));
+		$( "#customURL2" ).attr("href", strippedDocumentURL+'?c=2&'+URLsettings+ANIMATEsettings+'&m='+MAGICsettings+'&d='+detune+'&title='+encodeURI(document.getElementById('customTitle').textContent));
+cloneURL=strippedDocumentURL+'?c=1&'+URLsettings+ANIMATEsettings+'&m='+MAGICsettings+'&d='+detune+'&title='+encodeURI(document.getElementById('customTitle').textContent);
+		}
+	else {
+		$( "#customURL0" ).attr("href", strippedDocumentURL+'?'+URLsettings+ANIMATEsettings+'&m='+MAGICsettings+'&d='+detune);
+		$( "#customURL1" ).attr("href", strippedDocumentURL+'?c=4&'+URLsettings+ANIMATEsettings+'&m='+MAGICsettings+'&d='+detune);
+		$( "#customURL2" ).attr("href", strippedDocumentURL+'?c=2&'+URLsettings+ANIMATEsettings+'&m='+MAGICsettings+'&d='+detune);
+		cloneURL=strippedDocumentURL+'?c=1&'+URLsettings+ANIMATEsettings+'&m='+MAGICsettings+'&d='+detune;
+	}
+	var strLevels=currentLevel[0]+' '+currentLevel[1]+' '+currentLevel[2]+' '+currentLevel[3]+' '+currentLevel[4]+' '+currentLevel[5]+' '+currentLevel[6]+' '+currentLevel[7]+' '+currentLevel[8]+' '+currentLevel[9];
+	$( "#currentLevels" ).attr("title", strLevels);
+}
+
+function getLink(){
+	return cloneURL.slice(15);
+}
+
+function cloneIt() {
+	window.open("https://mynoise.net/clone.php?url="+encodeURIComponent(cloneURL),"_blank","toolbar=yes,scrollbars=yes,width=500,height=378");
+	document.location.href = "https://mynoise.net/noiseMachines.php";
+}
+
+function print(){
+console.log(currentLevel[0]+','+currentLevel[1]+','+currentLevel[2]+','+currentLevel[3]+','+currentLevel[4]+','+currentLevel[5]+','+currentLevel[6]+','+currentLevel[7]+','+currentLevel[8]+','+currentLevel[9]);
+}
+
+function getCurrentLevelsFromSliders(){
+	for (var i = 0; i < iNUMBERBANDS; ++i)  currentLevel[i]=$( "#s"+i ).slider( "value" );
+}
+
+function setCurrentLevelsToSliders(){
+	for (var i = 0; i < iNUMBERBANDS; ++i) $( "#s"+i ).slider("value", currentLevel[i]);
+}
+
+function setSlidersToZero(){
+	for (var i = 0; i < iNUMBERBANDS; ++i) $( "#s"+i ).slider("value", 0);
+}
+
+function setAllLevels(){
+//------------------------------------------------------------------
+	if (bWEBAUDIO==1) {
+
+	  for (var i = 0; i < iNUMBERBANDS; ++i) {
+		  gainNodeA[i].gain.value = Math.pow(currentLevel[i],3);
+		  gainNodeB[i].gain.value = Math.pow(currentLevel[i],3);
+		}
+		
+	}
+//------------------------------------------------------------------
+	else {
+	
+		for (var i = 0; i < iNUMBERBANDS; ++i) {
+			sourceA[i].volume=Math.pow(currentLevel[i],3);
+			sourceB[i].volume=Math.pow(currentLevel[i],3);
+		}
+	
+	}
+}
+
+function fadeOut(out,steps){
+	// disable animation before fadeout
+	if ((bANIMATE==1)&&(out==1)&&(iFadeState==0)) clearTimeout(modulationTimeout);	
+	iFadeState+=1;
+	for (var i = 0; i < iNUMBERBANDS; ++i) {
+		var fadeLvl;
+		if (out==1) fadeLvl=Math.max(0,Math.pow(currentLevel[i]-Math.pow(iFadeState,2)*currentLevel[i]/Math.pow(steps,2),3));
+		else fadeLvl=Math.min(0.99,Math.pow(Math.pow(iFadeState,0.2)*currentLevel[i]/Math.pow(steps,0.2),3));
+			if (bWEBAUDIO==1) {
+				if (gainNodeA[i]) gainNodeA[i].gain.value=fadeLvl;
+				if (gainNodeB[i]) gainNodeB[i].gain.value=fadeLvl;
+			}
+			else {
+				sourceA[i].volume=fadeLvl;
+				sourceB[i].volume=fadeLvl;
+			}
+	}
+	clearTimeout(fadeTimeOut);	
+	if (iFadeState<=steps) fadeTimeOut = setTimeout(function(){fadeOut(out,steps);},steps)
+	else {
+	iFadeState=0;
+	// enable animation after fade in
+	if ((bANIMATE==1)&&(out==0)) modulationRandom();
+	}
+}
+
+function slidersUp(){
+	if (bMUTE==1) toggleMute();
+	for (var i = 0; i < iNUMBERBANDS; ++i) {
+		currentLevel[i]=Math.min(0.99,currentLevel[i]*fLevelMultiplier);
+		savedLevel[i]=Math.min(0.99,savedLevel[i]*fLevelMultiplier); randomCounter=0;  //anim
+		$( "#s"+i ).slider("value", currentLevel[i]);
+		}
+}
+
+function slidersDown(){
+	if (bMUTE==1) toggleMute();
+	for (var i = 0; i < iNUMBERBANDS; ++i) {
+		currentLevel[i]=currentLevel[i]/fLevelMultiplier;
+		savedLevel[i]=savedLevel[i]/fLevelMultiplier; randomCounter=0; //anim
+		$( "#s"+i ).slider("value", currentLevel[i]);
+		}
+}
+
+function tune(factor){detune=Math.log2(factor)*12;updatePlaybackRate();updateDocumentLinks();}
+
+function tuneDown(dec){
+	if (detune>999) detune=0; 
+	detune=detune-dec;detune=Math.max(detune,-36);updatePlaybackRate();
+	updateDocumentLinks();
+}
+
+function tuneUp(inc){
+	if (detune>999) detune=0; 
+	detune=detune+inc;detune=Math.min(detune,24);updatePlaybackRate();
+	updateDocumentLinks();
+}
+
+function octDown(){
+	if (detune>999) detune=0; 
+	detune-=12;detune=Math.max(detune,-36);updatePlaybackRate();
+	updateDocumentLinks();
+}
+
+function octUp(){
+	if (detune>999) detune=0; 
+	detune+=12;detune=Math.min(detune,24);updatePlaybackRate();
+	updateDocumentLinks();
+}
+
+function mixedTune(){
+	// aabbcc...jj where xx = 50+/-detune
+	var strSettings="";
+	for (var i=0; i<iNUMBERBANDS; ++i) strSettings+=(60-Math.round(Math.random()*24));
+	detune=strSettings;
+	updateDocumentLinks();
+	updatePlaybackRate();
+}
+
+function computePlaybackFactorsFromDetune(){
+for (var i = 0; i < iNUMBERBANDS; ++i) {
+ 	if (detune<999) playbackFactor[i]=Math.pow(2,(detune/12));
+		else playbackFactor[i]=Math.pow(2,(parseInt(detune.toString().substring(i*2,i*2+2))-50)/12);
+		  	
+}
+}
+
+function updatePlaybackRate(){
+	computePlaybackFactorsFromDetune();
+    for (var i = 0; i < iNUMBERBANDS; ++i) {
+	 	  sourceA[i].disconnect(0);
+		  sourceB[i].disconnect(0);
+		  sourceA[i] = context.createBufferSource();
+		  sourceA[i].buffer = bufferList[i];
+		  sourceA[i].playbackRate.value=playbackFactor[i];
+		  sourceA[i].connect(gainNodeA[i]);
+		  sourceB[i] = context.createBufferSource();
+		  sourceB[i].buffer = bufferList[i];
+		  sourceB[i].playbackRate.value=playbackFactor[i];
+		  sourceB[i].connect(gainNodeA[i]);
+		}
+	computeIntervals();
+  	playAllSounds();
+}
+
+function setAnimationSpeed(value){
+ 	if(typeof value === "undefined") {
+		iAnimationFactor*=2; 
+		if (iAnimationFactor>4) iAnimationFactor=0.25;
+	}
+	else iAnimationFactor=value;
+	if (iAnimationFactor==1){
+		msg("Animation Speed : Normal");
+		document.getElementById('speedText').innerHTML = "";
+		}
+	if (iAnimationFactor==0.25){
+		msg("Animation Speed : Slowest");
+		document.getElementById('speedText').innerHTML = ": 4";
+		}
+	if (iAnimationFactor==0.5){
+		msg("Animation Speed : Slow");
+		document.getElementById('speedText').innerHTML = ": 2";
+		}
+	if (iAnimationFactor==2){
+		msg("Animation Speed : Fast");
+		document.getElementById('speedText').innerHTML = "2x";
+		}
+	if (iAnimationFactor==4){
+		msg("Animation Speed : Fastest");
+		document.getElementById('speedText').innerHTML = "4x";
+		}
+	updateDocumentLinks();
+	startModulation();
+}
+
+function setAnimationMode(value){
+ 	if(typeof value === "undefined") {
+		iAnimationMode+=1; 
+		if (iAnimationMode>8) iAnimationMode=1;
+	}
+	else iAnimationMode=value;
+	if (iAnimationMode==1){
+		msg("Animation Mode : Default (50-125%)");
+		document.getElementById('modeText').innerHTML = "";
+		}
+	if (iAnimationMode==2){
+		msg("Animation Mode : Subtle (80-110%)");
+		document.getElementById('modeText').innerHTML = "sb";
+		}
+	if (iAnimationMode==3){
+		msg("Animation Mode : Deep (0-150%)");
+		document.getElementById('modeText').innerHTML = "dp";
+		}
+	if (iAnimationMode==4){
+		msg("Animation Mode : Minimax (between lowest/highest sliders, zero excluded)");
+		document.getElementById('modeText').innerHTML = "mm";
+		}
+	if (iAnimationMode==5){
+		msg("Animation Mode : Extreme (0% or 100%)");
+		document.getElementById('modeText').innerHTML = "ex";
+		}
+	if (iAnimationMode==6){
+		msg("Animation Mode : Shuffle");
+		document.getElementById('modeText').innerHTML = "sh";
+		}
+	if (iAnimationMode==7){
+		msg("Animation Mode : Shuffle (zero excluded)");
+		document.getElementById('modeText').innerHTML = "sx";
+		}
+	if (iAnimationMode==8){
+		msg("Animation Mode : Sequence (reveal zeroes)");
+		document.getElementById('modeText').innerHTML = "sq0";
+		}
+	updateDocumentLinks();
+	startModulation();
+}
+
+function setPreset(l0,l1,l2,l3,l4,l5,l6,l7,l8,l9,text){
+		if (bMUTE==1) toggleMute();
+		currentLevel[0] = l0;
+		currentLevel[1] = l1;
+		currentLevel[2] = l2;
+		currentLevel[3] = l3;
+		currentLevel[4] = l4;
+		currentLevel[5] = l5;
+		currentLevel[6] = l6;
+		currentLevel[7] = l7;
+		currentLevel[8] = l8;
+		currentLevel[9] = l9;
+		saveRandomExchange();
+		if (bANIMATE==0) {
+		  setCurrentLevelsToSliders();
+		  if(typeof(text)==='undefined') msg("");
+		  else msg(text);
+		}
+		customLinkAssign('emphasis','actionlink','Apply Calibration',emphasis);
+}
+
+function resetSliders(){
+setPreset(0.36,0.4,0.43,0.48,0.48,0.45,0.35,0.28,0.23,0.21,"Back to Default");}
+
+function randomSettings(){
+		var power=0;
+		var mx=0;
+		var multiplier;
+		for (var i = 0; i < iNUMBERBANDS; ++i) {
+			currentLevel[i] = Math.random();
+			power+=currentLevel[i]*currentLevel[i];
+			if (currentLevel[i]>mx) mx=currentLevel[i]
+			}
+		targetAvgLevel=0.35;
+		multiplier=targetAvgLevel/Math.sqrt(power/10);
+		if (mx*multiplier>70) multiplier=70/mx;
+		for (var i = 0; i < iNUMBERBANDS; ++i) currentLevel[i]=currentLevel[i]*multiplier;
+		
+		saveRandomExchange();
+		if (bANIMATE==0) {
+			setCurrentLevelsToSliders();
+			msg("Random");
+		}
+}
+
+function packCurrentLevels(){
+var str;
+str=pad(Math.round(currentLevel[0]*100))+pad(Math.round(currentLevel[1]*100))+pad(Math.round(currentLevel[2]*100))+pad(Math.round(currentLevel[3]*100))+pad(Math.round(currentLevel[4]*100))+pad(Math.round(currentLevel[5]*100))+pad(Math.round(currentLevel[6]*100))+pad(Math.round(currentLevel[7]*100))+pad(Math.round(currentLevel[8]*100))+pad(Math.round(currentLevel[9]*100));
+
+/* TBR - now in URL param A
+if (bANIMATE==0) {
+str=pad(Math.round(currentLevel[0]*100))+pad(Math.round(currentLevel[1]*100))+pad(Math.round(currentLevel[2]*100))+pad(Math.round(currentLevel[3]*100))+pad(Math.round(currentLevel[4]*100))+pad(Math.round(currentLevel[5]*100))+pad(Math.round(currentLevel[6]*100))+pad(Math.round(currentLevel[7]*100))+pad(Math.round(currentLevel[8]*100))+pad(Math.round(currentLevel[9]*100));
+	str=str+'00';
+}
+	else {
+str=pad(Math.round(savedCurrentLevel[0]*100))+pad(Math.round(savedCurrentLevel[1]*100))+pad(Math.round(savedCurrentLevel[2]*100))+pad(Math.round(savedCurrentLevel[3]*100))+pad(Math.round(savedCurrentLevel[4]*100))+pad(Math.round(savedCurrentLevel[5]*100))+pad(Math.round(savedCurrentLevel[6]*100))+pad(Math.round(savedCurrentLevel[7]*100))+pad(Math.round(savedCurrentLevel[8]*100))+pad(Math.round(savedCurrentLevel[9]*100));
+		var num=1;
+		var denum=1;
+		if (iAnimationFactor==0.25) denum=4;
+		if (iAnimationFactor==0.5) denum=2;
+		if (iAnimationFactor==2) num=2;
+		if (iAnimationFactor==4) num=4;
+		str=str+num+denum;
+	}
+*/
+
+return str;
+
+}
+
+function unpackAndSetCurrentLevels(strLevels){
+	for (var i = 0; i < iNUMBERBANDS; ++i) {currentLevel[i] = strLevels.substring(2*i,2*i+2)/100;}
+	// if animation setting exist
+	if (strLevels.length>iNUMBERBANDS*2) {
+		var num=strLevels[iNUMBERBANDS*2];
+		var denum=strLevels[iNUMBERBANDS*2+1];
+		if ((num!=0)&&(denum!=0)) { iAnimationFactor=num/denum; if(bANIMATE==0) {toggleModulation();}}
+	}
+}
+
+function saveCurrentLevelsToCookie(tag){
+	// omit tag for personal curve
+	if (tag === undefined) tag="CAL";
+	// load Cookie
+	var userData={};
+	var cookieName='uSET_'+uIDS;
+	if (cookieName=='uSET_') cookieName='uSET_unlogged';
+	var tmp=readCookie(cookieName);
+	if (tmp!=null) userData=JSON.parse(tmp);
+	// Save Associative Array
+	userData[tag]=packCurrentLevels();
+	// Save Assicative Array
+	var days=36500;
+	createCookie(cookieName,JSON.stringify(userData),days);
+	if (tag!="CAL") msg("Individual slider positions have been saved as a browser cookie...");
+}
+
+function loadCurrentLevelsFromCookieAndSetSliders(tag){
+	if (tag === undefined) tag="CAL";
+	var userData={};
+	var cookieName='uSET_'+uIDS;
+	if (cookieName=='uSET_') cookieName='uSET_unlogged';
+	var tmp=readCookie(cookieName);
+	if (tmp!=null) userData=JSON.parse(tmp);
+	if (userData[tag]!=null) {
+		unpackAndSetCurrentLevels(userData[tag]);
+		if (bANIMATE==1) saveRandomExchange(); 
+		 else {
+			setCurrentLevelsToSliders();
+			if (tag=="CAL") msg("Your Personal Curve");
+			else msg("Your Custom Set for this noise");
+			}
+	}
+	else {
+			if (tag=="CAL") msg("ERROR: no data found. Please  <a href='/calibration.php'>calibrate</a> (donor, log in first).");
+			else msg("ERROR: no user setting found, save one first.");
+	}
+}
+
+function migrateCookies(){
+	var days=36500;
+	var cookieName='uSET_'+uID;
+	var cookieNameS='uSET_'+uIDS;
+	var tmp=readCookie(cookieName);
+	if (tmp) { createCookie(cookieNameS,tmp,days); eraseCookie(cookieName);}
+	var cookieName='fSET_'+uID;
+	var cookieNameS='fSET_'+uIDS;
+	var tmp=readCookie(cookieName);
+	if (tmp) { createCookie(cookieNameS,tmp,days); eraseCookie(cookieName);}
+}
+
+
+// Apply Calibration to current sliders
+
+function emphasis(){
+	var tag="CAL";
+	var calLevel;
+	var userData={};
+	var cookieName='uSET_'+uIDS;
+	if (cookieName=='uSET_') cookieName='uSET_unlogged';
+	var tmp=readCookie(cookieName);
+	if (tmp!=null) userData=JSON.parse(tmp);
+	if (userData[tag]!=null) {
+	
+		for (var i = 0; i < iNUMBERBANDS; ++i) {
+			calLevel= userData[tag].substring(2*i,2*i+2)/100;
+			currentLevel[i]=currentLevel[i]*(calLevel/0.3);
+		}
+		setCurrentLevelsToSliders();
+		msg("Calibrated!");
+		}
+		
+	else {
+	msg("ERROR: no calibration found. Please <a href='/calibration.php'>calibrate</a> first.");
+	}
+	customLinkAssign('emphasis','lowlight','Now Calibrated','');
+}
+
+function customLinkAssign(id,classname,innerhtml,onclickfuntion) {
+if (document.getElementById(id)) {
+	document.getElementById(id).className = classname;
+	document.getElementById(id).innerHTML = innerhtml;
+	document.getElementById(id).onclick = onclickfuntion;
+	}
+}
+
+function loadCurrentLevelsFromURLAndSetSliders(){
+	var args=getUrlVars();
+	if (args['l']!== undefined) {
+		var code=args['l'];
+		code.replace(/\D/g,''); // XSS zapping all non digits 
+		for (var i = 0; i < iNUMBERBANDS; ++i) {currentLevel[i] = code.substring(2*i,2*i+2)/100;}
+		setCurrentLevelsToSliders();
+	}
+}
+
+function loadTimerFromURLAndStartTimer(){
+	var args=getUrlVars();
+	if (args['t']!== undefined) {
+		var minutes=parseInt(args['t']);
+		if (typeof minutes === 'number') {
+			setTimer(minutes);
+			activateButton(["timer"],1);
+		}
+	}
+}
+
+function disableSliders(){
+	for (var i = 0; i < iNUMBERBANDS; ++i) $( "#s"+i ).slider( "option", "disabled", true );
+}
+
+function enableSliders(){
+	for (var i = 0; i < iNUMBERBANDS; ++i) $( "#s"+i ).slider( "option", "disabled", false );
+}
+
+function disableSlider(i){
+	$( "#s"+i ).slider( "option", "disabled", true );
+}
+
+function enableSlider(i){
+	$( "#s"+i ).slider( "option", "disabled", false );
+}
+
+function toggleCalibration() {
+	bCALIBRATE=!bCALIBRATE;
+	if (bCALIBRATE==1) {
+		enableSliders();
+		movedSlider=-99;
+		$("#calib").button( "option", "label", "3. Save Your Personal Curve" );
+		}
+	else {
+		saveCurrentLevelsToCookie();
+		setAllLevels();
+		disableSliders();
+		$("#calib").button( "option", "label", "Done! (Click to recalibrate)" );
+	}
+}
+
+function toggleModulation(bNoMsg) {
+	bANIMATE=!bANIMATE;
+	if (bANIMATE==1) {
+		savedLevel = currentLevel.slice(0); // copy values, not ref!
+		savedCurrentLevel = currentLevel.slice(0); // copy values, not ref!
+		nzSliderIndex=[];
+		mmMin=1;mmMax=0;
+		for (var i = 0; i < iNUMBERBANDS; ++i) {
+			if (savedLevel[i]>0) {
+				if (savedLevel[i]<mmMin) mmMin=savedLevel[i];
+				if (savedLevel[i]>mmMax) mmMax=savedLevel[i];
+				nzSliderIndex.push(i);
+			}
+		}
+		disableSliders();
+		updateButtons();
+		modulationRandom();
+		}
+	else {
+		// currentLevel=savedLevel.slice(0); // copy values, not ref!
+		clearTimeout(modulationTimeout);
+		enableSliders();
+		updateButtons();
+		setCurrentLevelsToSliders();
+		randomCounter=0;
+		animationCtlReset();
+	}
+	 if (bNoMsg!=1) {
+	 if (bANIMATE==1) msg("Now animating the sliders for you...");
+	 else msg("Slider animation has been stopped");
+	 }
+}
+
+function stopModulation() {
+	if (bANIMATE==1) {
+	toggleModulation(1);
+	randomCounter=0;
+	}
+}
+
+function startModulation() {
+	randomCounter=0;
+	if (bANIMATE==0) {
+	toggleModulation(1);
+	randomCounter=0;
+	}
+}
+
+function modulationRandom(){
+
+		iCurrentAnimationSpeed=iINITIALANIMATIONSPEED/iAnimationFactor;
+
+		var nCycle=25; // number of steps between snapshots
+
+		if (randomCounter==0) {   // time to generate a new random state from the saved curve
+		
+			var ranSlider8=-1;
+			var count8=0;
+			var max8=0;
+		
+			if (iAnimationMode==8) {
+				    	for (var i = 0; i < iNUMBERBANDS; ++i) { 
+				    		if (savedLevel[i]==0) {count8++;}
+				    		else if (savedLevel[i]>max8) max8=savedLevel[i];
+				    	}
+				    	if (count8<2) { msg('This animation mode requires a couple of sliders set to zero');}
+				    	else {
+				    		while (ranSlider8<0){
+				    			var ran8=Math.floor(Math.random()*10);
+				    			if (savedLevel[ran8]==0) ranSlider8=ran8;
+				    		}
+				    	}
+				    	max8=Math.min(max8*1.15,0.99);
+				}
+
+			savedCurrentLevel = currentLevel.slice(0);  // save where we come from, copy values, not ref!
+			if (bNOWMOVING==0) {  // the former random method
+				for (var i = 0; i < iNUMBERBANDS; ++i) {
+					var smin,smax;
+				  	if (iAnimationMode==1) {smin=0.5;smax=1.25;}
+				  	if (iAnimationMode==2) {smin=0.8;smax=1.1;}
+				  	if (iAnimationMode==3) {smin=0;smax=1.5;}
+				    var ran=(smax-smin)*Math.random()+smin;
+				    if (iAnimationMode<4)  {randomLevel[i] = ran*savedLevel[i];}
+				    if (iAnimationMode==4) {if (savedLevel[i]>0) randomLevel[i]=Math.random()*(mmMax-mmMin)+mmMin; else randomLevel[i]=0;}
+				    if (iAnimationMode==5) {if (Math.random()>0.6) randomLevel[i]=0; else randomLevel[i]=savedLevel[i]; }
+				    if (iAnimationMode==6) {randomLevel[i]=savedLevel[Math.floor(Math.random()*10)]; }
+				    if (iAnimationMode==7) {if (savedLevel[i]>0) randomLevel[i]=savedLevel[nzSliderIndex[Math.floor(Math.random()*nzSliderIndex.length)]]; else randomLevel[i]=0;}
+				    if (iAnimationMode==8) {
+				    	if (i==ranSlider8) randomLevel[i]=max8;
+				    	else randomLevel[i]=savedLevel[i];
+				    	}
+				    if (randomLevel[i]>0.99) randomLevel[i]=0.99;
+				    } 
+				}
+			else {  // the new Now Moving method
+					if ((bNOWMOVINGUP==1)&&(++iNowMovingTo==3)) {iNowMovingTo=0;}
+					if ((bNOWMOVINGUP==0)&&(--iNowMovingTo==-1)) {iNowMovingTo=2;}
+					for (var i = 0; i < iNUMBERBANDS; ++i) {
+						randomLevel[i] = fMotionStates[iNowMovingTo][i];
+					}
+					displayMovingState();
+			}
+		}
+		
+		for (var i = 0; i < iNUMBERBANDS; ++i) currentLevel[i] = savedCurrentLevel[i]+randomCounter*(randomLevel[i]-savedCurrentLevel[i])/nCycle;
+
+		if ((randomCounter%5)==0) setCurrentLevelsToSliders();
+		else setAllLevels();	// update the levels without updating the sliders (saving javascript CPU)
+
+		if (++randomCounter==nCycle) randomCounter=0;
+		
+		clearTimeout(modulationTimeout);	
+		modulationTimeout = setTimeout(function(){modulationRandom();},iCurrentAnimationSpeed*1000/nCycle);
+}
+
+function startAnimationCtl(){
+	bNOWMOVING=1;
+	animationCtlReset();
+	customLinkAssign('nowMoving','playOff','Start','');
+	toggleModulation();
+}
+
+function animationCtlReset(){
+	bNOWMOVINGUP=1;
+	iNowMovingTo=-1;
+	customLinkAssign('01','playOff','&rarr;','');
+	customLinkAssign('12','playOff','&rarr;','');
+	customLinkAssign('23','playOff','&rarr;','');
+	customLinkAssign('32','playOff','&larr;','');
+	customLinkAssign('21','playOff','&larr;','');
+	customLinkAssign('nowMoving','actionlink','Start',startAnimationCtl);
+}
+
+function initStates(){
+	fMotionStates[0]=[0.5,0.46,0.42,0.38,0.34,0.3,0.27,0.24,0.21,0.18];
+	fMotionStates[1]=[0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3];
+	fMotionStates[2]=[0.18,0.21,0.24,0.27,0.3,0.34,0.38,0.42,0.46,0.5];
+}
+
+function initTuning(){
+	for (var i = 0; i < iNUMBERBANDS; ++i) playbackFactor[i]=1;
+	var args=getUrlVars();
+	if (args['d']!== undefined) {
+		detune=args['d'];
+		detune.replace(/\D/g,''); // XSS zapping all non digits 
+		computePlaybackFactorsFromDetune();
+		}
+}
+
+function assignState(s){
+	var state=["A","B","C"];
+	for (var i = 0; i < iNUMBERBANDS; ++i)  fMotionStates[s][i]=$( "#s"+i ).slider( "value" );
+	msg("...now assigned to Motion Snapshot "+state[s]);
+}
+
+function displayMovingState(){
+
+	customLinkAssign('01','playOff','&rarr;','');
+	customLinkAssign('12','playOff','&rarr;','');
+	customLinkAssign('23','playOff','&rarr;','');
+	customLinkAssign('13','playOff','&larr;','');
+	customLinkAssign('32','playOff','&larr;','');
+	customLinkAssign('21','playOff','&larr;','');
+
+if (bNOWMOVINGUP){
+		if (iNowMovingTo==0) {customLinkAssign('01','playOn','&rarr;','');}
+		if (iNowMovingTo==1) {customLinkAssign('12','playOn','&rarr;','');}
+		if (iNowMovingTo==2) {customLinkAssign('23','playOn','&rarr;','');}
+	}
+	else{
+		if (iNowMovingTo==2) {customLinkAssign('13','playOn','&larr;','');}
+		if (iNowMovingTo==1) {customLinkAssign('32','playOn','&larr;','');}
+		if (iNowMovingTo==0) {customLinkAssign('21','playOn','&larr;','');}
+	}
+	// change the direction with P[1/4]
+	if (Math.floor(Math.random()*4)==0) bNOWMOVINGUP=!bNOWMOVINGUP;
+}
+
+function toggleZen() {
+	bZEN=!bZEN;
+	if (bZEN==1) {
+		iAnimationFactor=1;iAnimationMode=5;startModulation();
+	}
+	else stopModulation();
+}
+
+function saveRandomExchange(){                                   
+    savedLevel = currentLevel.slice(0);
+    randomLevel = currentLevel.slice(0);
+    msg("Animation data has been updated!");
+    randomCounter=0;
+}
+
+function toggleMute() {
+    var fadeSteps=37;
+    if (iTimer==0) fadeSteps=173;
+    iFadeState=0;
+	bMUTE=!bMUTE;
+	if (bMUTE==1) {
+		fadeOut(1,fadeSteps);
+		updateButtons();
+		if (iTimer==0) msg("It's time to... slowly fade out... (and sleep)");
+		else  msg("Keeping quiet...");
+	}
+	else {
+		fadeOut(0,fadeSteps);
+		updateButtons();
+		if (iTimer==0) msg("It's time to... slowly fade in... (and wake up)");
+		else msg("");
+	}
+	if (iTimer==0) iTimer=-1;
+}
+
+function forceMute(bTurnOn) {
+	if (bTurnOn) {
+		bMUTEsaved=bMUTE;
+		if (!bMUTE) toggleMute();
+		}
+	else {
+		if (!bMUTEsaved && bMUTE) toggleMute();
+	}
+	bMUTEFORCED=bTurnOn;
+}
+
+function startMuted(){
+	bSTARTMUTED=1;
+}
+
+function returnMute() {
+	return bMUTE;
+}
+
+function updateButtons() {
+	if (bMUTE==1) { 
+		activateButton(["mute"],1);
+		enableButton(["reset","anim","mode","speed","volDown","volUp","calib"],0);
+		disableSliders();
+	}
+	else{
+		activateButton(["mute"],0);
+		enableButton(["reset","anim","mode","speed","volDown","volUp","calib"],1);
+		if (bANIMATE==1) {
+			activateButton(["anim"],1);
+			audibleButton(["mode","speed"],1);
+		}
+		else {
+			enableButton(["reset"],1);
+			activateButton(["anim"],0);
+			audibleButton(["mode","speed"],0);
+			enableSliders();		}
+		}
+}
+
+function setTimer(time) {
+
+	if(typeof time === "undefined") {
+		var elapsed=((new Date).getTime()-epoch);
+		iTimer=Math.max(0,iTimer-elapsed/60000+2);
+		if (iTimer<1) {iTimer=1;msg("Timer set to 1 minute"); activateButton(["timer"],1);}
+			else if (iTimer<5) {iTimer=5;msg("Timer set to 5 minutes");}
+			else if (iTimer<10) {iTimer=10;msg("Timer set to 10 minutes");}
+			else if (iTimer<15) {iTimer=15;msg("Timer set to 15 minutes");}
+			else if (iTimer<20) {iTimer=20;msg("Timer set to 20 minutes");}
+			else if (iTimer<25) {iTimer=25;msg("Pomodoro time! (25 minutes) [o]");}
+			else if (iTimer<30) {iTimer=30;msg("Timer set to 30 minutes");}
+			else if (iTimer<60) {iTimer=60;msg("Timer set to 1 hour");}
+			else if (iTimer<120) {iTimer=120;msg("Timer set to 2 hours");}
+			else if (iTimer<240) {iTimer=240;msg("Timer set to 4 hours");}
+			else if (iTimer<360) {iTimer=360;msg("Timer set to 6 hours");}
+			else if (iTimer<480) {iTimer=480;msg("Timer set to 8 hours");}
+			else {iTimer=-1;msg("Timer is disabled");activateButton(["timer"],0);};
+			}
+		else {
+			if (time==0) {iTimer=0;updateTimer();}
+			else {
+			iTimer=time;
+			msg("Timer set to "+time+" min");
+			}
+		}
+
+	if(document.getElementById('timerText') !== null) {
+		if (iTimer>0) document.getElementById('timerText').innerHTML = iTimer;
+		else document.getElementById('timerText').innerHTML = "";
+	}
+	
+	epoch=(new Date).getTime(); //ms
+	clearTimeout(timerTimeout);	
+	timerTimeout = setTimeout(function(){updateTimer();},10000);
+
+}
+
+function updateTimer() {
+
+	if (iTimer<0) return;
+
+	var elapsed=((new Date).getTime()-epoch);
+	var remaining=iTimer*60-elapsed/1000; //s
+
+	if (remaining<=0) {
+		// disable all interface
+		   iTimer=0;
+		   activateButton(["timer"],0);
+		   toggleMute();
+		   if(document.getElementById('timerText') !== null) document.getElementById('timerText').innerHTML = "";
+		}
+	else {
+		if(document.getElementById('timerText') !== null) document.getElementById('timerText').innerHTML = Math.ceil(remaining/60);
+		clearTimeout(timerTimeout);	
+		timerTimeout = setTimeout(function(){updateTimer();},10000);
+	}
+}
+
+function collectNZ() {
+	var userData={};
+	var cookieName='collected';
+	var tmp=readCookie(cookieName);
+	if (tmp!=null) userData=JSON.parse(tmp);
+	else {
+		userData['codes']=[];
+		userData['levels']=[];
+	}
+	for (var i = 0; i < iNUMBERBANDS; ++i) { 
+		if (currentLevel[i] >0) {
+				var urlParsed = sourceFileA[i].split("/");
+				userData['codes'].push(urlParsed[4]+urlParsed[5].substring(0,1));
+				userData['levels'].push(Math.round(currentLevel[i]*100));
+			} 
+	}
+	// trimming
+	while (userData['codes'].length>10) {
+		userData['codes'].shift();
+		userData['levels'].shift();
+	}
+	console.log("Custom Stack : ");
+	console.log(userData);
+	// saving
+	var days=36500;
+	createCookie(cookieName,JSON.stringify(userData),days);
+	msg("[Custom] Non-zero sliders have been collected ["+userData['codes'].length+"/10]");
+}
+
+
+function clearStack() {
+	var userData={};
+	var cookieName='collected';
+	var tmp=readCookie(cookieName);
+	userData['codes']=[];
+	userData['levels']=[];
+	var days=36500;
+	createCookie(cookieName,JSON.stringify(userData),days);
+	msg("[Custom] Stack is now cleared [0/10]");
+}
+
+
+function customGenLaunch() {
+	var url;
+	var userData={};
+	var cookieName='collected';
+	var tmp=readCookie(cookieName);
+	if (tmp!=null) userData=JSON.parse(tmp);
+	else {
+		userData['codes']=[];
+		userData['levels']=[];
+	}
+	if (userData['codes'].length<10) msg("[ERROR] Collect 10 individual sliders first! ("+userData['codes'].length+" collected)");
+	else
+	{ 
+		// sort stack
+		var userDataSorted={};
+		userDataSorted['codes']=[];
+		userDataSorted['levels']=[];
+		for (var i = 0; i < iNUMBERBANDS; ++i) {
+			for (var j = 0; j < userData['codes'].length; ++j) {
+				if(userData['codes'][j].substr(-1)==i) {
+					userDataSorted['codes'].push(userData['codes'][j]);
+					userDataSorted['levels'].push(userData['levels'][j]);
+				}
+			}
+		}
+		// generate url
+		url="https://mynoise.net/NoiseMachines/custom.php?l="
+		for (var i = 0; i < iNUMBERBANDS; ++i) {
+			if (userDataSorted['levels'][i]<10) url+='0'+userDataSorted['levels'][i];
+			else url+=userDataSorted['levels'][i];
+			}
+			
+		url+='00&m=';
+		for (var i = 0; i < iNUMBERBANDS; ++i) url+=userDataSorted['codes'][i]+'~';
+		url = url.substring(0,url.length-1);
+		var title=window.prompt("[Custom] Your custom generator is almost ready! We are just a short title away...","A Short Title");
+		if (title == null || title == "") {
+			// User cancelled
+		} else {
+			url+='&title='+encodeURIComponent(titleCase(title.trim()));
+				window.open(url,"_self");
+		}
+	}
+}
+
+function titleCase(str) {
+   var splitStr = str.toLowerCase().split(' ');
+   for (var i = 0; i < splitStr.length; i++) splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+   return splitStr.join(' '); 
+}
+
+function help() {
+  var myWindow = window.open("help.php", "myNoise Help", "width=480,height=800");
+}
+
+// Keypresses
+
+Mousetrap.bind('m', function() { toggleMute(); });
+Mousetrap.bind('a', function() { toggleModulation(); });
+Mousetrap.bind('s', function() { $("#speed").click(); });
+Mousetrap.bind('d', function() { $("#mode").click(); });
+Mousetrap.bind('r', function() { $("#reset").click(); });
+Mousetrap.bind('k', function() { slidersUp(); });
+Mousetrap.bind('j', function() { slidersDown(); });
+Mousetrap.bind('+', function() { slidersUp(); });
+Mousetrap.bind('-', function() { slidersDown(); });
+Mousetrap.bind('t', function() { $("#timer").click(); });
+Mousetrap.bind('h', function() { help(); });
+Mousetrap.bind('o', function() { setTimer(25);activateButton(["timer"],1);msg("Pomodoro timer set!");});
+Mousetrap.bind('w', function() { setPreset(0.18,0.21,0.24,0.27,0.3,0.34,0.38,0.42,0.46,0.5,"White"); });
+Mousetrap.bind('p', function() { setPreset(0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,"Pink"); });
+Mousetrap.bind('b', function() { setPreset(0.5,0.46,0.42,0.38,0.34,0.3,0.27,0.24,0.21,0.18,"Brown"); });
+Mousetrap.bind('z', function() { setPreset(0,0,0,0,0,0,0,0,0,0,"Zeroed"); });
+Mousetrap.bind('0 s', function() { setPreset(0.45,0,0,0,0,0,0,0,0,0,"Brown"); });
+Mousetrap.bind('1 s', function() { setPreset(0,0.45,0,0,0,0,0,0,0,0,"Red"); });
+Mousetrap.bind('2 s', function() { setPreset(0,0,0.45,0,0,0,0,0,0,0,"Orange"); });
+Mousetrap.bind('3 s', function() { setPreset(0,0,0,0.45,0,0,0,0,0,0,"Khaki"); });
+Mousetrap.bind('4 s', function() { setPreset(0,0,0,0,0.45,0,0,0,0,0,"Green"); });
+Mousetrap.bind('5 s', function() { setPreset(0,0,0,0,0,0.45,0,0,0,0,"Turquoise"); });
+Mousetrap.bind('6 s', function() { setPreset(0,0,0,0,0,0,0.45,0,0,0,"Steel Blue"); });
+Mousetrap.bind('7 s', function() { setPreset(0,0,0,0,0,0,0,0.45,0,0,"Royal Blue"); });
+Mousetrap.bind('8 s', function() { setPreset(0,0,0,0,0,0,0,0,0.45,0,"Navy Blue"); });
+Mousetrap.bind('9 s', function() { setPreset(0,0,0,0,0,0,0,0,0,0.45,"Violet"); });
+Mousetrap.bind('0 +', function() { value=Math.min($("#s0").slider("option", "value")+0.1,1); $("#s0").slider( "value", value ); });
+Mousetrap.bind('1 +', function() { value=Math.min($("#s1").slider("option", "value")+0.1,1); $("#s1").slider( "value", value ); });
+Mousetrap.bind('2 +', function() { value=Math.min($("#s2").slider("option", "value")+0.1,1); $("#s2").slider( "value", value ); });
+Mousetrap.bind('3 +', function() { value=Math.min($("#s3").slider("option", "value")+0.1,1); $("#s3").slider( "value", value ); });
+Mousetrap.bind('4 +', function() { value=Math.min($("#s4").slider("option", "value")+0.1,1); $("#s4").slider( "value", value ); });
+Mousetrap.bind('5 +', function() { value=Math.min($("#s5").slider("option", "value")+0.1,1); $("#s5").slider( "value", value ); });
+Mousetrap.bind('6 +', function() { value=Math.min($("#s6").slider("option", "value")+0.1,1); $("#s6").slider( "value", value ); });
+Mousetrap.bind('7 +', function() { value=Math.min($("#s7").slider("option", "value")+0.1,1); $("#s7").slider( "value", value ); });
+Mousetrap.bind('8 +', function() { value=Math.min($("#s8").slider("option", "value")+0.1,1); $("#s8").slider( "value", value ); });
+Mousetrap.bind('9 +', function() { value=Math.min($("#s9").slider("option", "value")+0.1,1); $("#s9").slider( "value", value ); });
+Mousetrap.bind('0 -', function() { value=Math.max($("#s0").slider("option", "value")-0.1,0); $("#s0").slider( "value", value ); });
+Mousetrap.bind('1 -', function() { value=Math.max($("#s1").slider("option", "value")-0.1,0); $("#s1").slider( "value", value ); });
+Mousetrap.bind('2 -', function() { value=Math.max($("#s2").slider("option", "value")-0.1,0); $("#s2").slider( "value", value ); });
+Mousetrap.bind('3 -', function() { value=Math.max($("#s3").slider("option", "value")-0.1,0); $("#s3").slider( "value", value ); });
+Mousetrap.bind('4 -', function() { value=Math.max($("#s4").slider("option", "value")-0.1,0); $("#s4").slider( "value", value ); });
+Mousetrap.bind('5 -', function() { value=Math.max($("#s5").slider("option", "value")-0.1,0); $("#s5").slider( "value", value ); });
+Mousetrap.bind('6 -', function() { value=Math.max($("#s6").slider("option", "value")-0.1,0); $("#s6").slider( "value", value ); });
+Mousetrap.bind('7 -', function() { value=Math.max($("#s7").slider("option", "value")-0.1,0); $("#s7").slider( "value", value ); });
+Mousetrap.bind('8 -', function() { value=Math.max($("#s8").slider("option", "value")-0.1,0); $("#s8").slider( "value", value ); });
+Mousetrap.bind('9 -', function() { value=Math.max($("#s9").slider("option", "value")-0.1,0); $("#s9").slider( "value", value ); });
+Mousetrap.bind('y', function() { tune(432/440);msg("Experimental - Now tuned to A4=432Hz"); });
+Mousetrap.bind('?', function() { randomSettings(); });
+Mousetrap.bind('c', function() { collectNZ(); });
+Mousetrap.bind('shift+c', function() { customGenLaunch(); });
+Mousetrap.bind('x c', function() { clearStack(); });
+Mousetrap.bind('µ', function() { stemDrop(); });
+
+
+// favs
+var fData=new Array();
+
+var curGenCode="THROAT";
+
+function favorite(what){
+	addToFavorites(what);
+	refreshFavs();
+}
+
+function addToFavorites(what){
+	var ndx=fData.indexOf(what);
+	if (ndx==-1){
+		$('#f'+what).attr('src','/Pix/fav_b.png');
+		fData.push(what);
+	}
+	else { // is a favorite
+		$('#f'+what).attr('src','/Pix/fav.png');
+		fData.splice(ndx,1);
+	}
+	fCookieWrite();
+}
+
+function fCookieRead(){
+	var uids=readCookie('uIDS');
+	var cookieName='fSET_'+uids;
+	var tmp=readCookie(cookieName);
+	if (tmp!=null) fData=JSON.parse(tmp);
+}
+
+function fCookieWrite(){
+	var uids=readCookie('uIDS');
+	var cookieName='fSET_'+uids;
+	var days=36500;
+	createCookie(cookieName,JSON.stringify(fData),days);
+}
+
+function highlightFavs(){
+	$('.iFV').css('display', 'inline');
+	$('.iFV').prop('title', 'Your favorites');
+	$('.iFV').data('powertip','Your favorites');
+	$('.iFV').css( 'cursor', 'pointer' );
+	fCookieRead();
+	for (var i in fData) {
+  		$('#f'+fData[i]).attr('src','/Pix/fav_b.png');
+	}
+}
+
+function toggleFavs(){
+	if (!highlighted.localeCompare('favs')) { highlighted='none'; $('.hint').parent('span').show();}
+	else { highlighted='favs'; $('.hint').parent('span').hide();}
+	refreshFavs();
+
+}
+
+function refreshFavs(){
+	if (!highlighted.localeCompare('favs')) {
+		$('.DIM').css('opacity', '0.3');
+		$('#iFV').attr('src','/Pix/fav_b.png');
+		for (var i in fData) {
+			$('.'+fData[i]).css('opacity', '1');
+			$('.'+fData[i]).parent('span').show();
+		}
+  	}
+  	else { $('.DIM').css('opacity', '1'); $('#iFV').attr('src','/Pix/fav_l.png');}
+}
+
+function checkFavGen(){
+	fCookieRead();
+	var ndx=fData.indexOf(curGenCode);
+	if (ndx>-1) $('#f'+fData[ndx]).attr('src','/Pix/fav_b.png');
+	$('#f'+curGenCode).css('display', 'inline');
+	$('#f'+curGenCode).prop('title', 'Favorite');
+	$('#f'+curGenCode).data('powertip','Favorite');
+	$('#f'+curGenCode).css( 'cursor', 'pointer' );
+	$('#f'+curGenCode).powerTip();
+}
+
+function addGenToFavs(){
+	addToFavorites(curGenCode);
+}
+	</script><script>
+  $(function() {
+    $( "#s0, #s1, #s2, #s3, #s4, #s5, #s6, #s7, #s8, #s9" ).slider({
+      orientation: "vertical",
+      range: "min",
+	  min: 0,
+      max: 0.99,
+      value: 0.3,
+      step:0.01,
+      animate: "slow",
+      slide: function( event, ui ) {sliderChange(event.target.id)},
+      change: function( event, ui ) {sliderChange(event.target.id)}
+    });
+  });
+</script><!--<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-39869439-1', 'mynoise.net');
+  ga('send', 'pageview');
+
+</script>-->
+<script type="text/javascript">
+		$(function() {
+			$('.actionlink,.blue,.powertip').powerTip({placement: 'nw'});
+			$('#reset,#anim,#speed,#mode,#volDown,#volUp,#mute,#timer').powerTip({placement: 'n'});
+			$('#s0,#s1,#s2,#s3,#s4,#s5,#s6,#s7,#s8,#s9').powerTip({placement: 'n', mouseOnToPopup: true, offset: 20});
+			$('.powertipS').powerTip({placement: 's'});
+		});
+</script><script>
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length).replace(/%2C/g,",");  // if cookie has been set from the cloud, the %2C needs to be replaced by a comma;
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+}
+</script></head>
+
+
+
+
+<body onload="init()">
+
+
+<!-- begin #container -->
+<div id="container"> 
+
+<div class="noiseTitle">
+		
+		<div class="bigTitle">
+			Tibetan Choir		</div>
+		<div class="subTitle">Frequency-shaped Throat Singing Drone Generator</div>
+</div><div id="lilBoxL">
+
+	<div class="LfixedImg zero hide"><a href="https://mynoise.net/"><img src="mynoise_TibetanChoir_fichiers/icon_logo.png" alt="Logo" height="28px"></a></div>
+
+	<div class="Lslide two hide">
+	<div class="LslideImg"><img src="mynoise_TibetanChoir_fichiers/icon_social.png" alt="Social" height="25px"></div>
+	<div class="LslideText">
+	Follow myNoise on<br><a href="https://www.facebook.com/mynoise.net/">Facebook</a> • <a href="https://twitter.com/audiosampling">Twitter</a> • <a href="https://goo.gl/rQ85ZC">YouTube</a>
+	</div>
+	</div>
+	
+	<div class="Lslide three  hide">
+	<div class="LslideImg"><a href="https://mynoise.net/sitemap.php"><img src="mynoise_TibetanChoir_fichiers/icon_map.png" alt="Sitemap" height="25px"></a></div>
+	<div class="LslideText">Feeling adventurous... or lost?<br>Use the <a href="https://mynoise.net/sitemap.php">Site Map</a>
+	</div>
+	</div>
+	
+	<div class="Lslide four hide">
+	<div class="LslideImg" id="blogImg"><a href="https://mynoise.net/blog.php"><img src="mynoise_TibetanChoir_fichiers/icon_blog_new.png" alt="blog" height="25px"></a></div>
+	<div class="LslideText">Discover my <a href="https://mynoise.net/blog.php">blog</a> and my <a href="https://mynoise.net/SamplingSessions/index.php">sampling sessions photo albums</a>
+	</div>
+	</div>
+	
+	<div class="Lslide long hide" id="lsidelong">
+	<div class="LslideImg" id="bubbleImg"><img src="mynoise_TibetanChoir_fichiers/icon_whatsnew.png" alt="new" height="25px"></div>
+	<div class="LslideText"><span class="lowlight">Aug 26th •</span> <a href="https://mynoise.net/NoiseMachines/thunderNoiseGenerator.php">Distant Thunder</a> updated
+<br><br>
+<span class="lowlight">Aug 22nd •</span> <a href="https://mynoise.net/NoiseMachines/customWolfsHeart.php">Wolf's Heart</a> added
+<br><br>
+<span class="lowlight">Aug 7th •</span> <a href="https://mynoise.net/NoiseMachines/carlosCartyPanFluteGenerator.php">Call of the Andes</a> added
+<br><br>
+<span class="lowlight">Jul 31st •</span> <a href="https://mynoise.net/NoiseMachines/customEnigmatic.php">Enigmatic</a> added
+<br><br>
+<span class="lowlight">Jul 24th •</span> <a href="https://mynoise.net/NoiseMachines/harborSoundscapeGenerator.php">Port Town</a> added
+<br><br>
+<span class="lowlight">Jul 19th •</span> <a href="https://mynoise.net/NoiseMachines/gregorianChoirGenerator.php?l=00004040404040400000&amp;m=&amp;d=0">Gregorian</a> updated
+<br><br>
+<span class="lowlight">Jul 8th •</span> <a href="https://mynoise.net/NoiseMachines/customPripyat.php">Pripyat</a> added
+<br><br>
+<span class="lowlight">Jul 1st •</span> <a href="https://mynoise.net/NoiseMachines/georgeVladAfricaSoundscapeGenerator.php">Africa</a> added
+<br><br>
+<span class="lowlight">Jun 24th •</span> <a href="https://mynoise.net/NoiseMachines/customHummingGenerator.php">The Hum</a> added
+<br><br>
+<span class="lowlight">Jun 18th •</span> <a href="https://mynoise.net/NoiseMachines/peakNoiseGenerator.php">Peak</a> and <a href="https://mynoise.net/NoiseMachines/notchNoiseGenerator.php">Notch</a> noises added	</div>
+	</div>
+</div>
+	
+<div id="lilBoxR">
+
+	<div id="carbonDiv" class="Rslide one hide">
+	<div class="RslideImg"><a href="https://mynoise.net/carbonFootprintCompensation.php"><img src="mynoise_TibetanChoir_fichiers/icon_eco_new.png" alt="Carbon Footprint" height="25px"></a></div>
+	<div id="carbonText" class="RslideText"><a href="https://mynoise.net/carbonFootprintCompensation.php" target="_blank">myNoise offsets its entire co2 footprint</a><br>   This page = <span class="carbon">58 gCO2e 🌱</span></div>
+	</div>
+	
+	<div class="Rslide two hide">
+	<div class="RslideImg">
+	<a href="https://mynoise.net/login.php"><img src="mynoise_TibetanChoir_fichiers/icon_login.png" alt="Login" height="25px">	</a></div>
+	<div class="RslideText">
+	Patrons, <a href="https://mynoise.net/login.php">log in here</a> to access the bonus features.	</div>
+	</div>
+	
+	<div class="Rslide three hide">
+	<div class="RslideImg">
+	<a href="https://mynoise.net/donate.php"><img src="mynoise_TibetanChoir_fichiers/icon_pig.png" alt="Piggy Bank" height="25px">	</a></div>
+	<div class="RslideText">
+	Help keep this website running without ads, with <a href="https://mynoise.net/donate.php">a donation</a>	</div>
+	</div>
+	
+	<div class="Rslide four hide">
+	<div class="RslideImg"><a href="https://mynoise.net/albums.php"><img src="mynoise_TibetanChoir_fichiers/icon_albums.png" alt="Audio Albums" height="25px"></a></div>
+	<div class="RslideText"><a href="https://mynoise.net/albums.php">Audio albums</a> available on <a href="https://open.spotify.com/artist/1gRJBUyCeihBrgcCtDdEfv">Spotify</a> • <a href="https://geo.itunes.apple.com/us/artist/mynoise/id893469126?mt=1&amp;app=music&amp;ls=1" target="itunes_store">iTunes</a> • <a href="http://www.amazon.com/s/?_encoding=UTF8&amp;camp=1789&amp;creative=390957&amp;field-keywords=myNoise&amp;index=digital-music&amp;linkCode=ur2&amp;search-type=ss&amp;tag=audiocheck-20&amp;linkId=H3I6KWU3OMBLZG2U">Amazon</a> • <a href="http://play.google.com/store/music/artist/myNoise?id=Akjtlzdbbchqsx4ivl4ru55fpiu&amp;hl=en">Google Play</a> • ...
+	</div>
+	</div>
+	
+	<div class="Rslide five hide">
+	<div class="RslideImg"><a href="https://mynoise.net/screencasts.php"><img src="mynoise_TibetanChoir_fichiers/icon_television.png" alt="mic" height="25px"></a></div>
+	<div class="RslideText">Learn how to use myNoise<br>with our <a href="https://mynoise.net/screencasts.php">Video Tutorials</a>
+	</div>
+	</div>
+	
+	<div class="Rslide six hide">
+	<div class="RslideImg"><a href="http://amzn.to/2k2RIGs"><img src="mynoise_TibetanChoir_fichiers/icon_amazon.png" alt="Amazon" height="25px"></a></div>
+	<div class="RslideText"><a href="https://www.amazon.com/dp/B07PQ33HV6"> Alexa, open myNoise</a> • <a href="http://amzn.to/2k2RIGs">Affiliate link</a>
+	• <a href="https://mynoise.net/recommendations.php">Products Recommendations</a>
+	</div>
+	</div>
+	
+	<div class="Rslide seven hide">
+	<div class="RslideImg"><a href="https://itunes.apple.com/be/app/mynoise/id813099896?mt=8"><img src="mynoise_TibetanChoir_fichiers/icon_apple.png" alt="Apple Store" height="25px"></a></div>
+	<div class="RslideText"><a href="https://itunes.apple.com/be/app/mynoise/id813099896?mt=8">Download the free myNoise Player</a> for iOS on the <a href="https://itunes.apple.com/be/app/mynoise/id813099896?mt=8">Apple Store</a>
+	</div>
+	</div>
+	
+	<div class="Rslide eight hide">
+	<div class="RslideImg"><a href="https://play.google.com/store/apps/details?id=com.mynoise.mynoise&amp;hl=en"><img src="mynoise_TibetanChoir_fichiers/icon_droid.png" alt="Google Play" height="25px"></a></div>
+	<div class="RslideText"><a href="https://play.google.com/store/apps/details?id=com.mynoise.mynoise&amp;hl=en">Download the free myNoise Player</a> for Android on <a href="https://play.google.com/store/apps/details?id=com.mynoise.mynoise&amp;hl=en">Google Play</a>
+	</div>
+	</div>
+	
+
+</div>
+
+<!--
+<script>
+		$.get("/getBubbleSize.php", function(contents) {
+			var s=readCookie("bubble");
+			if (!s || !(s==contents)) {$('#bubbleImg').html("<img src='/Pix/icon_whatsnew_new.png' alt=new' height='25px'>");}
+			else {$('#bubbleImg').html("<img src='/Pix/icon_whatsnew.png' alt='new' height='25px'>");}
+			$('#lsidelong').hover(function(){createCookie("bubble",contents,365);});
+		});
+		$.get("/getBlogSize.php", function(contents) {
+			var s=readCookie("blog");
+			if (!s || !(s==contents)) {$('#blogImg').html("<a href='/blog.php'><img src='/Pix/icon_blog_new.png' alt='blog' height='25px'></a>");}
+			else {$('#blogImg').html("<a href='/blog.php'><img src='/Pix/icon_blog.png' alt='blog' height='25px'></a>");}
+		});
+</script>
+-->
+
+<div class="menuNew">
+	<ul>
+		<li class="powertipN" title="Why myNoise sounds different from other noise machines."><a href="https://mynoise.net/preface.php">Intro</a></li>
+		<li class="powertipN" title="A selection of our best sounds, and their associated use"><a href="https://mynoise.net/howToUseSoundMachines.php">Uses</a></li>
+		<li id="active" class="powertipN" title="Our main page, listing all the sounds available to you, online and for free."><a href="https://mynoise.net/noiseMachines.php">• Online Noises •</a></li>
+		<li class="powertipN" title="Frequently Asked Questions"><a href="https://mynoise.net/about.php">FAQ</a></li>
+		<li class="powertipN" title="I need your help to keep myNoise running."><a href="https://mynoise.net/donate.php">Donate</a>		</li>
+
+	</ul>
+</div>
+<!--Amazon One Link-->
+<!--<script src="mynoise_TibetanChoir_fichiers/onejs"></script><div class="bgcontainer" id="bgcontainer" style="transform: translate3d(0px, 0px, 0px);"><div id="bgimage" style="background-image: url(&quot;/Data/THROAT/bg.jpg&quot;); opacity: 1;"></div></div>-->
+	
+<script>
+	$('#bgimage').css("background-image", "url(/Data/THROAT/bg.jpg)");
+	var bgFadeInStep=0.01;
+	var bgFadeInTime=30;
+	var op1=0;
+	var op2=1;
+	bgFadeInTimer = setTimeout(function(){bgFadeIn();},bgFadeInTime);
+	function bgFadeIn(){
+		op1+=bgFadeInStep;
+		$('#bgimage').css({'opacity':  op1*op2});
+		if (op1<1) bgFadeInTimer = setTimeout(function(){bgFadeIn();},bgFadeInTime);
+	}
+
+	window.onscroll=function(){
+		if (window.scrollY>380) {$('#menu').addClass('menufixed');}
+			else {$('#menu').removeClass('menufixed');}
+		var parallax = document.getElementById('bgcontainer');
+		parallax.style.webkitTransform = 'translate3d(0px,' + (window.scrollY/2) + 'px, 0px)';
+		parallax.style.transform = 'translate3d(0px,' + (window.scrollY/2) + 'px, 0px)';
+		op2=Math.min(1,Math.max(0.2,1-(window.scrollY-100)/600));
+		$('#bgimage').css({'opacity':  op1*op2});
+		}
+
+</script>
+
+	<div class="player">
+
+		<div class="calGrid" id="calGrid"><img src="mynoise_TibetanChoir_fichiers/calGrid.png" alt="calibration Grid"></div>
+		<div class="contextPlay"><img src="mynoise_TibetanChoir_fichiers/playButtonShadow.png" alt="Play" role="button" width="128px" height="128px"></div>
+	
+		<div class="mixer">
+			<div id="s0" aria-label="Sub-bass" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 36.3636%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 36.3636%;"></span></div>
+			<div id="s1" aria-label="Low Bass" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 40.404%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 40.404%;"></span></div>
+			<div id="s2" aria-label="Bass" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 43.4343%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 43.4343%;"></span></div>
+			<div id="s3" aria-label="High Bass" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 48.4848%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 48.4848%;"></span></div>
+			<div id="s4" aria-label="Low Mids" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 48.4848%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 48.4848%;"></span></div>
+			<div id="s5" aria-label="Mids" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 45.4545%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 45.4545%;"></span></div>
+			<div id="s6" aria-label="High Mids" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 35.3535%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 35.3535%;"></span></div>
+			<div id="s7" aria-label="Low Treble" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 28.2828%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 28.2828%;"></span></div>
+			<div id="s8" aria-label="Treble" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 23.2323%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 23.2323%;"></span></div>
+			<div id="s9" aria-label="High Treble" role="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="height: 21.2121%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="bottom: 21.2121%;"></span></div>
+		</div>
+		
+ 
+
+		<div class="controlers">
+	
+	        <div class="btn"><img src="mynoise_TibetanChoir_fichiers/icon_reset.png" id="reset" class="btnImg" onclick="resetSliders()" onmouseover="msg('Type [H] for Help')" alt="Reset Sliders" role="button" style="pointer-events: auto;"></div>
+	        <div class="btn"><img src="mynoise_TibetanChoir_fichiers/icon_animate.png" id="anim" class="btnImg" onclick="toggleModulation()" onmouseover="msg('Type [H] for Help')" alt="Slider Animation" role="button" style="pointer-events: auto;"></div>
+	        <div class="btn"><img src="mynoise_TibetanChoir_fichiers/icon_mode.png" id="mode" class="btnImg sub inaudible" onclick="setAnimationMode()" onmouseover="msg('Type [H] for Help')" alt="Animation Mode" role="button" style="pointer-events: auto;"><div id="modeText" class="btnCaption"></div></div>
+	        <div class="btn"><img src="mynoise_TibetanChoir_fichiers/icon_speed.png" id="speed" class="btnImg sub inaudible" onclick="setAnimationSpeed()" onmouseover="msg('Type [H] for Help')" alt="Animation Speed" role="button" style="pointer-events: auto;"><div id="speedText" class="btnCaption"></div></div>
+	        <div class="btn"><img src="mynoise_TibetanChoir_fichiers/icon_volDown.png" id="volDown" class="btnImg" onclick="slidersDown()" onmouseover="msg('Type [H] for Help')" alt="Volume Down" role="button" style="pointer-events: auto;"></div>
+	        <div class="btn"><img src="mynoise_TibetanChoir_fichiers/icon_volUp.png" id="volUp" class="btnImg" onclick="slidersUp()" onmouseover="msg('Type [H] for Help')" alt="Volume Up" role="button" style="pointer-events: auto;"></div>
+	        <div class="btn"><img src="mynoise_TibetanChoir_fichiers/icon_mute.png" id="mute" class="btnImg" onclick="toggleMute();" onmouseover="msg('Type [H] for Help')" alt="Mute" role="button" style="pointer-events: auto;"></div>
+	        <div class="btn"><img src="mynoise_TibetanChoir_fichiers/icon_timer.png" id="timer" class="btnImg" onclick="setTimer()" onmouseover="msg('Type [H] for Help')" alt="Timer" role="button" style="pointer-events: auto;"><div id="timerText" class="btnCaption"></div></div>
+	        
+		</div>
+		
+	
+		<div class="msg" id="msg">Now playing...</div>
+	
+	</div>
+<!-- begin FULL INTERFACE -->
+	<div id="resonance-settings"></div><div id="resonance-test"></div>
+  <div class="allContent">
+    <div class="col1">
+  	<div class="content">
+		<h1>Drones</h1>
+		<p>
+		 Drones are built from a single, unbroken, musical note − sometimes a 
+simple chord. Their harmonic content is the only characteristic evolving
+ with time. Therefore, drones constantly balance listeners between two 
+hearing states: the unchanging and steady sound, and the ever-evolving 
+tone.</p><p>The ever-evolving texture gives your mind something to focus
+ on, while the constant pitch makes it virtually impossible to 
+concentrate on anything but the sound you hear.</p>
+		</div>
+  	<div class="content">
+		<h1>Overtone Singing</h1>		
+		 <p>Overtone - harmonic or throat - singing is a technique of 
+manipulating the mouth and throat to bring out harmonic overtones of the
+ natural voice that resemble a whistle or growl. Various ceremonies and 
+prayers call for throat singing in Tibetan Buddhism, often with more 
+than one monk chanting at a time, holding to the lower pitches possible 
+in throat singing.</p>
+    </div>
+	
+	<div class="content">
+	<h1>Calibrated Output</h1>
+	<p>
+	This sound generator is calibrated and outputs a pink-like spectrum 
+when the sliders are horizontally aligned. Calibration is unique to this
+ website, and can be used to compensate for your own hearing, audio 
+equipment, and listening environment deficiencies: follow our <a href="https://mynoise.net/calibration.php">Calibration Procedure</a> once, then access <span class="actionlink" onclick="loadCurrentLevelsFromCookieAndSetSliders();">Your Hearing Curve</span> from the right column.</p>
+ </div>	
+<div class="contentShrunk"><a href="https://mynoise.net/Albums/view.php?album=HummingTones"><img src="mynoise_TibetanChoir_fichiers/album_HummingTones.jpg" class="albumLeft"></a> 
+
+<p>
+<a href="https://geo.itunes.apple.com/us/album/humming-tones/id1286794905?mt=1&amp;app=music"><img src="mynoise_TibetanChoir_fichiers/ListenOnAppleMusic.png" class="over" style="padding:8px 8px 0 0;" width="80px"></a><a href="https://open.spotify.com/album/7Jbw147H52zvVdtv59xQ6n"><img src="mynoise_TibetanChoir_fichiers/ListenOnSpotify.png" class="over" style="padding:8px 8px 0 0;" width="80px"></a><a href="http://www.deezer.com/en/album/48553572"><img src="mynoise_TibetanChoir_fichiers/ListenOnDeezer.png" class="over" style="padding:8px 8px 0 0;" width="80px"></a><a href="https://play.google.com/store/music/album/myNoise_Humming_Tones?id=Bpfoa6owxzn4jvlwuulnp5v6y7q"><img src="mynoise_TibetanChoir_fichiers/ListenOnGooglePlayMusic.png" class="over" style="padding:8px 8px 0 0;" width="80px"></a><a href="http://amzn.to/2zfyGVs"><img src="mynoise_TibetanChoir_fichiers/ListenOnAmazonMusic.png" class="over" style="padding:8px 8px 0 0;" width="80px"></a>
+</p>
+<p>Discover <a href="https://mynoise.net/Albums/view.php?album=HummingTones">Humming Tones</a>, the album.</p></div>
+    
+    <div class="content">
+		<h1>Testimonials <span class="titlesmall"> - write yours <a id="customURL1" href="https://mynoise.net/NoiseMachines/throatSingingDroneGenerator.php?c=4&amp;l=36404348484535282321&amp;m=&amp;d=0" target="_blank">here</a></span></h1>
+<p>Click the blue hearts to load their associated settings</p>		<div class="scroll-pane jspScrollable" style="overflow: hidden; padding: 0px; width: 608px;" tabindex="0"><div class="jspContainer" style="width: 608px; height: 400px;"><div class="jspPane" style="padding: 0px; top: 0px; width: 596px;"><p><span class="actionlink" onclick="setPreset(0.17,0.26,0.34,0.48,0.56,0.51,0.34,0.25,0.15,0.7);">♥</span>&nbsp;<span class="hand">
+I had to work in a open plan office where some technicians were 
+configuring a new server. Its cooling fans were extremely loud and 
+irritating. This completely overloaded its incessant whining and allowed
+ me to focus.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.38,0.2,0.68,0.42,0.20,0.44,0.30,0.20,0.25,0.13);">♥</span>&nbsp;<span class="hand">
+Combined this with some tech house tracks. Holy cow that rocks!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.34,0.37,0.39,0.45,0.45,0.42,0.33,0.25,0.21,0.19);">♥</span>&nbsp;<span class="hand">
+This tuned to the # setting above D, played alongside Gregorian Chant tuned to the same setting, is so peaceful and comforting.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.36,0.35,0.39,0.39,0.39,0.30,0.38,0.39,0.38,0.2);">♥</span>&nbsp;<span class="hand">
+Gives peace after a long day, stimulates brain!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.13,0.27,0.18,0.33,0.46,0.57,0.41,0.33,0.11,0.42);">♥</span>&nbsp;<span class="hand">
+So beautiful.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">Highly
+ recommend this for total focus and concentration. Consciously listen to
+ the tone for about 30 seconds and you're in the zone!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">This together with Cinematic East. Animation x4 and speed x4! Love it :)</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.26,0.51,0.33,0.43,0.26,0.37,0.32,0.40,0.26,0.26);">♥</span>&nbsp;<span class="hand">I'm
+ in love with this site. Sometimes it's just necessary to drown out 
+background noise or even deafening silence while working, and I'm not 
+someone who can focus with music on. The variety of noises here is 
+amazing and I can find something for every occasion. The Tibetan Choir 
+is absolutely perfect for drowning out drilling, mortice work, and other
+ kinds of construction noise - a lifesaver!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.41,0.39,0.30,0.28,0.29,0.33,0.31,0.35,0.40,0.40);">♥</span>&nbsp;<span class="hand">I really like this one while studying, somehow it helps me to focus.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.50,0.47,0.49,0.37,0.35,0.24,0.21,0.19,0.17,0.29);">♥</span>&nbsp;<span class="hand">The
+ Tibetan Choir gives me such a sense of tranquility and total 
+concentration.  It enables me to study or work fully dialed in with a 
+sense of joy.  Many MANY thanks for this. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.49,0.41,0.36,0.31,0.10,0.04,0.04,0.18,0.22);">♥</span>&nbsp;<span class="hand">This
+ is fantastic! I was searching for white noise to drown out my neighbors
+ machine that is humming 24/7 and found this site. I'm amazed by the 
+choices available. I'm currently hooked on the Tibetan Choir. Many 
+thanks to you for creating this. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">I
+ am so grateful to have found this. After just a few minutes of 
+listening to Tibetan Choir with headphones, my stress and anxiety melt 
+away and I feel relaxed and focused. This is definitely my favorite 
+sound -- I cannot recommend it enough.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.36,0.35);">♥</span>&nbsp;<span class="hand">I played Tibetan Choir together with Thunder Rain. The noises are just brilliant.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.54,0.60,0.54,0.38,0.00,0.36,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">I
+ rarely listen to this on its own, but I love using it as a basic layer 
+combined with the mids and highs of other generators. The deep, 
+sustained OM sound just makes everything better! Recommended combos: 
+Aeternitas, Sleeping Dragon, Didgeridrone, Canyon... add some waves or 
+other washy sounds (Irish Coast works wonders) and you've got the most 
+calming sound possible!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.63,0.47,0.57,0.39,0.14,0.29,0.14,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">I've
+ never felt so relaxed in my entire life. This is just so good for 
+anything: studying, working, meditating, even going to sleep. Simply 
+perfect.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.01,0.00,0.00,0.00,0.70,0.70,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">This
+ is by far my favorite noise generator. But Sygyt (whistling sound) is 
+not practiced in Tibet and I'm pretty sure, that kargyraa (rumbling 
+sound) sound is from a certain singer from Tuva. So shouldn't this 
+generator be called Tuvan choir instead of Tibetian choir? Anyway, keep 
+up in the good work, but give credit where it's due. Cheers!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.59,0.47,0.00,0.47,0.30,0.38,0.28,0.00,0.00,0.34);">♥</span>&nbsp;<span class="hand">I put this on with the Rainforest generator on the Rainy Season preset; it is excellent for meditation!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.38,0.37,0.61,0.29,0.34,0.13,0.23,0.28,0.31,0.37);">♥</span>&nbsp;<span class="hand">← Throat Singing with Deep Say OM</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.46,0.53,0.38,0.29,0.29,0.29,0.29,0.29,0.29,0.29);">♥</span>&nbsp;<span class="hand">I
+ started as a New Yorker, desperately trying to write in poor and noisy 
+places. Fans, earplugs, low music... I remain a writer, a writing 
+teacher and consultant, a dreamer, a novelist and poet and essayist, 
+super sensitive to sounds, jarred by ugly ones and enraptured by beauty,
+ by the natural world, by deep global music... needing to go to "another
+ place" to do much of my work. So, I adore you! </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.57,0.45,0.39,0.32,0.26,0.23,0.22,0.20,0.27,0.41);">♥</span>&nbsp;<span class="hand">I'm
+ not sure I've ever found any noise as immersive, focusing, and calming 
+as this one. As a writer, listening to this through headphones blocks 
+out all of the background noises around me, while not being at all 
+intrusive in my thinking; I can zone so well and really let the words 
+flow without distractions. I have never gotten tired of listening to 
+this. I think I could live inside this sound.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.59,0.59,0.10,0.29,0.24,0.29,0.42,0.06,0.32,0.10);">♥</span>&nbsp;<span class="hand">This
+ alone brings up calming images in my head, and enables me to 
+concentrate on things. Add Sleeping Dragon to it, and you've got a piece
+ of pure calm!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">I
+ really hate my brother talk all night while gaming, while I try to 
+sleep because I need to get back to work. This is the only thing that 
+can block his voice. Better solution is moving, but I have to wait an 
+extra month before I can move in there. Thank God there is mynoise.net</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.38,0.35,0.29,0.29,0.32,0.29,0.28,0.30,0.40,0.53);">♥</span>&nbsp;<span class="hand">I'm
+ a retired professional musician. The major tenth overtone produced by 
+the low mids slider is quite beautiful to me.  Out of a lot of nasal 
+background comes this pure sound - very striking - every once in awhile -
+ floating above everything else.  Your entire site is brilliant, sir.  I
+ am convinced it has a substantial, devoted following.  Thank you from 
+all of us.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.50,0.29,0.20,0.10,0.06,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">This preset with the Aternitas in Ohm setting. Sometimes I leave it on all the night while I sleep.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.50,0.29,0.20,0.10,0.06,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">There
+ are definitely other sounds. I hear an almost "woo woo" background 
+noise and sweeping vocals. It's beautiful. It's just enough to keep your
+ mind intent. I'm listening to Darkness and this is really clear. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.56,0.48,0.42,0.38,0.38,0.32,0.28,0.00,0.20,0.00);">♥</span>&nbsp;<span class="hand">$larr; I love this, only the deeper tones to create a perfect meditation sound</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.50,0.29,0.20,0.10,0.06,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">My
+ current sleep music is Tibetan Choir on Darkness with Sleeping Dragon 
+animated between Calm Low, Calm Odd, and Yin Dragon. This is peaceful 
+sleep music with built-in noise blocking! I adore it! </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.49,0.70,0.49,0.00,0.00,0.00,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">Is
+ it just my imagination, or am I hearing a lot of other sounds? Like 
+ohms and whistles and sweeping vocals? Is that added in, or is that just
+ how my brain interprets the mix of all those sounds? Very good 
+soundscape.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.33,0.50,0.54,0.45,0.32,0.38,0.26,0.17,0.15);">♥</span>&nbsp;<span class="hand">I
+ was listening to this while writing my thesis. It blocked noise so well
+ I didn't hear my mom repeatedly calling my name and entering my room. 
+Oops...</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.41,0.25,0.42,0.41,0.38,0.33,0.38,0.30,0.33,0.23);">♥</span>&nbsp;<span class="hand">This
+ is a wonderful generator. It's so good for reading books, especially 
+about the world and about history. It's mesmerizing, eerie, yet so 
+soothing at the same time. ^^</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.38,0.31,0.38,0.37,0.43,0.39,0.32,0.31,0.30,0.29);">♥</span>&nbsp;<span class="hand">I didn't know what to expect... But this exceeded my expectations... Love it!!!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.32,0.22,0.32,0.39,0.42,0.44,0.37,0.39,0.32,0.22);">♥</span>&nbsp;<span class="hand">Running the Tibetan Choir along with Singing Bowls... they work well together.  Easily slip into a totally relaxed state.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.53,0.46,0.43,0.34,0.22,0.39,0.25,0.23,0.25,0.22);">♥</span>&nbsp;<span class="hand">A straight band between earth core and the universal ether.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.24,0.15,0.30,0.49,0.36,0.45,0.04,0.51,0.11,0.45);">♥</span>&nbsp;<span class="hand">This helps me soothe my dysphoria so much through meditation. Thank you.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.17,0.24,0.32,0.40,0.51,0.51,0.40,0.32,0.25,0.17);">♥</span>&nbsp;<span class="hand">What a wonderful way to open the third eye.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.22,0.47,0.50,0.43,0.34,0.35,0.28,0.29,0.28,0.19);">♥</span>&nbsp;<span class="hand">I've
+ been telling myself for about 30 minutes now that I'll go get my book 
+to read to this and I've literally been sitting here in peace just 
+zoning out.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.14,0.00,0.00,0.70,0.56,0.00,0.14,0.00,0.28);">♥</span>&nbsp;<span class="hand">Pure bliss; awesome soundscapes; it takes me to the edge of a cliff. It's the future.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.69,0.52,0.42,0.42,0.32,0.11,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">This one combined with some sweep noise is so soothing...</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">Wow.
+ I listened to this for 30 minutes laying in bed. I thought only 5 
+minutes had passed. I've been trying to meditate and it is always so 
+hard to stop thinking. This really helped. I think I may have just 
+meditated for the first time.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.55,0.51,0.36,0.29,0.29,0.35,0.45,0.21,0.00,0.00);">♥</span>&nbsp;<span class="hand">This is perfect for doing homework, reading, writing, playing sims. It's my background noise for everything.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.66,0.50,0.41,0.41,0.32,0.26,0.00,0.00,0.14,0.09);">♥</span>&nbsp;<span class="hand">When you pair this with the Distant Thunder sound with "rumble" turned way up... just get ready!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.00,0.00,0.00,0.00,0.10,0.00,0.01,0.00,0.00);">♥</span>&nbsp;<span class="hand">I
+ love this super deep tone. To me, it kind of sounds like space. It's 
+very mystical and highly relaxing. I plan on coming back to this one! :)</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.45,0.31,0.27,0.21,0.08,0.08,0.04,0.14,0.13);">♥</span>&nbsp;<span class="hand">Mixing
+ Aeternitas with the Tibetan Choir, reducing the volume on a few of the 
+more edgy sounds, increasing the bass and sub-bass, then setting them 
+both to animate at regular speed produces a dreamy, relaxing, yet 
+fascinating sound I can listen to for extended times.  I think I'll up 
+my donation.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.37,0.44,0.30,0.33,0.33,0.42,0.32,0.33,0.30,0.33);">♥</span>&nbsp;<span class="hand">I always listen to this while programming. It really helps me focus.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.37,0.46,0.52,0.49,0.38,0.23,0.18,0.23,0.25,0.18);">♥</span>&nbsp;<span class="hand">This
+ is a really nice way to drown out coworkers. I love that I can adjust 
+the sliders until I can't hear them at all. They know now to get my 
+attention first by pounding on the cubicle.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.58,0.18,0.21,0.37,0.54,0.43,0.37,0.00,0.04,0.25);">♥</span>&nbsp;<span class="hand">This generator sends chills down my spine. Can't help but get lost in the space it creates.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.34,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">I
+ use this alongside an online theremin. It's a great backdrop to the 
+theremin sounds. I'd recommend it highly if you fancy a couple of hours 
+of fun! Thankshttp://femurdesign.com/theremin/</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.33,0.33,0.33,0.33,0.33,0.44,0.44,0.33,0.30,0.33);">♥</span>&nbsp;<span class="hand">Thank you, thanks you thankyou!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.04,0.14,0.12,0.35,0.50,0.41,0.20,0.43,0.38,0.53);">♥</span>&nbsp;<span class="hand">The
+ concept of 'throatsinging' has interested me for more than a decade.  
+This Tibetan Choir (animated) is just so wonderful.  I combine it with a
+ little rain, a little thunder, and a little chocolate at my desk, and 
+my focus on my job is both sharp and happy.  </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.51,0.46,0.43,0.38,0.34,0.31,0.27,0.24,0.21,0.18);">♥</span>&nbsp;<span class="hand">I use this in office to drown out noise around. The music is also non-intrusive and helps me concentrate. Brilliant! </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.20,0.39,0.70,0.45,0.21,0.15,0.11,0.21,0.10,0.13);">♥</span>&nbsp;<span class="hand">Intense and in a few ways overwhelming. I'm currantly using this music to help visualize the map of a game I am designing.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.38,0.13,0.35,0.59,0.15,0.48,0.45,0.24,0.28,0.10);">♥</span>&nbsp;<span class="hand">It just freaks me out. It is just too good.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.61,0.45,0.16,0.46,0.50,0.00,0.34,0.00,0.22,0.00);">♥</span>&nbsp;<span class="hand">I
+ love this so much. At first I was concerned because other drones had 
+freaked me out but this one sounds so lovely and beautiful. I can't help
+ but relax. The preset I love instantly eases my anxiety and puts me in 
+the same mood I am in when practicing yoga. Thank you so much. It truly 
+has helped!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.68,0.49,0.42,0.31,0.33,0.23,0.17,0.14,0.14,0.14);">♥</span>&nbsp;<span class="hand">This
+ on Trance preset (animate) + Distant Thunder on the Distant Rumble 
+preset with the rain sliders low and the thunder sliders high (animate) =
+ another world. I love this site!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.43,0.46,0.46,0.43,0.38,0.32,0.25,0.14,0.00);">♥</span>&nbsp;<span class="hand">Peace!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.64,0.47,0.37,0.39,0.35,0.00,0.36,0.00,0.23,0.00);">♥</span>&nbsp;<span class="hand">This
+ with Aural Scan, and some Canyon flute or the Yakutian duet (or both!) 
+is so perfectly beautiful... Thanks for helping me focusing on my work 
+:D</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.59,0.43,0.38,0.34,0.32,0.30,0.32,0.27,0.17,0.17);">♥</span>&nbsp;<span class="hand">This
+ soundscape, along with the Rain on a Tin Roof, makes for a very serene 
+experience, and really helps with trying to block out everyone for a 
+little while!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.50,0.50,0.50,0.22,0.25,0.18,0.30,0.32,0.37,0.00);">♥</span>&nbsp;<span class="hand">This soothes my brain...  thank you... </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.60,0.55,0.37,0.32,0.33,0.24,0.20,0.20,0.20,0.18);">♥</span>&nbsp;<span class="hand">Love this. Really helps me focus, like audio blinders. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.49,0.50,0.58,0.39,0.22,0.34,0.18,0.17,0.11,0.10);">♥</span>&nbsp;<span class="hand">Probably the most relaxing sound I've ever heard.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.61,0.27,0.54,0.44,0.29,0.41,0.15,0.13,0.00,0.00);">♥</span>&nbsp;<span class="hand">I
+ loooove this drone! I listen to it on animate, and I layer it with 
+Indian Drone on soothing preset and the African Trance on animate. It 
+feels like I'm being lifted away into a whole other world. Wonderful to 
+do homework to as well.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.11,0.45,0.33,0.35,0.69,0.38,0.17,0.35,0.00);">♥</span>&nbsp;<span class="hand">This gives me crazy vibes, but they're good vibes, so I listen to it more and more.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.00,0.68,0.65,0.00,0.45,0.00,0.31,0.00,0.19);">♥</span>&nbsp;<span class="hand">I
+ have a variable hearing loss due to a chronic condition.  After doing 
+my hearing profile, I began listening to the Tibetan Choir. Without 
+thinking much about it, I hit "calibrate" and the change in what I heard
+ moved me to tears. The richness of the drone ... I had forgotten that 
+the world of sound was so textured and varied. Thank you for letting me 
+hear all the sounds again. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.51,0.50,0.37,0.42,0.44,0.39,0.25,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">This
+ is so freakin amazeballs. Love the intense low tones. For an awesome 
+vibration-y feel, I suggest turning down all the trebles. They're kind 
+of annoying. Goes good with 'Northern Lights'. Now click the dang heart 
+and see what I mean.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">This
+ is my favourite generator. Ever since discovering the website, I've 
+written all my university essays with the help of this generator. It 
+helps me so much, reducing distractions and enhancing focus. Its effects
+ are like magic.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.27,0.13,0.39,0.20,0.40,0.06,0.59,0.65,0.06,0.12);">♥</span>&nbsp;<span class="hand">I'm smelling incense.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">Brilliant!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.48,0.39,0.30,0.37,0.41,0.37,0.37,0.30,0.23,0.18);">♥</span>&nbsp;<span class="hand">I always keep coming back to this.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.25,0.25,0.38,0.25,0.46,0.25,0.47,0.25,0.25,0.51);">♥</span>&nbsp;<span class="hand">It
+ starts when the browser starts and ends when I switch off the computer 
+... between that its running in the background ... I love it.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.44,0.40,0.37,0.33,0.51,0.37,0.24,0.32,0.18,0.16);">♥</span>&nbsp;<span class="hand">I have been listening to this *all day* while working. Not in any way bored of it.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.42,0.51,0.41,0.37,0.39,0.29,0.38,0.29,0.15,0.09);">♥</span>&nbsp;<span class="hand">Can't help but join in the singing. This is wonderful!  Thank you! </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">Just WOW!! Thank U very much.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.51,0.47,0.45,0.36,0.17,0.36,0.17,0.20,0.33,0.27);">♥</span>&nbsp;<span class="hand">The lows... always the lows for the vibration.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.51,0.47,0.44,0.39,0.27,0.32,0.32,0.21,0.19,0.18);">♥</span>&nbsp;<span class="hand">Pure beauty.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.45,0.01,0.00,0.00,0.17,0.00,0.00,0.00,0.38,0.70);">♥</span>&nbsp;<span class="hand">This is just awesome. Thanks for that!!!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.32,0.32,0.32,0.32,0.32,0.32,0.32,0.32,0.42,0.48);">♥</span>&nbsp;<span class="hand">Helps mask my tinnitus. Sound gives quiet :-)</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.50,0.29,0.20,0.10,0.06,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">My favorite one. I could listen to this all day long. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.18,0.15,0.13,0.34,0.28,0.08,0.21,0.17,0.11);">♥</span>&nbsp;<span class="hand">This mixed with Distant Thunder is the absolute best. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.52,0.50,0.38,0.27,0.22,0.35,0.31,0.20,0.34,0.26);">♥</span>&nbsp;<span class="hand">I
+ have goosebumps right now! I have ADD so I tend to have a hard time 
+anchoring myself and relaxing, and this gives me a lot of stimulation 
+but is still able to help me chill out. This is amazing!! ♥</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.57,0.59,0.53,0.40,0.26,0.19,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">Cool, really reverberates throught your body... </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.70,0.35,0.20,0.08,0.04,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">This sound relaxed me so much. I felt like it was vibrating all inside my bones. Perfect for mediation. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.57,0.46,0.36,0.27,0.26,0.33,0.50,0.18,0.14,0.10);">♥</span>&nbsp;<span class="hand">I am fascinated about overtone singing, and this sound is really hypnotic!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.42,0.29,0.28,0.28,0.25,0.27,0.21,0.21,0.21);">♥</span>&nbsp;<span class="hand">This
+ is one of the most intense sounds on this website. This Ohm is so deep,
+ it shatters the ego and sticks my head up into awareness to the edge of
+ Nirvana...</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.32,0.36,0.46,0.31,0.47,0.26,0.43,0.22,0.36,0.19);">♥</span>&nbsp;<span class="hand">Along with tibetian singing bowls, it's something incredibly beautiful! :)</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.56,0.70,0.56,0.00,0.00,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">This setting makes it sound like I'm underwater listening to people singing above the surface. It's very calming.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.50,0.29,0.20,0.10,0.06,0.22,0.13,0.08,0.10);">♥</span>&nbsp;<span class="hand">I struggle with anxiety often, this is what I meditate to.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.52,0.70,0.55,0.00,0.00,0.00,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">Like floating in deep space... creepy.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.07,0.18,0.45,0.70,0.20,0.13,0.21,0.41,0.32);">♥</span>&nbsp;<span class="hand">This
+ is fantastic. My friend a while ago recommended while I meditate to 
+have this in the background and it really helps me focus. I relax at 
+first while listening to it and the deeper I get into lucidity these 
+sounds help me focus my grip between realms as it were! A big well done 
+and thank you!!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.52,0.40,0.42,0.32,0.38,0.36,0.27,0.26,0.24,0.21);">♥</span>&nbsp;<span class="hand">Amazing. Relaxing.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.44,0.59,0.00,0.01,0.00,0.22,0.61,0.44,0.22,0.17);">♥</span>&nbsp;<span class="hand">I love throat singing, ever since I head it in Tomb Raider the Cradle of Life. This is a great noise for me when I'm sketching.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">Tibetan
+ choir, their voices emit the understanding awareness of how all things 
+we experience intertwine other things in the universe.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.62,0.55,0.34,0.26,0.28,0.30,0.24,0.24,0.12,0.24);">♥</span>&nbsp;<span class="hand">Even
+ with my whole (loud) family interacting nearby, I can focus entirely on
+ my work. It feels like falling forward slowly into a comforting abyss. 
+If I start getting stressed out, I just stop and wrap myself up in the 
+music. I know I'll be ok listening to this!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.60,0.48,0.38,0.24,0.34,0.41,0.31,0.19,0.13,0.08);">♥</span>&nbsp;<span class="hand">Wow, I could listen to this for hours</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">One of my favourites ! I like very much: it is a big help while I do my energy techniques. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.00,0.00,0.14,0.69,0.28,0.70,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">The sweet noises reach my ears. Echo for hours on end. Peaceful!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.59,0.27,0.14,0.59,0.66,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">I am lost on a mountain. Suddenly, the lovely, low, beautiful noise reaches my ears! I am saved!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">I
+ just opened Didgeridrone. Uttered a wow. Enjoyed for a few minutes. 
+Then I opened Tibetan Choir in another window so it plays over the top. 
+The wow count went up to eleven.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.26,0.42,0.32,0.41,0.51,0.32,0.42,0.32,0.23,0.14);">♥</span>&nbsp;<span class="hand">This filled me with such an overwhelming peace that it brought tears to my eyes</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.56,0.54,0.40,0.25,0.30,0.25,0.18,0.25,0.25,0.29);">♥</span>&nbsp;<span class="hand">Masks the noise of the window a/c</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.00,0.15,0.67,0.70,0.10,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">This
+ put on animate with Temple Bells and Wooden Chimes, also on animate, 
+leads to an awesome and surreal experience, though I also like putting 
+the latter two on slow animate with this set on a mixture of the 125 and
+ 250 setting to keep the tonal noises as a constant. Either way, even by
+ itself, it's very relaxing.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.22,0.42,0.26,0.08,0.45,0.43,0.46,0.29,0.41,0.26);">♥</span>&nbsp;<span class="hand">JUST
+ AMAZING! I am no longer in my room. What an experience! I am in awe of 
+this website and its creator, Dr. Ir. Stphane Pigeon. By the way, I 
+hear "Ohm Namah". Is it true? Can anybody else hear it?</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.46,0.39,0.34,0.31,0.37,0.42,0.39,0.27,0.24,0.24);">♥</span>&nbsp;<span class="hand">This one takes me to an other world !</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.45,0.45,0.45,0.46,0.15,0.39,0.20,0.29,0.17,0.30);">♥</span>&nbsp;<span class="hand">This
+ is amazing, helps with meditation and I can practice my own throat 
+singing along with this wonderful generator. This is surely one of the 
+greatest things that exists on the internet. Thank you for making all 
+these possible!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.52,0.55,0.34,0.33,0.36,0.17,0.43,0.17,0.16,0.17);">♥</span>&nbsp;<span class="hand">Awesome experience...helps me relax as well as concentrate. Helps in channeling my thoughts. Great website !!!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.66,0.50,0.41,0.41,0.30,0.10,0.00,0.00,0.20,0.26);">♥</span>&nbsp;<span class="hand">The Trance setting is wonderful. It triggers my ASMR. Thank you!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.54,0.44,0.52,0.43,0.53,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">Gives me goosebumps just listening to it.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.36,0.53,0.29,0.20,0.21,0.17,0.07,0.04,0.06);">♥</span>&nbsp;<span class="hand">Takes me to another world </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.49,0.49,0.42,0.34,0.27,0.27,0.34,0.27,0.19,0.27);">♥</span>&nbsp;<span class="hand">This make me ONE with everything!!!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.51,0.56,0.05,0.10,0.11,0.39,0.39,0.50,0.19,0.20);">♥</span>&nbsp;<span class="hand">I
+ listen to the Tibetan Choir nearly every day at work while focusing on 
+complex tasks. I find I feel revived and calm by the end of the work day
+ - a welcomed change!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.58,0.45,0.32,0.37,0.32,0.37,0.32,0.21,0.22,0.16);">♥</span>&nbsp;<span class="hand">I am a MOUNTAIN!!!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.67,0.64,0.51,0.27,0.14,0.04,0.00,0.10,0.04,0.10);">♥</span>&nbsp;<span class="hand">Studying for seven AP classes has never been better. Removes every anxiety from my mind.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.00,0.70,0.56,0.38,0.00,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">I
+ cannot even begin to express my gratitude for your website. What a 
+treasure. After playing around with several of the 'noises', I am now 
+mostly using a Tibetan Choir/Ocean Wave combo. It has served to enhance 
+and deepen a lifelong meditation practice. Thank you. Thank you. Thank 
+you.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.58,0.46,0.39,0.39,0.31,0.26,0.22,0.19,0.23,0.26);">♥</span>&nbsp;<span class="hand">Beautiful
+ tones - perfect for meditation, and maintaining mindfulness by playing 
+in the background whilst reading, writing and working. What a great site
+ - much appreciated. Thank you.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.42,0.42,0.42,0.42,0.42,0.42,0.42,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">This noise helps me relaxing when i come home from a busy day at school. I love it! And i can't wait for the IOS app to release!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.55,0.47,0.29,0.34,0.34,0.43,0.31,0.18,0.13,0.23);">♥</span>&nbsp;<span class="hand">Beautiful. Absolutely wonderful for daydreaming and writing. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.44,0.26,0.11,0.50,0.30,0.57,0.25,0.44,0.18,0.00);">♥</span>&nbsp;<span class="hand">This
+ is such an amazing site. I have a low voice myself but this is just 
+unbelievable, I feel like I'm in a native worship for the Northern Gods.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.69,0.52,0.42,0.42,0.32,0.11,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">I
+ am studying for the Bar Exam and the Trance setting in Tibetan 
+Meditation contains the low, bass noise that truly helps focus my 
+attention.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.51,0.51,0.00,0.30,0.24,0.44,0.58,0.17,0.00,0.00);">♥</span>&nbsp;<span class="hand">It pulls me into myself and allows me to just be. I feels absolutely wonderful.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.48,0.48,0.48,0.46,0.30,0.37,0.18,0.17,0.11,0.10);">♥</span>&nbsp;<span class="hand">Awesome for meditation</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.60,0.05,0.59,0.45,0.31,0.00,0.47,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">Well,
+ I tried to make a calm song, without the 'aaahs' (because I wanted 
+something who help me to fell asleep and the 'aaahs' was a little bit 
+annoying). I think it's pretty relaxing and it helps me to fall asleep. 
+(sorry for my bad english, I hope you gonna understand what I want to 
+tell you)</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.48,0.09,0.37,0.49,0.53,0.29,0.13,0.28,0.20,0.33);">♥</span>&nbsp;<span class="hand">Whistling Om</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.00,0.46,0.30,0.60,0.44,0.44,0.14,0.32,0.25);">♥</span>&nbsp;<span class="hand">Not a big fan of drones but this one is just amazing. Thank you.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.52,0.35,0.57,0.50,0.30,0.42,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">Very relaxing without the high-pitched annoyances.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.38,0.31,0.36,0.41,0.35,0.39,0.32,0.27,0.31,0.36);">♥</span>&nbsp;<span class="hand">It makes me feel like I am actually in a Tibetan temple.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.08,0.45,0.58,0.07,0.10,0.07,0.32,0.49,0.46,0.31);">♥</span>&nbsp;<span class="hand">Crickets in the Temple</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.39,0.50,0.50,0.41,0.32,0.35,0.30,0.18,0.16,0.18);">♥</span>&nbsp;<span class="hand">This noise can seperate my mind from my body</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.39,0.48,0.35,0.35,0.31,0.44,0.35,0.28,0.20,0.25);">♥</span>&nbsp;<span class="hand">This is so perfect!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.39,0.70,0.39,0.50,0.29,0.18,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">I
+ use this noise for sorcery. It masks background noise so it's easier to
+ concentrate and helps me to enter trance easily and smoothly. It sounds
+ like there's a whole flank of monks behind me who "got my back".</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.45,0.13,0.57,0.31,0.44,0.24,0.50,0.16,0.16,0.19);">♥</span>&nbsp;<span class="hand">It's very good!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.32,0.47,0.41,0.49,0.15,0.36,0.36,0.02,0.10,0.45);">♥</span>&nbsp;<span class="hand">I chose this randomly but I really. Loke it</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.22,0.42,0.26,0.08,0.45,0.43,0.46,0.29,0.41,0.26);">♥</span>&nbsp;<span class="hand">← Woods Whistling</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.42,0.50,0.64,0.50,0.27,0.16,0.07,0.07,0.12,0.10);">♥</span>&nbsp;<span class="hand">Helps me calm down and get to work!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.64,0.00,0.00,0.00,0.64,0.00,0.64,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">Deeply
+ enchanting, life giving, cleansing, loving, healing, renewing...after 4
+ yrs of torturous tinnitus and scheming neighbors, brought tears of joy;
+ this could help bring about world peace! It makes one compassionate. 
+God sent.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.63,0.54,0.43,0.31,0.26,0.24,0.22,0.18,0.16,0.16);">♥</span>&nbsp;<span class="hand">Very soothing ... promotes creative ideation ... aahhh!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.50,0.42,0.33,0.19,0.34,0.30,0.25,0.29,0.29,0.46);">♥</span>&nbsp;<span class="hand">I
+ have Social Anxiety Disorder and tinnitus. Background noise is a must, 
+and the Tibetan throat singing is incredibly soothing. Just melts my 
+stress. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.47,0.68,0.47,0.49,0.24,0.13,0.00,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">It's
+ a noise I became attached to immediately. It helps relax, concentrate 
+and block out the other, unwelcome sounds. Great background for 
+studying.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.28,0.54,0.54,0.43,0.54,0.28,0.14,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">I have Mental Health Issues and this helps so much to soothe me.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.63,0.54,0.43,0.31,0.26,0.24,0.22,0.18,0.16,0.16);">♥</span>&nbsp;<span class="hand">Balanced
+ towards the low end.  This drone fills the hearing range, but resonates
+ mainly with the deeper, more powerful bass notes.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.65,0.49,0.40,0.40,0.30,0.10,0.36,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">Always
+ liked the tibetan meditation generator ('ethereal' mode), but the 
+higher tones seemed harsh and distracting...pulling the last 3 sliders 
+down made it a lot easier to kick back and just enjoy...</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.34,0.34,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.34);">♥</span>&nbsp;<span class="hand">The
+ very first time I heard Throat Singing, years ago, I was struck by how 
+such an odd noise could produce such calming and delicate sounds. I 
+could listen to the overtones in this noise generator all day long 
+because it helps me when I have a migraines. Its almost as if it eases 
+the pain away. Thank you for this!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.33,0.31,0.30,0.36,0.33,0.35,0.36,0.43,0.36,0.35);">♥</span>&nbsp;<span class="hand">It
+ made my evening completely relaxed, I've tried several more of them but
+ this one surpasses all of them! I've also tried with and without 
+calibration - I would recommend calibration to all of you - it made 
+sound much more powerfull and realistic to me. Enjoy!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.50,0.42,0.45,0.31,0.37,0.30,0.33,0.22,0.20,0.28);">♥</span>&nbsp;<span class="hand">The one I have created sounds like it could be on an alien planet. Enjoy!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.30,0.30,0.38,0.35,0.39,0.34,0.54,0.22,0.32,0.25);">♥</span>&nbsp;<span class="hand">Perfect for morning yoga. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.50,0.42,0.45,0.31,0.37,0.30,0.33,0.22,0.20,0.28);">♥</span>&nbsp;<span class="hand">This helps me concentrate when I am dealing with a lot of stress. Thank you!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.54,0.54,0.45,0.36,0.30,0.32,0.26,0.11,0.15,0.14);">♥</span>&nbsp;<span class="hand">I do coding and debugging. That sound is more helpful, than... trash metal. Thanks guys!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.23,0.23,0.32,0.35,0.39,0.41,0.41,0.39,0.35);">♥</span>&nbsp;<span class="hand">The
+ pattern I have saved helps my tinitus, which affects the 'top end' of 
+my hearing range.  The drone gives a stable point to help my 
+concentration while working, while the upper notes 'exercise' my hearing
+ to keep the tinitus from taking over.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.47,0.44,0.33,0.30,0.28,0.27,0.39,0.32,0.30,0.33);">♥</span>&nbsp;<span class="hand">The
+ tibetan meditation music is the best thing ever. I love it so much. I 
+feel like I am in a temple. Thank you, to everyone who is responsible 
+for this.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.49,0.49,0.42,0.35,0.27,0.27,0.35,0.26,0.18,0.26);">♥</span>&nbsp;<span class="hand">Thank
+ you very, very much!!! My eyes are full of tears every time when I 
+listen to Tibetan Trance...As for standalone program, I hope some day 
+someone will do it, looking at what a masterpiece you've done on 
+web...Thank you so much!!!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.65,0.51,0.40,0.40,0.32,0.12,0.00,0.00,0.20,0.23);">♥</span>&nbsp;<span class="hand">This
+ gave me the most overwhelming calm, put in in a very light state. It 
+was the best feeling I've felt in a very long time.  Close you eyes, 
+focus on the noise and your breathing alone, and I assure you you'll be 
+on your way to zen central in no time. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.63,0.29,0.47,0.38,0.51,0.24,0.19,0.00,0.13,0.13);">♥</span>&nbsp;<span class="hand">Peaceful and calm sounding - easy on the ears and great for lulling you to sleep</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.62,0.31,0.49,0.24,0.32,0.41,0.30,0.22,0.13,0.12);">♥</span>&nbsp;<span class="hand">This sounds awesome! :D</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.52,0.00,0.00,0.38,0.00,0.39,0.00,0.25,0.00);">♥</span>&nbsp;<span class="hand">Helps calm me when I need to sleep. Lets me focus on the chanting instead of other things.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.60,0.51,0.30,0.35,0.26,0.41,0.17,0.19,0.20,0.22);">♥</span>&nbsp;<span class="hand">Relaxing and powerfull mmmh...</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.65,0.51,0.39,0.39,0.30,0.17,0.14,0.16,0.19,0.23);">♥</span>&nbsp;<span class="hand">Super
+ grateful to have been told about this site. I use it almost every 
+morning for meditation. Seriously, thank you for creating this. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.03,0.34,0.34,0.61,0.56,0.45,0.31,0.05,0.00,0.00);">♥</span>&nbsp;<span class="hand">Always helps me sleep!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.43,0.33,0.33,0.40,0.28,0.29,0.39,0.37,0.39,0.25);">♥</span>&nbsp;<span class="hand">This sounds amazing.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.55,0.53,0.46,0.41,0.34,0.25,0.20,0.15,0.09,0.07);">♥</span>&nbsp;<span class="hand">Ahh the low notes ^_^</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.25,0.38,0.46,0.45,0.35,0.25,0.22,0.25,0.35,0.43);">♥</span>&nbsp;<span class="hand">Very calming effect for me. Wish you had an app. :-)</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.39,0.32,0.22,0.25,0.28,0.28,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">This is a beautiful relaxing soundscape. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.00,0.70,0.42,0.28,0.17,0.22,0.18,0.14,0.14,0.21);">♥</span>&nbsp;<span class="hand">I love to study to this!!! it helps block out the noise from all the noisy people at my boarding school.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.50,0.29,0.36,0.27,0.18,0.13,0.13,0.24,0.21);">♥</span>&nbsp;<span class="hand">Never thought the Tibetan meditation would actually help me fight procrastination! Very useful :)</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.22,0.28,0.14,0.15,0.17,0.28,0.13,0.11,0.13);">♥</span>&nbsp;<span class="hand">There's
+ something so calming about Tibetan Monk chanting that makes everything 
+feel so....enlightening. What I've done with it is increase the bass and
+ keep the higher pitched sounds slightly low, thus giving the entire 
+sound a very subtle but grand feel. It makes me feel like a giant in my 
+own world. I love it.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.56,0.35,0.31,0.37,0.51,0.40,0.19,0.15,0.07,0.27);">♥</span>&nbsp;<span class="hand">Helps me calm down and relax.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.53,0.32,0.46,0.67,0.31,0.20,0.20,0.11,0.00,0.00);">♥</span>&nbsp;<span class="hand">Very soothing and relaxing, thank you!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.49,0.32,0.24,0.28,0.24,0.28,0.13,0.11,0.15);">♥</span>&nbsp;<span class="hand">I've
+ been enjoying the other generators, but this one is my new favorite. It
+ is really helping me concentrate, and that is rare. Thanks, and keep up
+ the fantastic work!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.30,0.40,0.47,0.43,0.39,0.40,0.34,0.24,0.22,0.18);">♥</span>&nbsp;<span class="hand">Pure meditative concentration</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.52,0.00,0.00,0.39,0.32,0.42,0.00,0.00,0.22);">♥</span>&nbsp;<span class="hand">As
+ a low singer, it's comforting to be able to sink into the structure of a
+ simple bass drone while occasionally grasping onto the trill of a 
+flute.  The tonal purity is incredible, filling every recess of my brain
+ and giving me something simple but gorgeous to listen to as I work. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.40,0.46,0.39,0.27,0.38,0.31,0.30,0.32,0.27,0.35);">♥</span>&nbsp;<span class="hand">I can feel it in my chest cavity, I feel like I'm in the mountains again. </span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.62,0.47,0.36,0.27,0.28,0.24,0.38,0.13,0.24,0.26);">♥</span>&nbsp;<span class="hand">It's very soothing and profound, it really helps me work on my sewing.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.43,0.49,0.47,0.36,0.26,0.28,0.29,0.27,0.26,0.27);">♥</span>&nbsp;<span class="hand">I
+ have what's called a superior canal dehiscence, which limits my ability
+ to hear low frequencies.  The calibrator gave me a curve that looks 
+remarkably like the one I got from my audiologist.  It really works!  
+The sound really came alive for me after calibration!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.49,0.46,0.31,0.24,0.18,0.18,0.08,0.00,0.11);">♥</span>&nbsp;<span class="hand">I absolutely love to meditate with this in the background! I'm so glad that I have discovered this site.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.57,0.50,0.43,0.37,0.25,0.32,0.33,0.20,0.12,0.00);">♥</span>&nbsp;<span class="hand">These are excellent for providing a nice, unobtrusive buffer between the noises of the world and my concentration.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.33,0.33,0.34,0.36,0.33,0.34,0.36,0.36,0.36,0.38);">♥</span>&nbsp;<span class="hand">The
+ perfect way to having a background soothing sound when you work. It 
+completely blocks other sound noise. Thank you very much.</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35);">♥</span>&nbsp;<span class="hand">Its amazing how relaxing this can be. I love it!</span><br><br>
+
+<span class="actionlink" onclick="setPreset(0.70,0.00,0.00,0.00,0.00,0.00,0.43,0.00,0.00,0.00);">♥</span>&nbsp;<span class="hand">The
+ low notes vibrate my inner brain. They are clear and deeper than 
+anything I've ever heard. I'm able to actually direct them to the part 
+of my brain where I want them to stimulate. I believe AProjection is 
+possible with this.</span><br><br>
+
+</p></div><div class="jspVerticalBar"><div class="jspCap jspCapTop"></div><div class="jspTrack" style="height: 400px;"><div class="jspDrag" style="height: 17px;"><div class="jspDragTop"></div><div class="jspDragBottom"></div></div></div><div class="jspCap jspCapBottom"></div></div></div></div>
+    </div>
+ 
+	</div>
+    <div class="col2">
+    <div class="contentText"><h1>Current Slider Settings</h1>
+<p>
+<a id="customURL0" href="https://mynoise.net/NoiseMachines/throatSingingDroneGenerator.php?l=36404348484535282321&amp;m=&amp;d=0" class="blue">Save in URL</a> 
+<br> 
+<span class="actionlink" onclick="saveCurrentLevelsToCookie('THROAT');">Save as Cookie</span>
+<span class="actionlink" onclick="loadCurrentLevelsFromCookieAndSetSliders('THROAT');">&gt; Load</span>
+<br>
+<span class="actionlink" onclick="cloneIt()"> Clone as Minified Player</span><br>
+<a href="https://mynoise.net/donate.php" class="powertip">℗</a> <a id="customURL2" href="https://mynoise.net/NoiseMachines/throatSingingDroneGenerator.php?c=2&amp;l=36404348484535282321&amp;m=&amp;d=0" class="blue">Order as an Audio file</a> 
+<span id="currentLevels" onclick="print();" title="0.36 0.4 0.43 0.48 0.48 0.45 0.35 0.28 0.23 0.21">&nbsp;&nbsp;&nbsp;</span>
+</p><h1>Presets</h1>
+<p>
+<span class="actionlink" onclick='setPreset(0,0.18,0.31,0.38,0.42,0.39,0.37,0.31,0.24,0.19,"Dreaming");' role="button">Dreaming</span> • <span class="actionlink" onclick='setPreset(0,0.18,0.33,0.38,0,0.39,0,0.33,0,0.19,"Aaahs");' role="button">Aaahs</span> • <span class="actionlink" onclick='setPreset(0,0,0.3,0,0.42,0,0.3,0,0.22,0.16,"Whistle");' role="button">Whistle</span> • <span class="actionlink" onclick='setPreset(0.65,0.48,0,0,0.35,0,0.36,0,0.24,0,"Etheral");' role="button">Etheral</span> • <span class="actionlink" onclick='setPreset(0.65,0.5,0.4,0.4,0.3,0.1,0,0,0.2,0.25,"Trance");' role="button">Trance</span> • <span class="actionlink" onclick='setPreset(0.67,0,0,0,0,0,0.42,0,0,0,"Floating");' role="button">Floating</span> • <span class="actionlink" onclick='setPreset(0.7,0.5,0.3,0.2,0.1,0.05,0,0,0,0,"Darkness");' role="button">Darkness</span> • 
+<a href="https://mynoise.net/donate.php" class="powertip">℗</a>&nbsp;<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">Surprise!</span>
+	
+</p><p>
+	    <span class="actionlink" onclick="setPreset(0.5,0.46,0.42,0.38,0.34,0.3,0.27,0.24,0.21,0.18,this.innerHTML);">Brown</span> &nbsp;•&nbsp;
+		<span class="actionlink" onclick="setPreset(0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,this.innerHTML);">Pink</span> &nbsp;•&nbsp;
+		<span class="actionlink" onclick="setPreset(0.16,0.19,0.22,0.25,0.27,0.31,0.35,0.38,0.42,0.45,this.innerHTML);">White</span> &nbsp;•&nbsp;
+		<span class="actionlink" onclick="setPreset(0.5,0.3,0.25,0.2,0.2,0.2,0.18,0.16,0.2,0.3,this.innerHTML);">Grey</span> &nbsp;•&nbsp;
+		<span class="actionlink" onclick="setPreset(0.6,0.4,0.25,0.15,0.07,0.03,0,0,0,0,this.innerHTML);">Infra</span> &nbsp;•&nbsp;
+		<span class="actionlink" onclick="setPreset(0,0,0,0,0.03,0.06,0.12,0.19,0.3,0.45,this.innerHTML);">Ultra</span>&nbsp;•&nbsp;
+		<span class="actionlink" onclick="setPreset(0.14,0.22,0.28,0.4,0.46,0.42,0.28,0.21,0.13,0.05,this.innerHTML);">Speech Blocker</span>
+		<br><br>
+		<span class="actionlink" onclick="setPreset(0.35,0.5,0.35,0,0,0,0,0,0,0,this.innerHTML);">Around 60Hz</span>  •
+		<span class="actionlink" onclick="setPreset(0,0.4,0.5,0.4,0,0,0,0,0,0,this.innerHTML);">125Hz</span>  •
+		<span class="actionlink" onclick="setPreset(0,0,0.35,0.45,0.35,0,0,0,0,0,this.innerHTML);">250Hz</span>  •
+		<span class="actionlink" onclick="setPreset(0,0,0,0.3,0.4,0.3,0,0,0,0,this.innerHTML);">500Hz</span>  •
+		<span class="actionlink" onclick="setPreset(0,0,0,0,0.3,0.4,0.3,0,0,0,this.innerHTML);">1kHz</span>  •
+		<span class="actionlink" onclick="setPreset(0,0,0,0,0,0.3,0.4,0.3,0,0,this.innerHTML);">2kHz</span>  •
+		<span class="actionlink" onclick="setPreset(0,0,0,0,0,0,0.3,0.4,0.3,0,this.innerHTML);">4kHz</span>  •
+		<span class="actionlink" onclick="setPreset(0,0,0,0,0,0,0,0.35,0.45,0.35,this.innerHTML);">8kHz </span>
+</p>	
+	<span class="actionlink" id="emphasis" onclick="emphasis();">Apply Calibration</span><p></p>
+<h1>Tape Speed Control</h1>
+<p> <a href="https://mynoise.net/donate.php" class="powertip">℗</a>   
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">G</span>
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">#</span> •
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">A</span>
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">#</span> •
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">B</span> •
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">C</span>	
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">#</span> •
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">D</span>
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">#</span> •
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">E</span> •
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">F</span>
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">#</span>
+	<br>
+	<a href="https://mynoise.net/donate.php" class="powertip">℗</a>	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">Speed ÷2</span> • 
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">Speed x2</span> •
+	<span class="actionlink" onclick="window.location='https://mynoise.net/login.php'">Reset</span>
+</p>
+
+<h1>Animation Control</h1>
+<p>
+	<a href="https://mynoise.net/donate.php" class="powertip">℗</a>	<span class="actionlink" id="nowMoving" onclick="window.location='https://mynoise.net/login.php'">Start</span>
+		
+	<span class="playOff" id="01">→</span>
+
+	<span class="actionlink" id="state1" onclick="window.location='https://mynoise.net/login.php'">A</span>
+		
+	<span class="playOff" id="21">←</span> <span class="playOff" id="12">→</span>
+		
+	<span class="actionlink" id="state2" onclick="window.location='https://mynoise.net/login.php'">B</span>
+		
+	<span class="playOff" id="32">←</span> <span class="playOff" id="23">→</span>
+		
+	<span class="actionlink" id="state3" onclick="window.location='https://mynoise.net/login.php'">C</span>
+		
+	<span class="playOff" id="13">←</span> 
+</p><h1>Personal</h1>
+<p>
+<a href="https://mynoise.net/calibration.php">Calibrate First</a>&nbsp; <span class="actionlink" onclick="loadCurrentLevelsFromCookieAndSetSliders();"> &gt; Your Hearing Curve</span> 
+</p> 
+</div>
+    <div class="contentShrunk"><p>If you <span class="highlight">♥ Tibetan Choir</span> try...</p>
+<p>
+
+<a href="https://mynoise.net/NoiseMachines/singingBowlsDroneGenerator.php"><img src="mynoise_TibetanChoir_fichiers/iphone-bigthumb.jpg" class="suggestImg powertipS"></a><a href="https://mynoise.net/NoiseMachines/infiniteChoirDroneGenerator.php"><img src="mynoise_TibetanChoir_fichiers/iphone-bigthumb_003.jpg" class="suggestImg powertipS"></a><a href="https://mynoise.net/NoiseMachines/palmGardenAtNightSoundscapeGenerator.php"><img src="mynoise_TibetanChoir_fichiers/iphone-bigthumb_002.jpg" class="suggestImg powertipS"></a>
+
+</p>
+</div>
+	<div class="content">	<h1>Usage</h1>
+	<p>Each slider controls a particular frequency band, from the lowest to the highest frequency. Adjust sliders to taste. 
+	</p><p>To mask undesirable noises, focus on bands sharing the same tone
+ as the noise you want to cover. Doing so achieves a higher efficiency, 
+and quieter masking noise levels.</p></div>
+		
+ <div class="content">
+   <h1>Attribution</h1>
+  Artwork is a derivative from <a href="http://www.fotopedia.com/items/sippakorn-UeM1iAAR-UA">untitled</a> by <a href="http://www.fotopedia.com/users/sippakorn">S. Yamkasikorn</a>, used under a <a href="http://creativecommons.org/licenses/by/3.0/">CC-BY</a> license.
+  </div>
+  
+	</div>
+  <div id="footer" class="DIM">
+<p>© 2013-2019 <a href="https://stephanepigeon.com/">Dr. Ir. S. Pigeon </a> • myNoise bvba</p>
+</div>  </div>
+
+  
+<!-- end FULL INTERFACE -->
+    
+
+</div>
+<!-- end #container -->
+
+
+<div id="powerTip"></div></body></html>
