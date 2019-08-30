@@ -15,7 +15,7 @@ function [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(eeg_data,ee
     eeg_data = eeg_data';
     
     %% Pre processig (only for non-replay)
-    eeg_data = reref(bpfilter(0.1,50,1000,eeg_data)')';
+    %eeg_data = reref(bpfilter(0.1,50,1000,eeg_data)')';
     
     %% Create params struct for Chronux function
     params.tapers = [parameters.time_bandwith_product parameters.number_tapers];

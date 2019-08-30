@@ -94,6 +94,9 @@ function calculate_features(information,parameters)
             [is_ready,data] = parload(data_directory,index); % try to load the data
             [data,eeg_info] = filter_channels(data,eeg_info, non_scalp_channels); % filter the data
             
+            %% Pre processig (only for non-replay)
+            data = reref(bpfilter(0.1,50,1000,eeg_data));
+            
             disp("Analyzing: " + num2str(index));
             
             % Spectral Power Ratio
