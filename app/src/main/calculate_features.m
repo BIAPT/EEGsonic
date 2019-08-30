@@ -95,7 +95,7 @@ function calculate_features(information,parameters)
             [data,eeg_info] = filter_channels(data,eeg_info, non_scalp_channels); % filter the data
             
             %% Pre processig (only for non-replay)
-            data = reref(bpfilter(0.1,50,1000,eeg_data));
+            data = reref(bpfilter(0.1,50,1000,data));
             
             disp("Analyzing: " + num2str(index));
             
