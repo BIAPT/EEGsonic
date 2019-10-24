@@ -46,6 +46,8 @@ function startAudio() {
 				});
 			});
 	}
+	button = document.getElementById('startButton')
+	button.parentNode.removeChild(button);
 }
 
 function addMixerTrack(i) {
