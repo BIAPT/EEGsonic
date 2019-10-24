@@ -16,6 +16,7 @@ function startAudio() {
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
+	sound.masterGain.gain.value = 0.2;
 
 	sound.bufferFiles = [
 		'./samples/res1_bass.mp3',
@@ -38,11 +39,9 @@ function startAudio() {
 				sound.context.decodeAudioData(buffer, (abuffer) => {
 					sound.bufferSources[i] = sound.context.createBufferSource();
 					sound.bufferSources[i].buffer = abuffer;
-					sound.bufferSources[i].connect(sound.context.destination);
+					sound.bufferSources[i].connect(sound.masterGain);
 					sound.bufferSources[i].loop = true;
 					sound.bufferSources[i].start();
-					console.log(i);
-					console.log(sound.bufferSources);
 					addMixerTrack(i);
 				});
 			});
