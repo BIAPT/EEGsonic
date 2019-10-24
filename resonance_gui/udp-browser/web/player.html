@@ -35,11 +35,15 @@
         <h1>Gain-controlled looper</h1>
 
         <div id="resonancePlayer">
-            <button id='startButton' onClick='startAudio()'>START AUDIO CONTEXT</button>
-            <table>
-                <tr id='resonanceMixer'>
-                </tr>
-            </table>
+            <div id="playerControls">
+                <button id='startButton' onClick='startAudio()'>START AUDIO CONTEXT</button>
+            </div>
+            <div id="mixerContainer">
+                <table id="mixer">
+                    <tr id='resonanceMixer'>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <br>
