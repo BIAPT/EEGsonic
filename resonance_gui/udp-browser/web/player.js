@@ -27,8 +27,10 @@ function startAudio() {
 		'./samples/res1_guitar.mp3',
 		'./samples/res1_violins.mp3']
 
-
-	for (i=0; i < sound.bufferFiles.length; i++) {
+    
+	const mixer = document.getElementById('resonanceMixer');
+	for (let i=0; i < sound.bufferFiles.length; i++) {
+		mixer.insertAdjacentHTML('beforeend', `<div id='Track${i}'><h1>ELEMENT ${i}</h1></div>`)
 		fetch(sound.bufferFiles[i], {mode: "cors"})
 			.then(function(resp) {return resp.arrayBuffer()})
 			.then((buffer) => {
@@ -39,6 +41,8 @@ function startAudio() {
 					sound.bufferSources[i].connect(sound.context.destination);
 					sound.bufferSources[i].loop = true;
 					sound.bufferSources[i].start();
+					console.log(i);
+					console.log(sound.bufferSources);
 					addMixerTrack(i);
 				});
 			});
@@ -46,9 +50,9 @@ function startAudio() {
 }
 
 function addMixerTrack(i) {
-
-	const mixer = document.getElementById('resonanceMixer');
-	mixer.insertAdjacentHTML('beforeend', `<h1>ELEMENT</h1>`)
+	let trackId = `Track${i}`;
+	console.log(trackId);
+	document.getElementById(trackId).insertAdjacentHTML('beforeend', `<h2>loaded</h2>`);
 }
 
 
