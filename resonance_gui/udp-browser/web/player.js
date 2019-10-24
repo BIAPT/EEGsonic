@@ -3,6 +3,8 @@ console.log('player');
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
+// Web Audio requires user input to start audio. This function is triggered
+// by the button in player.html
 function startAudio() {
 	sound = {
 		context : new AudioContext(),
@@ -24,7 +26,7 @@ function startAudio() {
 		'./samples/res1_flutes.mp3',
 		'./samples/res1_guitar.mp3',
 		'./samples/res1_violins.mp3']
-	
+
 
 	for (i=0; i < sound.bufferFiles.length; i++) {
 		fetch(sound.bufferFiles[i], {mode: "cors"})
@@ -37,9 +39,15 @@ function startAudio() {
 					sound.bufferSources[i].connect(sound.context.destination);
 					sound.bufferSources[i].loop = true;
 					sound.bufferSources[i].start();
+					addMixerTrack(i);
 				});
 			});
 	}
+}
+
+
+
+function addMixerTrack(i) {
 
 }
 
