@@ -29,7 +29,7 @@ function startAudio() {
 		'./samples/res1_violins.mp3']
 
     
-	const mixer = document.getElementById('resonanceMixer');
+	const mixer = document.getElementById('mixerBox');
 	for (let i=0; i < sound.bufferFiles.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `<td id='Track${i}' class='mixerTrack'>Track ${i}</td>`)
 		fetch(sound.bufferFiles[i], {mode: "cors"})
@@ -46,7 +46,7 @@ function startAudio() {
 				});
 			});
 	}
-	button = document.getElementById('startButton')
+	button = document.getElementById('startContext')
 	button.parentNode.removeChild(button);
 }
 
