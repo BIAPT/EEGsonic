@@ -24,20 +24,23 @@ function startAudio() {
 		'./samples/res1_flutes.mp3',
 		'./samples/res1_guitar.mp3',
 		'./samples/res1_violins.mp3']
+	
 
-
-	fetch(sound.bufferFiles[0], {mode: "cors"})
-		.then(function(resp) {return resp.arrayBuffer()})
-		.then((buffer) => {
-			console.log(buffer);
-			sound.context.decodeAudioData(buffer, (abuffer) => {
-				sound.bufferSources[0] = sound.context.createBufferSource();
-				sound.bufferSources[0].buffer = abuffer;
-				sound.bufferSources[0].connect(sound.context.destination);
-				sound.bufferSources[0].loop = true;
-				sound.bufferSources[0].start();
+	for (i=0; i < sound.bufferFiles.length; i++) {
+		fetch(sound.bufferFiles[i], {mode: "cors"})
+			.then(function(resp) {return resp.arrayBuffer()})
+			.then((buffer) => {
+				console.log(buffer);
+				sound.context.decodeAudioData(buffer, (abuffer) => {
+					sound.bufferSources[i] = sound.context.createBufferSource();
+					sound.bufferSources[i].buffer = abuffer;
+					sound.bufferSources[i].connect(sound.context.destination);
+					sound.bufferSources[i].loop = true;
+					sound.bufferSources[i].start();
+				});
 			});
-		});
+	}
+
 }
 
 
