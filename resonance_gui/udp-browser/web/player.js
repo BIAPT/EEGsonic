@@ -16,7 +16,7 @@ function startAudio() {
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
-	sound.masterGain.gain.value = 0.2;
+	sound.masterGain.gain.value = 0.8;
 
 	sound.bufferFiles = [
 		'./samples/res1_bass.mp3',
@@ -31,7 +31,7 @@ function startAudio() {
     
 	const mixer = document.getElementById('resonanceMixer');
 	for (let i=0; i < sound.bufferFiles.length; i++) {
-		mixer.insertAdjacentHTML('beforeend', `<div id='Track${i}'><h1>ELEMENT ${i}</h1></div>`)
+		mixer.insertAdjacentHTML('beforeend', `<td id='Track${i}' class='mixerTrack'>Track ${i}</td>`)
 		fetch(sound.bufferFiles[i], {mode: "cors"})
 			.then(function(resp) {return resp.arrayBuffer()})
 			.then((buffer) => {
