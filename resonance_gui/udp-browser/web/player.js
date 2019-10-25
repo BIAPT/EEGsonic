@@ -27,6 +27,8 @@ function startAudio() {
 		'./samples/res1_guitar.mp3',
 		'./samples/res1_violins.mp3']
 
+	trackNames = ['bass', 'bells', 'cellos', 'clarinet', 'drone', 'flutes', 'guitar', 'violins']
+
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
 	
@@ -47,7 +49,9 @@ function startAudio() {
     
 	const mixer = document.getElementById('mixerBox');
 	for (let i=0; i < sound.bufferFiles.length; i++) {
-		mixer.insertAdjacentHTML('beforeend', `<td id='Track${i}' class='mixerTrack'>Track ${i+1}</td>`)
+		mixer.insertAdjacentHTML('beforeend', `
+			<td id='Track${i}' class='mixerTrack'>Track ${i+1}<br>${trackNames[i]}</td>
+			`)
 		fetch(sound.bufferFiles[i], {mode: "cors"})
 			.then(function(resp) {return resp.arrayBuffer()})
 			.then((buffer) => {
@@ -77,7 +81,7 @@ function addMixerTrack(i) {
 
 	document.getElementById(trackId).insertAdjacentHTML('beforeend', `
 		<div>
-			<input id='userGain${i}' type='range' min='-40' max='0' step='1' value='-10' class='v-slider userGainSlider' orient="vertical">
+			<input id='userGain${i}' type='range' min='-30' max='10' step='1' value='0' class='v-slider userGainSlider' orient="vertical">
 			<input id='dataGain${i}' type='range' min='-40' max='0' step='1' value='-20' class='v-slider dataGainSlider' orient='vertical' disabled>
 		</div>
 		<button id='mute${i}'>Mute</button>
