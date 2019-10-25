@@ -6,27 +6,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="osc-view.css"></link>
         <script src="node_modules/jquery/dist/jquery.js"></script>
         <script src="node_modules/osc/dist/osc-browser.min.js"></script>
-        <script type="text/javascript">
-
-            var port = new osc.WebSocketPort({
-                url: "ws://localhost:8081"
-            });
-
-            port.on("message", function (oscMessage) {
-                $("#message").text(JSON.stringify(oscMessage, undefined, 2));
-                console.log("message", oscMessage);
-            });
-
-            port.open();
-
-            var sayHello = function () {
-                port.send({
-                    address: "/hello",
-                    args: ["world"]
-                });
-            };
-
-        </script>
+        <script src="playerMessages.js"></script>
         <script src='player.js'></script>
         <link rel="stylesheet" type="text/css" media="all" href="player.css"></link>
     </head>

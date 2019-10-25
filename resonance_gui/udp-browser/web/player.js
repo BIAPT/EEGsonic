@@ -2,7 +2,6 @@ console.log('player online');
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-
 // Web Audio requires user input to start audio. This function is triggered
 // by the button in player.html
 function startAudio() {
