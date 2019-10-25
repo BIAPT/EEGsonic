@@ -56,10 +56,10 @@ function startAudio() {
 					sound.bufferSources[i].buffer = abuffer;
 					sound.userGains[i] = sound.context.createGain();
 					sound.dataGains[i] = sound.context.createGain();
-					sound.bufferSources[i].connect(sound.masterGain);
-					//sound.bufferSources[i].connect(sound.userGains[i]);
-					//sound.userGains[i].connect(sound.dataGains[i]);
-					//sound.dataGains[i].connect(sound.masterGain);
+					//sound.bufferSources[i].connect(sound.masterGain);
+					sound.bufferSources[i].connect(sound.userGains[i]);
+					sound.userGains[i].connect(sound.dataGains[i]);
+					sound.dataGains[i].connect(sound.masterGain);
 					sound.bufferSources[i].loop = true;
 					sound.bufferSources[i].start();
 					addMixerTrack(i);   // loads the GUI element for this track
@@ -76,8 +76,8 @@ function addMixerTrack(i) {
 
 	document.getElementById(trackId).insertAdjacentHTML('beforeend', `
 		<div>
-			<input id='userGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider' orient="vertical">
-			<input id='dataGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider' orient='vertical' disabled>
+			<input id='userGain${i}' type='range' min='-30' max='0' step='1' value='-10' class='v-slider' orient="vertical">
+			<input id='dataGain${i}' type='range' min='-30' max='0' step='1' value='-10' class='v-slider' orient='vertical' disabled>
 		</div>
 		<button id='mute${i}'>Mute</button>
 		`);
@@ -97,10 +97,15 @@ function addMixerTrack(i) {
 	let muteButton = document.getElementById(`mute${i}`)
 	muteButton.addEventListener('click', ()=>{
 		if (muteButton.innerText === 'Mute') {
-			sound.bufferSources[i].playbackRate = 0.0000001;
+			console.log(`mute track ${i}`);
+			sound.bufferSources[i].playbackRate.value = 0.0000001;
+			console.log(sound.bufferSources[i].playbackRate)
 			muteButton.innerText = 'Unmute'
 		} else {
-			sound.bufferSources[i].playbackRate = 1;
+
+			sound.bufferSources[i].playbackRate.value = 1;
+
+			console.log(sound.bufferSources[i].playbackRate)
 			muteButton.innerText = 'Mute'
 		}
 	})
