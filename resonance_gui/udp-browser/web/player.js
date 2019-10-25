@@ -14,10 +14,6 @@ function startAudio() {
 		bufferSources : []
 	}
 
-	sound.masterGain = sound.context.createGain();
-	sound.masterGain.connect(sound.context.destination);
-	sound.masterGain.gain.value = 0.8;
-
 	sound.bufferFiles = [
 		'./samples/res1_bass.mp3',
 		'./samples/res1_bells.mp3',
@@ -27,6 +23,20 @@ function startAudio() {
 		'./samples/res1_flutes.mp3',
 		'./samples/res1_guitar.mp3',
 		'./samples/res1_violins.mp3']
+
+	sound.masterGain = sound.context.createGain();
+	sound.masterGain.connect(sound.context.destination);
+	sound.masterGain.gain.value = 0.8;
+
+	masterGainSlider = document.getElementById('masterGain');
+	masterGainSlider.addEventListener('change', ()=> {
+		sound.masterGain.gain.value = masterGainSlider.value;
+	}, false);
+
+	playButton = document.getElementById('startAudio');
+	playButton.addEventListener('click', ()=>{sound.context.resume()})
+	stopButton = document.getElementById('stopAudio');
+	stopButton.addEventListener('click', ()=>{sound.context.suspend()})
 
     
 	const mixer = document.getElementById('mixerBox');
