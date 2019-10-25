@@ -10,8 +10,8 @@ port.on("message", function (oscMessage) {
     for (let i=0; i < oscMessage.args.length; i++){
     	let slider = document.getElementById(`dataGain${i}`);
     	console.log(slider);
-    	slider.value = (oscMessage.args[i] * 20)-20;
-    	sound.dataGains[i].gain.value = Math.pow(10, slider.value/20);
+    	slider.value = (oscMessage.args[i] * 30)-30;
+    	sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
     }
 });
 

@@ -82,7 +82,7 @@ function addMixerTrack(i) {
 	document.getElementById(trackId).insertAdjacentHTML('beforeend', `
 		<div>
 			<input id='userGain${i}' type='range' min='-30' max='10' step='1' value='0' class='v-slider userGainSlider' orient="vertical">
-			<input id='dataGain${i}' type='range' min='-40' max='0' step='1' value='-20' class='v-slider dataGainSlider' orient='vertical' disabled>
+			<input id='dataGain${i}' type='range' min='-60' max='0' step='1' value='-30' class='v-slider dataGainSlider' orient='vertical' disabled>
 		</div>
 		<button id='mute${i}'>Mute</button>
 		`);
