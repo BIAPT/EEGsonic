@@ -30,12 +30,13 @@ function startAudio() {
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
-	sound.masterGain.gain.value = 0.8;
+	
 
 	masterGainSlider = document.getElementById('masterGain');
 	masterGainSlider.addEventListener('input', ()=> {
 		sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
 	}, false);
+	sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
 
 	playButton = document.getElementById('startAudio');
 	playButton.addEventListener('click', ()=>{sound.context.resume()})
@@ -57,8 +58,8 @@ function startAudio() {
 					sound.dataGains[i] = sound.context.createGain();
 					sound.bufferSources[i].connect(sound.masterGain);
 					//sound.bufferSources[i].connect(sound.userGains[i]);
-					sound.userGains[i].connect(sound.dataGains[i]);
-					sound.dataGains[i].connect(sound.masterGain);
+					//sound.userGains[i].connect(sound.dataGains[i]);
+					//sound.dataGains[i].connect(sound.masterGain);
 					sound.bufferSources[i].loop = true;
 					sound.bufferSources[i].start();
 					addMixerTrack(i);   // loads the GUI element for this track
@@ -75,8 +76,8 @@ function addMixerTrack(i) {
 
 	document.getElementById(trackId).insertAdjacentHTML('beforeend', `
 		<div>
-			<input id='userGain${i}' type='range' min='-60' max='0' step='1' class='v-slider' orient="vertical">
-			<input id='dataGain${i}' type='range' min='-60' max='0' step='1' class='v-slider' orient='vertical' disabled>
+			<input id='userGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider' orient="vertical">
+			<input id='dataGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider' orient='vertical' disabled>
 		</div>
 		<button id='mute${i}'>Mute</button>
 		`);
