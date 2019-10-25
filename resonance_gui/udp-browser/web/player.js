@@ -9,9 +9,11 @@ function startAudio() {
 	sound = {
 		context : new AudioContext(),
 		masterGain : null,
-		bufferFiles : [],
-		buffers : [],
-		bufferSources : []
+		bufferFiles : [],  	// URL of soundFiles
+		buffers : [],      	// Buffer for loading files
+		bufferSources : [],	// Actual Web Audio Node connected to rest of graph
+		userGains: [],		// user-inputted gain for each track
+		dataGains: []		// per-track gain from biosignals
 	}
 
 	sound.context.suspend();
@@ -31,7 +33,7 @@ function startAudio() {
 	sound.masterGain.gain.value = 0.8;
 
 	masterGainSlider = document.getElementById('masterGain');
-	masterGainSlider.addEventListener('change', ()=> {
+	masterGainSlider.addEventListener('input', ()=> {
 		sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
 	}, false);
 
@@ -51,10 +53,15 @@ function startAudio() {
 				sound.context.decodeAudioData(buffer, (abuffer) => {
 					sound.bufferSources[i] = sound.context.createBufferSource();
 					sound.bufferSources[i].buffer = abuffer;
+					sound.userGains[i] = sound.context.createGain();
+					sound.dataGains[i] = sound.context.createGain();
 					sound.bufferSources[i].connect(sound.masterGain);
+					//sound.bufferSources[i].connect(sound.userGains[i]);
+					sound.userGains[i].connect(sound.dataGains[i]);
+					sound.dataGains[i].connect(sound.masterGain);
 					sound.bufferSources[i].loop = true;
 					sound.bufferSources[i].start();
-					addMixerTrack(i);
+					addMixerTrack(i);   // loads the GUI element for this track
 				});
 			});
 	}
@@ -65,11 +72,37 @@ function startAudio() {
 function addMixerTrack(i) {
 	let trackId = `Track${i}`;
 	console.log(trackId);
+
 	document.getElementById(trackId).insertAdjacentHTML('beforeend', `
-		
-		<input type='range' min='-60' max='0' step='1' class='v-slider' orient="vertical">
-		<button id='Mute${1}'>Mute</button>
+		<div>
+			<input id='userGain${i}' type='range' min='-60' max='0' step='1' class='v-slider' orient="vertical">
+			<input id='dataGain${i}' type='range' min='-60' max='0' step='1' class='v-slider' orient='vertical' disabled>
+		</div>
+		<button id='mute${i}'>Mute</button>
 		`);
+
+	let userGain = document.getElementById(`userGain${i}`)
+	sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
+	userGain.addEventListener('input', ()=>{
+		sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
+	})
+
+	let dataGain = document.getElementById(`userGain${i}`)
+	sound.dataGains[i].gain.value = Math.pow(10, dataGain.value/20);
+	dataGain.addEventListener('input', ()=>{
+		sound.dataGains[i].gain.value = Math.pow(10, dataGain.value/20);
+	})
+
+	let muteButton = document.getElementById(`mute${i}`)
+	muteButton.addEventListener('click', ()=>{
+		if (muteButton.innerText === 'Mute') {
+			sound.bufferSources[i].playbackRate = 0.0000001;
+			muteButton.innerText = 'Unmute'
+		} else {
+			sound.bufferSources[i].playbackRate = 1;
+			muteButton.innerText = 'Mute'
+		}
+	})
 }
 
 
