@@ -34,6 +34,8 @@ function startAudio() {
 	masterGainSlider = document.getElementById('masterGain');
 	masterGainSlider.addEventListener('input', ()=> {
 		sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
+		console.log(sound.masterGain.gain);
+		console.log(masterGainSlider.value);
 	}, false);
 	sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
 
@@ -75,8 +77,8 @@ function addMixerTrack(i) {
 
 	document.getElementById(trackId).insertAdjacentHTML('beforeend', `
 		<div>
-			<input id='userGain${i}' type='range' min='-30' max='0' step='1' value='-10' class='v-slider' orient="vertical">
-			<input id='dataGain${i}' type='range' min='-30' max='0' step='1' value='-10' class='v-slider' orient='vertical' disabled>
+			<input id='userGain${i}' type='range' min='-40' max='0' step='1' value='-10' class='v-slider userGainSlider' orient="vertical">
+			<input id='dataGain${i}' type='range' min='-40' max='0' step='1' value='-20' class='v-slider dataGainSlider' orient='vertical' disabled>
 		</div>
 		<button id='mute${i}'>Mute</button>
 		`);
@@ -87,11 +89,11 @@ function addMixerTrack(i) {
 		sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
 	})
 
-	let dataGain = document.getElementById(`userGain${i}`)
-	sound.dataGains[i].gain.value = Math.pow(10, dataGain.value/20);
-	dataGain.addEventListener('input', ()=>{
-		sound.dataGains[i].gain.value = Math.pow(10, dataGain.value/20);
-	})
+	// let dataGain = document.getElementById(`dataGain${i}`)
+	// sound.dataGains[i].gain.value = Math.pow(10, dataGain.value/20);
+	// dataGain.addEventListener('input', ()=>{
+	// 	sound.dataGains[i].gain.value = Math.pow(10, dataGain.value/20);
+	// })
 
 	let muteButton = document.getElementById(`mute${i}`)
 	muteButton.addEventListener('click', ()=>{
