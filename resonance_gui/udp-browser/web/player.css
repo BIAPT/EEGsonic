@@ -1,7 +1,29 @@
+#mixerBox {
+	height:300px;
+	display:flex;
+	flex-direction:row;
+	justify-content:left;
+}
+
+#mixerContainer {
+	max-height:300px;
+}
+
 .mixerTrack {
 	width:80px;
 	height:300px;
-	border: 1px solid gray;	
+	margin:3px;
+	padding:5px;
+	border: 1px solid gray;
+	display: flex;
+	flex-direction: column;
+	justify-content:space-between;	
+}
+
+.v-slider {
+	-webkit-appearance: slider-vertical; /* WebKit */
+	height:200px;
+	width:30px;
 }
 
 #playerControls {

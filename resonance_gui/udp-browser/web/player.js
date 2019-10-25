@@ -14,6 +14,8 @@ function startAudio() {
 		bufferSources : []
 	}
 
+	sound.context.suspend();
+
 	sound.bufferFiles = [
 		'./samples/res1_bass.mp3',
 		'./samples/res1_bells.mp3',
@@ -30,7 +32,7 @@ function startAudio() {
 
 	masterGainSlider = document.getElementById('masterGain');
 	masterGainSlider.addEventListener('change', ()=> {
-		sound.masterGain.gain.value = masterGainSlider.value;
+		sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
 	}, false);
 
 	playButton = document.getElementById('startAudio');
@@ -41,7 +43,7 @@ function startAudio() {
     
 	const mixer = document.getElementById('mixerBox');
 	for (let i=0; i < sound.bufferFiles.length; i++) {
-		mixer.insertAdjacentHTML('beforeend', `<td id='Track${i}' class='mixerTrack'>Track ${i}</td>`)
+		mixer.insertAdjacentHTML('beforeend', `<td id='Track${i}' class='mixerTrack'>Track ${i+1}</td>`)
 		fetch(sound.bufferFiles[i], {mode: "cors"})
 			.then(function(resp) {return resp.arrayBuffer()})
 			.then((buffer) => {
@@ -63,7 +65,11 @@ function startAudio() {
 function addMixerTrack(i) {
 	let trackId = `Track${i}`;
 	console.log(trackId);
-	document.getElementById(trackId).insertAdjacentHTML('beforeend', `<h2>loaded</h2>`);
+	document.getElementById(trackId).insertAdjacentHTML('beforeend', `
+		
+		<input type='range' min='-60' max='0' step='1' class='v-slider' orient="vertical">
+		<button id='Mute${1}'>Mute</button>
+		`);
 }
 
 
