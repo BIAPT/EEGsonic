@@ -197,7 +197,9 @@ function showEdit(i) {
 	inputs.value = sound.bufferFiles[i].input;
 	inputs.addEventListener('change', (event)=>{
 		sound.bufferFiles[i].input = event.target.value;
-		showEdit(i); // this might lead to some weird recursion, not sure about the event listener
+
+		let info = document.getElementById(`info${i}`);
+		info.innerText = `Input ${sound.bufferFiles[i].input}`;
 	});
 }
 
