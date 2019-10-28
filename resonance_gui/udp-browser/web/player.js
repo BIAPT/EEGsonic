@@ -44,13 +44,15 @@ function startAudio() {
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
 	sound.bufferFiles = [
-		'./samples/res1_bass.mp3',
-		['./samples/res1_bells.mp3', './samples/res1_guitar.mp3'],  // these two will be min/max
-		['./samples/res1_clarinet.mp3', './samples/res1_cellos.mp3'],
-		'./samples/res1_drone.mp3',
-		'./samples/res1_flutes.mp3',
-		'./samples/res1_violins.mp3']
-	trackNames = trackNames = ['bass', 'bells/guitar', 'clarinet/cellos', 'drone', 'flutes', 'violins']
+		{fileName: './samples/res1_bass.mp3', trackName: 'bass', pairNext: false},
+		{fileName: './samples/res1_bells.mp3', trackName: 'bells', pairNext: true},
+		{fileName: './samples/res1_guitar.mp3', trackName: 'guitar', pairNext: false},  // these two will be min/max
+		{fileName: './samples/res1_clarinet.mp3', trackName: 'clarinet', pairNext: true},
+		{fileName: './samples/res1_cellos.mp3', trackName: 'cello', pairNext: false}, // same here
+		{fileName: './samples/res1_drone.mp3', trackName: 'drone', pairNext: false},
+		{fileName: './samples/res1_flutes.mp3', trackName: 'flute', pairNext: false},
+		{fileName: './samples/res1_violins.mp3', trackName: 'violin', pairNext: false}]
+	// these can all be reduced to an object, probably a better solution
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -74,7 +76,7 @@ function startAudio() {
 		mixer.insertAdjacentHTML('beforeend', `
 			<td id='Track${i}' class='mixerTrack'>Track ${i+1}<br>${trackNames[i]}</td>
 			`)
-		fetch(sound.bufferFiles[i], {mode: "cors"})
+		fetch(sound.bufferFiles[i].fileName, {mode: "cors"})
 			.then(function(resp) {return resp.arrayBuffer()})
 			.then((buffer) => {
 				console.log(buffer);
