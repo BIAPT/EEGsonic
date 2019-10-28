@@ -38,7 +38,7 @@
 }
 
 #mixerBox {
-	height:300px;
+	min-height:300px;
 	display:flex;
 	flex-direction:row;
 	justify-content:left;

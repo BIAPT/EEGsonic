@@ -44,14 +44,14 @@ function startAudio() {
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
 	sound.bufferFiles = [
-		{fileName: './samples/res1_bass.mp3', trackName: 'bass', linkNext: false},
-		{fileName: './samples/res1_bells.mp3', trackName: 'bells', linkNext: true},	// vvv
-		{fileName: './samples/res1_guitar.mp3', trackName: 'guitar', linkNext: false},  	// these two will be min/max
-		{fileName: './samples/res1_clarinet.mp3', trackName: 'clarinet', linkNext: true},
-		{fileName: './samples/res1_cellos.mp3', trackName: 'cello', linkNext: false}, // same here
-		{fileName: './samples/res1_drone.mp3', trackName: 'drone', linkNext: false},
-		{fileName: './samples/res1_flutes.mp3', trackName: 'flute', linkNext: true},
-		{fileName: './samples/res1_violins.mp3', trackName: 'violin', linkNext: false}]
+		{fileName: './samples/res1_bass.mp3', trackName: 'Bass', reversed: false, input: null},
+		{fileName: './samples/res1_bells.mp3', trackName: 'Bells', reversed: true, input: null},	// vvv
+		{fileName: './samples/res1_guitar.mp3', trackName: 'Guitar', reversed: false, input: null},  	// these two will be min/max
+		{fileName: './samples/res1_clarinet.mp3', trackName: 'Clarinet', reversed: true, input: null},
+		{fileName: './samples/res1_cellos.mp3', trackName: 'Cello', reversed: false, input: null}, // same here
+		{fileName: './samples/res1_drone.mp3', trackName: 'Drone', reversed: false, input: null},
+		{fileName: './samples/res1_flutes.mp3', trackName: 'Flute', reversed: true, input: null},
+		{fileName: './samples/res1_violins.mp3', trackName: 'Violin', reversed: false, input: null}]
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -76,7 +76,6 @@ function startAudio() {
 			<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
 			${sound.bufferFiles[i].trackName}<br>
 			<div id='info${i}'></div></td>
-			
 			`)
 		// fetch(sound.bufferFiles[i], {mode: "cors"})  // for versions 1 and 2
 		fetch(sound.bufferFiles[i].fileName, {mode: "cors"})
@@ -101,14 +100,17 @@ function startAudio() {
 	button = document.getElementById('startContext')
 	button.parentNode.removeChild(button);
 
+	// display information about input
 	let j = 0;
 	for (let i=0; i < sound.bufferFiles.length; i++) {
 		let info = document.getElementById(`info${i}`);
     	console.log(info);
-    	if (sound.bufferFiles[i].linkNext) {
-    		info.innerText = `reversed ${j}`;
+    	if (sound.bufferFiles[i].reversed) {
+    		sound.bufferFiles[i].input = -j;
+    		info.innerText = `Reversed ${j}`;
     	} else {
-    		info.innerText = `input ${j}`;
+    		sound.bufferFiles[i].input = j;
+    		info.innerText = `Input ${j}`;
     		j++;
     	}
 	}
@@ -123,8 +125,6 @@ function addMixerTrack(i) {
 			<input id='userGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider userGainSlider' orient="vertical">
 			<input id='dataGain${i}' type='range' min='-40' max='0' step='1' value='-20' class='v-slider dataGainSlider' orient='vertical' disabled>
 		</div>
-		<div id='link${i}'>${sound.bufferFiles[i].linkNext ? 'linked -->' : 
-			i > 0 && sound.bufferFiles[i-1].linkNext ? '<-- linked': 'unlinked'}</div>
 		<button id='mute${i}'>Mute</button>
 		<button id='edit${i}'>Edit</button>
 		`);
