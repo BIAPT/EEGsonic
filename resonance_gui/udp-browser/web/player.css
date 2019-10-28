@@ -1,8 +1,8 @@
 
 #resonancePlayer {
 	min-width: 80vw;
+	min-height: 510px;
 	margin: 0px auto;
-	height: 500px;
 	border: 1px solid #eeeeee;
 	border-radius: 5px;
 }

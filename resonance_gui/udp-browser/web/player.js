@@ -111,6 +111,7 @@ function addMixerTrack(i) {
 		${sound.bufferFiles[i].linkNext ? 'linked -->' : 
 			i > 0 && sound.bufferFiles[i-1].linkNext ? '<-- linked': 'unlinked'}
 		<button id='mute${i}'>Mute</button>
+		<button id='Edit${i}'>Edit</button>
 		`);
 
 	let userGain = document.getElementById(`userGain${i}`)
