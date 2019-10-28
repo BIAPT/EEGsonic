@@ -18,16 +18,16 @@ function startAudio() {
 	sound.context.suspend();
 
 	// // Version 1 - pretty music w bells, guitar and clarinet melody
-	sound.bufferFiles = [
-		'./samples/res1_bass.mp3',
-		'./samples/res1_bells.mp3',
-		'./samples/res1_cellos.mp3',
-		'./samples/res1_clarinet.mp3',
-		'./samples/res1_drone.mp3',
-		'./samples/res1_flutes.mp3',
-		'./samples/res1_guitar.mp3',
-		'./samples/res1_violins.mp3']
-	trackNames = ['bass', 'bells', 'cellos', 'clarinet', 'drone', 'flutes', 'guitar', 'violins']
+	// sound.bufferFiles = [
+	// 	'./samples/res1_bass.mp3',
+	// 	'./samples/res1_bells.mp3',
+	// 	'./samples/res1_cellos.mp3',
+	// 	'./samples/res1_clarinet.mp3',
+	// 	'./samples/res1_drone.mp3',
+	// 	'./samples/res1_flutes.mp3',
+	// 	'./samples/res1_guitar.mp3',
+	// 	'./samples/res1_violins.mp3']
+	// trackNames = ['bass', 'bells', 'cellos', 'clarinet', 'drone', 'flutes', 'guitar', 'violins']
 
 	// // Version 2 - C major chord w strings and woodwinds
 	// sound.bufferFiles = [
@@ -52,7 +52,6 @@ function startAudio() {
 		{fileName: './samples/res1_drone.mp3', trackName: 'drone', pairNext: false},
 		{fileName: './samples/res1_flutes.mp3', trackName: 'flute', pairNext: false},
 		{fileName: './samples/res1_violins.mp3', trackName: 'violin', pairNext: false}]
-	// these can all be reduced to an object, probably a better solution
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -74,8 +73,9 @@ function startAudio() {
 	const mixer = document.getElementById('mixerBox');
 	for (let i=0; i < sound.bufferFiles.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
-			<td id='Track${i}' class='mixerTrack'>Track ${i+1}<br>${trackNames[i]}</td>
+			<td id='Track${i}' class='mixerTrack'>Track ${i+1}<br>${sound.bufferFiles[i].trackName}</td>
 			`)
+		// fetch(sound.bufferFiles[i], {mode: "cors"})  // for versions 1 and 2
 		fetch(sound.bufferFiles[i].fileName, {mode: "cors"})
 			.then(function(resp) {return resp.arrayBuffer()})
 			.then((buffer) => {
@@ -85,7 +85,7 @@ function startAudio() {
 					sound.bufferSources[i].buffer = abuffer;
 					sound.userGains[i] = sound.context.createGain();
 					sound.dataGains[i] = sound.context.createGain();
-					//sound.bufferSources[i].connect(sound.masterGain);
+					sound.bufferSources[i].connect(sound.masterGain);
 					sound.bufferSources[i].connect(sound.userGains[i]);
 					sound.userGains[i].connect(sound.dataGains[i]);
 					sound.dataGains[i].connect(sound.masterGain);
@@ -108,6 +108,7 @@ function addMixerTrack(i) {
 			<input id='userGain${i}' type='range' min='-30' max='10' step='1' value='0' class='v-slider userGainSlider' orient="vertical">
 			<input id='dataGain${i}' type='range' min='-60' max='0' step='1' value='-30' class='v-slider dataGainSlider' orient='vertical' disabled>
 		</div>
+		${sound.bufferFiles[i].pairNext ? 'linked ->' : ''}
 		<button id='mute${i}'>Mute</button>
 		`);
 
@@ -131,9 +132,7 @@ function addMixerTrack(i) {
 			console.log(sound.bufferSources[i].playbackRate)
 			muteButton.innerText = 'Unmute'
 		} else {
-
 			sound.bufferSources[i].playbackRate.value = 1;
-
 			console.log(sound.bufferSources[i].playbackRate)
 			muteButton.innerText = 'Mute'
 		}
