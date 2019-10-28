@@ -42,9 +42,18 @@ function startAudio() {
 	// 	]
 	// trackNames = ['bass', 'cello', 'viola', 'violin', 'bassoon', 'clarinet', 'oboe', 'flute']
 
+	// Version 3 - Version 1 but with sounds paired onto single input streams
+	sound.bufferFiles = [
+		'./samples/res1_bass.mp3',
+		['./samples/res1_bells.mp3', './samples/res1_guitar.mp3'],  // these two will be min/max
+		['./samples/res1_clarinet.mp3', './samples/res1_cellos.mp3'],
+		'./samples/res1_drone.mp3',
+		'./samples/res1_flutes.mp3',
+		'./samples/res1_violins.mp3']
+	trackNames = trackNames = ['bass', 'bells/guitar', 'clarinet/cellos', 'drone', 'flutes', 'violins']
+
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
-	
 
 	masterGainSlider = document.getElementById('masterGain');
 	masterGainSlider.addEventListener('input', ()=> {
