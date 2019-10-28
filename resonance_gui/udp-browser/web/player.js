@@ -73,7 +73,10 @@ function startAudio() {
 	const mixer = document.getElementById('mixerBox');
 	for (let i=0; i < sound.bufferFiles.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
-			<td id='Track${i}' class='mixerTrack'>Track ${i+1}<br>${sound.bufferFiles[i].trackName}</td>
+			<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
+			${sound.bufferFiles[i].trackName}<br>
+			<div id='info${i}'></div></td>
+			
 			`)
 		// fetch(sound.bufferFiles[i], {mode: "cors"})  // for versions 1 and 2
 		fetch(sound.bufferFiles[i].fileName, {mode: "cors"})
@@ -97,6 +100,18 @@ function startAudio() {
 	}
 	button = document.getElementById('startContext')
 	button.parentNode.removeChild(button);
+
+	let j = 0;
+	for (let i=0; i < sound.bufferFiles.length; i++) {
+		let info = document.getElementById(`info${i}`);
+    	console.log(info);
+    	if (sound.bufferFiles[i].linkNext) {
+    		info.innerText = `reversed ${j}`;
+    	} else {
+    		info.innerText = `input ${j}`;
+    		j++;
+    	}
+	}
 }
 
 function addMixerTrack(i) {
@@ -108,10 +123,10 @@ function addMixerTrack(i) {
 			<input id='userGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider userGainSlider' orient="vertical">
 			<input id='dataGain${i}' type='range' min='-40' max='0' step='1' value='-20' class='v-slider dataGainSlider' orient='vertical' disabled>
 		</div>
-		${sound.bufferFiles[i].linkNext ? 'linked -->' : 
-			i > 0 && sound.bufferFiles[i-1].linkNext ? '<-- linked': 'unlinked'}
+		<div id='link${i}'>${sound.bufferFiles[i].linkNext ? 'linked -->' : 
+			i > 0 && sound.bufferFiles[i-1].linkNext ? '<-- linked': 'unlinked'}</div>
 		<button id='mute${i}'>Mute</button>
-		<button id='Edit${i}'>Edit</button>
+		<button id='edit${i}'>Edit</button>
 		`);
 
 	let userGain = document.getElementById(`userGain${i}`)
@@ -119,12 +134,6 @@ function addMixerTrack(i) {
 	userGain.addEventListener('input', ()=>{
 		sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
 	})
-
-	// let dataGain = document.getElementById(`dataGain${i}`)
-	// sound.dataGains[i].gain.value = Math.pow(10, dataGain.value/20);
-	// dataGain.addEventListener('input', ()=>{
-	// 	sound.dataGains[i].gain.value = Math.pow(10, dataGain.value/20);
-	// })
 
 	let muteButton = document.getElementById(`mute${i}`)
 	muteButton.addEventListener('click', ()=>{
@@ -139,6 +148,15 @@ function addMixerTrack(i) {
 			muteButton.innerText = 'Mute'
 		}
 	})
+
+	let editButton = document.getElementById(`edit${i}`)
+	editButton.addEventListener('click', () => {showEdit(i)});
+}
+
+function showEdit(i) {
+	gui = document.getElementById('mixerGui');
+	console.log(i);
+	gui.innerHTML = `track ${i}`
 }
 
 

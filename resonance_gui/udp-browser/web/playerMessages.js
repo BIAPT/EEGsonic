@@ -11,13 +11,17 @@ port.on("message", function (oscMessage) {
     for (let i=0; i < sound.bufferFiles.length; i++){
 
     	let slider = document.getElementById(`dataGain${i}`);
+    	let info = document.getElementById(`info${i}`);
+    	console.log(info);
     	console.log(slider);
     	if (sound.bufferFiles[i].linkNext) {
     		slider.value = (-oscMessage.args[j] * 20)-20;
     		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
+    		info.innerText = `input ${j} reversed`;
     	} else {
 			slider.value = (oscMessage.args[j] * 20)-20;
     		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
+    		info.innerText = `input ${j}`;
     		j++;
     	}
     }
