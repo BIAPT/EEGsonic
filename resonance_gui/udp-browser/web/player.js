@@ -47,14 +47,14 @@ function startAudio() {
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
 	sound.bufferFiles = [
-		{fileName: './samples/res1_bass.mp3', trackName: 'Bass', reversed: false, input: null, min: -1, max: 1},
-		{fileName: './samples/res1_bells.mp3', trackName: 'Bells', reversed: true, input: null, min: -1, max: 1},	// vvv
-		{fileName: './samples/res1_guitar.mp3', trackName: 'Guitar', reversed: false, input: null, min: -1, max: 1},  	// these two will be min/max
-		{fileName: './samples/res1_clarinet.mp3', trackName: 'Clarinet', reversed: true, input: null, min: -1, max: 1},
-		{fileName: './samples/res1_cellos.mp3', trackName: 'Cello', reversed: false, input: null, min: -1, max: 1}, // same here
-		{fileName: './samples/res1_drone.mp3', trackName: 'Drone', reversed: false, input: null, min: -1, max: 1},
-		{fileName: './samples/res1_flutes.mp3', trackName: 'Flute', reversed: true, input: null, min: -1, max: 1},
-		{fileName: './samples/res1_violins.mp3', trackName: 'Violin', reversed: false, input: null, min: -1, max: 1}]
+		{fileName: './samples/res1_bass.mp3', trackName: 'Bass', reversed: false, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: './samples/res1_bells.mp3', trackName: 'Bells', reversed: true, input: null, min: -1, max: 1, pinToData: true},	
+		{fileName: './samples/res1_guitar.mp3', trackName: 'Guitar', reversed: false, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: './samples/res1_clarinet.mp3', trackName: 'Clarinet', reversed: true, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: './samples/res1_cellos.mp3', trackName: 'Cello', reversed: false, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: './samples/res1_drone.mp3', trackName: 'Drone', reversed: false, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: './samples/res1_flutes.mp3', trackName: 'Flute', reversed: true, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: './samples/res1_violins.mp3', trackName: 'Violin', reversed: false, input: null, min: -1, max: 1, pinToData: true}]
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
