@@ -46,14 +46,14 @@ function startAudio() {
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
 	sound.bufferFiles = [
-		{fileName: './samples/res1_bass.mp3', trackName: 'Bass', reversed: false, input: null},
-		{fileName: './samples/res1_bells.mp3', trackName: 'Bells', reversed: true, input: null},	// vvv
-		{fileName: './samples/res1_guitar.mp3', trackName: 'Guitar', reversed: false, input: null},  	// these two will be min/max
-		{fileName: './samples/res1_clarinet.mp3', trackName: 'Clarinet', reversed: true, input: null},
-		{fileName: './samples/res1_cellos.mp3', trackName: 'Cello', reversed: false, input: null}, // same here
-		{fileName: './samples/res1_drone.mp3', trackName: 'Drone', reversed: false, input: null},
-		{fileName: './samples/res1_flutes.mp3', trackName: 'Flute', reversed: true, input: null},
-		{fileName: './samples/res1_violins.mp3', trackName: 'Violin', reversed: false, input: null}]
+		{fileName: './samples/res1_bass.mp3', trackName: 'Bass', reversed: false, input: null, min: -1, max: 1},
+		{fileName: './samples/res1_bells.mp3', trackName: 'Bells', reversed: true, input: null, min: -1, max: 1},	// vvv
+		{fileName: './samples/res1_guitar.mp3', trackName: 'Guitar', reversed: false, input: null, min: -1, max: 1},  	// these two will be min/max
+		{fileName: './samples/res1_clarinet.mp3', trackName: 'Clarinet', reversed: true, input: null, min: -1, max: 1},
+		{fileName: './samples/res1_cellos.mp3', trackName: 'Cello', reversed: false, input: null, min: -1, max: 1}, // same here
+		{fileName: './samples/res1_drone.mp3', trackName: 'Drone', reversed: false, input: null, min: -1, max: 1},
+		{fileName: './samples/res1_flutes.mp3', trackName: 'Flute', reversed: true, input: null, min: -1, max: 1},
+		{fileName: './samples/res1_violins.mp3', trackName: 'Violin', reversed: false, input: null, min: -1, max: 1}]
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -109,7 +109,7 @@ function initializeInputs() {
 	// display information about input
 	let j = 0;
 	for (let i=0; i < sound.bufferFiles.length; i++) {
-		data[j] = {min: -1, max: 1, minSoFar: null, maxSoFar: null}
+		data[j] = {min: null, max: null}
 		let info = document.getElementById(`info${i}`);
     	console.log(info);
     	if (sound.bufferFiles[i].reversed) {
@@ -174,6 +174,12 @@ function showEdit(i) {
 			</tr>
 			<tr>
 				<td>Input:</td><td> ${sound.bufferFiles[i].input} ${sound.bufferFiles[i].reversed ? 'reversed' : ''}</td>
+			</tr>
+			<tr>
+				<td>Range:</td><td> ${sound.bufferFiles[i].min} to ${sound.bufferFiles[i].max}</td>
+			</tr>
+			<tr>
+				<td>Range so far:</td><td> ${data[sound.bufferFiles[i].input].min ? data[sound.bufferFiles[i].input].min + ' to ' + data[sound.bufferFiles[i].input].min : 'no input'}</td>
 			</tr>
 		</table>
 
