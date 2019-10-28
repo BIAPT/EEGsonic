@@ -7,6 +7,11 @@
 	border-radius: 5px;
 }
 
+#controlContainer {
+	display: flex;
+	flex-direction: row;
+}
+
 #playerControls {
 	width:350px;
 	height:150px;
@@ -19,22 +24,6 @@
 	justify-content: space-around;
 }
 
-#mixerBox {
-	height:300px;
-	display:flex;
-	flex-direction:row;
-	justify-content:left;
-}
-
-#mixerContainer {
-	max-height:300px;
-}
-
-#controlContainer {
-	display: flex;
-	flex-direction: row;
-}
-
 #mixerGui {
 	border: 1px solid #eeeeee;
 	height: 150px;
@@ -42,6 +31,17 @@
 	margin: 5px;
 	padding: 15px 15px;
 	border-radius: 6px;
+}
+
+#mixerContainer {
+	max-height:300px;
+}
+
+#mixerBox {
+	height:300px;
+	display:flex;
+	flex-direction:row;
+	justify-content:left;
 }
 
 .mixerTrack {
