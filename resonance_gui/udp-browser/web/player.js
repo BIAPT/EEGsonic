@@ -12,10 +12,11 @@ function startAudio() {
 		buffers : [],      	// Buffer for loading files
 		bufferSources : [],	// Actual Web Audio Node connected to rest of graph
 		userGains: [],		// user-inputted gain for each track
-		dataGains: []		// per-track gain from biosignals
+		dataGains: [],
+		data: [],		// per-track gain from biosignals
+		selectedTrack: null
 	}
 
-	data = []; // keeps track of input streams
 
 	sound.context.suspend();
 
@@ -109,7 +110,7 @@ function initializeInputs() {
 	// display information about input
 	let j = 0;
 	for (let i=0; i < sound.bufferFiles.length; i++) {
-		data[j] = {min: null, max: null}
+		sound.data[j] = {min: null, max: null}
 		let info = document.getElementById(`info${i}`);
     	console.log(info);
     	if (sound.bufferFiles[i].reversed) {
@@ -157,7 +158,10 @@ function addMixerTrack(i) {
 	})
 
 	let editButton = document.getElementById(`edit${i}`)
-	editButton.addEventListener('click', () => {showEdit(i)});
+	editButton.addEventListener('click', () => {
+		sound.selectedTrack = i;
+		showEdit(i)
+	});
 }
 
 function showEdit(i) {
@@ -179,7 +183,7 @@ function showEdit(i) {
 				<td>Range:</td><td> ${sound.bufferFiles[i].min} to ${sound.bufferFiles[i].max}</td>
 			</tr>
 			<tr>
-				<td>Range so far:</td><td> ${data[sound.bufferFiles[i].input].min ? data[sound.bufferFiles[i].input].min + ' to ' + data[sound.bufferFiles[i].input].max : 'no input'}</td>
+				<td>Range so far:</td><td> ${sound.data[sound.bufferFiles[i].input].min ? sound.data[sound.bufferFiles[i].input].min + ' to ' + sound.data[sound.bufferFiles[i].input].max : 'no input'}</td>
 			</tr>
 		</table>
 
