@@ -21,24 +21,29 @@ port.on("message", function (oscMessage) {
     }
 
     for (let i=0; i < sound.bufferFiles.length; i++){
-    	let slider = document.getElementById(`dataGain${i}`);
-    	console.log(slider);
+    	// let slider = document.getElementById(`dataGain${i}`);
+    	// console.log(slider);
     	// calculate the new value
+    	let value;
     	if (sound.bufferFiles[i].pinToData) { // if it's relative to limits of data stream
     		let range = sound.data[sound.bufferFiles[i].input].max - sound.data[sound.bufferFiles[i].input].min;
-    		let value = (oscMessage.args[sound.bufferFiles[i].input] - sound.data[sound.bufferFiles[i].input].min)/range;
+    		value = (oscMessage.args[sound.bufferFiles[i].input] - sound.data[sound.bufferFiles[i].input].min)/range;
     		value = (value*2)-1;
     		console.log(value);
     	} else { // if it's got its own set range
     		let range = sound.bufferFiles[i].max - sound.bufferFiles[i].min;
-    		let value = (oscMessage.args[sound.bufferFiles[i].input] - sound.bufferFiles[i].min)/range;
+    		value = (oscMessage.args[sound.bufferFiles[i].input] - sound.bufferFiles[i].min)/range;
+    		value = (value*2)-1;
     	}
 
+    	let slider = document.getElementById(`dataGain${i}`);
+    	// console.log(slider);
     	// set the value to the slider and gain
     	if (sound.bufferFiles[i].reversed) {
     		slider.value = (-value * 20)-20;
     		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
     	} else {
+    		console.log('should change slider to ' + value);
 			slider.value = (value * 20)-20;
     		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
     	}
