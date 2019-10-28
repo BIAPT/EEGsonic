@@ -40,7 +40,10 @@ port.on("message", function (oscMessage) {
 			slider.value = (value * 20)-20;
     		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
     	}
-    	if (i == sound.selectedTrack) {showEdit(i)}
+    	if (i == sound.selectedTrack) {
+    		rangeMinMax = document.getElementById(`range${i}`)
+    		rangeMinMax.innerText = sound.data[sound.bufferFiles[i].input].min + ' to ' + sound.data[sound.bufferFiles[i].input].max
+    	}
     }
 });
 

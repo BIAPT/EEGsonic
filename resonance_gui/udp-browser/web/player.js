@@ -183,7 +183,7 @@ function showEdit(i) {
 				<td>Range:</td><td> ${sound.bufferFiles[i].pinToData? 'pinned to min and max of input' : sound.bufferFiles[i].min + ' to ' + sound.bufferFiles[i].max}</td>
 			</tr>
 			<tr>
-				<td>Range so far:</td><td> ${sound.data[sound.bufferFiles[i].input].min ? sound.data[sound.bufferFiles[i].input].min + ' to ' + sound.data[sound.bufferFiles[i].input].max : 'no input'}</td>
+				<td>Range so far:</td><td id='range${i}'> ${sound.data[sound.bufferFiles[i].input].min ? sound.data[sound.bufferFiles[i].input].min + ' to ' + sound.data[sound.bufferFiles[i].input].max : 'no input'}</td>
 			</tr>
 		</table>
 	`
