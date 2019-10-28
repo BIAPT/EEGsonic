@@ -7,6 +7,16 @@ port.on("message", function (oscMessage) {
     $("#message").text(JSON.stringify(oscMessage, undefined, 2));
     //console.log("message", oscMessage);
     console.log(oscMessage.args);
+    for (let h=0; h < oscMessage.args.length; h++) {
+    	if (data[h].min) {
+    		if (oscMessage.args[h] > data[h].max) {data[h].max = oscMessage.args[h]}
+    		else if (oscMessage.args[h] < data[h].min) {data[h].min = oscMessage.args[h]}
+    	} else {
+    		data[h] = {min: oscMessage.args[h], max: oscMessage.args[h]};
+    	}
+    }
+
+
     for (let i=0; i < sound.bufferFiles.length; i++){
     	let slider = document.getElementById(`dataGain${i}`);
     	if (sound.bufferFiles[i].reversed) {

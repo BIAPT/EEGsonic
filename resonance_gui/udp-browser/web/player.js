@@ -179,7 +179,7 @@ function showEdit(i) {
 				<td>Range:</td><td> ${sound.bufferFiles[i].min} to ${sound.bufferFiles[i].max}</td>
 			</tr>
 			<tr>
-				<td>Range so far:</td><td> ${data[sound.bufferFiles[i].input].min ? data[sound.bufferFiles[i].input].min + ' to ' + data[sound.bufferFiles[i].input].min : 'no input'}</td>
+				<td>Range so far:</td><td> ${data[sound.bufferFiles[i].input].min ? data[sound.bufferFiles[i].input].min + ' to ' + data[sound.bufferFiles[i].input].max : 'no input'}</td>
 			</tr>
 		</table>
 
