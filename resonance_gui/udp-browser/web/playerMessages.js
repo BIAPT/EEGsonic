@@ -9,15 +9,12 @@ port.on("message", function (oscMessage) {
     console.log(oscMessage.args);
     for (let i=0; i < sound.bufferFiles.length; i++){
     	let slider = document.getElementById(`dataGain${i}`);
-    	console.log(slider);
-    	let input = sound.bufferFiles[i].input;
     	if (sound.bufferFiles[i].reversed) {
-    		slider.value = (-oscMessage.args[input] * 20)-20;
+    		slider.value = (-oscMessage.args[sound.bufferFiles[i].input] * 20)-20;
     		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
     	} else {
-			slider.value = (oscMessage.args[input] * 20)-20;
+			slider.value = (oscMessage.args[sound.bufferFiles[i].input] * 20)-20;
     		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
-    		j++;
     	}
     }
 });
