@@ -177,7 +177,7 @@ function showEdit(i) {
 				<td>File:</td><td> ${sound.bufferFiles[i].fileName}</td>
 			</tr>
 			<tr>
-				<td>Input:</td><td> <select id='selectedInput${i}'> ${sound.bufferFiles[i].reversed ? 'reversed' : ''}</td>
+				<td>Input:</td><td> <select id='selectedInput${i}'></select> ${sound.bufferFiles[i].reversed ? 'reversed' : ''}</td>
 			</tr>
 			<tr>
 				<td>Range:</td><td> ${sound.bufferFiles[i].pinToData? 'pinned to min and max of input' : sound.bufferFiles[i].min + ' to ' + sound.bufferFiles[i].max}</td>
@@ -188,17 +188,17 @@ function showEdit(i) {
 		</table>
 	`
 	inputs = document.getElementById(`selectedInput${i}`);
-	for (i=0; i<sound.data.length; i++) {
-		if (i == sound.bufferFiles[i].input) {
-			inputs.insertAdjacentHTML(`<option value='${i}' selected>${i}</option>`, 'beforeend')
-		} else {
-			inputs.insertAdjacentHTML(`<option value='${i}'>${i}</option>`, 'beforeend')
-		}
+	for (j=0; j<sound.data.length; j++) {
+		var option = document.createElement('option');
+		option.text = j;
+		option.value = j;
+		inputs.appendChild(option);
 	}
+	inputs.value = sound.bufferFiles[i].input;
 	inputs.addEventListener('change', (event)=>{
 		sound.bufferFiles[i].input = event.target.value;
 		showEdit(i); // this might lead to some weird recursion, not sure about the event listener
-	}
+	});
 }
 
 
