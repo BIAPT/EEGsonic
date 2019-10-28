@@ -12,7 +12,7 @@ port.on("message", function (oscMessage) {
 
     	let slider = document.getElementById(`dataGain${i}`);
     	console.log(slider);
-    	if (sound.bufferFiles[i].linkBack) {
+    	if (sound.bufferFiles[i].linkNext) {
     		slider.value = (-oscMessage.args[j] * 30)-30;
     		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
     	} else {

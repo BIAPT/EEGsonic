@@ -44,14 +44,14 @@ function startAudio() {
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
 	sound.bufferFiles = [
-		{fileName: './samples/res1_bass.mp3', trackName: 'bass', linkBack: false},
-		{fileName: './samples/res1_bells.mp3', trackName: 'bells', linkBack: false},	// vvv
-		{fileName: './samples/res1_guitar.mp3', trackName: 'guitar', linkBack: true},  	// these two will be min/max
-		{fileName: './samples/res1_clarinet.mp3', trackName: 'clarinet', linkBack: false},
-		{fileName: './samples/res1_cellos.mp3', trackName: 'cello', linkBack: true}, // same here
-		{fileName: './samples/res1_drone.mp3', trackName: 'drone', linkBack: false},
-		{fileName: './samples/res1_flutes.mp3', trackName: 'flute', linkBack: false},
-		{fileName: './samples/res1_violins.mp3', trackName: 'violin', linkBack: false}]
+		{fileName: './samples/res1_bass.mp3', trackName: 'bass', linkNext: false},
+		{fileName: './samples/res1_bells.mp3', trackName: 'bells', linkNext: true},	// vvv
+		{fileName: './samples/res1_guitar.mp3', trackName: 'guitar', linkNext: false},  	// these two will be min/max
+		{fileName: './samples/res1_clarinet.mp3', trackName: 'clarinet', linkNext: true},
+		{fileName: './samples/res1_cellos.mp3', trackName: 'cello', linkNext: false}, // same here
+		{fileName: './samples/res1_drone.mp3', trackName: 'drone', linkNext: false},
+		{fileName: './samples/res1_flutes.mp3', trackName: 'flute', linkNext: false},
+		{fileName: './samples/res1_violins.mp3', trackName: 'violin', linkNext: false}]
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -108,7 +108,7 @@ function addMixerTrack(i) {
 			<input id='userGain${i}' type='range' min='-30' max='10' step='1' value='0' class='v-slider userGainSlider' orient="vertical">
 			<input id='dataGain${i}' type='range' min='-60' max='0' step='1' value='-30' class='v-slider dataGainSlider' orient='vertical' disabled>
 		</div>
-		${sound.bufferFiles[i].linkBack ? '<-- linked' : ''}
+		${sound.bufferFiles[i].linkNext ? 'linked -->' : ''}
 		<button id='mute${i}'>Mute</button>
 		`);
 
