@@ -15,6 +15,8 @@ function startAudio() {
 		dataGains: []		// per-track gain from biosignals
 	}
 
+	data = []; // keeps track of input streams
+
 	sound.context.suspend();
 
 	// // Version 1 - pretty music w bells, guitar and clarinet melody
@@ -100,13 +102,18 @@ function startAudio() {
 	button = document.getElementById('startContext')
 	button.parentNode.removeChild(button);
 
+	initializeInputs();
+}
+
+function initializeInputs() {
 	// display information about input
 	let j = 0;
 	for (let i=0; i < sound.bufferFiles.length; i++) {
+		data[j] = {min: -1, max: 1, minSoFar: null, maxSoFar: null}
 		let info = document.getElementById(`info${i}`);
     	console.log(info);
     	if (sound.bufferFiles[i].reversed) {
-    		sound.bufferFiles[i].input = -j;
+    		sound.bufferFiles[i].input = j;
     		info.innerText = `Reversed ${j}`;
     	} else {
     		sound.bufferFiles[i].input = j;
@@ -156,7 +163,21 @@ function addMixerTrack(i) {
 function showEdit(i) {
 	gui = document.getElementById('mixerGui');
 	console.log(i);
-	gui.innerHTML = `track ${i}`
+	gui.innerHTML = `
+		<table>
+			<tr>Track ${i}</tr>
+			<tr>
+				<td>Name:</td><td> ${sound.bufferFiles[i].trackName}</td>
+			</tr>
+			<tr>
+				<td>File:</td><td> ${sound.bufferFiles[i].fileName}</td>
+			</tr>
+			<tr>
+				<td>Input:</td><td> ${sound.bufferFiles[i].input} ${sound.bufferFiles[i].reversed ? 'reversed' : ''}</td>
+			</tr>
+		</table>
+
+	`
 }
 
 
