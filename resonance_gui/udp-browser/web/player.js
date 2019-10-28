@@ -177,7 +177,7 @@ function showEdit(i) {
 				<td>File:</td><td> ${sound.bufferFiles[i].fileName}</td>
 			</tr>
 			<tr>
-				<td>Input:</td><td> <select id='selectedInput${i}'></select> ${sound.bufferFiles[i].reversed ? 'reversed' : ''}</td>
+				<td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.bufferFiles[i].reversed ? 'checked' : ''}> reversed</td>
 			</tr>
 			<tr>
 				<td>Range:</td><td> ${sound.bufferFiles[i].pinToData? 'pinned to min and max of input' : sound.bufferFiles[i].min + ' to ' + sound.bufferFiles[i].max}</td>
@@ -199,8 +199,24 @@ function showEdit(i) {
 		sound.bufferFiles[i].input = event.target.value;
 
 		let info = document.getElementById(`info${i}`);
-		info.innerText = `Input ${sound.bufferFiles[i].input}`;
+		if (sound.bufferFiles[i].reversed) {
+			info.innerText = `Reversed ${sound.bufferFiles[i].input}`;
+		} else {
+			info.innerText = `Input ${sound.bufferFiles[i].input}`
+		}
 	});
+
+	reverseCheckbox = document.getElementById(`reverseCheckbox${i}`);
+	reverseCheckbox.addEventListener('change', ()=>{
+		sound.bufferFiles[i].reversed = event.target.checked;
+
+		let info = document.getElementById(`info${i}`);
+		if (sound.bufferFiles[i].reversed) {
+			info.innerText = `Reversed ${sound.bufferFiles[i].input}`;
+		} else {
+			info.innerText = `Input ${sound.bufferFiles[i].input}`
+		}
+	})
 }
 
 
