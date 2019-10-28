@@ -1,3 +1,24 @@
+
+#resonancePlayer {
+	min-width: 80vw;
+	margin: 0px auto;
+	height: 500px;
+	border: 1px solid #eeeeee;
+	border-radius: 5px;
+}
+
+#playerControls {
+	width:350px;
+	height:150px;
+	border: 1px solid #eeeeee;
+	border-radius: 6px;
+	margin:5px;
+	padding:15px 15px;
+	display: flex;
+	flex-direction:column;
+	justify-content: space-around;
+}
+
 #mixerBox {
 	height:300px;
 	display:flex;
@@ -7,6 +28,20 @@
 
 #mixerContainer {
 	max-height:300px;
+}
+
+#controlContainer {
+	display: flex;
+	flex-direction: row;
+}
+
+#mixerGui {
+	border: 1px solid #eeeeee;
+	height: 150px;
+	width: 450px;
+	margin: 5px;
+	padding: 15px 15px;
+	border-radius: 6px;
 }
 
 .mixerTrack {
@@ -28,23 +63,4 @@
 	width:30px;
 }
 
-#playerControls {
-	width:350px;
-	height:150px;
-	border: 1px solid #eeeeee;
-	border-radius: 6px;
-	margin:5px;
-	padding:15px 15px;
-	display: flex;
-	flex-direction:column;
-	justify-content: space-around;
-}
-
-#resonancePlayer {
-	min-width: 80vw;
-	margin: 0px auto;
-	height: 500px;
-	border: 1px solid #eeeeee;
-	border-radius: 5px;
-}
 
