@@ -172,7 +172,7 @@ function showEdit(i) {
 				<td>Name:</td><td> ${sound.bufferFiles[i].trackName}</td>
 			</tr>
 			<tr>
-				<td>File:</td><td> ${sound.bufferFiles[i].fileName}</td>
+				<td>File:</td><td> ${sound.bufferFiles[i].fileName} <input id='fileSelect${i}' type='file'></input></td>
 			</tr>
 			<tr>
 				<td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.bufferFiles[i].reversed ? 'checked' : ''}> reversed</td>
