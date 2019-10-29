@@ -8,7 +8,7 @@ function startAudio() {
 	sound = {
 		context : new AudioContext(),
 		masterGain : null,
-		bufferFiles : [],  	// URL of soundFiles
+		trackInfo : [],  	// URL of soundFiles
 		buffers : [],      	// Buffer for loading files
 		bufferSources : [],	// Actual Web Audio Node connected to rest of graph
 		userGains: [],		// user-inputted gain for each track
@@ -22,7 +22,7 @@ function startAudio() {
 	fileDirectory = './samples/';
 
 	// // Version 1 - pretty music w bells, guitar and clarinet melody
-	// sound.bufferFiles = [
+	// sound.trackInfo = [
 	// 	'./samples/res1_bass.mp3',
 	// 	'./samples/res1_bells.mp3',
 	// 	'./samples/res1_cellos.mp3',
@@ -34,7 +34,7 @@ function startAudio() {
 	// trackNames = ['bass', 'bells', 'cellos', 'clarinet', 'drone', 'flutes', 'guitar', 'violins']
 
 	// // Version 2 - C major chord w strings and woodwinds
-	// sound.bufferFiles = [
+	// sound.trackInfo = [
 	// 	'./samples/res2_bass.mp3',
 	// 	'./samples/res2_cello.mp3',
 	// 	'./samples/res2_viola.mp3',
@@ -47,7 +47,7 @@ function startAudio() {
 	// trackNames = ['bass', 'cello', 'viola', 'violin', 'bassoon', 'clarinet', 'oboe', 'flute']
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
-	sound.bufferFiles = [
+	sound.trackInfo = [
 		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: null, reversed: false, gain: null, min: -1, max: 1, pinToData: true},
 		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: null, reversed: true,  gain: -20, min: -1, max: 1, pinToData: true},	
 		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
@@ -75,13 +75,13 @@ function startAudio() {
 	stopButton.addEventListener('click', ()=>{sound.context.suspend()})
 
 	const mixer = document.getElementById('mixerBox');
-	for (let i=0; i < sound.bufferFiles.length; i++) {
+	for (let i=0; i < sound.trackInfo.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
 			<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
-			${sound.bufferFiles[i].trackName}
+			${sound.trackInfo[i].trackName}
 			<div id='info${i}'></div></td>
 			`)
-		// fetch(sound.bufferFiles[i], {mode: "cors"})  // for versions 1 and 2
+		// fetch(sound.trackInfo[i], {mode: "cors"})  // for versions 1 and 2
 		setUpTrack(i);
 		
 	}
@@ -100,7 +100,7 @@ function setUpTrack(i) {
 }
 
 async function loadSoundfile(i) {
-	fileName = fileDirectory + sound.bufferFiles[i].fileName;
+	fileName = fileDirectory + sound.trackInfo[i].fileName;
 	fetch(fileName, {mode: "cors"})
 		.then(function(resp) {return resp.arrayBuffer()})
 		.then((buffer) => {
@@ -120,13 +120,13 @@ async function loadSoundfile(i) {
 function initializeInputs() {
 	// display information about input
 	let j = 0;
-	for (let i=0; i < sound.bufferFiles.length; i++) {
-		if (sound.bufferFiles[i].input == null) {
+	for (let i=0; i < sound.trackInfo.length; i++) {
+		if (sound.trackInfo[i].input == null) {
 			sound.data[j] = {min: null, max: null}
-	    	if (sound.bufferFiles[i].reversed) {
-	    		sound.bufferFiles[i].input = j;
+	    	if (sound.trackInfo[i].reversed) {
+	    		sound.trackInfo[i].input = j;
 	    	} else {
-	    		sound.bufferFiles[i].input = j;
+	    		sound.trackInfo[i].input = j;
 	    		j++;
 	    	}
 	    }
@@ -136,10 +136,10 @@ function initializeInputs() {
 
 function insertInputInfo(i) {
 	let info = document.getElementById(`info${i}`);
-		if (sound.bufferFiles[i].reversed) {
-			info.innerText = `Reversed ${sound.bufferFiles[i].input}`;
+		if (sound.trackInfo[i].reversed) {
+			info.innerText = `Reversed ${sound.trackInfo[i].input}`;
 		} else {
-			info.innerText = `Input ${sound.bufferFiles[i].input}`
+			info.innerText = `Input ${sound.trackInfo[i].input}`
 		}
 }
 
@@ -149,7 +149,7 @@ function updateMixerTrack(i) {
 
 	document.getElementById(trackId).innerHTML = `
 		<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
-			${sound.bufferFiles[i].trackName}<br>
+			${sound.trackInfo[i].trackName}<br>
 			<div id='info${i}'></div></td>
 		<div>
 			<input id='userGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider userGainSlider' orient="vertical">
@@ -162,10 +162,10 @@ function updateMixerTrack(i) {
 	insertInputInfo(i);
 
 	let userGain = document.getElementById(`userGain${i}`)
-	if (sound.bufferFiles[i].gain !== null) {userGain.value = sound.bufferFiles[i].gain};
+	if (sound.trackInfo[i].gain !== null) {userGain.value = sound.trackInfo[i].gain};
 	sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
 	userGain.addEventListener('input', ()=>{
-		sound.bufferFiles[i].gain = userGain.value;
+		sound.trackInfo[i].gain = userGain.value;
 		sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
 	})
 
@@ -197,19 +197,19 @@ function showEdit(i) {
 		<table>
 			<tr>Track ${i}</tr>
 			<tr>
-				<td style='width: 100px'>Name:</td><td> ${sound.bufferFiles[i].trackName}</td>
+				<td style='width: 100px'>Name:</td><td> ${sound.trackInfo[i].trackName}</td>
 			</tr>
 			<tr>
-				<td>File:</td><td> ${sound.bufferFiles[i].fileName} <br><input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td>
+				<td>File:</td><td> ${sound.trackInfo[i].fileName} <br><input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td>
 			</tr>
 			<tr>
-				<td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.bufferFiles[i].reversed ? 'checked' : ''}> reversed</td>
+				<td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td>
 			</tr>
 			<tr>
-				<td>Range:</td><td> ${sound.bufferFiles[i].pinToData? 'pinned to min and max of input' : sound.bufferFiles[i].min + ' to ' + sound.bufferFiles[i].max}</td>
+				<td>Range:</td><td> ${sound.trackInfo[i].pinToData? 'pinned to min and max of input' : sound.trackInfo[i].min + ' to ' + sound.trackInfo[i].max}</td>
 			</tr>
 			<tr>
-				<td>Range so far:</td><td id='range${i}'> ${sound.data[sound.bufferFiles[i].input].min ? sound.data[sound.bufferFiles[i].input].min + ' to ' + sound.data[sound.bufferFiles[i].input].max : 'no input'}</td>
+				<td>Range so far:</td><td id='range${i}'> ${sound.data[sound.trackInfo[i].input].min ? sound.data[sound.trackInfo[i].input].min + ' to ' + sound.data[sound.trackInfo[i].input].max : 'no input'}</td>
 			</tr>
 		</table>
 	`
@@ -220,21 +220,21 @@ function showEdit(i) {
 		option.value = j;
 		inputs.appendChild(option);
 	}
-	inputs.value = sound.bufferFiles[i].input;
+	inputs.value = sound.trackInfo[i].input;
 	inputs.addEventListener('change', (event)=>{
-		sound.bufferFiles[i].input = event.target.value;
+		sound.trackInfo[i].input = event.target.value;
 		insertInputInfo(i);
 	});
 
 	reverseCheckbox = document.getElementById(`reverseCheckbox${i}`);
 	reverseCheckbox.addEventListener('change', ()=>{
-		sound.bufferFiles[i].reversed = event.target.checked;
+		sound.trackInfo[i].reversed = event.target.checked;
 
 		let info = document.getElementById(`info${i}`);
-		if (sound.bufferFiles[i].reversed) {
-			info.innerText = `Reversed ${sound.bufferFiles[i].input}`;
+		if (sound.trackInfo[i].reversed) {
+			info.innerText = `Reversed ${sound.trackInfo[i].input}`;
 		} else {
-			info.innerText = `Input ${sound.bufferFiles[i].input}`
+			info.innerText = `Input ${sound.trackInfo[i].input}`
 		}
 	});
 
@@ -245,9 +245,9 @@ function showEdit(i) {
 		if (fileSelection.value !== '') {
 			sound.bufferSources[i].disconnect();
 			src = fileSelection.value.split('\\')
-			sound.bufferFiles[i].fileName = src[src.length - 1]; // warning - might only work on windows
-			sound.bufferFiles[i].trackName = sound.bufferFiles[i].fileName.split('.')[0];
-			console.log(sound.bufferFiles[i].fileName);
+			sound.trackInfo[i].fileName = src[src.length - 1]; // warning - might only work on windows
+			sound.trackInfo[i].trackName = sound.trackInfo[i].fileName.split('.')[0];
+			console.log(sound.trackInfo[i].fileName);
 			loadSoundfile(i);
 			showEdit(i);
 		}

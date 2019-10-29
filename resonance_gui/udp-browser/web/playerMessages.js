@@ -18,22 +18,22 @@ port.on("message", function (oscMessage) {
     	}
     }
 
-    for (let i=0; i < sound.bufferFiles.length; i++){
+    for (let i=0; i < sound.trackInfo.length; i++){
     	// calculate the new value
     	let value;
-    	if (sound.bufferFiles[i].pinToData) { // if it's relative to limits of data stream
-    		let range = sound.data[sound.bufferFiles[i].input].max - sound.data[sound.bufferFiles[i].input].min;
-    		value = (oscMessage.args[sound.bufferFiles[i].input] - sound.data[sound.bufferFiles[i].input].min)/range;
+    	if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
+    		let range = sound.data[sound.trackInfo[i].input].max - sound.data[sound.trackInfo[i].input].min;
+    		value = (oscMessage.args[sound.trackInfo[i].input] - sound.data[sound.trackInfo[i].input].min)/range;
     		value = (value*2)-1;
     	} else { // if it's got its own set range
-    		let range = sound.bufferFiles[i].max - sound.bufferFiles[i].min;
-    		value = (oscMessage.args[sound.bufferFiles[i].input] - sound.bufferFiles[i].min)/range;
+    		let range = sound.trackInfo[i].max - sound.trackInfo[i].min;
+    		value = (oscMessage.args[sound.trackInfo[i].input] - sound.trackInfo[i].min)/range;
     		value = (value*2)-1;
     	}
 
     	let slider = document.getElementById(`dataGain${i}`);
     	// set the value to the slider and gain
-    	if (sound.bufferFiles[i].reversed) {
+    	if (sound.trackInfo[i].reversed) {
     		slider.value = (-value * 20)-20;
     		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
     	} else {
@@ -42,7 +42,7 @@ port.on("message", function (oscMessage) {
     	}
     	if (i == sound.selectedTrack) {
     		rangeMinMax = document.getElementById(`range${i}`)
-    		rangeMinMax.innerText = sound.data[sound.bufferFiles[i].input].min + ' to ' + sound.data[sound.bufferFiles[i].input].max
+    		rangeMinMax.innerText = sound.data[sound.trackInfo[i].input].min + ' to ' + sound.data[sound.trackInfo[i].input].max
     	}
     }
 });
