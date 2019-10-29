@@ -79,7 +79,17 @@ function startAudio() {
 			<div id='info${i}'></div></td>
 			`)
 		// fetch(sound.bufferFiles[i], {mode: "cors"})  // for versions 1 and 2
-		fetch(sound.bufferFiles[i].fileName, {mode: "cors"})
+		loadSoundfile(i);
+		
+	}
+	button = document.getElementById('startContext')
+	button.parentNode.removeChild(button);
+
+	initializeInputs();
+}
+
+async function loadSoundfile(i) {
+	fetch(sound.bufferFiles[i].fileName, {mode: "cors"})
 			.then(function(resp) {return resp.arrayBuffer()})
 			.then((buffer) => {
 				console.log(buffer);
@@ -94,14 +104,10 @@ function startAudio() {
 					sound.dataGains[i].connect(sound.masterGain);
 					sound.bufferSources[i].loop = true;
 					sound.bufferSources[i].start();
-					addMixerTrack(i);   // loads the GUI element for this track
+					updateMixerTrack(i);   // loads the GUI element for this track
 				});
 			});
-	}
-	button = document.getElementById('startContext')
-	button.parentNode.removeChild(button);
-
-	initializeInputs();
+	return true;
 }
 
 function initializeInputs() {
@@ -130,7 +136,7 @@ function insertInputInfo(i) {
 		}
 }
 
-function addMixerTrack(i) {
+function updateMixerTrack(i) {
 	let trackId = `Track${i}`;
 	console.log(trackId);
 
