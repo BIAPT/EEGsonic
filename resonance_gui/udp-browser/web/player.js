@@ -55,7 +55,8 @@ function startAudio() {
 		{fileName: 'res1_cellos.mp3', trackName: 'Cello', reversed: false, input: null, min: -1, max: 1, pinToData: true},
 		{fileName: 'res1_drone.mp3', trackName: 'Drone', reversed: false, input: null, min: -1, max: 1, pinToData: true},
 		{fileName: 'res1_flutes.mp3', trackName: 'Flute', reversed: true, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_violins.mp3', trackName: 'Violin', reversed: false, input: null, min: -1, max: 1, pinToData: true}]
+		{fileName: 'res1_violins.mp3', trackName: 'Violin', reversed: false, input: null, min: -1, max: 1, pinToData: true}
+		]
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -120,16 +121,16 @@ function initializeInputs() {
 	// display information about input
 	let j = 0;
 	for (let i=0; i < sound.bufferFiles.length; i++) {
-		sound.data[j] = {min: null, max: null}
-		let info = document.getElementById(`info${i}`);
-    	if (sound.bufferFiles[i].reversed) {
-    		sound.bufferFiles[i].input = j;
-    		info.innerText = `Reversed ${j}`;
-    	} else {
-    		sound.bufferFiles[i].input = j;
-    		info.innerText = `Input ${j}`;
-    		j++;
-    	}
+		if (sound.bufferFiles[i].input == null) {
+			sound.data[j] = {min: null, max: null}
+	    	if (sound.bufferFiles[i].reversed) {
+	    		sound.bufferFiles[i].input = j;
+	    	} else {
+	    		sound.bufferFiles[i].input = j;
+	    		j++;
+	    	}
+	    }
+    	insertInputInfo(i);
 	}
 }
 
