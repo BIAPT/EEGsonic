@@ -19,6 +19,8 @@ function startAudio() {
 
 	sound.context.suspend();
 
+	fileDirectory = './samples/';
+
 	// // Version 1 - pretty music w bells, guitar and clarinet melody
 	// sound.bufferFiles = [
 	// 	'./samples/res1_bass.mp3',
@@ -46,14 +48,14 @@ function startAudio() {
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
 	sound.bufferFiles = [
-		{fileName: './samples/res1_bass.mp3', trackName: 'Bass', reversed: false, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: './samples/res1_bells.mp3', trackName: 'Bells', reversed: true, input: null, min: -1, max: 1, pinToData: true},	
-		{fileName: './samples/res1_guitar.mp3', trackName: 'Guitar', reversed: false, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: './samples/res1_clarinet.mp3', trackName: 'Clarinet', reversed: true, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: './samples/res1_cellos.mp3', trackName: 'Cello', reversed: false, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: './samples/res1_drone.mp3', trackName: 'Drone', reversed: false, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: './samples/res1_flutes.mp3', trackName: 'Flute', reversed: true, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: './samples/res1_violins.mp3', trackName: 'Violin', reversed: false, input: null, min: -1, max: 1, pinToData: true}]
+		{fileName: 'res1_bass.mp3', trackName: 'Bass', reversed: false, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_bells.mp3', trackName: 'Bells', reversed: true, input: null, min: -1, max: 1, pinToData: true},	
+		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', reversed: false, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', reversed: true, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_cellos.mp3', trackName: 'Cello', reversed: false, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_drone.mp3', trackName: 'Drone', reversed: false, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_flutes.mp3', trackName: 'Flute', reversed: true, input: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_violins.mp3', trackName: 'Violin', reversed: false, input: null, min: -1, max: 1, pinToData: true}]
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -97,7 +99,8 @@ function setUpTrack(i) {
 }
 
 async function loadSoundfile(i) {
-	fetch(sound.bufferFiles[i].fileName, {mode: "cors"})
+	fileName = fileDirectory + sound.bufferFiles[i].fileName;
+	fetch(fileName, {mode: "cors"})
 		.then(function(resp) {return resp.arrayBuffer()})
 		.then((buffer) => {
 			console.log(buffer);
@@ -236,6 +239,14 @@ function showEdit(i) {
 	fileSelectButton.addEventListener('click', ()=>{
 		fileSelection = document.getElementById(`fileSelect${i}`);
 		console.log(fileSelection.value);
+		if (fileSelection.value !== '') {
+			sound.bufferSources[i].disconnect();
+			src = fileSelection.value.split('\\')
+			sound.bufferFiles[i].fileName = src[src.length - 1]; // warning - might only work on windows
+			sound.bufferFiles[i].trackName = sound.bufferFiles[i].fileName.split('.')[0];
+			console.log(sound.bufferFiles[i].fileName);
+			loadSoundfile(i);
+		}
 	})
 }
 
