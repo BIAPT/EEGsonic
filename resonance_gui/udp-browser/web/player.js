@@ -79,7 +79,7 @@ function startAudio() {
 			<div id='info${i}'></div></td>
 			`)
 		// fetch(sound.bufferFiles[i], {mode: "cors"})  // for versions 1 and 2
-		loadSoundfile(i);
+		setUpTrack(i);
 		
 	}
 	button = document.getElementById('startContext')
@@ -88,25 +88,28 @@ function startAudio() {
 	initializeInputs();
 }
 
+function setUpTrack(i) {
+	sound.userGains[i] = sound.context.createGain();
+	sound.dataGains[i] = sound.context.createGain();
+	sound.userGains[i].connect(sound.dataGains[i]);
+	sound.dataGains[i].connect(sound.masterGain);
+	loadSoundfile(i);
+}
+
 async function loadSoundfile(i) {
 	fetch(sound.bufferFiles[i].fileName, {mode: "cors"})
-			.then(function(resp) {return resp.arrayBuffer()})
-			.then((buffer) => {
-				console.log(buffer);
-				sound.context.decodeAudioData(buffer, (abuffer) => {
-					sound.bufferSources[i] = sound.context.createBufferSource();
-					sound.bufferSources[i].buffer = abuffer;
-					sound.userGains[i] = sound.context.createGain();
-					sound.dataGains[i] = sound.context.createGain();
-					// sound.bufferSources[i].connect(sound.masterGain);
-					sound.bufferSources[i].connect(sound.userGains[i]);
-					sound.userGains[i].connect(sound.dataGains[i]);
-					sound.dataGains[i].connect(sound.masterGain);
-					sound.bufferSources[i].loop = true;
-					sound.bufferSources[i].start();
-					updateMixerTrack(i);   // loads the GUI element for this track
-				});
+		.then(function(resp) {return resp.arrayBuffer()})
+		.then((buffer) => {
+			console.log(buffer);
+			sound.context.decodeAudioData(buffer, (abuffer) => {
+				sound.bufferSources[i] = sound.context.createBufferSource();
+				sound.bufferSources[i].buffer = abuffer;
+				sound.bufferSources[i].connect(sound.userGains[i]);
+				sound.bufferSources[i].loop = true;
+				sound.bufferSources[i].start();
+				updateMixerTrack(i);   // loads the GUI element for this track
 			});
+		});
 	return true;
 }
 
