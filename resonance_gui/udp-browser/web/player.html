@@ -8,6 +8,7 @@
         <script src="node_modules/osc/dist/osc-browser.min.js"></script>
         <script src='web-audio-recorder-js-master/lib/WebAudioRecorder.js'></script>
         <script src="playerMessages.js"></script>
+        <script src='playerRecorder.js'></script>
         <script src='player.js'></script>
         <link rel="stylesheet" type="text/css" media="all" href="player.css"></link>
     </head>
@@ -21,6 +22,7 @@
                     <button id='startContext' onClick='startAudio()'>START AUDIO CONTEXT</button><br>
                     <button id='startAudio'>Play</button><button id='stopAudio'>Stop</button><br>
                     <label for='masterGain'>Volume:</label><br><input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
+                    <button id='toggleRecording' onClick='toggleRecording()'>Start Recording</button>
                 </div>
                 <div id='mixerGui'>
                 </div>
