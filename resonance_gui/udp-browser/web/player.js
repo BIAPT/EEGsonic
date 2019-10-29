@@ -169,10 +169,10 @@ function showEdit(i) {
 		<table>
 			<tr>Track ${i}</tr>
 			<tr>
-				<td>Name:</td><td> ${sound.bufferFiles[i].trackName}</td>
+				<td style='width: 100px'>Name:</td><td> ${sound.bufferFiles[i].trackName}</td>
 			</tr>
 			<tr>
-				<td>File:</td><td> ${sound.bufferFiles[i].fileName} <input id='fileSelect${i}' type='file'></input></td>
+				<td>File:</td><td> ${sound.bufferFiles[i].fileName} <input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td>
 			</tr>
 			<tr>
 				<td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.bufferFiles[i].reversed ? 'checked' : ''}> reversed</td>
@@ -214,6 +214,12 @@ function showEdit(i) {
 		} else {
 			info.innerText = `Input ${sound.bufferFiles[i].input}`
 		}
+	});
+
+	fileSelectButton = document.getElementById(`fileSelectConfirm${i}`);
+	fileSelectButton.addEventListener('click', ()=>{
+		fileSelection = document.getElementById(`fileSelect${i}`);
+		console.log(fileSelection.value);
 	})
 }
 
