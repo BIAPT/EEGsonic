@@ -75,7 +75,7 @@ function startAudio() {
 	for (let i=0; i < sound.bufferFiles.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
 			<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
-			${sound.bufferFiles[i].trackName}<br>
+			${sound.bufferFiles[i].trackName}
 			<div id='info${i}'></div></td>
 			`)
 		// fetch(sound.bufferFiles[i], {mode: "cors"})  // for versions 1 and 2
@@ -110,7 +110,6 @@ function initializeInputs() {
 	for (let i=0; i < sound.bufferFiles.length; i++) {
 		sound.data[j] = {min: null, max: null}
 		let info = document.getElementById(`info${i}`);
-    	console.log(info);
     	if (sound.bufferFiles[i].reversed) {
     		sound.bufferFiles[i].input = j;
     		info.innerText = `Reversed ${j}`;
@@ -122,18 +121,32 @@ function initializeInputs() {
 	}
 }
 
+function insertInputInfo(i) {
+	let info = document.getElementById(`info${i}`);
+		if (sound.bufferFiles[i].reversed) {
+			info.innerText = `Reversed ${sound.bufferFiles[i].input}`;
+		} else {
+			info.innerText = `Input ${sound.bufferFiles[i].input}`
+		}
+}
+
 function addMixerTrack(i) {
 	let trackId = `Track${i}`;
 	console.log(trackId);
 
-	document.getElementById(trackId).insertAdjacentHTML('beforeend', `
+	document.getElementById(trackId).innerHTML = `
+		<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
+			${sound.bufferFiles[i].trackName}<br>
+			<div id='info${i}'></div></td>
 		<div>
 			<input id='userGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider userGainSlider' orient="vertical">
 			<input id='dataGain${i}' type='range' min='-40' max='0' step='1' value='-20' class='v-slider dataGainSlider' orient='vertical' disabled>
 		</div>
 		<button id='mute${i}'>Mute</button>
 		<button id='edit${i}'>Edit</button>
-		`);
+		`;
+
+	insertInputInfo(i);
 
 	let userGain = document.getElementById(`userGain${i}`)
 	sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
@@ -195,13 +208,7 @@ function showEdit(i) {
 	inputs.value = sound.bufferFiles[i].input;
 	inputs.addEventListener('change', (event)=>{
 		sound.bufferFiles[i].input = event.target.value;
-
-		let info = document.getElementById(`info${i}`);
-		if (sound.bufferFiles[i].reversed) {
-			info.innerText = `Reversed ${sound.bufferFiles[i].input}`;
-		} else {
-			info.innerText = `Input ${sound.bufferFiles[i].input}`
-		}
+		insertInputInfo(i);
 	});
 
 	reverseCheckbox = document.getElementById(`reverseCheckbox${i}`);
