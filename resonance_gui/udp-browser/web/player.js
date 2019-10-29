@@ -197,7 +197,7 @@ function showEdit(i) {
 				<td style='width: 100px'>Name:</td><td> ${sound.bufferFiles[i].trackName}</td>
 			</tr>
 			<tr>
-				<td>File:</td><td> ${sound.bufferFiles[i].fileName} <input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td>
+				<td>File:</td><td> ${sound.bufferFiles[i].fileName} <br><input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td>
 			</tr>
 			<tr>
 				<td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.bufferFiles[i].reversed ? 'checked' : ''}> reversed</td>
@@ -246,6 +246,7 @@ function showEdit(i) {
 			sound.bufferFiles[i].trackName = sound.bufferFiles[i].fileName.split('.')[0];
 			console.log(sound.bufferFiles[i].fileName);
 			loadSoundfile(i);
+			showEdit(i);
 		}
 	})
 }
