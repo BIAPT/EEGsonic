@@ -48,14 +48,14 @@ function startAudio() {
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
 	sound.bufferFiles = [
-		{fileName: 'res1_bass.mp3', trackName: 'Bass', reversed: false, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_bells.mp3', trackName: 'Bells', reversed: true, input: null, min: -1, max: 1, pinToData: true},	
-		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', reversed: false, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', reversed: true, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_cellos.mp3', trackName: 'Cello', reversed: false, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_drone.mp3', trackName: 'Drone', reversed: false, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_flutes.mp3', trackName: 'Flute', reversed: true, input: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_violins.mp3', trackName: 'Violin', reversed: false, input: null, min: -1, max: 1, pinToData: true}
+		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: null, reversed: false, gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: null, reversed: true,  gain: -20, min: -1, max: 1, pinToData: true},	
+		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: null, reversed: true,  gain: 0, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: null,  reversed: false,  gain: -10, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_drone.mp3', trackName: 'Drone', input: null, reversed: false,  gain: -15, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: null, reversed: true,  gain: -10, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true}
 		]
 
 	sound.masterGain = sound.context.createGain();
@@ -162,8 +162,10 @@ function updateMixerTrack(i) {
 	insertInputInfo(i);
 
 	let userGain = document.getElementById(`userGain${i}`)
+	if (sound.bufferFiles[i].gain !== null) {userGain.value = sound.bufferFiles[i].gain};
 	sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
 	userGain.addEventListener('input', ()=>{
+		sound.bufferFiles[i].gain = userGain.value;
 		sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
 	})
 
