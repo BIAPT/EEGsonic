@@ -17,7 +17,6 @@ function startAudio() {
 		selectedTrack: null
 	}
 
-
 	sound.context.suspend();
 
 	// // Version 1 - pretty music w bells, guitar and clarinet melody
@@ -72,7 +71,6 @@ function startAudio() {
 	stopButton = document.getElementById('stopAudio');
 	stopButton.addEventListener('click', ()=>{sound.context.suspend()})
 
-    
 	const mixer = document.getElementById('mixerBox');
 	for (let i=0; i < sound.bufferFiles.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
