@@ -58,6 +58,7 @@
     this.input = this.context.createGain();
     sourceNode.connect(this.input);
     this.buffer = [];
+    console.log(this);
     this.initWorker();
   };
 
