@@ -16,9 +16,17 @@ const defaultPreset = [
 		]
 
 function loadPreset() {
+
 	fileName = document.getElementById('presetSelector').value.split('\\');
 	fileName = fileName[fileName.length - 1];
+
 	if (fileName !== '') {
+		// clear out any pre-existing bufferSources
+		if (sound) {
+			for (i=0; i<sound.bufferSources.length; i++) {
+				sound.bufferSources[i].disconnect();
+			}
+		}
 
 		const mixer = document.getElementById('mixerBox');
 		mixer.innerHTML = '';
