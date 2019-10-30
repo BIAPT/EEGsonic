@@ -256,6 +256,8 @@ function savePreset() {
     presets = document.getElementById('presetsButtons');
     presets.appendChild(a);
     a.click();
+    presets.removeChild(a);
+    URL.revokeObjectURL(a.href);
 }
 // download(jsonData, 'json.txt', 'text/plain');
 
