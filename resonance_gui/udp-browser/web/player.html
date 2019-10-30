@@ -24,7 +24,9 @@
                         <input type='file' id='presetSelector'></input><button id='loadPreset' onClick='loadPreset()'>Load preset</button>
                     </div>
                     <div id='contextStarted' style='display:none'>
-                        <button id='savePreset' onClick='savePreset()'>Save Preset</button>
+                        <div id='presetsButtons'>
+                            <button id='savePreset' onClick='savePreset()'>Save Preset</button>
+                        </div>
                         <button id='startAudio'>Play</button><button id='stopAudio'>Stop</button><br>
                         <label for='masterGain'>Volume:</label><br>
                         <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>

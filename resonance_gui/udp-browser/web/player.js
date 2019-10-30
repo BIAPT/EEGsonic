@@ -19,6 +19,9 @@ function loadPreset() {
 	fileName = document.getElementById('presetSelector').value.split('\\');
 	fileName = fileName[fileName.length - 1];
 	if (fileName !== '') {
+
+		const mixer = document.getElementById('mixerBox');
+		mixer.innerHTML = '';
 		fetch('./playerPresets/' + fileName)
 			.then(response => response.text())
 			.then(preset => {
@@ -103,7 +106,7 @@ function startAudio(preset) {
 		
 	}
 	button = document.getElementById('startContext')
-	button.parentNode.removeChild(button);
+	if (button) {button.parentNode.removeChild(button);}
 
 	initializeInputs();
 }
@@ -146,7 +149,7 @@ function initializeInputs() {
 	    		sound.trackInfo[i].input = j;
 	    		j++;
 	    	}
-	    }
+	    } else {sound.data[sound.trackInfo[i].input] = {min: null, max: null}}
     	insertInputInfo(i);
 	}
 }
@@ -210,6 +213,7 @@ function updateMixerTrack(i) {
 function showEdit(i) {
 	gui = document.getElementById('mixerGui');
 	console.log(i);
+	console.log(sound.data);
 	gui.innerHTML = `
 		<table>
 			<tr>Track ${i}</tr>
@@ -218,7 +222,7 @@ function showEdit(i) {
 				<input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td></tr>
 			<tr><td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td></tr>
 			<tr><td>Range:</td><td> ${sound.trackInfo[i].pinToData? 'pinned to min and max of input' : sound.trackInfo[i].min + ' to ' + sound.trackInfo[i].max}</td></tr>
-			<tr><td>Range so far:</td><td id='range${i}'> ${sound.data[sound.trackInfo[i].input].min ? sound.data[sound.trackInfo[i].input].min + ' to ' + sound.data[sound.trackInfo[i].input].max : 'no input'}</td></tr>
+			<tr><td>Range so far:</td><td id='range${i}'> ${sound.data[sound.trackInfo[i].input] && sound.data[sound.trackInfo[i].input].min ? sound.data[sound.trackInfo[i].input].min + ' to ' + sound.data[sound.trackInfo[i].input].max : 'no input'}</td></tr>
 		</table>
 	`
 	inputs = document.getElementById(`selectedInput${i}`);
