@@ -119,13 +119,14 @@ function startAudio(preset) {
 
 function loadMixer() {
 	const mixer = document.getElementById('mixerBox');
+	mixer.innerHTML= '';
 	for (let i=0; i < sound.trackInfo.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
 			<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
 			${sound.trackInfo[i].trackName}
 			<div id='info${i}'></div></td>
 			`)
-		// fetch(sound.trackInfo[i], {mode: "cors"})  // for versions 1 and 2	
+		updateMixerTrack(i);	
 	}
 }
 
@@ -307,8 +308,21 @@ function savePreset() {
 // download(jsonData, 'json.txt', 'text/plain');
 
 function removeTrack(i) {
-	if (window.confirm('Are you sure you want to remove this track?')) {
+	contextState = sound.context.state
+	console.log(contextState);
+	if (window.confirm('Are you sure you want to remove this track?')) { // this interrupts the audio!!
 		console.log('removing');
+		console.log(sound.bufferSources);
+		sound.bufferSources[i].disconnect();
+		sound.bufferSources.splice(i, 1);
+		sound.trackInfo.splice(i, 1);
+		sound.buffers.splice(i, 1);
+		sound.userGains.splice(i, 1);
+		sound.dataGains.splice(i, 1);
+		if (contextState == 'suspended') {
+			sound.context.suspend();
+		}
+		loadMixer();
 	}
 }
 
