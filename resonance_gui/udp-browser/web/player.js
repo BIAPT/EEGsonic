@@ -137,6 +137,7 @@ function addNewTrack() {
 	let filename = document.getElementById('newTrack').value.split('\\');
 	filename = filename[filename.length - 1];
 	sound.trackInfo.push({fileName: filename, trackName: filename, input: sound.data.length, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
+	sound.data.push({min: null, max: null})
 	setUpTrack(sound.trackInfo.length - 1);
 	loadMixer();
 }
