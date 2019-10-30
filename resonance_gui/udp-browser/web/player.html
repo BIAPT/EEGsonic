@@ -19,9 +19,13 @@
         <div id="resonancePlayer">
             <div id='controlContainer'>
                 <div id="playerControls">
-                    <button id='startContext' onClick='startAudio()'>START AUDIO CONTEXT</button><br>
+                    <div id='presetsButtons'>
+                        <button id='startContext' onClick='startAudio()'>Load Preset</button>
+                        <button id='savePreset' onClick='savePreset()'>Save Preset</button>
+                    </div>
                     <button id='startAudio'>Play</button><button id='stopAudio'>Stop</button><br>
-                    <label for='masterGain'>Volume:</label><br><input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
+                    <label for='masterGain'>Volume:</label><br>
+                    <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
                     <button id='toggleRecording' onClick='toggleRecording()'>Start Recording</button>
                     <ul id='downloadLinks'></ul>
                 </div>

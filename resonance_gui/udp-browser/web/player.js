@@ -245,5 +245,9 @@ function showEdit(i) {
 	})
 }
 
+function savePreset() {
+	console.log('saving app state as preset');
+}
+
 
 
