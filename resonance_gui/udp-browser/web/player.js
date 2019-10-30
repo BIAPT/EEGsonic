@@ -247,7 +247,18 @@ function showEdit(i) {
 
 function savePreset() {
 	console.log('saving app state as preset');
+	// function download(content, fileName, contentType) {
+    var a = document.createElement("a");
+    var file = new Blob([JSON.stringify(sound.trackInfo)], {type: 'text/plain'});
+    a.href = URL.createObjectURL(file);
+    a.download = 'preset.txt';
+    a.innerHTML = a.download;
+    presets = document.getElementById('presetsButtons');
+    presets.appendChild(a);
+    a.click();
 }
+// download(jsonData, 'json.txt', 'text/plain');
+
 
 
 
