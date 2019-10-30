@@ -49,12 +49,12 @@ function startAudio() {
 	// Version 3 - Version 1 but with sounds paired onto single input streams
 	sound.trackInfo = [
 		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: null, reversed: false, gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: null, reversed: true,  gain: -20, min: -1, max: 1, pinToData: true},	
+		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},	
 		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: null, reversed: true,  gain: 0, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: null,  reversed: false,  gain: -10, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_drone.mp3', trackName: 'Drone', input: null, reversed: false,  gain: -15, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: null, reversed: true,  gain: -10, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: null,  reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_drone.mp3', trackName: 'Drone', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
 		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true}
 		]
 
@@ -196,21 +196,12 @@ function showEdit(i) {
 	gui.innerHTML = `
 		<table>
 			<tr>Track ${i}</tr>
-			<tr>
-				<td style='width: 100px'>Name:</td><td> ${sound.trackInfo[i].trackName}</td>
-			</tr>
-			<tr>
-				<td>File:</td><td> ${sound.trackInfo[i].fileName} <br><input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td>
-			</tr>
-			<tr>
-				<td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td>
-			</tr>
-			<tr>
-				<td>Range:</td><td> ${sound.trackInfo[i].pinToData? 'pinned to min and max of input' : sound.trackInfo[i].min + ' to ' + sound.trackInfo[i].max}</td>
-			</tr>
-			<tr>
-				<td>Range so far:</td><td id='range${i}'> ${sound.data[sound.trackInfo[i].input].min ? sound.data[sound.trackInfo[i].input].min + ' to ' + sound.data[sound.trackInfo[i].input].max : 'no input'}</td>
-			</tr>
+			<tr><td style='width: 100px'>Name:</td><td> ${sound.trackInfo[i].trackName}</td></tr>
+			<tr><td>File:</td><td> ${sound.trackInfo[i].fileName} <br>
+				<input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td></tr>
+			<tr><td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td></tr>
+			<tr><td>Range:</td><td> ${sound.trackInfo[i].pinToData? 'pinned to min and max of input' : sound.trackInfo[i].min + ' to ' + sound.trackInfo[i].max}</td></tr>
+			<tr><td>Range so far:</td><td id='range${i}'> ${sound.data[sound.trackInfo[i].input].min ? sound.data[sound.trackInfo[i].input].min + ' to ' + sound.data[sound.trackInfo[i].input].max : 'no input'}</td></tr>
 		</table>
 	`
 	inputs = document.getElementById(`selectedInput${i}`);
