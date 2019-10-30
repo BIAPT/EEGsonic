@@ -4,7 +4,22 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 // Web Audio requires user input to start audio. This function is triggered
 // by the button in player.html
-function startAudio() {
+const defaultPreset = [
+		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: null, reversed: false, gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},	
+		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: null,  reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_drone.mp3', trackName: 'Drone', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true}
+		]
+
+
+function startAudio(preset) {
+	document.getElementById('contextStarted').removeAttribute('style');
+
+
 	sound = {
 		context : new AudioContext(),
 		masterGain : null,
@@ -47,16 +62,7 @@ function startAudio() {
 	// trackNames = ['bass', 'cello', 'viola', 'violin', 'bassoon', 'clarinet', 'oboe', 'flute']
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
-	sound.trackInfo = [
-		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: null, reversed: false, gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},	
-		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: null,  reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_drone.mp3', trackName: 'Drone', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true}
-		]
+	sound.trackInfo = preset
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -258,6 +264,11 @@ function savePreset() {
     a.click();
     presets.removeChild(a);
     URL.revokeObjectURL(a.href);
+    // presets.insertAdjacentHTML('beforeend', '<b id="saved">saved!</b>')
+    // setTimeout(()=>{
+    // 	saved = document.getElementById('saved')
+    // 	saved.parentNode.removeChild(saved);
+    // }, 3000);
 }
 // download(jsonData, 'json.txt', 'text/plain');
 

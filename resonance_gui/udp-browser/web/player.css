@@ -24,6 +24,14 @@
 	justify-content: space-around;
 }
 
+#contextStarted {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
 #mixerGui {
 	border: 1px solid #eeeeee;
 	height: 150px;
