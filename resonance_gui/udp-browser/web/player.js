@@ -15,6 +15,17 @@ const defaultPreset = [
 		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true}
 		]
 
+function loadPreset() {
+	fileName = document.getElementById('presetSelector').value.split('\\');
+	fileName = fileName[fileName.length - 1];
+	if (fileName !== '') {
+		fetch('./playerPresets/' + fileName)
+			.then(response => response.text())
+			.then(preset => {
+				startAudio(JSON.parse(preset));
+			})
+	}
+}
 
 function startAudio(preset) {
 	document.getElementById('contextStarted').removeAttribute('style');
