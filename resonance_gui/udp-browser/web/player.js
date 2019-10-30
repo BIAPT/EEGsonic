@@ -22,7 +22,7 @@ function loadPreset() {
 
 	if (fileName !== '') {
 		// clear out any pre-existing bufferSources
-		if (sound) {
+		if (typeof sound !== 'undefined') {
 			for (i=0; i<sound.bufferSources.length; i++) {
 				sound.bufferSources[i].disconnect();
 			}
@@ -33,6 +33,7 @@ function loadPreset() {
 		fetch('./playerPresets/' + fileName)
 			.then(response => response.text())
 			.then(preset => {
+				console.log(JSON.parse(preset));
 				startAudio(JSON.parse(preset));
 			})
 	}
@@ -84,7 +85,10 @@ function startAudio(preset) {
 	// trackNames = ['bass', 'cello', 'viola', 'violin', 'bassoon', 'clarinet', 'oboe', 'flute']
 
 	// Version 3 - Version 1 but with sounds paired onto single input streams
+	
+	console.log(preset);
 	sound.trackInfo = preset
+	console.log(sound.trackInfo);
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -147,6 +151,7 @@ async function loadSoundfile(i) {
 
 function initializeInputs() {
 	// display information about input
+	console.log(sound.trackInfo);
 	let j = 0;
 	for (let i=0; i < sound.trackInfo.length; i++) {
 		if (sound.trackInfo[i].input == null) {
@@ -242,7 +247,7 @@ function showEdit(i) {
 	}
 	inputs.value = sound.trackInfo[i].input;
 	inputs.addEventListener('change', (event)=>{
-		sound.trackInfo[i].input = event.target.value;
+		sound.trackInfo[i].input = parseInt(event.target.value);
 		insertInputInfo(i);
 	});
 
