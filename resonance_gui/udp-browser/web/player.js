@@ -106,6 +106,18 @@ function startAudio(preset) {
 	stopButton = document.getElementById('stopAudio');
 	stopButton.addEventListener('click', ()=>{sound.context.suspend()})
 
+	for (let i=0; i < sound.trackInfo.length; i++) {
+		setUpTrack(i);
+	}
+	loadMixer();
+	
+	button = document.getElementById('startContext')
+	if (button) {button.parentNode.removeChild(button);}
+
+	initializeInputs();
+}
+
+function loadMixer() {
 	const mixer = document.getElementById('mixerBox');
 	for (let i=0; i < sound.trackInfo.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
@@ -113,14 +125,8 @@ function startAudio(preset) {
 			${sound.trackInfo[i].trackName}
 			<div id='info${i}'></div></td>
 			`)
-		// fetch(sound.trackInfo[i], {mode: "cors"})  // for versions 1 and 2
-		setUpTrack(i);
-		
+		// fetch(sound.trackInfo[i], {mode: "cors"})  // for versions 1 and 2	
 	}
-	button = document.getElementById('startContext')
-	if (button) {button.parentNode.removeChild(button);}
-
-	initializeInputs();
 }
 
 function setUpTrack(i) {
@@ -229,7 +235,7 @@ function showEdit(i) {
 	console.log(sound.data);
 	gui.innerHTML = `
 		<table>
-			<tr>Track ${i}</tr>
+			<div id='trackHeader'><tr>Track ${i}</tr><button onClick='removeTrack(${i})'>Remove Track</button></div>
 			<tr><td style='width: 100px'>Name:</td><td> ${sound.trackInfo[i].trackName}</td></tr>
 			<tr><td>File:</td><td> ${sound.trackInfo[i].fileName} <br>
 				<input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td></tr>
@@ -299,6 +305,12 @@ function savePreset() {
     // }, 3000);
 }
 // download(jsonData, 'json.txt', 'text/plain');
+
+function removeTrack(i) {
+	if (window.confirm('Are you sure you want to remove this track?')) {
+		console.log('removing');
+	}
+}
 
 
 
