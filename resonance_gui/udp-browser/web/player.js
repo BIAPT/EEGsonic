@@ -186,7 +186,7 @@ function showEdit(i) {
 	gui = document.getElementById('mixerGui');
 	gui.innerHTML = `
 		<table>
-			<div id='trackHeader'><tr>Track ${i}</tr><button onClick='removeTrack(${i})'>Remove Track</button></div>
+			<tr><td><b>Track ${i}</b></td><td><button style='flex-grow: 0' onClick='removeTrack(${i})'>Remove Track</button></td>
 			<tr><td style='width: 100px'>Name:</td><td> ${sound.trackInfo[i].trackName}</td></tr>
 			<tr><td>File:</td><td> ${sound.trackInfo[i].fileName} <br>
 				<input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td></tr>

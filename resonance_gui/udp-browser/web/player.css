@@ -14,7 +14,7 @@ label {
 	margin: 3px;
 }
 
-button {
+button {s
 	margin: 3px;
 	font-family: 'lato', sans-serif ;
 	background: rgba('0,0,0,0.05');
@@ -30,7 +30,7 @@ h1 {
 
 #mainContainer {
 	margin: 20px auto;
-	width: 70vw;
+	width: 80vw;
 	min-width: 500px;
 }
 
@@ -43,7 +43,7 @@ h1 {
 #controlContainer {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: left;
 }
 
 #playerControls {
@@ -67,6 +67,14 @@ h1 {
 	align-items: center;
 }
 
+.flex-row-between {
+	margin: 10px 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
 #contextStarted {
 	height: 100%;
 	width: 100%;
@@ -82,10 +90,11 @@ h1 {
 	width: 450px;
 	margin: 5px;
 	padding: 15px 15px;
-	flex-grow: 1;
 }
 
 #mixerContainer {
+	width: 100%;
+	overflow-x: scroll;
 }
 
 #mixerBox {
