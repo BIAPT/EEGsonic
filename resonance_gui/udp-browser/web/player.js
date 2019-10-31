@@ -58,33 +58,6 @@ function startAudio(preset) {
 	sound.context.suspend();
 
 	fileDirectory = './samples/';
-
-	// // Version 1 - pretty music w bells, guitar and clarinet melody
-	// sound.trackInfo = [
-	// 	'./samples/res1_bass.mp3',
-	// 	'./samples/res1_bells.mp3',
-	// 	'./samples/res1_cellos.mp3',
-	// 	'./samples/res1_clarinet.mp3',
-	// 	'./samples/res1_drone.mp3',
-	// 	'./samples/res1_flutes.mp3',
-	// 	'./samples/res1_guitar.mp3',
-	// 	'./samples/res1_violins.mp3']
-	// trackNames = ['bass', 'bells', 'cellos', 'clarinet', 'drone', 'flutes', 'guitar', 'violins']
-
-	// // Version 2 - C major chord w strings and woodwinds
-	// sound.trackInfo = [
-	// 	'./samples/res2_bass.mp3',
-	// 	'./samples/res2_cello.mp3',
-	// 	'./samples/res2_viola.mp3',
-	// 	'./samples/res2_violin.mp3',
-	// 	'./samples/res2_bassoon.mp3',
-	// 	'./samples/res2_clarinet.mp3',
-	// 	'./samples/res2_oboe.mp3',
-	// 	'./samples/res2_flute.mp3'
-	// 	]
-	// trackNames = ['bass', 'cello', 'viola', 'violin', 'bassoon', 'clarinet', 'oboe', 'flute']
-
-	// Version 3 - Version 1 but with sounds paired onto single input streams
 	
 	console.log(preset);
 	sound.trackInfo = preset
