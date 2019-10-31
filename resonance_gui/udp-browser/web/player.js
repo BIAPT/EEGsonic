@@ -46,7 +46,6 @@ function startAudio(preset) {
 	// default value of master gain is coded in player.html. Gain is converted to decibels
 	masterGainSlider = document.getElementById('masterGain');
 	sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
-
 	masterGainSlider.addEventListener('input', ()=> {
 		sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
 	}, false);
@@ -57,9 +56,10 @@ function startAudio(preset) {
 	stopButton = document.getElementById('stopAudio');
 	stopButton.addEventListener('click', ()=>{sound.context.suspend()})
 
-	loadMixer();
 
 	initializeInputs();
+
+	loadMixer();
 
 	for (let i=0; i < sound.trackInfo.length; i++) {
 		setUpTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
@@ -81,49 +81,16 @@ function initializeInputs() {
 	}
 }
 
-// displays which input stream is used in the mixer
-function insertInputInfo(i) {
-	let info = document.getElementById(`info${i}`);
-		if (sound.trackInfo[i].reversed) {
-			info.innerText = `Reversed ${sound.trackInfo[i].input}`;
-		} else {
-			info.innerText = `Input ${sound.trackInfo[i].input}`
-		}
-}
-
-// clears and sets up empty divs for each track in the mixer
+// clears and sets up empty divs for each track in the mixer.
+// this makes sure they are in the right order on the screen
 function loadMixer() {
 	const mixer = document.getElementById('mixerBox');
 	mixer.innerHTML= '';
 
 	for (let i=0; i < sound.trackInfo.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
-			<td id='Track${i}' class='mixerTrack'></td>
+			<td id='Track${i}' class='mixerTrack'>Track ${i}</td>
 			`)	
-	}
-}
-
-function loadPreset() {
-
-	fileName = document.getElementById('presetSelector').value.split('\\'); // MAC COMPATIBILITY WARNING
-	fileName = fileName[fileName.length - 1];
-
-	if (fileName !== '') { // do nothing if the input field is blank
-		// clear out any pre-existing bufferSources
-		if (typeof sound !== 'undefined') {
-			for (i=0; i<sound.bufferSources.length; i++) {
-				sound.bufferSources[i].disconnect();
-			}
-		}
-
-		const mixer = document.getElementById('mixerBox');
-		mixer.innerHTML = '';
-
-		fetch('./playerPresets/' + fileName)
-			.then(response => response.text())
-			.then(preset => {
-				startAudio(JSON.parse(preset));
-			})
 	}
 }
 
@@ -157,23 +124,9 @@ async function loadSoundfile(i) {
 	return true;
 }
 
-
-
-
-function addNewTrack() {
-	let filename = document.getElementById('newTrack').value.split('\\');
-	filename = filename[filename.length - 1];
-	sound.trackInfo.push({fileName: filename, trackName: filename, input: sound.data.length, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
-	sound.data.push({min: null, max: null})
-	setUpTrack(sound.trackInfo.length - 1);
-	loadMixer();
-}
-
 function loadMixerTrack(i) {
-	let trackId = `Track${i}`;
-	console.log(trackId);
 
-	document.getElementById(trackId).innerHTML = `
+	document.getElementById(`Track${i}`).innerHTML = `
 		<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
 			${sound.trackInfo[i].trackName}<br>
 			<div id='info${i}'></div></td>
@@ -189,6 +142,7 @@ function loadMixerTrack(i) {
 
 	let userGain = document.getElementById(`userGain${i}`)
 	if (sound.trackInfo[i].gain !== null) {userGain.value = sound.trackInfo[i].gain};
+	
 	sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
 	userGain.addEventListener('input', ()=>{
 		sound.trackInfo[i].gain = userGain.value;
@@ -216,10 +170,19 @@ function loadMixerTrack(i) {
 	});
 }
 
+// displays which input stream is used in the mixer
+function insertInputInfo(i) {
+	let info = document.getElementById(`info${i}`);
+		if (sound.trackInfo[i].reversed) {
+			info.innerText = `Reversed ${sound.trackInfo[i].input}`;
+		} else {
+			info.innerText = `Input ${sound.trackInfo[i].input}`
+		}
+}
+
+// displays the edit menu in the upper right corner
 function showEdit(i) {
 	gui = document.getElementById('mixerGui');
-	console.log(i);
-	console.log(sound.data);
 	gui.innerHTML = `
 		<table>
 			<div id='trackHeader'><tr>Track ${i}</tr><button onClick='removeTrack(${i})'>Remove Track</button></div>
@@ -272,26 +235,16 @@ function showEdit(i) {
 	})
 }
 
-function savePreset() {
-	console.log('saving app state as preset');
-	// function download(content, fileName, contentType) {
-    var a = document.createElement("a");
-    var file = new Blob([JSON.stringify(sound.trackInfo)], {type: 'text/plain'});
-    a.href = URL.createObjectURL(file);
-    a.download = 'preset.txt';
-    a.innerHTML = a.download;
-    presets = document.getElementById('presetsButtons');
-    presets.appendChild(a);
-    a.click();
-    presets.removeChild(a);
-    URL.revokeObjectURL(a.href);
-    // presets.insertAdjacentHTML('beforeend', '<b id="saved">saved!</b>')
-    // setTimeout(()=>{
-    // 	saved = document.getElementById('saved')
-    // 	saved.parentNode.removeChild(saved);
-    // }, 3000);
+
+// *** ADD AND REMOVE TRACKS ***
+function addNewTrack() {
+	let filename = document.getElementById('newTrack').value.split('\\');
+	filename = filename[filename.length - 1];
+	sound.trackInfo.push({fileName: filename, trackName: filename, input: sound.data.length, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
+	sound.data.push({min: null, max: null})
+	setUpTrack(sound.trackInfo.length - 1);
+	loadMixer();
 }
-// download(jsonData, 'json.txt', 'text/plain');
 
 function removeTrack(i) {
 	contextState = sound.context.state
@@ -311,6 +264,47 @@ function removeTrack(i) {
 		loadMixer();
 	}
 }
+
+
+// *** HANDLING PRESETS ***
+function loadPreset() {
+	fileName = document.getElementById('presetSelector').value.split('\\'); // MAC COMPATIBILITY WARNING
+	fileName = fileName[fileName.length - 1];
+
+	if (fileName !== '') { // do nothing if the input field is blank
+		// clear out any pre-existing bufferSources
+		if (typeof sound !== 'undefined') {
+			for (i=0; i<sound.bufferSources.length; i++) {
+				sound.bufferSources[i].disconnect();
+			}
+		}
+
+		fetch('./playerPresets/' + fileName)
+			.then(response => response.text())
+			.then(preset => {
+				startAudio(JSON.parse(preset));
+			})
+	}
+}
+
+function savePreset() {
+	console.log('saving app state as preset');
+	// function download(content, fileName, contentType) {
+    var a = document.createElement("a");
+    var file = new Blob([JSON.stringify(sound.trackInfo)], {type: 'text/plain'});
+    a.href = URL.createObjectURL(file);
+    a.download = 'preset.txt';
+    a.innerHTML = a.download;
+    presets = document.getElementById('presetsButtons');
+    presets.appendChild(a);
+    a.click();
+    presets.removeChild(a);
+    URL.revokeObjectURL(a.href);
+}
+
+
+
+
 
 
 
