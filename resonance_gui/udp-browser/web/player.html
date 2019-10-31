@@ -5,7 +5,7 @@
         <meta charset="UTF-8" />
 
         <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet"> 
-        
+
         <link rel="stylesheet" type="text/css" media="all" href="osc-view.css"></link>
         <script src="node_modules/jquery/dist/jquery.js"></script>
         <script src="node_modules/osc/dist/osc-browser.min.js"></script>
@@ -19,40 +19,41 @@
     </head>
 
     <body>
-        <h1>Resonance</h1>
+        <div id='mainContainer'>
+            <h1>Resonance</h1>
 
-        <div id="resonancePlayer">
-            <div id='controlContainer'>
-                <div id="playerControls">
-                    <button id='startContext' onClick='startAudio(defaultPreset)'>Load default</button>
-                    <div>
-                        <input type='file' id='presetSelector'></input>
-                        <button id='loadPreset' onClick='loadPreset()'>Load preset</button>
-                    </div>
-                    <div id='contextStarted' style='display:none'>
+            <div id="resonancePlayer">
+                <div id='controlContainer'>
+                    <div id="playerControls">
+                        <button id='startContext' onClick='startAudio(defaultPreset)'>Load default</button>
                         <div id='presetsButtons'>
-                            <button id='savePreset' onClick='savePreset()'>Save Preset</button>
+                            <b>Preset: </b>
+                            <input type='file' id='presetSelector'></input>
+                            <button id='loadPreset' onClick='loadPreset()'>Load</button>
+                            <button id='savePreset' onClick='savePreset()' disabled>Save</button>
                         </div>
-                        <button id='startAudio'>Play</button><button id='stopAudio'>Stop</button><br>
-                        <label for='masterGain'>Volume:</label><br>
-                        <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
-                        <button id='toggleRecording' onClick='toggleRecording()'>Start Recording</button>
-                        <ul id='downloadLinks'></ul>
+                        <div id='contextStarted' style='display:none'>
+                            <button id='startAudio'>Play</button><button id='stopAudio'>Stop</button><br>
+                            <label for='masterGain'><b>Volume:</b></label><br>
+                            <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
+                            <button id='toggleRecording' onClick='toggleRecording()'>Start Recording</button>
+                            <ul id='downloadLinks'></ul>
+                        </div>
+                    </div>
+                    <div id='mixerGui'>
                     </div>
                 </div>
-                <div id='mixerGui'>
+                <div id="mixerContainer">
+                    <table>
+                        <tr id="mixerBox"></tr>
+                    </table>
+                    <input id='newTrack' type='file'></input>
+                    <button id='newTrackConfirm' onClick='addNewTrack()'>Add Track</button>
                 </div>
-            </div>
-            <div id="mixerContainer">
-                <table>
-                    <tr id="mixerBox"></tr>
-                </table>
-                <input id='newTrack' type='file'></input>
-                <button id='newTrackConfirm' onClick='addNewTrack()'>Add Track</button>
             </div>
         </div>
 
-        <br>
+        <br><br>
         <div id="messageArea">
             <p id="messageLabel">OSC Message:</p>
             <pre id="message"></pre>

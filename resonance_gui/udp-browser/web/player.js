@@ -19,6 +19,7 @@ function startAudio(preset) {
 
 	// Handle GUI
 	document.getElementById('contextStarted').removeAttribute('style');
+	document.getElementById('savePreset').removeAttribute('disabled');
 
 	button = document.getElementById('startContext')
 	if (button) {button.parentNode.removeChild(button);}
@@ -142,7 +143,7 @@ function loadMixerTrack(i) {
 
 	let userGain = document.getElementById(`userGain${i}`)
 	if (sound.trackInfo[i].gain !== null) {userGain.value = sound.trackInfo[i].gain};
-	
+
 	sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
 	userGain.addEventListener('input', ()=>{
 		sound.trackInfo[i].gain = userGain.value;

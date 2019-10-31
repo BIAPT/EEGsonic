@@ -1,21 +1,40 @@
 body {
 	font-family: 'lato', sans-serif ;
 	font-size: smaller;
+	background: rgba(0,0,0,0.05);
 }
+
+
 
 input {
 	font-family: 'lato', sans-serif ;
+	background: rgba('0,0,0,0.1');
+	border-radius: 3px;
+	margin: 3px;
 }
 
 button {
+	margin: 3px;
 	font-family: 'lato', sans-serif ;
+	background: rgba('0,0,0,0.05');
+	border-radius: 2px;
+	box-shadow: 0px;
 }
 
+h1 {
+	font-style: italic;
+	margin-left: 15px;
+}
+
+#mainContainer {
+	margin: 20px auto;
+	width: 70vw;
+	min-width: 500px;
+}
 
 #resonancePlayer {
-	min-width: 80vw;
 	min-height: 510px;
-	margin: 0px auto;
+	margin: 20px auto;
 	border: 1px solid #eeeeee;
 	border-radius: 5px;
 }
@@ -23,18 +42,27 @@ button {
 #controlContainer {
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
 }
 
 #playerControls {
 	width:350px;
-	height:150px;
+	height:200px;
 	border: 1px solid #eeeeee;
 	border-radius: 6px;
 	margin:5px;
 	padding:15px 15px;
 	display: flex;
 	flex-direction:column;
-	justify-content: space-around;
+	justify-content: start;
+}
+
+#presetsButtons {
+	margin: 10px 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }
 
 #contextStarted {
