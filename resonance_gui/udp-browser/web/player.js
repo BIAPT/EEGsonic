@@ -2,8 +2,7 @@ console.log('player online');
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-// Web Audio requires user input to start audio. This function is triggered
-// by the button in player.html
+// this is the default preset loaded when none is selected
 const defaultPreset = [
 		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: null, reversed: false, gain: null, min: -1, max: 1, pinToData: true},
 		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},	
@@ -15,53 +14,28 @@ const defaultPreset = [
 		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true}
 		]
 
-function loadPreset() {
-
-	fileName = document.getElementById('presetSelector').value.split('\\');
-	fileName = fileName[fileName.length - 1];
-
-	if (fileName !== '') {
-		// clear out any pre-existing bufferSources
-		if (typeof sound !== 'undefined') {
-			for (i=0; i<sound.bufferSources.length; i++) {
-				sound.bufferSources[i].disconnect();
-			}
-		}
-
-		const mixer = document.getElementById('mixerBox');
-		mixer.innerHTML = '';
-		fetch('./playerPresets/' + fileName)
-			.then(response => response.text())
-			.then(preset => {
-				console.log(JSON.parse(preset));
-				startAudio(JSON.parse(preset));
-			})
-	}
-}
-
+// Web Audio requires user input to start audio. 
 function startAudio(preset) {
-	document.getElementById('contextStarted').removeAttribute('style');
 
+	// to be changed
+	document.getElementById('contextStarted').removeAttribute('style');
+	//
 
 	sound = {
 		context : new AudioContext(),
 		masterGain : null,
-		trackInfo : [],  	// URL of soundFiles
+		trackInfo : [],  	// information about soundFiles, presets populate this field
 		buffers : [],      	// Buffer for loading files
 		bufferSources : [],	// Actual Web Audio Node connected to rest of graph
 		userGains: [],		// user-inputted gain for each track
-		dataGains: [],
-		data: [],		// per-track gain from biosignals
+		dataGains: [],		// per-track gain from biosignals
+		data: [],			// keeps track of range of input singals
 		selectedTrack: null
 	}
 
 	sound.context.suspend();
-
-	fileDirectory = './samples/';
 	
-	console.log(preset);
-	sound.trackInfo = preset
-	console.log(sound.trackInfo);
+	sound.trackInfo = preset;
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
@@ -88,6 +62,30 @@ function startAudio(preset) {
 	if (button) {button.parentNode.removeChild(button);}
 
 	initializeInputs();
+}
+
+function loadPreset() {
+
+	fileName = document.getElementById('presetSelector').value.split('\\');
+	fileName = fileName[fileName.length - 1];
+
+	if (fileName !== '') {
+		// clear out any pre-existing bufferSources
+		if (typeof sound !== 'undefined') {
+			for (i=0; i<sound.bufferSources.length; i++) {
+				sound.bufferSources[i].disconnect();
+			}
+		}
+
+		const mixer = document.getElementById('mixerBox');
+		mixer.innerHTML = '';
+		fetch('./playerPresets/' + fileName)
+			.then(response => response.text())
+			.then(preset => {
+				console.log(JSON.parse(preset));
+				startAudio(JSON.parse(preset));
+			})
+	}
 }
 
 function loadMixer() {
@@ -124,6 +122,8 @@ function setUpTrack(i) {
 }
 
 async function loadSoundfile(i) {
+	fileDirectory = './samples/';
+
 	fileName = fileDirectory + sound.trackInfo[i].fileName;
 	fetch(fileName, {mode: "cors"})
 		.then(function(resp) {return resp.arrayBuffer()})
