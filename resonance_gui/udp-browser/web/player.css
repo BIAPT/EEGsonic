@@ -6,7 +6,6 @@ body {
 
 input {
 	font-family: 'lato', sans-serif ;
-	background: rgba('0,0,0,0.1');
 	border-radius: 3px;
 	margin: 3px;
 }
@@ -19,7 +18,7 @@ button {
 	margin: 3px;
 	font-family: 'lato', sans-serif ;
 	background: rgba('0,0,0,0.05');
-	border-radius: 2px;
+	border-radius: 3px;
 	box-shadow: 0px;
 	flex-grow: 1;
 }
@@ -36,10 +35,9 @@ h1 {
 }
 
 #resonancePlayer {
-	min-height: 510px;
 	margin: 20px auto;
-	border: 1px solid #eeeeee;
-	border-radius: 5px;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
 }
 
 #controlContainer {
@@ -49,9 +47,11 @@ h1 {
 }
 
 #playerControls {
-	width:350px;
-	border: 1px solid #eeeeee;
-	border-radius: 6px;
+
+	height: 200px;
+	width: 250px;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
 	margin:5px;
 	padding:15px 15px;
 	display: flex;
@@ -72,20 +72,20 @@ h1 {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: space-between;
 }
 
 #mixerGui {
-	border: 1px solid #eeeeee;
-	height: 150px;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	height: 200px;
 	width: 450px;
 	margin: 5px;
 	padding: 15px 15px;
-	border-radius: 6px;
+	flex-grow: 1;
 }
 
 #mixerContainer {
-	max-height:300px;
 }
 
 #mixerBox {
@@ -100,8 +100,8 @@ h1 {
 	height:300px;
 	margin:3px;
 	padding:5px;
-	border: 1px solid #eeeeee;
-	border-radius: 6px;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
