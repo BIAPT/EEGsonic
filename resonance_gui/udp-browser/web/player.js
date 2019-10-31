@@ -17,10 +17,13 @@ const defaultPreset = [
 // Web Audio requires user input to start audio. 
 function startAudio(preset) {
 
-	// to be changed
+	// Handle GUI
 	document.getElementById('contextStarted').removeAttribute('style');
-	//
 
+	button = document.getElementById('startContext')
+	if (button) {button.parentNode.removeChild(button);}
+	
+	// initialize sound graph
 	sound = {
 		context : new AudioContext(),
 		masterGain : null,
@@ -32,65 +35,66 @@ function startAudio(preset) {
 		data: [],			// keeps track of range of input singals
 		selectedTrack: null
 	}
-
 	sound.context.suspend();
 	
 	sound.trackInfo = preset;
 
+	// handle master gain slider, play and stop buttons
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
 
+	// default value of master gain is coded in player.html. Gain is converted to decibels
 	masterGainSlider = document.getElementById('masterGain');
+	sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
+
 	masterGainSlider.addEventListener('input', ()=> {
 		sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
-		console.log(sound.masterGain.gain);
-		console.log(masterGainSlider.value);
 	}, false);
-	sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
 
 	playButton = document.getElementById('startAudio');
 	playButton.addEventListener('click', ()=>{sound.context.resume()})
+
 	stopButton = document.getElementById('stopAudio');
 	stopButton.addEventListener('click', ()=>{sound.context.suspend()})
 
-	for (let i=0; i < sound.trackInfo.length; i++) {
-		setUpTrack(i);
-	}
 	loadMixer();
-	
-	button = document.getElementById('startContext')
-	if (button) {button.parentNode.removeChild(button);}
 
 	initializeInputs();
+
+	for (let i=0; i < sound.trackInfo.length; i++) {
+		setUpTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
+	}
+
 }
 
-function loadPreset() {
-
-	fileName = document.getElementById('presetSelector').value.split('\\');
-	fileName = fileName[fileName.length - 1];
-
-	if (fileName !== '') {
-		// clear out any pre-existing bufferSources
-		if (typeof sound !== 'undefined') {
-			for (i=0; i<sound.bufferSources.length; i++) {
-				sound.bufferSources[i].disconnect();
-			}
-		}
-
-		const mixer = document.getElementById('mixerBox');
-		mixer.innerHTML = '';
-		fetch('./playerPresets/' + fileName)
-			.then(response => response.text())
-			.then(preset => {
-				console.log(JSON.parse(preset));
-				startAudio(JSON.parse(preset));
-			})
+function initializeInputs() {
+	// assigns inputs each track with none specified. Does not touch the GUI
+	let j = 0;
+	for (let i=0; i < sound.trackInfo.length; i++) {
+		if (sound.trackInfo[i].input == null) {
+			sound.data[j] = {min: null, max: null}
+	    	sound.trackInfo[i].input = j;
+	    	if (sound.trackInfo[i].reversed === false) { j++; }
+	    } else {
+	    	sound.data[sound.trackInfo[i].input] = {min: null, max: null}
+	    }
 	}
+}
+
+// displays which input stream is used in the mixer
+function insertInputInfo(i) {
+	let info = document.getElementById(`info${i}`);
+		if (sound.trackInfo[i].reversed) {
+			info.innerText = `Reversed ${sound.trackInfo[i].input}`;
+		} else {
+			info.innerText = `Input ${sound.trackInfo[i].input}`
+		}
 }
 
 function loadMixer() {
 	const mixer = document.getElementById('mixerBox');
 	mixer.innerHTML= '';
+
 	for (let i=0; i < sound.trackInfo.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
 			<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
@@ -104,13 +108,28 @@ function loadMixer() {
 		`)
 }
 
-function addNewTrack() {
-	let filename = document.getElementById('newTrack').value.split('\\');
-	filename = filename[filename.length - 1];
-	sound.trackInfo.push({fileName: filename, trackName: filename, input: sound.data.length, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
-	sound.data.push({min: null, max: null})
-	setUpTrack(sound.trackInfo.length - 1);
-	loadMixer();
+function loadPreset() {
+
+	fileName = document.getElementById('presetSelector').value.split('\\'); // MAC COMPATIBILITY WARNING
+	fileName = fileName[fileName.length - 1];
+
+	if (fileName !== '') { // do nothing if the input field is blank
+		// clear out any pre-existing bufferSources
+		if (typeof sound !== 'undefined') {
+			for (i=0; i<sound.bufferSources.length; i++) {
+				sound.bufferSources[i].disconnect();
+			}
+		}
+
+		const mixer = document.getElementById('mixerBox');
+		mixer.innerHTML = '';
+
+		fetch('./playerPresets/' + fileName)
+			.then(response => response.text())
+			.then(preset => {
+				startAudio(JSON.parse(preset));
+			})
+	}
 }
 
 function setUpTrack(i) {
@@ -121,10 +140,12 @@ function setUpTrack(i) {
 	loadSoundfile(i);
 }
 
-async function loadSoundfile(i) {
+// this is separate from setUpTrack because you can load a soundfile after
+async function loadSoundfile(i) { 
 	fileDirectory = './samples/';
 
 	fileName = fileDirectory + sound.trackInfo[i].fileName;
+
 	fetch(fileName, {mode: "cors"})
 		.then(function(resp) {return resp.arrayBuffer()})
 		.then((buffer) => {
@@ -141,31 +162,16 @@ async function loadSoundfile(i) {
 	return true;
 }
 
-function initializeInputs() {
-	// display information about input
-	console.log(sound.trackInfo);
-	let j = 0;
-	for (let i=0; i < sound.trackInfo.length; i++) {
-		if (sound.trackInfo[i].input == null) {
-			sound.data[j] = {min: null, max: null}
-	    	if (sound.trackInfo[i].reversed) {
-	    		sound.trackInfo[i].input = j;
-	    	} else {
-	    		sound.trackInfo[i].input = j;
-	    		j++;
-	    	}
-	    } else {sound.data[sound.trackInfo[i].input] = {min: null, max: null}}
-    	insertInputInfo(i);
-	}
-}
 
-function insertInputInfo(i) {
-	let info = document.getElementById(`info${i}`);
-		if (sound.trackInfo[i].reversed) {
-			info.innerText = `Reversed ${sound.trackInfo[i].input}`;
-		} else {
-			info.innerText = `Input ${sound.trackInfo[i].input}`
-		}
+
+
+function addNewTrack() {
+	let filename = document.getElementById('newTrack').value.split('\\');
+	filename = filename[filename.length - 1];
+	sound.trackInfo.push({fileName: filename, trackName: filename, input: sound.data.length, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
+	sound.data.push({min: null, max: null})
+	setUpTrack(sound.trackInfo.length - 1);
+	loadMixer();
 }
 
 function updateMixerTrack(i) {
