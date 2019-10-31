@@ -4,12 +4,14 @@ body {
 	background: rgba(0,0,0,0.05);
 }
 
-
-
 input {
 	font-family: 'lato', sans-serif ;
 	background: rgba('0,0,0,0.1');
 	border-radius: 3px;
+	margin: 3px;
+}
+
+label {
 	margin: 3px;
 }
 
@@ -19,6 +21,7 @@ button {
 	background: rgba('0,0,0,0.05');
 	border-radius: 2px;
 	box-shadow: 0px;
+	flex-grow: 1;
 }
 
 h1 {
@@ -47,7 +50,6 @@ h1 {
 
 #playerControls {
 	width:350px;
-	height:200px;
 	border: 1px solid #eeeeee;
 	border-radius: 6px;
 	margin:5px;
@@ -57,11 +59,11 @@ h1 {
 	justify-content: start;
 }
 
-#presetsButtons {
+.flex-row {
 	margin: 10px 0px;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 }
 

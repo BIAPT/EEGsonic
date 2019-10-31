@@ -25,20 +25,21 @@
             <div id="resonancePlayer">
                 <div id='controlContainer'>
                     <div id="playerControls">
-                        <button id='startContext' onClick='startAudio(defaultPreset)'>Load default</button>
-                        <div id='presetsButtons'>
+                        <div><button id='startContext' style='width: 100%' onClick='startAudio(defaultPreset)'>Load default</button></div>
+                        <div id='presetsButtons' class='flex-row'>
                             <b>Preset: </b>
                             <input type='file' id='presetSelector'></input>
                             <button id='loadPreset' onClick='loadPreset()'>Load</button>
                             <button id='savePreset' onClick='savePreset()' disabled>Save</button>
                         </div>
                         <div id='contextStarted' style='display:none'>
-                            <button id='startAudio'>Play</button><button id='stopAudio'>Stop</button><br>
-                            <label for='masterGain'><b>Volume:</b></label><br>
+                            <div class='flex-row'><button id='startAudio'>Play</button><button id='stopAudio'>Stop</button></div>
+                            <label for='masterGain'><b>Volume:</b></label>
                             <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
                             <button id='toggleRecording' onClick='toggleRecording()'>Start Recording</button>
                             <ul id='downloadLinks'></ul>
                         </div>
+                        
                     </div>
                     <div id='mixerGui'>
                     </div>
