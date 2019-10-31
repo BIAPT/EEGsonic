@@ -91,21 +91,16 @@ function insertInputInfo(i) {
 		}
 }
 
+// clears and sets up empty divs for each track in the mixer
 function loadMixer() {
 	const mixer = document.getElementById('mixerBox');
 	mixer.innerHTML= '';
 
 	for (let i=0; i < sound.trackInfo.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
-			<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
-			${sound.trackInfo[i].trackName}
-			<div id='info${i}'></div></td>
-			`)
-		updateMixerTrack(i);	
+			<td id='Track${i}' class='mixerTrack'></td>
+			`)	
 	}
-	mixer.insertAdjacentHTML('beforeend', `
-		<input id='newTrack' type='file'></input><button id='newTrackConfirm' onClick='addNewTrack()'>Add Track</button>
-		`)
 }
 
 function loadPreset() {
@@ -156,7 +151,7 @@ async function loadSoundfile(i) {
 				sound.bufferSources[i].connect(sound.userGains[i]);
 				sound.bufferSources[i].loop = true;
 				sound.bufferSources[i].start();
-				updateMixerTrack(i);   // loads the GUI element for this track
+				loadMixerTrack(i);   // loads the GUI element for this track
 			});
 		});
 	return true;
@@ -174,7 +169,7 @@ function addNewTrack() {
 	loadMixer();
 }
 
-function updateMixerTrack(i) {
+function loadMixerTrack(i) {
 	let trackId = `Track${i}`;
 	console.log(trackId);
 
