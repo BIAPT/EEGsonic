@@ -91,7 +91,7 @@ function loadMixer() {
 	for (let i=0; i < sound.trackInfo.length; i++) {
 		mixer.insertAdjacentHTML('beforeend', `
 			<td id='Track${i}' class='mixerTrack'>Track ${i}</td>
-			`)	
+			`)
 	}
 }
 
@@ -241,10 +241,18 @@ function showEdit(i) {
 function addNewTrack() {
 	let filename = document.getElementById('newTrack').value.split('\\');
 	filename = filename[filename.length - 1];
-	sound.trackInfo.push({fileName: filename, trackName: filename, input: sound.data.length, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
-	sound.data.push({min: null, max: null})
+	sound.trackInfo.push({fileName: filename, trackName: filename.split('.')[0], input: sound.data.length, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
+	// sound.data.push({min: null, max: null})
+
+	const mixer = document.getElementById('mixerBox');
+	mixer.insertAdjacentHTML('beforeend', `
+			<td id='Track${sound.trackInfo.length - 1}' class='mixerTrack'>Track ${sound.trackInfo.length - 1}</td>
+			`)
+
+
 	setUpTrack(sound.trackInfo.length - 1);
-	loadMixer();
+
+
 }
 
 function removeTrack(i) {

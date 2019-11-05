@@ -49,6 +49,7 @@ port.on("message", function (oscMessage) {
 
 port.open();
 
+// this is still here in case we need it at some point!
 var sayHello = function () {
     port.send({
         address: "/hello",
