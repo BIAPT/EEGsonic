@@ -4,14 +4,14 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 // this is the default preset loaded when none is selected
 const defaultPreset = [
-		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: null, reversed: false, gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},	
-		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: null,  reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_drone.mp3', trackName: 'Drone', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: null, reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
-		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: null, reversed: false,  gain: null, min: -1, max: 1, pinToData: true}
+		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: '/fp_dpli_left_midline', reversed: false, gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: '/fp_wpli_left_midline', reversed: true,  gain: null, min: -1, max: 1, pinToData: true},	
+		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: '/hl_relative_position', reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: '/pe_frontal', reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: '/pe_parietal',  reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_drone.mp3', trackName: 'Drone', input: '/spr_beta_alpha', reversed: false,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: '/spr_alpha_theta', reversed: true,  gain: null, min: -1, max: 1, pinToData: true},
+		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: '/spr_alpha_theta', reversed: false,  gain: null, min: -1, max: 1, pinToData: true}
 		]
 
 // Web Audio requires user input to start audio. 
