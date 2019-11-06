@@ -16,6 +16,7 @@ port.on("message", function (oscMessage) {
 	if (data[address].min === null || oscMessage.args[0] < data[address].min) {
 		data[address].min = oscMessage.args[0]
 	}
+	data[address].curr = oscMessage.args[0];
 
 
 
@@ -57,7 +58,9 @@ port.on("message", function (oscMessage) {
 	    	}
 	    	if (i == sound.selectedTrack) {
 	    		rangeMinMax = document.getElementById(`range${i}`)
-	    		rangeMinMax.innerText = data[sound.trackInfo[i].input].min + ' to ' + data[sound.trackInfo[i].input].max
+	    		rangeMinMax.innerText = data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5);
+	    		currentValue = document.getElementById(`currentValue${i}`)
+	    		currentValue.innerText = data[sound.trackInfo[i].input].curr.toFixed(5);
 	    	}
     	}
     }

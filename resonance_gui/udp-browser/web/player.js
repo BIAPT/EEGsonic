@@ -214,7 +214,7 @@ function showEdit(i) {
 			<tr><td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td></tr>
 			<tr><td>Range:</td><td> ${sound.trackInfo[i].pinToData? 'pinned to min and max of input' : sound.trackInfo[i].min + ' to ' + sound.trackInfo[i].max}</td></tr>
 			<tr><td>Range so far:</td><td id='range${i}'> ${data[sound.trackInfo[i].input] && data[sound.trackInfo[i].input].min ? data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5) : 'No input'}</td></tr>
-			<tr><td>Current value:</td><td id='currentValue${i}'> ${data[sound.trackInfo[i]].curr ? data[sound.trackInfo[i]].curr.toFixed(5) : 'No input'}
+			<tr><td>Current value:</td><td id='currentValue${i}'> ${data[sound.trackInfo[i].input].curr ? data[sound.trackInfo[i].input].curr.toFixed(5) : 'No input'}
 		</table>
 	`
 	inputs = document.getElementById(`selectedInput${i}`);
