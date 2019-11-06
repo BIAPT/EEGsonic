@@ -149,7 +149,7 @@ function loadMixerTrack(i) {
 	document.getElementById(`Track${i}`).innerHTML = `
 		<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
 			${sound.trackInfo[i].trackName}<br>
-			<div id='info${i}'></div></td>
+			<div id='info${i}' class='trackInfo'></div></td>
 		<div>
 			<input id='userGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider userGainSlider' orient="vertical">
 			<input id='dataGain${i}' type='range' min='-40' max='0' step='1' value='-20' class='v-slider dataGainSlider' orient='vertical' disabled>
@@ -193,11 +193,13 @@ function loadMixerTrack(i) {
 // displays which input stream is used in the mixer
 function insertInputInfo(i) {
 	let info = document.getElementById(`info${i}`);
-		if (sound.trackInfo[i].reversed) {
-			info.innerText = `Reversed ${sound.trackInfo[i].input}`;
-		} else {
-			info.innerText = `Input ${sound.trackInfo[i].input}`
-		}
+	if (sound.trackInfo[i].input == null) {
+		info.innerHTML = `<div>No input</div><div>normal</div>`
+	} else if (sound.trackInfo[i].reversed) {
+		info.innerHTML = `<div>${sound.trackInfo[i].input.substring(0, 17)}</div><div>reversed</div>`;
+	} else {
+		info.innerHTML = `<div>${sound.trackInfo[i].input.substring(0, 17)}</div><div>normal</div>`
+	}
 }
 
 // displays the edit menu in the upper right corner
@@ -235,12 +237,7 @@ function showEdit(i) {
 	reverseCheckbox.addEventListener('change', ()=>{
 		sound.trackInfo[i].reversed = event.target.checked;
 
-		let info = document.getElementById(`info${i}`);
-		if (sound.trackInfo[i].reversed) {
-			info.innerText = `Reversed ${sound.trackInfo[i].input}`;
-		} else {
-			info.innerText = `Input ${sound.trackInfo[i].input}`
-		}
+		insertInputInfo(i);
 	});
 
 	fileSelectButton = document.getElementById(`fileSelectConfirm${i}`);

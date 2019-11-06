@@ -98,7 +98,7 @@ h1 {
 }
 
 #mixerBox {
-	min-height:300px;
+	min-height:320px;
 	display:flex;
 	flex-direction:row;
 	justify-content:left;
@@ -106,7 +106,7 @@ h1 {
 
 .mixerTrack {
 	width:80px;
-	height:300px;
+	height:320px;
 	margin:3px;
 	padding:5px;
 	border: 1px solid #cccccc;
@@ -115,6 +115,14 @@ h1 {
 	flex-direction: column;
 	align-items: center;
 	justify-content:space-between;	
+}
+
+.trackInfo {
+	font-size: 12px;
+	flex-direction: column;
+	align-items:center;
+	display: flex;
+	justify-content: flex-start;
 }
 
 .v-slider {
