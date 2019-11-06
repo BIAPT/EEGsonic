@@ -4,10 +4,13 @@ var port = new osc.WebSocketPort({
 });
 
 oscRecorder = new OSCRecorder();
+oscRecorder.startRecording();
 
 port.on("message", function (oscMessage) {
     $("#message").text(JSON.stringify(oscMessage, undefined, 2));
     //console.log(oscMessage.args);
+
+    oscRecorder.receiveMessage(oscMessage);
 
     let address = oscMessage.address;
 
