@@ -5,6 +5,7 @@ var port = new osc.WebSocketPort({
 
 oscRecorder = new OSCRecorder();
 oscRecorder.startRecording();
+setTimeout(oscRecorder.stopRecording(), 15000);
 
 port.on("message", function (oscMessage) {
     $("#message").text(JSON.stringify(oscMessage, undefined, 2));
@@ -12,8 +13,14 @@ port.on("message", function (oscMessage) {
 
     oscRecorder.receiveMessage(oscMessage);
 
-    let address = oscMessage.address;
+    updateData(oscMessage);
 
+    updateTracks(oscMessage);
+    
+});
+
+function updateData (oscMessage) {
+	let address = oscMessage.address;
     // update ranges
     if (data[address].max === null || oscMessage.args[0] > data[address].max) {
 		data[address].max = oscMessage.args[0]
@@ -22,22 +29,10 @@ port.on("message", function (oscMessage) {
 		data[address].min = oscMessage.args[0]
 	}
 	data[address].curr = oscMessage.args[0];
+}
 
-
-
-  //   for (let h=0; h < oscMessage.args.length; h++) {
-  //   	if (h >= sound.data.length) {
-		// 	sound.data.push({min: oscMessage.args[h], max: oscMessage.args[h]});
-		// } else {
-  //   		if (sound.data[h].max === null || oscMessage.args[h] > sound.data[h].max) {
-  //   			sound.data[h].max = oscMessage.args[h]
-  //   		} else if (sound.data[h].min === null || oscMessage.args[h] < sound.data[h].min) {
-  //   			sound.data[h].min = oscMessage.args[h]
-  //   		}
-  //   	}
-  //   }
-
-    for (let i=0; i < sound.trackInfo.length; i++){
+function updateTracks (oscMessage) {
+	for (let i=0; i < sound.trackInfo.length; i++){
     	// calculate the new value
     	let value;
     	if (sound.trackInfo[i].input === oscMessage.address) {
@@ -69,7 +64,7 @@ port.on("message", function (oscMessage) {
 	    	}
     	}
     }
-});
+}
 
 port.open();
 
