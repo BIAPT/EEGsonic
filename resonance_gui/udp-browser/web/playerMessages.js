@@ -8,16 +8,19 @@ oscRecorder.startRecording();
 setTimeout(oscRecorder.stopRecording, 5000);
 
 port.on("message", function (oscMessage) {
-    $("#message").text(JSON.stringify(oscMessage, undefined, 2));
     //console.log(oscMessage.args);
 
     oscRecorder.receiveMessage(oscMessage);
 
+    displayMessage(oscMessage);
     updateData(oscMessage);
-
     updateTracks(oscMessage);
     
 });
+
+function displayMessage (oscMessage) {
+    $("#message").text(JSON.stringify(oscMessage, undefined, 2));
+}
 
 function updateData (oscMessage) {
 	let address = oscMessage.address;
