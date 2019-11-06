@@ -4,9 +4,9 @@
 
 class OSCRecorder {
 	constructor() {
-		this.recording = false;
+		this._recording = false;
 		this.timeStarted = null;
-		this.events = [];
+		let events = [];
 		console.log('created OSC recorder');
 
 		this.startRecording = function() {
@@ -18,15 +18,24 @@ class OSCRecorder {
 		this.stopRecording = function () {
 			console.log('OSC stopped recording');
 			this.recording = false;
-			console.log(this.events);
+			console.log(events);
 		}
 
 		this.receiveMessage = function(message) {
 			console.log(message);
-			if (this.recording) {
-				this.events.push({'time': Date.now() - this.timeStarted, 'message': message})
+			if (this._recording) {
+				events.push({'time': Date.now() - this.timeStarted, 'message': message});
 				console.log('recorded message at ' + (Date.now()-this.timeStarted));
 			} else { console.log('not currently recording') }
 		}
+	}
+
+	set recording (value) {
+		console.log('recording: ' + value);
+		this._recording = value;
+	}
+
+	get recording () {
+		return this._recording;
 	}
 }
