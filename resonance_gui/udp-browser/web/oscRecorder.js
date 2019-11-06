@@ -20,6 +20,7 @@ class OSCRecorder {
 			console.log('OSC stopped recording');
 			console.log(events);
 			this.timeStarted = null;
+			this.saveEvents();
 		}
 
 		this.receiveMessage = (message) => {
@@ -27,6 +28,21 @@ class OSCRecorder {
 				events.push({'time': Date.now() - this.timeStarted, 'message': message});
 				console.log('recorded message at ' + (Date.now()-this.timeStarted));
 			} 
+		}
+
+		this.saveEvents = () => {
+			console.log('saving events to file');
+			// function download(content, fileName, contentType) {
+		    var a = document.createElement("a");
+		    var file = new Blob([JSON.stringify(events)], {type: 'text/plain'});
+		    a.href = URL.createObjectURL(file);
+		    a.download = 'oscEvents.txt';
+		    a.innerHTML = a.download;
+		    let dummy = document.getElementById('messageArea');
+		    dummy.appendChild(a);
+		    a.click();
+		    dummy.removeChild(a);
+		    URL.revokeObjectURL(a.href);
 		}
 	}
 
@@ -38,4 +54,6 @@ class OSCRecorder {
 	get recording () {
 		return this._recording;
 	}
+
+	
 }
