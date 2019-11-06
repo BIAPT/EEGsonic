@@ -39,22 +39,22 @@ function startAudio(preset) {
 	sound.context.suspend();
 
 	data = {
-		'/fp_dpli_left_midline': {min: null, max: null},
-		'/fp_dpli_left_lateral': {min: null, max: null}, 
-		'/fp_dpli_right_midline': {min: null, max: null}, 
-		'/fp_dpli_right_lateral': {min: null, max: null}, 
-		'/fp_wpli_left_midline': {min: null, max: null}, 
-		'/fp_wpli_left_lateral': {min: null, max: null}, 
-		'/fp_wpli_right_midline': {min: null, max: null}, 
-		'/fp_wpli_right_lateral': {min: null, max: null}, 
-		'/hl_relative_position': {min: null, max: null}, 
-		'/pe_frontal': {min: null, max: null}, 
-		'/pe_parietal': {min: null, max: null}, 
-		'/pac_rpt_frontal': {min: null, max: null}, 
-		'/pac_rpt_parietal': {min: null, max: null}, 
-		'/spr_beta_alpha': {min: null, max: null}, 
-		'/spr_alpha_theta': {min: null, max: null}, 
-		'/td_front_back': {min: null, max: null}
+		'/fp_dpli_left_midline': {min: null, max: null, curr: null},
+		'/fp_dpli_left_lateral': {min: null, max: null, curr: null}, 
+		'/fp_dpli_right_midline': {min: null, max: null, curr: null}, 
+		'/fp_dpli_right_lateral': {min: null, max: null, curr: null}, 
+		'/fp_wpli_left_midline': {min: null, max: null, curr: null}, 
+		'/fp_wpli_left_lateral': {min: null, max: null, curr: null}, 
+		'/fp_wpli_right_midline': {min: null, max: null, curr: null}, 
+		'/fp_wpli_right_lateral': {min: null, max: null, curr: null}, 
+		'/hl_relative_position': {min: null, max: null, curr: null}, 
+		'/pe_frontal': {min: null, max: null, curr: null}, 
+		'/pe_parietal': {min: null, max: null, curr: null}, 
+		'/pac_rpt_frontal': {min: null, max: null, curr: null}, 
+		'/pac_rpt_parietal': {min: null, max: null, curr: null}, 
+		'/spr_beta_alpha': {min: null, max: null, curr: null}, 
+		'/spr_alpha_theta': {min: null, max: null, curr: null}, 
+		'/td_front_back': {min: null, max: null, curr: null}
 	}
 	
 	sound.trackInfo = preset;
@@ -92,11 +92,11 @@ function initializeInputs() {
 	let j = 0;
 	for (let i=0; i < sound.trackInfo.length; i++) {
 		if (sound.trackInfo[i].input == null) {
-			sound.data[j] = {min: null, max: null}
+			sound.data[j] = {min: null, max: null, curr: null}
 	    	sound.trackInfo[i].input = j;
 	    	if (sound.trackInfo[i].reversed === false) { j++; }
 	    } else {
-	    	sound.data[sound.trackInfo[i].input] = {min: null, max: null}
+	    	sound.data[sound.trackInfo[i].input] = {min: null, max: null, curr: null}
 	    }
 	}
 }
@@ -213,7 +213,8 @@ function showEdit(i) {
 				<input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td></tr>
 			<tr><td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td></tr>
 			<tr><td>Range:</td><td> ${sound.trackInfo[i].pinToData? 'pinned to min and max of input' : sound.trackInfo[i].min + ' to ' + sound.trackInfo[i].max}</td></tr>
-			<tr><td>Range so far:</td><td id='range${i}'> ${data[sound.trackInfo[i].input] && data[sound.trackInfo[i].input].min ? data[sound.trackInfo[i].input].min + ' to ' + data[sound.trackInfo[i].input].max : 'no input'}</td></tr>
+			<tr><td>Range so far:</td><td id='range${i}'> ${data[sound.trackInfo[i].input] && data[sound.trackInfo[i].input].min ? data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5) : 'No input'}</td></tr>
+			<tr><td>Current value:</td><td id='currentValue${i}'> ${data[sound.trackInfo[i]].curr ? data[sound.trackInfo[i]].curr.toFixed(5) : 'No input'}
 		</table>
 	`
 	inputs = document.getElementById(`selectedInput${i}`);
