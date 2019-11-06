@@ -2,20 +2,28 @@
 // version 0.1
 
 
-class OSCRecorder() {
+class OSCRecorder {
 	constructor() {
 		this.recording = false;
 		this.timeStarted = null;
-	}
+		console.log('created OSC recorder');
 
-	function startRecording() {
-		this.recording = true;
-		this.timeStarted = Date.now();
-		console.log('OSC started recording at ' + this.timeStarted);
-	}
+		this.startRecording = function() {
+			this.recording = true;
+			this.timeStarted = Date.now();
+			console.log('OSC started recording at ' + this.timeStarted);
+		}
 
-	function stopRecording() {
-		console.log('OSC stopped recording');
-		this.recording = false;
+		this.stopRecording = function () {
+			console.log('OSC stopped recording');
+			this.recording = false;
+		}
+
+		this.receiveMessage = function(message) {
+			console.log(message);
+			if (this.recording) {
+				console.log('recorded message at ' + (Date.now()-this.timeStarted));
+			} else { console.log('not currently recording') }
+		}
 	}
 }

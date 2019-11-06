@@ -3,6 +3,8 @@ var port = new osc.WebSocketPort({
     url: "ws://localhost:8081"
 });
 
+oscRecorder = new OSCRecorder();
+
 port.on("message", function (oscMessage) {
     $("#message").text(JSON.stringify(oscMessage, undefined, 2));
     //console.log(oscMessage.args);
