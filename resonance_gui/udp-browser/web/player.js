@@ -37,6 +37,25 @@ function startAudio(preset) {
 		selectedTrack: null
 	}
 	sound.context.suspend();
+
+	data = {
+		'/fp_dpli_left_midline': {min: null, max: null},
+		'/fp_dpli_left_lateral': {min: null, max: null}, 
+		'/fp_dpli_right_midline': {min: null, max: null}, 
+		'/fp_dpli_left_lateral': {min: null, max: null}, 
+		'/fp_wpli_left_midline': {min: null, max: null}, 
+		'/fp_wpli_left_lateral': {min: null, max: null}, 
+		'/fp_wpli_right_midline': {min: null, max: null}, 
+		'/fp_wpli_right_lateral': {min: null, max: null}, 
+		'/hl_relative_position': {min: null, max: null}, 
+		'/pe_frontal': {min: null, max: null}, 
+		'/pe_parietal': {min: null, max: null}, 
+		'/pac_rpt_frontal': {min: null, max: null}, 
+		'/pac_rpt_parietal': {min: null, max: null}, 
+		'/spr_beta_alpha': {min: null, max: null}, 
+		'/spr_alpha_theta': {min: null, max: null}, 
+		'/td_front_back': {min: null, max: null}
+	}
 	
 	sound.trackInfo = preset;
 
@@ -242,7 +261,7 @@ function addNewTrack() {
 	let filename = document.getElementById('newTrack').value.split('\\');
 	filename = filename[filename.length - 1];
 	sound.trackInfo.push({fileName: filename, trackName: filename.split('.')[0], input: sound.data.length, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
-	// sound.data.push({min: null, max: null})
+	sound.data.push({min: null, max: null})
 
 	const mixer = document.getElementById('mixerBox');
 	mixer.insertAdjacentHTML('beforeend', `
