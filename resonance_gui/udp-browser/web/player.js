@@ -42,7 +42,7 @@ function startAudio(preset) {
 		'/fp_dpli_left_midline': {min: null, max: null},
 		'/fp_dpli_left_lateral': {min: null, max: null}, 
 		'/fp_dpli_right_midline': {min: null, max: null}, 
-		'/fp_dpli_left_lateral': {min: null, max: null}, 
+		'/fp_dpli_right_lateral': {min: null, max: null}, 
 		'/fp_wpli_left_midline': {min: null, max: null}, 
 		'/fp_wpli_left_lateral': {min: null, max: null}, 
 		'/fp_wpli_right_midline': {min: null, max: null}, 
@@ -211,19 +211,23 @@ function showEdit(i) {
 				<input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td></tr>
 			<tr><td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td></tr>
 			<tr><td>Range:</td><td> ${sound.trackInfo[i].pinToData? 'pinned to min and max of input' : sound.trackInfo[i].min + ' to ' + sound.trackInfo[i].max}</td></tr>
-			<tr><td>Range so far:</td><td id='range${i}'> ${sound.data[sound.trackInfo[i].input] && sound.data[sound.trackInfo[i].input].min ? sound.data[sound.trackInfo[i].input].min + ' to ' + sound.data[sound.trackInfo[i].input].max : 'no input'}</td></tr>
+			<tr><td>Range so far:</td><td id='range${i}'> ${data[sound.trackInfo[i].input] && data[sound.trackInfo[i].input].min ? data[sound.trackInfo[i].input].min + ' to ' + data[sound.trackInfo[i].input].max : 'no input'}</td></tr>
 		</table>
 	`
 	inputs = document.getElementById(`selectedInput${i}`);
-	for (j=0; j<sound.data.length; j++) {
+
+	var option = document.createElement('option');
+	option.text = 'None';
+	option.value = null;
+	for (j=0; j<Object.keys(data).length; j++) {
 		var option = document.createElement('option');
-		option.text = j;
-		option.value = j;
+		option.text = Object.keys(data)[j];
+		option.value = Object.keys(data)[j];
 		inputs.appendChild(option);
 	}
 	inputs.value = sound.trackInfo[i].input;
 	inputs.addEventListener('change', (event)=>{
-		sound.trackInfo[i].input = parseInt(event.target.value);
+		sound.trackInfo[i].input = event.target.value;
 		insertInputInfo(i);
 	});
 
@@ -260,8 +264,8 @@ function showEdit(i) {
 function addNewTrack() {
 	let filename = document.getElementById('newTrack').value.split('\\');
 	filename = filename[filename.length - 1];
-	sound.trackInfo.push({fileName: filename, trackName: filename.split('.')[0], input: sound.data.length, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
-	sound.data.push({min: null, max: null})
+	sound.trackInfo.push({fileName: filename, trackName: filename.split('.')[0], input: null, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
+	
 
 	const mixer = document.getElementById('mixerBox');
 	mixer.insertAdjacentHTML('beforeend', `
