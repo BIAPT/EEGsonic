@@ -23,6 +23,12 @@ class OSCRecorder {
 			this.saveEvents();
 		}
 
+		this.toggleRecording = () => {
+			if (this._recording) {
+				this.stopRecording();
+			} else this.startRecording();
+		}
+
 		this.receiveMessage = (message) => {
 			if (this._recording) {
 				events.push({'time': Date.now() - this.timeStarted, 'message': message});
@@ -61,7 +67,13 @@ class OSCRecorder {
 }
 
 function playOSCEvents (events) {
+	// load file
+	// 
 	console.log('play them');
+}
+
+function playEvent() {
+
 }
 
 function sequenceNextEvent() {

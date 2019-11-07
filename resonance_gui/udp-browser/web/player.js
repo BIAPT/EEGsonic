@@ -228,6 +228,7 @@ function showEdit(i) {
 		option.value = Object.keys(data)[j];
 		inputs.appendChild(option);
 	}
+
 	inputs.value = sound.trackInfo[i].input;
 	inputs.addEventListener('change', (event)=>{
 		sound.trackInfo[i].input = event.target.value;
@@ -237,7 +238,6 @@ function showEdit(i) {
 	reverseCheckbox = document.getElementById(`reverseCheckbox${i}`);
 	reverseCheckbox.addEventListener('change', ()=>{
 		sound.trackInfo[i].reversed = event.target.checked;
-
 		insertInputInfo(i);
 	});
 
@@ -270,10 +270,7 @@ function addNewTrack() {
 			<td id='Track${sound.trackInfo.length - 1}' class='mixerTrack'>Track ${sound.trackInfo.length - 1}</td>
 			`)
 
-
 	setUpTrack(sound.trackInfo.length - 1);
-
-
 }
 
 function removeTrack(i) {
@@ -333,9 +330,28 @@ function savePreset() {
 }
 
 
+// OSC FUNCTIONS //
+function toggleOSCRecording() {
+	oscRecorder.toggleRecording()
+	if (oscRecorder.recording) {
+		document.getElementById('OSCToggleButton').innerText='Stop Recording OSC'
+	} else document.getElementById('OSCToggleButton').innerText='Start Recording OSC'
+}
 
+function loadOSC() {
+	fileName = document.getElementById('OSCEventFile').value.split('\\'); // MAC COMPATIBILITY WARNING
+	fileName = fileName[fileName.length - 1];
+	console.log(fileName);
+	fetch('./playerEvents/' + fileName)
+			.then(response => response.text())
+			.then(events => {
+				console.log(JSON.parse(events));
+			})
+}
 
+function playOSC() {
 
+}
 
 
 
