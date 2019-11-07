@@ -4,8 +4,7 @@ var port = new osc.WebSocketPort({
 });
 
 oscRecorder = new OSCRecorder();
-oscRecorder.startRecording();
-setTimeout(oscRecorder.stopRecording, 5000);
+//oscRecorder.startRecording();
 
 port.on("message", function (oscMessage) {
     //console.log(oscMessage.args);
