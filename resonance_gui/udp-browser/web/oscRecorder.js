@@ -66,16 +66,38 @@ class OSCRecorder {
 	}	
 }
 
-function playOSCEvents (events) {
-	// load file
-	// 
-	console.log('play them');
+class OSCPlayer {
+	constructor() {
+		this._playing = false;
+		this._currentEvent = null;
+		this._nextEvent = null;
+		this.timeout = null;
+		this.events = []
+
+		this.loadOSCEvents = (events) => {
+			this.events = events;
+			console.log(this.events);
+		}
+
+		this.playOSCEvents = (i) => {
+			console.log('play them!');
+			this.playEvent(i);
+		}
+
+		this.playEvent = (i) => {
+			console.log(i);
+			if (i < this.events.length) {
+				processMessage(this.events[i].message);
+				this.sequenceNextEvent(i);
+			}
+		}
+
+		this.sequenceNextEvent = (i) => {
+			console.log('sequencing ' + i);
+			let delay = this.events[i+1].time - this.events[i].time;
+			console.log(delay);
+			this.timeout = setTimeout(this.playEvent, delay, i+1);
+		}
+	}
 }
 
-function playEvent() {
-
-}
-
-function sequenceNextEvent() {
-	console.log('next event');
-}

@@ -4,6 +4,7 @@ var port = new osc.WebSocketPort({
 });
 
 oscRecorder = new OSCRecorder();
+oscPlayer = new OSCPlayer();
 //oscRecorder.startRecording();
 
 port.on("message", function (oscMessage) {
@@ -11,14 +12,15 @@ port.on("message", function (oscMessage) {
 
     oscRecorder.receiveMessage(oscMessage);
 
-    displayMessage(oscMessage);
-    updateData(oscMessage);
-    updateTracks(oscMessage);
+    processMessage(oscMessage);
     
 });
 
-function displayMessage (oscMessage) {
+function processMessage (oscMessage) {
     $("#message").text(JSON.stringify(oscMessage, undefined, 2));
+
+    updateData(oscMessage);
+    updateTracks(oscMessage);
 }
 
 function updateData (oscMessage) {
@@ -53,10 +55,10 @@ function updateTracks (oscMessage) {
 	    	// set the value to the slider and gain
 	    	if (sound.trackInfo[i].reversed) {
 	    		slider.value = (-value * 20)-20;
-	    		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
+	    		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 3);
 	    	} else {
 				slider.value = (value * 20)-20;
-	    		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 1);
+	    		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 3);
 	    	}
 	    	if (i == sound.selectedTrack) {
 	    		rangeMinMax = document.getElementById(`range${i}`)
