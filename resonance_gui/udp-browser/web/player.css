@@ -79,6 +79,11 @@ h1 {
 	width: 60px;
 }
 
+.file-input {
+	width: 120px;
+	overflow: hidden;
+}
+
 #contextStarted {
 	height: 150px;
 	width: 100%;

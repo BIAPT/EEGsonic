@@ -381,13 +381,33 @@ function loadOSC() {
 				.then(response => response.text())
 				.then(events => {
 					oscPlayer.loadOSCEvents(JSON.parse(events));
+					document.getElementById('playOSCFile').removeAttribute('disabled');
+					document.getElementById('resetOSCFile').removeAttribute('disabled');
 				})
+	}
+}
+
+function toggleOSC() {
+	button = document.getElementById('playOSCFile');
+	if (oscPlayer.playing) {
+		oscPlayer.cancelNextEvent();
+		button.innerText = 'Play OSC';
+	} else {
+		playOSC();
+		button.innerText = 'Pause OSC';
 	}
 }
 
 function playOSC() {
 	console.log('playing OSC');
-	oscPlayer.playOSCEvents(0);
+	oscPlayer.playOSCEvents();
+}
+
+function resetOSC() {
+	if (oscPlayer.playing) {
+		toggleOSC();
+	}
+	oscPlayer.setOSCStep(0);
 }
 
 

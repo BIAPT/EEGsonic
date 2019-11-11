@@ -68,7 +68,7 @@ class OSCRecorder {
 class OSCPlayer {
 	constructor() {
 		this._playing = false;
-		this._currentEvent = null;
+		this._currentEvent = 0;
 		this._nextEvent = null;
 		this.timeout = null;
 		this.events = []
@@ -79,20 +79,36 @@ class OSCPlayer {
 
 		this.playOSCEvents = (i) => {
 			console.log('playing OSC');
-			this.playEvent(i);
+			this.playEvent(this._currentEvent);
 		}
 
 		this.playEvent = (i) => {
 			if (i < this.events.length) {
+				this._currentEvent = i;
 				processMessage(this.events[i].message);
 				this.sequenceNextEvent(i);
 			}
 		}
 
 		this.sequenceNextEvent = (i) => {
-			let delay = this.events[i+1].time - this.events[i].time;
-			this.timeout = setTimeout(this.playEvent, delay, i+1);
+			if (i + 1 < this.events.length) {
+				let delay = this.events[i+1].time - this.events[i].time;
+				this.timeout = setTimeout(this.playEvent, delay, i+1);
+			} else { console.log('reached end of OSC')};
 		}
+
+		this.cancelNextEvent = () => {
+			clearTimeout(this.timeout);
+			this._playing = false;
+		}
+
+		this.setOSCStep = (step) => {
+			this._currentEvent = step;
+		}
+	}
+
+	get playing () {
+		return this._playing;
 	}
 }
 

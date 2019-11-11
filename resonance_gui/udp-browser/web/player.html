@@ -29,7 +29,7 @@
                         <div><button id='startContext' style='width: 100%' onClick='startAudio(defaultPreset)'>Load default</button></div>
                         <div id='presetsButtons' class='flex-row'>
                             <b>Preset: </b>
-                            <input type='file' id='presetSelector'></input>
+                            <div class='file-input'><input type='file' id='presetSelector'></input></div>
                             <button id='loadPreset' onClick='loadPreset()'>Load</button>
                             <button id='savePreset' onClick='savePreset()' disabled>Save</button>
                         </div>
@@ -40,8 +40,10 @@
                             <div class='flex-row'><button id='toggleRecording' onClick='toggleRecording()'>Start Recording Audio</button></div>
                             <div class='flex-row' id='OSCButtons'><button onClick='toggleOSCRecording()' id='OSCToggleButton'>Start Recording OSC</button></div>
                             <div class='flex-row' id='OSCPlayback'>
-                                <input type='file' id='OSCEventFile'></input>
-                                <button id='loadOSCFile' onClick='loadOSC()'>Load OSC</button><button id='playOSCFile' onClick='playOSC()'>Play OSC</button>
+                                <div class='file-input'><input type='file' id='OSCEventFile' size='60'></input></div>
+                                <button id='loadOSCFile' onClick='loadOSC()'>Load OSC</button>
+                                <button id='playOSCFile' onClick='toggleOSC()' disabled>Play OSC</button>
+                                <button id='resetOSCFile' onClick='resetOSC()' disabled>Stop OSC</button>
                             </div>
 
                             <ul id='downloadLinks'></ul>
