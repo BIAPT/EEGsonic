@@ -256,13 +256,15 @@ function showEdit(i) {
 
 	rangeMin = document.getElementById(`rangeMin${i}`)
 	rangeMin.addEventListener('change', ()=>{
+		console.log(parseFloat(event.target.value));
 		sound.trackInfo[i].min = parseFloat(event.target.value);
 	})
 
 
 	rangeMax = document.getElementById(`rangeMax${i}`)
 	rangeMax.addEventListener('change', ()=>{
-		console.log(typeof(event.target.value));
+		
+		console.log(parseFloat(event.target.value));
 		sound.trackInfo[i].max = parseFloat(event.target.value);
 	})
 
