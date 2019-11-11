@@ -75,6 +75,10 @@ h1 {
 	align-items: center;
 }
 
+.number-input {
+	width: 60px;
+}
+
 #contextStarted {
 	height: 150px;
 	width: 100%;

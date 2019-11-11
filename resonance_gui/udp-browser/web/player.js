@@ -212,8 +212,14 @@ function showEdit(i) {
 			<tr><td>File:</td><td> ${sound.trackInfo[i].fileName} <br>
 				<input id='fileSelect${i}' type='file'></input><button id='fileSelectConfirm${i}'>Change</button></td></tr>
 			<tr><td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td></tr>
-			<tr><td>Range:</td><td> ${sound.trackInfo[i].pinToData? 'pinned to min and max of input' : sound.trackInfo[i].min + ' to ' + sound.trackInfo[i].max}</td></tr>
-			<tr><td>Range so far:</td><td id='range${i}'> ${data[sound.trackInfo[i].input] && data[sound.trackInfo[i].input].min ? data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5) : 'No input'}</td></tr>
+			<tr><td>Range:</td>
+				<td class='flex-row'>
+						<input id='rangeMin${i}' class='number-input' type='number' step='0.01' value='${sound.trackInfo[i].min}' > to 
+						<input id='rangeMax${i}' type='number' class='number-input' step='0.01' value='${sound.trackInfo[i].max}' > 
+						<input id='rangeCheckbox${i}' type='checkbox' ${sound.trackInfo[i].pinToData ? 'checked': ''}> Pin range to input
+				</td>
+			</tr>
+			<tr><td>Range so far:</td><td id='range${i}' > ${data[sound.trackInfo[i].input] && data[sound.trackInfo[i].input].min ? data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5) : 'No input'}</td></tr>
 			<tr><td>Current value:</td><td id='currentValue${i}'> ${data[sound.trackInfo[i].input] && data[sound.trackInfo[i].input].curr ? data[sound.trackInfo[i].input].curr.toFixed(5) : 'No input'}
 		</table>
 	`
@@ -241,6 +247,24 @@ function showEdit(i) {
 		sound.trackInfo[i].reversed = event.target.checked;
 		insertInputInfo(i);
 	});
+
+	rangeCheckbox = document.getElementById(`rangeCheckbox${i}`);
+	rangeCheckbox.addEventListener('change', ()=>{
+		sound.trackInfo[i].pinToData = event.target.checked;
+		insertInputInfo(i);
+	})
+
+	rangeMin = document.getElementById(`rangeMin${i}`)
+	rangeMin.addEventListener('change', ()=>{
+		sound.trackInfo[i].min = event.target.value;
+	})
+
+
+	rangeMax = document.getElementById(`rangeMin${i}`)
+	rangeMax.addEventListener('change', ()=>{
+		console.log(event.target.value);
+		sound.trackInfo[i].max = event.target.value;
+	})
 
 	fileSelectButton = document.getElementById(`fileSelectConfirm${i}`);
 	fileSelectButton.addEventListener('click', ()=>{

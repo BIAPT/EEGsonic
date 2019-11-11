@@ -32,7 +32,6 @@ class OSCRecorder {
 		this.receiveMessage = (message) => {
 			if (this._recording) {
 				events.push({'time': Date.now() - this.timeStarted, 'message': message});
-				console.log('recorded message at ' + (Date.now()-this.timeStarted));
 			} 
 		}
 
@@ -76,11 +75,9 @@ class OSCPlayer {
 
 		this.loadOSCEvents = (events) => {
 			this.events = events;
-			console.log(this.events);
 		}
 
 		this.playOSCEvents = (i) => {
-			console.log('play them!');
 			this.playEvent(i);
 		}
 
@@ -93,9 +90,7 @@ class OSCPlayer {
 		}
 
 		this.sequenceNextEvent = (i) => {
-			console.log('sequencing ' + i);
 			let delay = this.events[i+1].time - this.events[i].time;
-			console.log(delay);
 			this.timeout = setTimeout(this.playEvent, delay, i+1);
 		}
 	}
