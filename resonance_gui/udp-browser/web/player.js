@@ -152,7 +152,7 @@ function loadMixerTrack(i) {
 			<div id='info${i}' class='trackInfo'></div></td>
 		<div>
 			<input id='userGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider userGainSlider' orient="vertical">
-			<input id='dataGain${i}' type='range' min='-40' max='0' step='1' value='-20' class='v-slider dataGainSlider' orient='vertical' disabled>
+			<input id='dataGain${i}' type='range' min='-20' max='0' step='1' value='-10' class='v-slider dataGainSlider' orient='vertical' disabled>
 		</div>
 		<button id='mute${i}'>Mute</button>
 		<button id='edit${i}'>Edit</button>

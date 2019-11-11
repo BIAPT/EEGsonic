@@ -53,18 +53,19 @@ function updateTracks (oscMessage) {
 	    	}
 
 	    	if (value < 0) {value = 0} // filter sounds below input range
-	    	else {value +=0.01}		// 'pop on' at threshold
     		if (value > 1) {value = 1}
-    		value = (value*2)-1;
+    		value = (value*2)-1; // this is a crumby way of centering the range around -10
 
 	    	let slider = document.getElementById(`dataGain${i}`);
 	    	// set the value to the slider and gain
 	    	if (sound.trackInfo[i].reversed) {
-	    		slider.value = (-value * 20)-20;
+	    		slider.value = (-value * 10)-10;  // this is a crumby way of centering the range around -10
 	    	} else {
-				slider.value = (value * 20)-20;
+				slider.value = (value * 10)-10;
 	    	}
-	    	sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 3);
+	    	let newGain = Math.pow(10, slider.value/20);
+	    	if (value == 0) {newGain = 0};
+	    	sound.dataGains[i].gain.linearRampToValueAtTime(newGain, sound.context.currentTime + 4);
 	    	if (i == sound.selectedTrack) {
 	    		rangeMinMax = document.getElementById(`range${i}`)
 	    		rangeMinMax.innerText = data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5);
