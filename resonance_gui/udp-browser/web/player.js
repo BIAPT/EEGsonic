@@ -313,6 +313,9 @@ function removeTrack(i) {
 		if (contextState == 'suspended') {
 			sound.context.suspend();
 		}
+		gui = document.getElementById('mixerGui');
+		mixerGui.innerHTML='';
+
 		loadMixer();
 		for (let i=0; i < sound.trackInfo.length; i++) {
 			loadMixerTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
