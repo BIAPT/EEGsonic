@@ -78,11 +78,11 @@ class OSCPlayer {
 		}
 
 		this.playOSCEvents = (i) => {
+			console.log('playing OSC');
 			this.playEvent(i);
 		}
 
 		this.playEvent = (i) => {
-			console.log(i);
 			if (i < this.events.length) {
 				processMessage(this.events[i].message);
 				this.sequenceNextEvent(i);

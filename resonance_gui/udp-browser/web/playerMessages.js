@@ -49,8 +49,9 @@ function updateTracks (oscMessage) {
 	    		let range = sound.trackInfo[i].max - sound.trackInfo[i].min;
 	    		value = (oscMessage.args[0] - sound.trackInfo[i].min)/range;
 	    		console.log(value);
-	    		// if (value <= 0) {value = 0} // filter sounds below input range
-	    		// 	else {value +=0.05}		// 'pop on' at threshold
+	    		if (value <= 0) {value = 0} // filter sounds below input range
+	    		 	else {value +=0.05}		// 'pop on' at threshold
+	    		if (value >= 1) {value = 1}
 	    		value = (value*2)-1;
 	    	}
 

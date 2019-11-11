@@ -256,14 +256,14 @@ function showEdit(i) {
 
 	rangeMin = document.getElementById(`rangeMin${i}`)
 	rangeMin.addEventListener('change', ()=>{
-		sound.trackInfo[i].min = event.target.value;
+		sound.trackInfo[i].min = parseFloat(event.target.value);
 	})
 
 
-	rangeMax = document.getElementById(`rangeMin${i}`)
+	rangeMax = document.getElementById(`rangeMax${i}`)
 	rangeMax.addEventListener('change', ()=>{
-		console.log(event.target.value);
-		sound.trackInfo[i].max = event.target.value;
+		console.log(typeof(event.target.value));
+		sound.trackInfo[i].max = parseFloat(event.target.value);
 	})
 
 	fileSelectButton = document.getElementById(`fileSelectConfirm${i}`);
