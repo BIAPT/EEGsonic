@@ -43,17 +43,18 @@ function updateTracks (oscMessage) {
     		console.log(sound.trackInfo[i].input);
 	    	if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
 	    		let range = data[sound.trackInfo[i].input].max - data[sound.trackInfo[i].input].min;
-	    		value = (oscMessage.args[0] - data[sound.trackInfo[i].input].min)/range;
-	    		value = (value*2)-1;
+	    		range = range * (sound.trackInfo[i].max - sound.trackInfo[i].min);
+	    		let min = data[sound.trackInfo[i].input].min + (range * sound.trackInfo[i].min);
+	    		value = (oscMessage.args[0] - min)/range;
 	    	} else { // if it's got its own set range
 	    		let range = sound.trackInfo[i].max - sound.trackInfo[i].min;
 	    		value = (oscMessage.args[0] - sound.trackInfo[i].min)/range;
-	    		console.log(value);
-	    		if (value <= 0) {value = 0} // filter sounds below input range
-	    		 	else {value +=0.05}		// 'pop on' at threshold
-	    		if (value >= 1) {value = 1}
-	    		value = (value*2)-1;
 	    	}
+
+	    	if (value <= 0) {value = 0} // filter sounds below input range
+	    	else {value +=0.05}		// 'pop on' at threshold
+    		if (value >= 1) {value = 1}
+    		value = (value*2)-1;
 
 	    	let slider = document.getElementById(`dataGain${i}`);
 	    	// set the value to the slider and gain
