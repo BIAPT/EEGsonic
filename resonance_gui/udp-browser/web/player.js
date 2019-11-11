@@ -314,6 +314,9 @@ function removeTrack(i) {
 			sound.context.suspend();
 		}
 		loadMixer();
+		for (let i=0; i < sound.trackInfo.length; i++) {
+			loadMixerTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
+		}	
 	}
 }
 
