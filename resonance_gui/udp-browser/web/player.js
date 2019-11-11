@@ -389,6 +389,7 @@ function loadOSC() {
 
 function toggleOSC() {
 	button = document.getElementById('playOSCFile');
+	console.log(oscPlayer.playing);
 	if (oscPlayer.playing) {
 		oscPlayer.cancelNextEvent();
 		button.innerText = 'Play OSC';

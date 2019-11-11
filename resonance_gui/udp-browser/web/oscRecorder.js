@@ -79,6 +79,7 @@ class OSCPlayer {
 
 		this.playOSCEvents = (i) => {
 			console.log('playing OSC');
+			this._playing = true;
 			this.playEvent(this._currentEvent);
 		}
 
@@ -107,7 +108,7 @@ class OSCPlayer {
 		}
 	}
 
-	get playing () {
+	get playing() {
 		return this._playing;
 	}
 }
