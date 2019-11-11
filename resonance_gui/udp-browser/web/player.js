@@ -263,7 +263,7 @@ function showEdit(i) {
 
 	rangeMax = document.getElementById(`rangeMax${i}`)
 	rangeMax.addEventListener('change', ()=>{
-		
+
 		console.log(parseFloat(event.target.value));
 		sound.trackInfo[i].max = parseFloat(event.target.value);
 	})
@@ -289,7 +289,7 @@ function showEdit(i) {
 function addNewTrack() {
 	let filename = document.getElementById('newTrack').value.split('\\');
 	filename = filename[filename.length - 1];
-	sound.trackInfo.push({fileName: filename, trackName: filename.split('.')[0], input: null, reversed: false, gain: null, min: -1, max: 1, pinToData: true},)
+	sound.trackInfo.push({fileName: filename, trackName: filename.split('.')[0], input: null, reversed: false, gain: null, min: 0, max: 1, pinToData: true},)
 	
 
 	const mixer = document.getElementById('mixerBox');

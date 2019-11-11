@@ -42,19 +42,18 @@ function updateTracks (oscMessage) {
     	if (sound.trackInfo[i].input === oscMessage.address) {
     		console.log(sound.trackInfo[i].input);
 	    	if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
-	    		let range = data[sound.trackInfo[i].input].max - data[sound.trackInfo[i].input].min;
-	    		range = (range * sound.trackInfo[i].max) - (range * sound.trackInfo[i].min);
-	    		console.log(range);
-	    		let min = data[sound.trackInfo[i].input].min + (range * sound.trackInfo[i].min);
-	    		value = (oscMessage.args[0] - min)/range;
-	    		console.log(value);
+	    		let inputRange = data[sound.trackInfo[i].input].max - data[sound.trackInfo[i].input].min;
+	    		let pinRange = sound.trackInfo[i].max - sound.trackInfo[i].min;
+	    		let effectiveRange = inputRange * pinRange;
+	    		let min = (sound.trackInfo[i].min * inputRange) + data[sound.trackInfo[i].input].min;
+	    		value = (oscMessage.args[0] - min)/effectiveRange;
 	    	} else { // if it's got its own set range
 	    		let range = sound.trackInfo[i].max - sound.trackInfo[i].min;
 	    		value = (oscMessage.args[0] - sound.trackInfo[i].min)/range;
 	    	}
 
 	    	if (value < 0) {value = 0} // filter sounds below input range
-	    	else {value +=0.05}		// 'pop on' at threshold
+	    	else {value +=0.01}		// 'pop on' at threshold
     		if (value > 1) {value = 1}
     		value = (value*2)-1;
 
@@ -62,11 +61,10 @@ function updateTracks (oscMessage) {
 	    	// set the value to the slider and gain
 	    	if (sound.trackInfo[i].reversed) {
 	    		slider.value = (-value * 20)-20;
-	    		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 3);
 	    	} else {
 				slider.value = (value * 20)-20;
-	    		sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 3);
 	    	}
+	    	sound.dataGains[i].gain.linearRampToValueAtTime(Math.pow(10, slider.value/20), sound.context.currentTime + 3);
 	    	if (i == sound.selectedTrack) {
 	    		rangeMinMax = document.getElementById(`range${i}`)
 	    		rangeMinMax.innerText = data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5);
