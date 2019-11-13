@@ -19,6 +19,7 @@ port.on("message", function (oscMessage) {
 function processMessage (oscMessage) {
     $("#message").text(JSON.stringify(oscMessage, undefined, 2));
 
+    console.log(oscMessage.address);
     updateData(oscMessage);
     updateTracks(oscMessage);
 }
@@ -40,7 +41,6 @@ function updateTracks (oscMessage) {
     	// calculate the new value
     	let value;
     	if (sound.trackInfo[i].input === oscMessage.address) {
-    		console.log(sound.trackInfo[i].input);
 	    	if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
 	    		let inputRange = data[sound.trackInfo[i].input].max - data[sound.trackInfo[i].input].min;
 	    		let pinRange = sound.trackInfo[i].max - sound.trackInfo[i].min;
