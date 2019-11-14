@@ -19,9 +19,16 @@ port.on("message", function (oscMessage) {
 function processMessage (oscMessage) {
     $("#message").text(JSON.stringify(oscMessage, undefined, 2));
 
-    console.log(oscMessage.address);
+    //console.log(oscMessage.address);
+
     updateData(oscMessage);
     updateTracks(oscMessage);
+
+    if (oscMessage.address === '/fp_wpli_left_lateral') {
+    	sound.wpliGain.gain.setTargetAtTime(oscMessage.args[0] * 20, sound.context.currentTime, 0.5);
+    	console.log(oscMessage.address);
+    	console.log(oscMessage.args[0]);
+    }
 }
 
 function updateData (oscMessage) {
@@ -65,7 +72,8 @@ function updateTracks (oscMessage) {
 	    	}
 	    	let newGain = Math.pow(10, slider.value/20);
 	    	if (value === -1) {newGain = 0};
-	    	sound.dataGains[i].gain.linearRampToValueAtTime(newGain, sound.context.currentTime + Math.floor(Math.random() * 6));
+
+	    	sound.dataGains[i].gain.setTargetAtTime(newGain, sound.context.currentTime, Math.floor(Math.random() * 6));
 	    	if (i == sound.selectedTrack) {
 	    		rangeMinMax = document.getElementById(`range${i}`)
 	    		rangeMinMax.innerText = data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5);
@@ -74,7 +82,6 @@ function updateTracks (oscMessage) {
 	    	}
     	}
     }
-
 }
 
 port.open();

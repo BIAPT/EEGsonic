@@ -124,7 +124,7 @@ function setUpTrack(i) {
 	sound.userGains[i] = sound.context.createGain();
 	sound.dataGains[i] = sound.context.createGain();
 	sound.userGains[i].connect(sound.dataGains[i]);
-	if (sound.trackInfo[i].input.substring(1,8) == 'fp_dpli') {
+	if (sound.trackInfo[i].input == '/fp_dpli_left_lateral') {
 		sound.dataGains[i].connect(sound.wpliGain);
 	} else {
 		sound.dataGains[i].connect(sound.masterGain);
