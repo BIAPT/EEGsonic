@@ -34,7 +34,8 @@ function startAudio(preset) {
 		userGains: [],		// user-inputted gain for each track
 		dataGains: [],		// per-track gain from biosignals
 		data: [],			// keeps track of range of input singals
-		selectedTrack: null
+		selectedTrack: null,
+		wpliGain: null
 	}
 	sound.context.suspend();
 
@@ -62,6 +63,11 @@ function startAudio(preset) {
 	// handle master gain slider, play and stop buttons
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
+
+	// set up modulator for wPLI signals
+	sound.wpliGain = sound.context.createGain();
+	sound.wpliGain.connect(sound.masterGain);
+	sound.wpliGain.gain.value = 0;
 
 	// default value of master gain is coded in player.html. Gain is converted to decibels
 	masterGainSlider = document.getElementById('masterGain');
@@ -118,7 +124,11 @@ function setUpTrack(i) {
 	sound.userGains[i] = sound.context.createGain();
 	sound.dataGains[i] = sound.context.createGain();
 	sound.userGains[i].connect(sound.dataGains[i]);
-	sound.dataGains[i].connect(sound.masterGain);
+	if (sound.trackInfo[i].input.substring(1,8) == 'fp_dpli') {
+		sound.dataGains[i].connect(sound.wpliGain);
+	} else {
+		sound.dataGains[i].connect(sound.masterGain);
+	}
 	loadSoundfile(i);
 }
 
@@ -238,6 +248,12 @@ function showEdit(i) {
 	inputs.value = sound.trackInfo[i].input;
 	inputs.addEventListener('change', (event)=>{
 		sound.trackInfo[i].input = event.target.value;
+		sound.dataGains[i].disconnect();
+		if (sound.trackInfo[i].input.substring(1,8) == 'fp_dpli') {
+			sound.dataGains[i].connect(sound.wpliGain);
+		} else {
+			sound.dataGains[i].connect(sound.masterGain);
+		}
 		insertInputInfo(i);
 		showEdit(i);
 	});
