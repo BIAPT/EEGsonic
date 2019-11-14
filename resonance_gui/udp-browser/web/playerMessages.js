@@ -66,14 +66,14 @@ function updateTracks (oscMessage) {
 	    	let slider = document.getElementById(`dataGain${i}`);
 	    	// set the value to the slider and gain
 	    	if (sound.trackInfo[i].reversed) {
-	    		slider.value = (-value * 10)-10;  // this is a crumby way of centering the range around -10
-	    	} else {
-				slider.value = (value * 10)-10;
+	    		value = -value;  // this is a crumby way of centering the range around -10
 	    	}
+			slider.value = (value * 10)-10;
 	    	let newGain = Math.pow(10, slider.value/20);
-	    	if (value === -1) {newGain = 0};
+	    	if (value == -1) {newGain = 0};
 
-	    	sound.dataGains[i].gain.setTargetAtTime(newGain, sound.context.currentTime, Math.floor(Math.random() * 6));
+
+	    	sound.dataGains[i].gain.setTargetAtTime(newGain, sound.context.currentTime, 1);
 	    	if (i == sound.selectedTrack) {
 	    		rangeMinMax = document.getElementById(`range${i}`)
 	    		rangeMinMax.innerText = data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5);
