@@ -7,6 +7,10 @@ oscRecorder = new OSCRecorder();
 oscPlayer = new OSCPlayer();
 //oscRecorder.startRecording();
 
+
+// SPR SPEEDUP
+sprSpeedup = true;
+
 port.on("message", function (oscMessage) {
     //console.log(oscMessage.args);
 
@@ -24,6 +28,8 @@ function processMessage (oscMessage) {
 
     updateData(oscMessage);
     updateTracks(oscMessage);
+
+
 
     if (oscMessage.address === '/fp_wpli_left_lateral') {
     	sound.wpliGain[0].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
@@ -71,6 +77,10 @@ function updateTracks (oscMessage) {
     	// calculate the new value
     	let value;
     	if (sound.trackInfo[i].input === oscMessage.address) {
+    		if (sprSpeedup && oscMessage.address == '/spr_beta_alpha') {
+    			sound.bufferSources[i].playbackRate.value = 1 + oscMessage.args[0];
+    		}
+
 	    	if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
 	    		let inputRange = data[sound.trackInfo[i].input].max - data[sound.trackInfo[i].input].min;
 	    		let pinRange = sound.trackInfo[i].max - sound.trackInfo[i].min;
@@ -95,8 +105,10 @@ function updateTracks (oscMessage) {
 	    	let newGain = Math.pow(10, slider.value/20);
 	    	if (value == -1) {newGain = 0};
 
-
+	    	// this actually sets the gain
 	    	sound.dataGains[i].gain.setTargetAtTime(newGain, sound.context.currentTime, 1);
+
+
 	    	if (i == sound.selectedTrack) {
 	    		rangeMinMax = document.getElementById(`range${i}`)
 	    		rangeMinMax.innerText = data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5);
