@@ -37,7 +37,8 @@ function startAudio(preset) {
 		selectedTrack: null,
 		wpliGain: [],
 		PE_parietal: null,
-		filterNode: null
+		filterNode: null,
+		preFilterGain: null,
 	}
 	sound.context.suspend();
 
@@ -62,7 +63,7 @@ function startAudio(preset) {
 	
 	sound.trackInfo = preset;
 
-
+	sound.preFilterGain = sound.context.createGain();
 	sound.masterGain = sound.context.createGain();
 
 	let filter = true;
@@ -70,20 +71,21 @@ function startAudio(preset) {
 	if (filter) {
 
 		sound.filterNode = sound.context.createBiquadFilter();
-		sound.filterNode.connect(sound.context.destination);
+		sound.filterNode.connect(sound.masterGain);
 		sound.filterNode.frequency.setValueAtTime(4000, sound.context.currentTime);
 
 		// handle master gain slider, play and stop buttons
-		sound.masterGain.connect(sound.filterNode);
+		sound.preFilterGain.connect(sound.filterNode);
 	} else {
-		sound.masterGain.connect(sound.context.destination);
+		sound.preFilterGain.conect(sound.masterGain);
 	}
 
+	sound.masterGain.connect(sound.context.destination);
 
 	// set up modulator for wPLI signals
 	for (i=0; i<4; i++) {
 		sound.wpliGain[i] = sound.context.createGain();
-		sound.wpliGain[i].connect(sound.masterGain);
+		sound.wpliGain[i].connect(sound.preFilterGain);
 		sound.wpliGain[i].gain.value = 0;
 	}
 
@@ -145,13 +147,13 @@ function setUpTrack(i) {
 	if (sound.trackInfo[i].input == '/fp_dpli_left_lateral') {
 		sound.dataGains[i].connect(sound.wpliGain[0]);
 	} else if (sound.trackInfo[i].input == '/fp_dpli_left_midline') {
-		sound.dataGains[i].connect(sound.wpliGain[0]);
+		sound.dataGains[i].connect(sound.wpliGain[1]);
 	} else if (sound.trackInfo[i].input == '/fp_dpli_right_midline') {
-		sound.dataGains[i].connect(sound.wpliGain[0]);
+		sound.dataGains[i].connect(sound.wpliGain[2]);
 	} else if (sound.trackInfo[i].input == '/fp_dpli_right_lateral') {
-		sound.dataGains[i].connect(sound.wpliGain[0]);
+		sound.dataGains[i].connect(sound.wpliGain[3]);
 	} else{
-		sound.dataGains[i].connect(sound.masterGain);
+		sound.dataGains[i].connect(sound.preFilterGain);
 	}
 	loadSoundfile(i);
 }
@@ -283,7 +285,7 @@ function showEdit(i) {
 		} else if (sound.trackInfo[i].input == '/fp_dpli_right_lateral') {
 			sound.dataGains[i].connect(sound.wpliGain[3]);
 		} else {
-			sound.dataGains[i].connect(sound.masterGain);
+			sound.dataGains[i].connect(sound.preFilterGain);
 		}
 		insertInputInfo(i);
 		showEdit(i);
