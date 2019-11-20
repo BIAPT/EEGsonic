@@ -36,6 +36,7 @@ function startAudio(preset) {
 		data: [],			// keeps track of range of input singals
 		selectedTrack: null,
 		wpliGain: [],
+		PE_parietal: null,
 		filterNode: null
 	}
 	sound.context.suspend();
@@ -61,13 +62,23 @@ function startAudio(preset) {
 	
 	sound.trackInfo = preset;
 
-	sound.filterNode = sound.context.createBiquadFilter();
-	sound.filterNode.connect(sound.context.destination);
-	sound.filterNode.frequency.setValueAtTime(1000, sound.context.currentTime);
 
-	// handle master gain slider, play and stop buttons
 	sound.masterGain = sound.context.createGain();
-	sound.masterGain.connect(sound.filterNode);
+
+	let filter = true;
+
+	if (filter) {
+
+		sound.filterNode = sound.context.createBiquadFilter();
+		sound.filterNode.connect(sound.context.destination);
+		sound.filterNode.frequency.setValueAtTime(4000, sound.context.currentTime);
+
+		// handle master gain slider, play and stop buttons
+		sound.masterGain.connect(sound.filterNode);
+	} else {
+		sound.masterGain.connect(sound.context.destination);
+	}
+
 
 	// set up modulator for wPLI signals
 	for (i=0; i<4; i++) {

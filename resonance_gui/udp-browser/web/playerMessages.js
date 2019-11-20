@@ -51,13 +51,13 @@ function processMessage (oscMessage) {
 
     }
 
-    // if (oscMessage.address === '/spr_beta_alpha') {
-    // 	console.log(oscMessage.address);
-    // 	console.log(oscMessage.args[0]);
-    // 	console.log(Math.pow(2,oscMessage.args[0]));
-    // 	sound.filterNode.frequency.setValueAtTime((Math.pow(2,oscMessage.args[0])-1)*40000, sound.context.currentTime, 4);
-    // 	console.log(sound.filterNode.frequency.value);
-    // }
+    if (oscMessage.address === '/pac_rpt_parietal') {
+    	console.log(oscMessage.address);
+    	console.log(oscMessage.args[0]);
+    	console.log(Math.pow(oscMessage.args[0],6));
+    	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],6)*4000, sound.context.currentTime, 4);
+    	console.log(sound.filterNode.frequency.value);
+    }
 }
 
 function updateData (oscMessage) {
@@ -78,7 +78,7 @@ function updateTracks (oscMessage) {
     	let value;
     	if (sound.trackInfo[i].input === oscMessage.address) {
     		if (sprSpeedup && oscMessage.address == '/spr_beta_alpha') {
-    			sound.bufferSources[i].playbackRate.value = 1 + oscMessage.args[0];
+    			sound.bufferSources[i].playbackRate.value = Math.pow((1 + oscMessage.args[0]), 2);
     		}
 
 	    	if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
