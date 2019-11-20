@@ -115,6 +115,7 @@ h1 {
 	height:320px;
 	margin:3px;
 	padding:5px;
+	overflow: hidden;
 	border: 1px solid #cccccc;
 	border-radius: 3px;
 	display: flex;

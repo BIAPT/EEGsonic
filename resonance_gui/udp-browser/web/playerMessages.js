@@ -19,16 +19,39 @@ port.on("message", function (oscMessage) {
 function processMessage (oscMessage) {
     $("#message").text(JSON.stringify(oscMessage, undefined, 2));
 
-    //console.log(oscMessage.address);
+    console.log(oscMessage.address);
+    console.log(oscMessage.args[0]);
 
     updateData(oscMessage);
     updateTracks(oscMessage);
 
     if (oscMessage.address === '/fp_wpli_left_lateral') {
-    	sound.wpliGain.gain.setTargetAtTime(oscMessage.args[0] * 20, sound.context.currentTime, 0.5);
-    	console.log(oscMessage.address);
-    	console.log(oscMessage.args[0]);
+    	sound.wpliGain[0].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
+
     }
+
+    if (oscMessage.address === '/fp_wpli_left_midline') {
+    	sound.wpliGain[1].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
+
+    }
+
+    if (oscMessage.address === '/fp_wpli_right_midline') {
+    	sound.wpliGain[2].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
+
+    }
+
+    if (oscMessage.address === '/fp_wpli_right_lateral') {
+    	sound.wpliGain[3].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
+
+    }
+
+    // if (oscMessage.address === '/spr_beta_alpha') {
+    // 	console.log(oscMessage.address);
+    // 	console.log(oscMessage.args[0]);
+    // 	console.log(Math.pow(2,oscMessage.args[0]));
+    // 	sound.filterNode.frequency.setValueAtTime((Math.pow(2,oscMessage.args[0])-1)*40000, sound.context.currentTime, 4);
+    // 	console.log(sound.filterNode.frequency.value);
+    // }
 }
 
 function updateData (oscMessage) {

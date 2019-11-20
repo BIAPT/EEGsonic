@@ -35,7 +35,8 @@ function startAudio(preset) {
 		dataGains: [],		// per-track gain from biosignals
 		data: [],			// keeps track of range of input singals
 		selectedTrack: null,
-		wpliGain: null
+		wpliGain: [],
+		filterNode: null
 	}
 	sound.context.suspend();
 
@@ -60,14 +61,20 @@ function startAudio(preset) {
 	
 	sound.trackInfo = preset;
 
+	sound.filterNode = sound.context.createBiquadFilter();
+	sound.filterNode.connect(sound.context.destination);
+	sound.filterNode.frequency.setValueAtTime(1000, sound.context.currentTime);
+
 	// handle master gain slider, play and stop buttons
 	sound.masterGain = sound.context.createGain();
-	sound.masterGain.connect(sound.context.destination);
+	sound.masterGain.connect(sound.filterNode);
 
 	// set up modulator for wPLI signals
-	sound.wpliGain = sound.context.createGain();
-	sound.wpliGain.connect(sound.masterGain);
-	sound.wpliGain.gain.value = 0;
+	for (i=0; i<4; i++) {
+		sound.wpliGain[i] = sound.context.createGain();
+		sound.wpliGain[i].connect(sound.masterGain);
+		sound.wpliGain[i].gain.value = 0;
+	}
 
 	// default value of master gain is coded in player.html. Gain is converted to decibels
 	masterGainSlider = document.getElementById('masterGain');
@@ -97,13 +104,13 @@ function initializeInputs() {
 	// assigns inputs each track with none specified. Does not touch the GUI
 	let j = 0;
 	for (let i=0; i < sound.trackInfo.length; i++) {
-		if (sound.trackInfo[i].input == null) {
-			sound.data[j] = {min: null, max: null, curr: null}
-	    	sound.trackInfo[i].input = j;
-	    	if (sound.trackInfo[i].reversed === false) { j++; }
-	    } else {
+		//if (sound.trackInfo[i].input == null) {
+			//sound.data[j] = {min: null, max: null, curr: null}
+	    	//sound.trackInfo[i].input = j;
+	    	//if (sound.trackInfo[i].reversed === false) { j++; }
+	    //} else {
 	    	sound.data[sound.trackInfo[i].input] = {min: null, max: null, curr: null}
-	    }
+	    //}
 	}
 }
 
@@ -125,8 +132,14 @@ function setUpTrack(i) {
 	sound.dataGains[i] = sound.context.createGain();
 	sound.userGains[i].connect(sound.dataGains[i]);
 	if (sound.trackInfo[i].input == '/fp_dpli_left_lateral') {
-		sound.dataGains[i].connect(sound.wpliGain);
-	} else {
+		sound.dataGains[i].connect(sound.wpliGain[0]);
+	} else if (sound.trackInfo[i].input == '/fp_dpli_left_midline') {
+		sound.dataGains[i].connect(sound.wpliGain[0]);
+	} else if (sound.trackInfo[i].input == '/fp_dpli_right_midline') {
+		sound.dataGains[i].connect(sound.wpliGain[0]);
+	} else if (sound.trackInfo[i].input == '/fp_dpli_right_lateral') {
+		sound.dataGains[i].connect(sound.wpliGain[0]);
+	} else{
 		sound.dataGains[i].connect(sound.masterGain);
 	}
 	loadSoundfile(i);
@@ -157,8 +170,8 @@ async function loadSoundfile(i) {
 function loadMixerTrack(i) {
 
 	document.getElementById(`Track${i}`).innerHTML = `
-		<td id='Track${i}' class='mixerTrack'>Track ${i}<br>
-			${sound.trackInfo[i].trackName}<br>
+		<td id='Track${i}' class='mixerTrack'><span>Track ${i}</span><br>
+			<span>${sound.trackInfo[i].trackName}</span><br>
 			<div id='info${i}' class='trackInfo'></div></td>
 		<div>
 			<input id='userGain${i}' type='range' min='-60' max='0' step='1' value='-10' class='v-slider userGainSlider' orient="vertical">
@@ -203,6 +216,7 @@ function loadMixerTrack(i) {
 // displays which input stream is used in the mixer
 function insertInputInfo(i) {
 	let info = document.getElementById(`info${i}`);
+	console.log(sound.trackInfo[i].input);
 	if (sound.trackInfo[i].input == null) {
 		info.innerHTML = `<div>No input</div><div>normal</div>`
 	} else if (sound.trackInfo[i].reversed) {
@@ -249,8 +263,14 @@ function showEdit(i) {
 	inputs.addEventListener('change', (event)=>{
 		sound.trackInfo[i].input = event.target.value;
 		sound.dataGains[i].disconnect();
-		if (sound.trackInfo[i].input.substring(1,8) == 'fp_dpli') {
-			sound.dataGains[i].connect(sound.wpliGain);
+		if (sound.trackInfo[i].input == '/fp_dpli_left_lateral') {
+			sound.dataGains[i].connect(sound.wpliGain[0]);
+		} else if (sound.trackInfo[i].input == '/fp_dpli_left_midline') {
+			sound.dataGains[i].connect(sound.wpliGain[1]);
+		} else if (sound.trackInfo[i].input == '/fp_dpli_right_midline') {
+			sound.dataGains[i].connect(sound.wpliGain[2]);
+		} else if (sound.trackInfo[i].input == '/fp_dpli_right_lateral') {
+			sound.dataGains[i].connect(sound.wpliGain[3]);
 		} else {
 			sound.dataGains[i].connect(sound.masterGain);
 		}
