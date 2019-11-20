@@ -55,7 +55,7 @@ function processMessage (oscMessage) {
     	console.log(oscMessage.address);
     	console.log(oscMessage.args[0]);
     	console.log(Math.pow(oscMessage.args[0],6));
-    	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],6)*4000, sound.context.currentTime, 4);
+    	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],20)*4000, sound.context.currentTime, 4);
     	console.log(sound.filterNode.frequency.value);
     }
 }
