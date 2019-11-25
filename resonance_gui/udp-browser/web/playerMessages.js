@@ -31,9 +31,13 @@ function processMessage (oscMessage) {
     	return false;
     }
 
-    console.log(`channel ${oscMessage.address} is not muted`);
     updateData(oscMessage);
     updateTracks(oscMessage);
+    adjustModulators(oscMessage);
+
+}
+
+function adjustModulators (oscMessage) {
 
     if (oscMessage.address === '/fp_wpli_left_lateral') {
     	sound.wpliGain[0].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
@@ -61,7 +65,7 @@ function processMessage (oscMessage) {
     	console.log(Math.pow(oscMessage.args[0],6));
     	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],15)*5000, sound.context.currentTime, 4);
     	console.log(sound.filterNode.frequency.value);
-    }
+    }	
 }
 
 function updateData (oscMessage) {
