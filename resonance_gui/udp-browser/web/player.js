@@ -46,10 +46,10 @@ function startAudio(preset) {
 	sound.trackInfo = preset;
 
 	data = {
-		'/fp_dpli_left_midline': {min: null, max: null, curr: null, mute: true},
-		'/fp_dpli_left_lateral': {min: null, max: null, curr: null, mute: true}, 
-		'/fp_dpli_right_midline': {min: null, max: null, curr: null, mute: true}, 
-		'/fp_dpli_right_lateral': {min: null, max: null, curr: null, mute: true}, 
+		'/fp_dpli_left_midline': {min: null, max: null, curr: null, mute: false},
+		'/fp_dpli_left_lateral': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_dpli_right_midline': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_dpli_right_lateral': {min: null, max: null, curr: null, mute: false}, 
 		'/fp_wpli_left_midline': {min: null, max: null, curr: null, mute: false}, 
 		'/fp_wpli_left_lateral': {min: null, max: null, curr: null, mute: false}, 
 		'/fp_wpli_right_midline': {min: null, max: null, curr: null, mute: false}, 
@@ -74,7 +74,7 @@ function startAudio(preset) {
   				<td id='max${key}'>${data[key].max ? data[key].max : 'none'}</td>
   				<td ><b id='curr${key}'>${data[key].curr ? data[key].curr : 'none'}</b></td>
   				<td><input id='mute${key}' type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
-  				<td><input type='number' class='number-input' step='0.01'></input></td>
+  				<td><input id='osc${key}' type='number' class='number-input' step='0.01'></input></td>
   				<td><button id='reset${key}'>Reset</button></td>
   			</tr>`)
 
@@ -502,5 +502,19 @@ function resetOSC() {
 	oscPlayer.setOSCStep(0);
 }
 
+function sendOSC() {
+	console.log(Object.keys(data));
+	for (var key of Object.keys(data)){
+		console.log(key);
+		input = document.getElementById(`osc${key}`)
+		if (input.value) {
+			oscMessage = {'address': key, 'args':[parseFloat(input.value)]};
+
+    		updateData(oscMessage);
+    		updateTracks(oscMessage);
+    		adjustModulators(oscMessage);
+		}
+	}
+}
 
 
