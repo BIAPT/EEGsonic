@@ -42,26 +42,68 @@ function startAudio(preset) {
 	}
 	sound.context.suspend();
 
+
+	sound.trackInfo = preset;
+
 	data = {
-		'/fp_dpli_left_midline': {min: null, max: null, curr: null},
-		'/fp_dpli_left_lateral': {min: null, max: null, curr: null}, 
-		'/fp_dpli_right_midline': {min: null, max: null, curr: null}, 
-		'/fp_dpli_right_lateral': {min: null, max: null, curr: null}, 
-		'/fp_wpli_left_midline': {min: null, max: null, curr: null}, 
-		'/fp_wpli_left_lateral': {min: null, max: null, curr: null}, 
-		'/fp_wpli_right_midline': {min: null, max: null, curr: null}, 
-		'/fp_wpli_right_lateral': {min: null, max: null, curr: null}, 
-		'/hl_relative_position': {min: null, max: null, curr: null}, 
-		'/pe_frontal': {min: null, max: null, curr: null}, 
-		'/pe_parietal': {min: null, max: null, curr: null}, 
-		'/pac_rpt_frontal': {min: null, max: null, curr: null}, 
-		'/pac_rpt_parietal': {min: null, max: null, curr: null}, 
-		'/spr_beta_alpha': {min: null, max: null, curr: null}, 
-		'/spr_alpha_theta': {min: null, max: null, curr: null}, 
-		'/td_front_back': {min: null, max: null, curr: null}
+		'/fp_dpli_left_midline': {min: null, max: null, curr: null, mute: false},
+		'/fp_dpli_left_lateral': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_dpli_right_midline': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_dpli_right_lateral': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_wpli_left_midline': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_wpli_left_lateral': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_wpli_right_midline': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_wpli_right_lateral': {min: null, max: null, curr: null, mute: false}, 
+		'/hl_relative_position': {min: null, max: null, curr: null, mute: false}, 
+		'/pe_frontal': {min: null, max: null, curr: null, mute: false}, 
+		'/pe_parietal': {min: null, max: null, curr: null, mute: false}, 
+		'/pac_rpt_frontal': {min: null, max: null, curr: null, mute: false}, 
+		'/pac_rpt_parietal': {min: null, max: null, curr: null, mute: false}, 
+		'/spr_beta_alpha': {min: null, max: null, curr: null, mute: false}, 
+		'/spr_alpha_theta': {min: null, max: null, curr: null, mute: false}, 
+		'/td_front_back': {min: null, max: null, curr: null, mute: false}
+	}
+
+	oscTable = document.getElementById('oscTable');
+	for (const [key, value] of Object.entries(data)) {
+  		console.log(key, value);
+  		oscTable.insertAdjacentHTML('beforeend', 
+  			`<tr>
+  				<td>${key}</td>
+  				<td id='min${key}'>${data[key].min ? data[key].min : 'none'}</td>
+  				<td id='max${key}'>${data[key].max ? data[key].max : 'none'}</td>
+  				<td ><b id='curr${key}'>${data[key].curr ? data[key].curr : 'none'}</b></td>
+  				<td><input id='mute${key}' type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
+  				<td><input id='osc${key}' type='number' class='number-input' step='0.01'></input></td>
+  				<td><button id='reset${key}'>Reset</button></td>
+  			</tr>`)
+
+  		document.getElementById(`mute${key}`).addEventListener('click', ()=>{
+  			data[key].mute = event.target.checked;
+  		})
+
+  		document.getElementById(`reset${key}`).addEventListener('click', ()=>{
+  			data[key] = {min: null, max: null, curr: null, mute: true};
+  			document.getElementById(`max${key}`).innerText = 'none';
+  			document.getElementById(`min${key}`).innerText = 'none';
+  			document.getElementById(`curr${key}`).innerText = 'none';
+  			if (!document.getElementById(`mute${key}`).checked) {
+  				console.log(document.getElementById(`mute${key}`).checked);
+  				document.getElementById(`mute${key}`).click();
+  			}
+  			for (let i=0; i<sound.trackInfo.length; i++) {
+  				if (sound.trackInfo[i].input == key) {
+  					//sound.trackInfo[i].gain = userGain.value;
+					//sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
+					console.log('resetting gain');
+  					document.getElementById(`dataGain${i}`).value = -10;
+  					console.log(document.getElementById(`dataGain${i}`).value);
+  					sound.dataGains[i].gain.setTargetAtTime(Math.pow(10, (-10/20)), sound.context.currentTime, 2);
+  				}
+  			}
+  		})
 	}
 	
-	sound.trackInfo = preset;
 
 	sound.preFilterGain = sound.context.createGain();
 	sound.masterGain = sound.context.createGain();
@@ -122,7 +164,7 @@ function initializeInputs() {
 	    	//sound.trackInfo[i].input = j;
 	    	//if (sound.trackInfo[i].reversed === false) { j++; }
 	    //} else {
-	    	sound.data[sound.trackInfo[i].input] = {min: null, max: null, curr: null}
+	    	sound.data[sound.trackInfo[i].input] = {min: null, max: null, curr: null, mute:false}
 	    //}
 	}
 }
@@ -460,5 +502,19 @@ function resetOSC() {
 	oscPlayer.setOSCStep(0);
 }
 
+function sendOSC() {
+	console.log(Object.keys(data));
+	for (var key of Object.keys(data)){
+		console.log(key);
+		input = document.getElementById(`osc${key}`)
+		if (input.value) {
+			oscMessage = {'address': key, 'args':[parseFloat(input.value)]};
+
+    		updateData(oscMessage);
+    		updateTracks(oscMessage);
+    		adjustModulators(oscMessage);
+		}
+	}
+}
 
 
