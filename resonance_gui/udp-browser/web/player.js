@@ -73,6 +73,11 @@ function startAudio(preset) {
   				<td id='checked${key}'><input type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
   				<td><input type='number' class='number-input' step='0.01'></input></td>
   			</tr>`)
+
+  		document.getElementById(`checked${key}`).addEventListener('click', ()=>{
+  			data[key].mute = event.target.checked;
+  		})
+
 	}
 	
 	sound.trackInfo = preset;
