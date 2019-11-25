@@ -72,8 +72,8 @@ function startAudio(preset) {
   				<td>${key}</td>
   				<td id='min${key}'>${data[key].min ? data[key].min : 'none'}</td>
   				<td id='max${key}'>${data[key].max ? data[key].max : 'none'}</td>
-  				<td id='curr${key}'><b>${data[key].curr ? data[key].curr : 'none'}</b></td>
-  				<td id='mute${key}'><input type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
+  				<td ><b id='curr${key}'>${data[key].curr ? data[key].curr : 'none'}</b></td>
+  				<td><input id='mute${key}' type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
   				<td><input type='number' class='number-input' step='0.01'></input></td>
   				<td><button id='reset${key}'>Reset</button></td>
   			</tr>`)
@@ -86,14 +86,19 @@ function startAudio(preset) {
   			data[key] = {min: null, max: null, curr: null, mute: true};
   			document.getElementById(`max${key}`).innerText = 'none';
   			document.getElementById(`min${key}`).innerText = 'none';
-  			document.getElementById(`curr${key}`).innerHTML = '<b>none</b>';
-  			document.getElementById(`mute${key}`).checked = true;
+  			document.getElementById(`curr${key}`).innerText = 'none';
+  			if (!document.getElementById(`mute${key}`).checked) {
+  				console.log(document.getElementById(`mute${key}`).checked);
+  				document.getElementById(`mute${key}`).click();
+  			}
   			for (let i=0; i<sound.trackInfo.length; i++) {
   				if (sound.trackInfo[i].input == key) {
   					//sound.trackInfo[i].gain = userGain.value;
 					//sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
+					console.log('resetting gain');
   					document.getElementById(`dataGain${i}`).value = -10;
-  					sound.dataGains[i].gain.value = Math.pow(10, (-10/20));
+  					console.log(document.getElementById(`dataGain${i}`).value);
+  					sound.dataGains[i].gain.setTargetAtTime(Math.pow(10, (-10/20)), sound.context.currentTime, 2);
   				}
   			}
   		})
