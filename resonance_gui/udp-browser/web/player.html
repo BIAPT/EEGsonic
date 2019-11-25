@@ -1,37 +1,70 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>osc.js Web Socket Demo</title>
+        <title>Resonance Audio Player</title>
         <meta charset="UTF-8" />
+
+        <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet"> 
+
         <link rel="stylesheet" type="text/css" media="all" href="osc-view.css"></link>
         <script src="node_modules/jquery/dist/jquery.js"></script>
         <script src="node_modules/osc/dist/osc-browser.min.js"></script>
-        <script type="text/javascript">
 
-            var port = new osc.WebSocketPort({
-                url: "ws://localhost:8081"
-            });
+        <script src='web-audio-recorder-js-master/lib/WebAudioRecorder.js'></script>
+        <script src='oscRecorder.js'></script>
+        <script src="playerMessages.js"></script>
+        <script src='playerRecorder.js'></script>
+        <script src='player.js'></script>
+        <link rel="stylesheet" type="text/css" media="all" href="player.css"></link>
 
-            port.on("message", function (oscMessage) {
-                $("#message").text(JSON.stringify(oscMessage, undefined, 2));
-                console.log("message", oscMessage);
-            });
-
-            port.open();
-
-            var sayHello = function () {
-                port.send({
-                    address: "/hello",
-                    args: ["world"]
-                });
-            };
-
-        </script>
     </head>
 
     <body>
-        <h1>Gain-controlled looper</h1>
+        <div id='mainContainer'>
+            <h1>Resonance</h1>
 
+            <div id="resonancePlayer">
+                <div id='controlContainer'>
+                    <div id="playerControls">
+                        <div><button id='startContext' style='width: 100%' onClick='startAudio(defaultPreset)'>Load default</button></div>
+                        <div id='presetsButtons' class='flex-row'>
+                            <b>Preset: </b>
+                            <div class='file-input'><input type='file' id='presetSelector'></input></div>
+                            <button id='loadPreset' onClick='loadPreset()'>Load</button>
+                            <button id='savePreset' onClick='savePreset()' disabled>Save</button>
+                        </div>
+                        <div id='contextStarted' style='display:none'>
+                            <div class='flex-row'><button id='startAudio'>Play</button><button id='stopAudio'>Stop</button></div>
+                            <label for='masterGain'><b>Volume:</b></label>
+                            <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
+                            <div class='flex-row'><button id='toggleRecording' onClick='toggleRecording()'>Start Recording Audio</button></div>
+                            <div class='flex-row' id='OSCButtons'><button onClick='toggleOSCRecording()' id='OSCToggleButton'>Start Recording OSC</button></div>
+                            <div class='flex-row' id='OSCPlayback'>
+                                <div class='file-input'><input type='file' id='OSCEventFile' size='60'></input></div>
+                                <button id='loadOSCFile' onClick='loadOSC()'>Load OSC</button>
+                                <button id='playOSCFile' onClick='toggleOSC()' disabled>Play OSC</button>
+                                <button id='resetOSCFile' onClick='resetOSC()' disabled>Reset OSC</button>
+                            </div>
+
+                            <ul id='downloadLinks'></ul>
+                        </div>
+                        
+                    </div>
+                    <div id='mixerGui'>
+                    </div>
+                </div>
+                <div id="mixerContainer">
+                    <table>
+                        <tr id="mixerBox"></tr>
+                    </table>
+                </div>
+
+                <input id='newTrack' type='file'></input>
+                <button id='newTrackConfirm' onClick='addNewTrack()'>Add Track</button>
+            </div>
+        </div>
+
+        <br><br>
         <div id="messageArea">
             <p id="messageLabel">OSC Message:</p>
             <pre id="message"></pre>

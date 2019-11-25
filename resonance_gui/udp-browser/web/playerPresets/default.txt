@@ -1,0 +1,1 @@
+[{"fileName":"lowwave3.wav","trackName":"lowwave3","input":"/fp_wpli_left_lateral","reversed":true,"gain":"-9","min":0,"max":0.08,"pinToData":false}]

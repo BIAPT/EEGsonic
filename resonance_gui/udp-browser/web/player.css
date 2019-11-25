@@ -1,0 +1,141 @@
+body {
+	font-family: 'lato', sans-serif ;
+	font-size: smaller;
+	background: rgba(0,0,0,0.05);
+}
+
+input {
+	font-family: 'lato', sans-serif ;
+	border-radius: 3px;
+	margin: 3px;
+}
+
+label {
+	margin: 3px;
+}
+
+button {s
+	margin: 3px;
+	font-family: 'lato', sans-serif ;
+	background: rgba('0,0,0,0.05');
+	border-radius: 3px;
+	box-shadow: 0px;
+	flex-grow: 1;
+}
+
+h1 {
+	font-style: italic;
+	margin-left: 15px;
+}
+
+#mainContainer {
+	margin: 20px auto;
+	width: 80vw;
+	min-width: 500px;
+}
+
+#resonancePlayer {
+	margin: 20px auto;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+}
+
+#controlContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+}
+
+#playerControls {
+
+	height: 200px;
+	width: 250px;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	margin:5px;
+	padding:15px 15px;
+	display: flex;
+	flex-direction:column;
+	justify-content: start;
+}
+
+.flex-row {
+	margin: 10px 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.flex-row-between {
+	margin: 10px 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.number-input {
+	width: 60px;
+}
+
+.file-input {
+	width: 120px;
+	overflow: hidden;
+}
+
+#contextStarted {
+	height: 150px;
+	width: 100%;
+}
+
+#mixerGui {
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	height: 200px;
+	width: 450px;
+	margin: 5px;
+	padding: 15px 15px;
+}
+
+#mixerContainer {
+	width: 100%;
+	overflow-x: scroll;
+}
+
+#mixerBox {
+	min-height:320px;
+	display:flex;
+	flex-direction:row;
+	justify-content:left;
+}
+
+.mixerTrack {
+	width:80px;
+	height:320px;
+	margin:3px;
+	padding:5px;
+	overflow: hidden;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content:space-between;	
+}
+
+.trackInfo {
+	font-size: 12px;
+	flex-direction: column;
+	align-items:center;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.v-slider {
+	-webkit-appearance: slider-vertical; /* WebKit */
+	height:200px;
+	width:30px;
+}
+
+
