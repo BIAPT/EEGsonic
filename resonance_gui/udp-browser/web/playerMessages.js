@@ -80,7 +80,7 @@ function updateData (oscMessage) {
 		document.getElementById(`min${address}`).innerText = data[address].min.toFixed(3);
 	}
 	data[address].curr = oscMessage.args[0];
-	document.getElementById(`curr${address}`).innerText = data[address].curr.toFixed(3);
+	document.getElementById(`curr${address}`).innerHTML = `<b>${data[address].curr.toFixed(3)}</b>`;
 }
 
 function updateTracks (oscMessage) {

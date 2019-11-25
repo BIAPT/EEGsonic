@@ -42,6 +42,9 @@ function startAudio(preset) {
 	}
 	sound.context.suspend();
 
+
+	sound.trackInfo = preset;
+
 	data = {
 		'/fp_dpli_left_midline': {min: null, max: null, curr: null, mute: true},
 		'/fp_dpli_left_lateral': {min: null, max: null, curr: null, mute: true}, 
@@ -70,17 +73,32 @@ function startAudio(preset) {
   				<td id='min${key}'>${data[key].min ? data[key].min : 'none'}</td>
   				<td id='max${key}'>${data[key].max ? data[key].max : 'none'}</td>
   				<td id='curr${key}'><b>${data[key].curr ? data[key].curr : 'none'}</b></td>
-  				<td id='checked${key}'><input type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
+  				<td id='mute${key}'><input type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
   				<td><input type='number' class='number-input' step='0.01'></input></td>
+  				<td><button id='reset${key}'>Reset</button></td>
   			</tr>`)
 
-  		document.getElementById(`checked${key}`).addEventListener('click', ()=>{
+  		document.getElementById(`mute${key}`).addEventListener('click', ()=>{
   			data[key].mute = event.target.checked;
   		})
 
+  		document.getElementById(`reset${key}`).addEventListener('click', ()=>{
+  			data[key] = {min: null, max: null, curr: null, mute: true};
+  			document.getElementById(`max${key}`).innerText = 'none';
+  			document.getElementById(`min${key}`).innerText = 'none';
+  			document.getElementById(`curr${key}`).innerHTML = '<b>none</b>';
+  			document.getElementById(`mute${key}`).checked = true;
+  			for (let i=0; i<sound.trackInfo.length; i++) {
+  				if (sound.trackInfo[i].input == key) {
+  					//sound.trackInfo[i].gain = userGain.value;
+					//sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
+  					document.getElementById(`dataGain${i}`).value = -10;
+  					sound.dataGains[i].gain.value = Math.pow(10, (-10/20));
+  				}
+  			}
+  		})
 	}
 	
-	sound.trackInfo = preset;
 
 	sound.preFilterGain = sound.context.createGain();
 	sound.masterGain = sound.context.createGain();
@@ -141,7 +159,7 @@ function initializeInputs() {
 	    	//sound.trackInfo[i].input = j;
 	    	//if (sound.trackInfo[i].reversed === false) { j++; }
 	    //} else {
-	    	sound.data[sound.trackInfo[i].input] = {min: null, max: null, curr: null}
+	    	sound.data[sound.trackInfo[i].input] = {min: null, max: null, curr: null, mute:false}
 	    //}
 	}
 }
