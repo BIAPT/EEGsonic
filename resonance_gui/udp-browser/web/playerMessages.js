@@ -23,13 +23,13 @@ port.on("message", function (oscMessage) {
 function processMessage (oscMessage) {
     $("#message").text(JSON.stringify(oscMessage, undefined, 2));
 
-    console.log(oscMessage.address);
-    console.log(oscMessage.args[0]);
-
-    if (data[oscMessage.address].mute ) {
-    	console.log(`channel ${oscMessage.address} is muted`);
+     if (data[oscMessage.address].mute ) {
+    	console.log(`${oscMessage.address} is muted`);
     	return false;
     }
+
+    console.log(oscMessage.address);
+    console.log(oscMessage.args[0]);
 
     updateData(oscMessage);
     updateTracks(oscMessage);
