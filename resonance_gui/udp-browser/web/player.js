@@ -60,6 +60,20 @@ function startAudio(preset) {
 		'/spr_alpha_theta': {min: null, max: null, curr: null, mute: false}, 
 		'/td_front_back': {min: null, max: null, curr: null, mute: false}
 	}
+
+	oscTable = document.getElementById('oscTable');
+	for (const [key, value] of Object.entries(data)) {
+  		console.log(key, value);
+  		oscTable.insertAdjacentHTML('beforeend', 
+  			`<tr>
+  				<td>${key}</td>
+  				<td id='min${key}'>${data[key].min ? data[key].min : 'none'}</td>
+  				<td id='max${key}'>${data[key].max ? data[key].max : 'none'}</td>
+  				<td id='curr${key}'><b>${data[key].curr ? data[key].curr : 'none'}</b></td>
+  				<td id='checked${key}'><input type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
+  				<td><input type='number' class='number-input' step='0.01'></input></td>
+  			</tr>`)
+	}
 	
 	sound.trackInfo = preset;
 
