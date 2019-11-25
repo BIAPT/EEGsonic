@@ -73,6 +73,7 @@ function updateData (oscMessage) {
     // update ranges
     if (data[address].max === null || oscMessage.args[0] > data[address].max) {
 		data[address].max = oscMessage.args[0]
+		console.log(data[address].max);
 		document.getElementById(`max${address}`).innerText = data[address].max.toFixed(3);
 	}
 	if (data[address].min === null || oscMessage.args[0] < data[address].min) {
@@ -80,7 +81,7 @@ function updateData (oscMessage) {
 		document.getElementById(`min${address}`).innerText = data[address].min.toFixed(3);
 	}
 	data[address].curr = oscMessage.args[0];
-	document.getElementById(`curr${address}`).innerHTML = `<b>${data[address].curr.toFixed(3)}</b>`;
+	document.getElementById(`curr${address}`).innerHTML = `${data[address].curr.toFixed(3)}`;
 }
 
 function updateTracks (oscMessage) {
