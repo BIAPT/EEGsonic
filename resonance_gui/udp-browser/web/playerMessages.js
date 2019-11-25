@@ -73,11 +73,14 @@ function updateData (oscMessage) {
     // update ranges
     if (data[address].max === null || oscMessage.args[0] > data[address].max) {
 		data[address].max = oscMessage.args[0]
+		document.getElementById(`max${address}`).innerText = data[address].max;
 	}
 	if (data[address].min === null || oscMessage.args[0] < data[address].min) {
 		data[address].min = oscMessage.args[0]
+		document.getElementById(`min${address}`).innerText = data[address].min;
 	}
 	data[address].curr = oscMessage.args[0];
+	document.getElementById(`curr${address}`).innerText = data[address].curr;
 }
 
 function updateTracks (oscMessage) {
@@ -116,7 +119,7 @@ function updateTracks (oscMessage) {
 	    	// this actually sets the gain
 	    	sound.dataGains[i].gain.setTargetAtTime(newGain, sound.context.currentTime, 2);
 
-
+	    	// update track edit GUI
 	    	if (i == sound.selectedTrack) {
 	    		rangeMinMax = document.getElementById(`range${i}`)
 	    		rangeMinMax.innerText = data[sound.trackInfo[i].input].min.toFixed(5) + ' to ' + data[sound.trackInfo[i].input].max.toFixed(5);
