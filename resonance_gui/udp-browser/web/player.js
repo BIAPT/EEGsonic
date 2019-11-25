@@ -43,22 +43,22 @@ function startAudio(preset) {
 	sound.context.suspend();
 
 	data = {
-		'/fp_dpli_left_midline': {min: null, max: null, curr: null},
-		'/fp_dpli_left_lateral': {min: null, max: null, curr: null}, 
-		'/fp_dpli_right_midline': {min: null, max: null, curr: null}, 
-		'/fp_dpli_right_lateral': {min: null, max: null, curr: null}, 
-		'/fp_wpli_left_midline': {min: null, max: null, curr: null}, 
-		'/fp_wpli_left_lateral': {min: null, max: null, curr: null}, 
-		'/fp_wpli_right_midline': {min: null, max: null, curr: null}, 
-		'/fp_wpli_right_lateral': {min: null, max: null, curr: null}, 
-		'/hl_relative_position': {min: null, max: null, curr: null}, 
-		'/pe_frontal': {min: null, max: null, curr: null}, 
-		'/pe_parietal': {min: null, max: null, curr: null}, 
-		'/pac_rpt_frontal': {min: null, max: null, curr: null}, 
-		'/pac_rpt_parietal': {min: null, max: null, curr: null}, 
-		'/spr_beta_alpha': {min: null, max: null, curr: null}, 
-		'/spr_alpha_theta': {min: null, max: null, curr: null}, 
-		'/td_front_back': {min: null, max: null, curr: null}
+		'/fp_dpli_left_midline': {min: null, max: null, curr: null, mute: true},
+		'/fp_dpli_left_lateral': {min: null, max: null, curr: null, mute: true}, 
+		'/fp_dpli_right_midline': {min: null, max: null, curr: null, mute: true}, 
+		'/fp_dpli_right_lateral': {min: null, max: null, curr: null, mute: true}, 
+		'/fp_wpli_left_midline': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_wpli_left_lateral': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_wpli_right_midline': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_wpli_right_lateral': {min: null, max: null, curr: null, mute: false}, 
+		'/hl_relative_position': {min: null, max: null, curr: null, mute: false}, 
+		'/pe_frontal': {min: null, max: null, curr: null, mute: false}, 
+		'/pe_parietal': {min: null, max: null, curr: null, mute: false}, 
+		'/pac_rpt_frontal': {min: null, max: null, curr: null, mute: false}, 
+		'/pac_rpt_parietal': {min: null, max: null, curr: null, mute: false}, 
+		'/spr_beta_alpha': {min: null, max: null, curr: null, mute: false}, 
+		'/spr_alpha_theta': {min: null, max: null, curr: null, mute: false}, 
+		'/td_front_back': {min: null, max: null, curr: null, mute: false}
 	}
 	
 	sound.trackInfo = preset;

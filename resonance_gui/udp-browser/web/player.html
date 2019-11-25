@@ -34,23 +34,30 @@
                             <button id='savePreset' onClick='savePreset()' disabled>Save</button>
                         </div>
                         <div id='contextStarted' style='display:none'>
-                            <div class='flex-row'><button id='startAudio'>Play</button><button id='stopAudio'>Stop</button></div>
+                            <div class='flex-row'>
+                                <button id='startAudio'>Play</button>
+                                <button id='stopAudio'>Stop</button>
+                            </div>
                             <label for='masterGain'><b>Volume:</b></label>
                             <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
-                            <div class='flex-row'><button id='toggleRecording' onClick='toggleRecording()'>Start Recording Audio</button></div>
-                            <div class='flex-row' id='OSCButtons'><button onClick='toggleOSCRecording()' id='OSCToggleButton'>Start Recording OSC</button></div>
-                            <div class='flex-row' id='OSCPlayback'>
-                                <div class='file-input'><input type='file' id='OSCEventFile' size='60'></input></div>
-                                <button id='loadOSCFile' onClick='loadOSC()'>Load OSC</button>
-                                <button id='playOSCFile' onClick='toggleOSC()' disabled>Play OSC</button>
-                                <button id='resetOSCFile' onClick='resetOSC()' disabled>Reset OSC</button>
+                            <div class='flex-row'>
+                                <button id='toggleRecording' onClick='toggleRecording()'>Start Recording Audio</button>
                             </div>
+                            <div class='flex-row' id='OSCButtons'><button onClick='toggleOSCRecording()' id='OSCToggleButton'>Start Recording OSC</button></div>
 
                             <ul id='downloadLinks'></ul>
-                        </div>
-                        
+                        </div>  
                     </div>
                     <div id='mixerGui'>
+                    </div>
+                    <div id='oscGui'>
+                        <div class='flex-row' id='OSCPlayback'>
+                            <div class='file-input'><input type='file' id='OSCEventFile' size='60'></input></div>
+                            <button id='loadOSCFile' onClick='loadOSC()'>Load OSC</button>
+                            <button id='playOSCFile' onClick='toggleOSC()' disabled>Play OSC</button>
+                            <button id='resetOSCFile' onClick='resetOSC()' disabled>Reset OSC</button>
+                        </div>
+
                     </div>
                 </div>
                 <div id="mixerContainer">
