@@ -39,6 +39,7 @@ function startAudio(preset) {
 		PE_parietal: null,
 		filterNode: null,
 		preFilterGain: null,
+		sprSpeedup: true
 	}
 	sound.context.suspend();
 
@@ -567,3 +568,7 @@ function saveRanges() {
     URL.revokeObjectURL(a.href);
 }
 
+function toggleSPRSpeedup () {
+	sound.sprSpeedup = !sound.sprSpeedup;
+	console.log('SPRSpeedup ' + sound.sprSpeedup);
+}
