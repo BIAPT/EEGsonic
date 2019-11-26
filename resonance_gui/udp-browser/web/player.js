@@ -64,47 +64,8 @@ function startAudio(preset) {
 		'/td_front_back': {min: null, max: null, curr: null, mute: false}
 	}
 
-	oscTable = document.getElementById('oscTable');
-	for (const [key, value] of Object.entries(data)) {
-  		console.log(key, value);
-  		oscTable.insertAdjacentHTML('beforeend', 
-  			`<tr>
-  				<td>${key}</td>
-  				<td id='min${key}'>${data[key].min ? data[key].min : 'none'}</td>
-  				<td id='max${key}'>${data[key].max ? data[key].max : 'none'}</td>
-  				<td ><b id='curr${key}'>${data[key].curr ? data[key].curr : 'none'}</b></td>
-  				<td><input id='mute${key}' type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
-  				<td><input id='osc${key}' type='number' class='number-input' step='0.01'></input></td>
-  				<td><button id='reset${key}'>Reset</button></td>
-  			</tr>`)
-
-  		document.getElementById(`mute${key}`).addEventListener('click', ()=>{
-  			data[key].mute = event.target.checked;
-  		})
-
-  		document.getElementById(`reset${key}`).addEventListener('click', ()=>{
-  			data[key] = {min: null, max: null, curr: null, mute: true};
-  			document.getElementById(`max${key}`).innerText = 'none';
-  			document.getElementById(`min${key}`).innerText = 'none';
-  			document.getElementById(`curr${key}`).innerText = 'none';
-  			if (!document.getElementById(`mute${key}`).checked) {
-  				console.log(document.getElementById(`mute${key}`).checked);
-  				document.getElementById(`mute${key}`).click();
-  			}
-  			for (let i=0; i<sound.trackInfo.length; i++) {
-  				if (sound.trackInfo[i].input == key) {
-  					//sound.trackInfo[i].gain = userGain.value;
-					//sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
-					console.log('resetting gain');
-  					document.getElementById(`dataGain${i}`).value = -10;
-  					console.log(document.getElementById(`dataGain${i}`).value);
-  					sound.dataGains[i].gain.setTargetAtTime(Math.pow(10, (-10/20)), sound.context.currentTime, 2);
-  				}
-  			}
-  		})
-	}
+	loadOSCTable();
 	
-
 	sound.preFilterGain = sound.context.createGain();
 	sound.masterGain = sound.context.createGain();
 
@@ -517,4 +478,92 @@ function sendOSC() {
 	}
 }
 
+function loadOSCTable() {
+	oscTable = document.getElementById('oscTable');
+	oscTable.innerHTML = `<tr>
+                            <td style='width:150px'>Name</td>
+                            <td>Min</td>
+                            <td>Current</td>
+                            <td>Max</td>
+                            <td>Muted</td>
+                            <td>New</td>
+                            <td>Reset</td>
+                        </tr>`
+	for (const [key, value] of Object.entries(data)) {
+  		console.log(key, value);
+  		oscTable.insertAdjacentHTML('beforeend', 
+  			`<tr>
+  				<td>${key}</td>
+  				<td id='min${key}'>${data[key].min ? data[key].min.toFixed(3) : 'none'}</td>
+  				<td ><b id='curr${key}'>${data[key].curr ? data[key].curr.toFixed(3) : 'none'}</b></td>
+  				<td id='max${key}'>${data[key].max ? data[key].max.toFixed(3) : 'none'}</td>
+  				<td><input id='mute${key}' type='checkbox' ${data[key].mute ? 'checked' : ''}></td>
+  				<td><input id='osc${key}' type='number' class='number-input' step='0.01'></input></td>
+  				<td><button id='reset${key}'>Reset</button></td>
+  			</tr>`)
+
+  		document.getElementById(`mute${key}`).addEventListener('click', ()=>{
+  			data[key].mute = event.target.checked;
+  		})
+
+  		document.getElementById(`reset${key}`).addEventListener('click', ()=>{
+  			data[key] = {min: null, max: null, curr: null, mute: true};
+  			document.getElementById(`max${key}`).innerText = 'none';
+  			document.getElementById(`min${key}`).innerText = 'none';
+  			document.getElementById(`curr${key}`).innerText = 'none';
+  			if (!document.getElementById(`mute${key}`).checked) {
+  				console.log(document.getElementById(`mute${key}`).checked);
+  				document.getElementById(`mute${key}`).click();
+  			}
+  			for (let i=0; i<sound.trackInfo.length; i++) {
+  				if (sound.trackInfo[i].input == key) {
+  					//sound.trackInfo[i].gain = userGain.value;
+					//sound.userGains[i].gain.value = Math.pow(10, userGain.value/20);
+					console.log('resetting gain');
+  					document.getElementById(`dataGain${i}`).value = -10;
+  					console.log(document.getElementById(`dataGain${i}`).value);
+  					sound.dataGains[i].gain.setTargetAtTime(Math.pow(10, (-10/20)), sound.context.currentTime, 2);
+  				}
+  			}
+  		})
+  	}
+}
+
+
+// handling presets for input ranges
+function loadRanges() {
+	fileName = document.getElementById('oscRanges').value.split('\\'); // MAC COMPATIBILITY WARNING
+	fileName = fileName[fileName.length - 1];
+	console.log(fileName);
+
+	if (fileName !== '') {
+		fetch('./ranges/' + fileName)
+				.then(response => response.json())
+				.then(events => {
+					console.log(data);
+					console.log(events);
+
+					data = events;
+					loadOSCTable();
+					//oscPlayer.loadOSCEvents(JSON.parse(events));
+					//document.getElementById('playOSCFile').removeAttribute('disabled');
+					//document.getElementById('resetOSCFile').removeAttribute('disabled');
+				})
+	}
+}
+
+function saveRanges() {
+	console.log('saving data ranges as preset');
+	// function download(content, fileName, contentType) {
+    var a = document.createElement("a");
+    var file = new Blob([JSON.stringify(data)], {type: 'text/plain'});
+    a.href = URL.createObjectURL(file);
+    a.download = 'ranges.txt';
+    a.innerHTML = a.download;
+    presets = document.getElementById('presetsButtons');
+    presets.appendChild(a);
+    a.click();
+    presets.removeChild(a);
+    URL.revokeObjectURL(a.href);
+}
 
