@@ -8,8 +8,6 @@ oscPlayer = new OSCPlayer();
 //oscRecorder.startRecording();
 
 
-// SPR SPEEDUP
-sprSpeedup = true;
 
 port.on("message", function (oscMessage) {
     //console.log(oscMessage.args);
@@ -37,6 +35,8 @@ function processMessage (oscMessage) {
 
 }
 
+
+
 function adjustModulators (oscMessage) {
 
     if (oscMessage.address === '/fp_wpli_left_lateral') {
@@ -63,7 +63,7 @@ function adjustModulators (oscMessage) {
     	console.log(oscMessage.address);
     	console.log(oscMessage.args[0]);
     	console.log(Math.pow(oscMessage.args[0],6));
-    	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],15)*5000, sound.context.currentTime, 4);
+    	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],15)*7000, sound.context.currentTime, 4);
     	console.log(sound.filterNode.frequency.value);
     }	
 }
@@ -89,8 +89,13 @@ function updateTracks (oscMessage) {
     	// calculate the new value
     	let value;
     	if (sound.trackInfo[i].input === oscMessage.address) {
-    		if (sprSpeedup && oscMessage.address == '/spr_beta_alpha') {
-    			sound.bufferSources[i].playbackRate.value = Math.pow((1 + oscMessage.args[0]), 2);
+    		
+    		if (oscMessage.address == '/spr_beta_alpha') {
+				if (sound.sprSpeedup) {
+    				sound.bufferSources[i].playbackRate.value = Math.pow((1 + oscMessage.args[0]), 2);
+    			} else {
+    				sound.bufferSources[i].playbackRate.value = 1;
+    			}
     		}
 
 	    	if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream

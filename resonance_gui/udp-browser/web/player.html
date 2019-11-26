@@ -60,17 +60,13 @@
                         </div>
                         <div id='oscTableContainer'>
                             <table id='oscTable'>
-                                <tr>
-                                    <td style='width:150px'>Name</td>
-                                    <td>Min</td>
-                                    <td>Max</td>
-                                    <td>Current</td>
-                                    <td>Muted</td>
-                                    <td>New</td>
-                                    <td>Reset</td>
-                                </tr>
+                                
                             </table>
+                            <div class='file-input'><input type='file' id='oscRanges'></input></div>
+                            <button id='loadRanges' onClick='loadRanges()'>Load Ranges</button>
+                            <button id='saveRanges' onClick='saveRanges()'>Save Ranges</button> 
                         </div>
+                        <button onClick='toggleSPRSpeedup()'>toggle Alpha/Beta speedup</button>
 
                     </div>
                 </div>
