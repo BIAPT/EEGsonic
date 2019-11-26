@@ -74,6 +74,13 @@ function [corrected_dpli] = get_corrected_dpli(uncorrected_dpli,surrogates_dpli,
                             extra = median(test) - 0.5;
                             corrected_dpli(m,n) = uncorrected_dpli(m,n) - extra;
                         end
+                        
+                        % Here we correct for out of bound behavior
+                        if(corrected_dpli(m,n) < 0)
+                            corrected_dpli(m,n) = 0;
+                        elseif(corrected_dpli(m,n) > 1)
+                           corrected_dpli(m,n) = 1; 
+                        end
                     else
                         corrected_dpli(m,n) = 0.5;
                     end
