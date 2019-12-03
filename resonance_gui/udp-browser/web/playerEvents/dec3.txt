@@ -1,0 +1,110 @@
+[
+/n{
+/n/n"time": 220,
+/n/n"message": {
+/n/n/n"address": "/spr_beta_alpha",
+/n/n/n"args": [
+/n/n/n/n0.22724071145057678
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 222,
+/n/n"message": {
+/n/n/n"address": "/spr_alpha_theta",
+/n/n/n"args": [
+/n/n/n/n0.6197084188461304
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 5121,
+/n/n"message": {
+/n/n/n"address": "/spr_beta_alpha",
+/n/n/n"args": [
+/n/n/n/n0.15323394536972046
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 5124,
+/n/n"message": {
+/n/n/n"address": "/spr_alpha_theta",
+/n/n/n"args": [
+/n/n/n/n1.2971045970916748
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 10028,
+/n/n"message": {
+/n/n/n"address": "/spr_beta_alpha",
+/n/n/n"args": [
+/n/n/n/n0.15225575864315033
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 10030,
+/n/n"message": {
+/n/n/n"address": "/spr_alpha_theta",
+/n/n/n"args": [
+/n/n/n/n0.7797574400901794
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 15445,
+/n/n"message": {
+/n/n/n"address": "/spr_beta_alpha",
+/n/n/n"args": [
+/n/n/n/n0.19172880053520203
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 15446,
+/n/n"message": {
+/n/n/n"address": "/spr_alpha_theta",
+/n/n/n"args": [
+/n/n/n/n0.6055079102516174
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 20346,
+/n/n"message": {
+/n/n/n"address": "/spr_beta_alpha",
+/n/n/n"args": [
+/n/n/n/n0.2091437131166458
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 20348,
+/n/n"message": {
+/n/n/n"address": "/spr_alpha_theta",
+/n/n/n"args": [
+/n/n/n/n0.7240087389945984
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 25251,
+/n/n"message": {
+/n/n/n"address": "/spr_beta_alpha",
+/n/n/n"args": [
+/n/n/n/n0.14943049848079681
+/n/n/n]
+/n/n}
+/n},
+/n{
+/n/n"time": 25252,
+/n/n"message": {
+/n/n/n"address": "/spr_alpha_theta",
+/n/n/n"args": [
+/n/n/n/n0.7401337027549744
+/n/n/n]
+/n/n}
+/n}
+]
