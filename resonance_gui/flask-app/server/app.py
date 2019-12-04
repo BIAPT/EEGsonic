@@ -20,10 +20,9 @@ def render_index():
 def render_static(page_name):
     return f"{page_name} world!"
 
-
-def launchWebsocket(message):
-	print(message)
-	emit('my response', message)
+@socketio.on("connect")
+def connect():
+    print("Client connected")
 
 def relayOSC(address, message):
 	print(message)
