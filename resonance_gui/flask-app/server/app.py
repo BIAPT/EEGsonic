@@ -4,11 +4,13 @@ import argparse
 from pythonosc import osc_server
 from pythonosc.dispatcher import Dispatcher
 
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 
 import threading
+import socket
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
+socketio = SocketIO(app)
 
 @app.route('/index/')
 def render_index():
@@ -19,9 +21,15 @@ def render_static(page_name):
     return f"{page_name} world!"
 
 
+def launchWebsocket(message):
+	print(message)
+	emit('my response', message)
 
+def relayOSC(address, message):
+	print(message)
+	socketio.emit('my response', message)
 
-def launchServer():
+def launchUDPServer():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--ip', default='127.0.0.1',
 		help='The ip of the OSC server')
@@ -30,7 +38,7 @@ def launchServer():
 	args = parser.parse_args()
 
 	dispatcher = Dispatcher()
-	dispatcher.map(f'/fp_dpli_left_midline', print)
+	dispatcher.map(f'/fp_dpli_left_midline', relayOSC)
 
 	server = osc_server.ThreadingOSCUDPServer(
 		(args.ip, args.port), dispatcher)
@@ -40,12 +48,15 @@ def launchServer():
 
 if __name__ == '__main__':
 	# this starts the OSC server in a separate thread
-	t = threading.Thread(target=launchServer)
+	t = threading.Thread(target=launchUDPServer)
 	t.daemon = True
 	t.start()
+	# t = threading.Thread(target=launchWebsocket)
+	# t.daemon = True
+	# t.start()
 
 	# this starts the Flask app
-	app.run()
-	#SocketIO(app)
+	#app.run()
+	socketio.run(app, host='0.0.0.0', port=5000, debug=True, use_reloader=False)
 
 
