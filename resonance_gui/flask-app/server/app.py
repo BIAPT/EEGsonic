@@ -10,7 +10,7 @@ import threading
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
 
-@app.route('/')
+@app.route('/index/')
 def render_index():
     return render_template("index.html")
 
