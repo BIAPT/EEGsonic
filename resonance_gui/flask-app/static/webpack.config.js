@@ -5,6 +5,8 @@ const config = {
     output: {
         path: __dirname + '/dist',
         filename: 'bundle.js',
+        libraryTarget: 'var',
+        library: 'myLibrary'
     },
     resolve: {
         extensions: ['.js']
