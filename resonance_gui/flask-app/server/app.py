@@ -4,12 +4,14 @@ import argparse
 from pythonosc import osc_server
 from pythonosc.dispatcher import Dispatcher
 
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, send
 
 import threading
 import socket
+import time
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
+app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
 @app.route('/index/')
@@ -18,15 +20,29 @@ def render_index():
 
 @app.route('/<string:page_name>/')
 def render_static(page_name):
-    return f"{page_name} world!"
+	return f"{page_name} world!"
+
 
 @socketio.on("connect")
 def connect():
     print("Client connected")
 
 def relayOSC(address, message):
+	print(address)
 	print(message)
-	socketio.emit('my response', message)
+	socketio.emit('event', message)
+
+def background_thread():
+    sock = socket.socket(socket.AF_INET,  # Internet
+                         socket.SOCK_DGRAM)  # UDP
+    sock.bind(('127.0.0.1', 7400))
+
+    while True:
+        data, addr = sock.recvfrom(1024)  # buffer size is 1024 bytes
+        message = 'hello'
+        socketio.emit('event', message)
+        time.sleep(0.10)
+        print ("received message:", data)
 
 def launchUDPServer():
 	parser = argparse.ArgumentParser()
@@ -50,7 +66,7 @@ if __name__ == '__main__':
 	t = threading.Thread(target=launchUDPServer)
 	t.daemon = True
 	t.start()
-	# t = threading.Thread(target=launchWebsocket)
+	# t = threading.Thread(target=relayOSC)
 	# t.daemon = True
 	# t.start()
 
