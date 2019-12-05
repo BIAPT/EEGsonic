@@ -2,7 +2,7 @@
 //  Bi-Directional OSC messaging Websocket <-> UDP
 //--------------------------------------------------
 var osc = require("osc"),
-    WebSocket = require("ws");
+WebSocket = require("ws");
 
 var getIPAddresses = function () {
     var os = require("os"),

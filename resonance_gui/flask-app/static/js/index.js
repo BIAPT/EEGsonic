@@ -1,11 +1,3 @@
-import io from '../node_modules/socket.io-client';
+import './playerMessages.js'
 
-const socket = io();
-
-socket.on('event', function(data){
-	console.log('received message');
-	console.log(data);
-});
-
-
-
+console.log('index.js ping');

@@ -1,19 +1,10 @@
 {
-  "name": "static",
-  "version": "1.0.0",
-  "description": "Resonance",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack -p --progress --config webpack.config.js",
-    "dev-build": "webpack --progress -d --config webpack.config.js",
-    "watch": "webpack --progress -d --config webpack.config.js --watch"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "socket.io": "^2.3.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
-  }
+	"name": "Resonance_GUI",
+	"version": "1.0.0",
+	"description": "GUI for EEGSonic Resonance program",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "webpack -p --progress --config webpack.config.js",
+		"watch": "webpack --progress -d --config webpack.config.js --watch"
+	}
 }
