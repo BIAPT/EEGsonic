@@ -16,8 +16,17 @@ const defaultPreset = [
 
 
 window.onload = function () {
-
-	document.getElementById('startContext').addEventListener("click", () => {startAudio(defaultPreset)});
+	document.getElementById('startContext').addEventListener("click", () => { startAudio(defaultPreset) });
+	document.getElementById('loadPreset').addEventListener("click", () => { loadPreset() });
+	document.getElementById('savePreset').addEventListener("click", () => { savePreset() });
+	document.getElementById('loadOSC').addEventListener("click", () => { loadOSC() });
+	document.getElementById('toggleOSC').addEventListener("click", () => { toggleOSC() });
+	document.getElementById('resetOSC').addEventListener("click", () => { resetOSC() });
+	document.getElementById('sendOSC').addEventListener("click", () => { sendOSC() });
+	document.getElementById('loadRanges').addEventListener("click", () => { loadRanges() });
+	document.getElementById('saveRanges').addEventListener("click", () => { saveRanges() });
+	document.getElementById('toggleSPRSpeedup').addEventListener("click", () => { toggleSPRSpeedup() });
+	document.getElementById('addNewTrack').addEventListener("click", () => { addNewTrack() });
 }
 // Web Audio requires user input to start audio. 
 function startAudio(preset) {
@@ -169,7 +178,7 @@ function setUpTrack(i) {
 
 // this is separate from setUpTrack because you can load a soundfile after
 async function loadSoundfile(i) { 
-	fileDirectory = './samples/';
+	fileDirectory = 'static/samples/';
 
 	fileName = fileDirectory + sound.trackInfo[i].fileName;
 
@@ -397,7 +406,7 @@ function loadPreset() {
 			}
 		}
 
-		fetch('./playerPresets/' + fileName)
+		fetch('static/playerPresets/' + fileName)
 			.then(response => response.text())
 			.then(preset => {
 				startAudio(JSON.parse(preset));
@@ -435,7 +444,7 @@ function loadOSC() {
 	console.log(fileName);
 
 	if (fileName !== '') {
-		fetch('./playerEvents/' + fileName)
+		fetch('static/playerEvents/' + fileName)
 				.then(response => response.text())
 				.then(events => {
 					oscPlayer.loadOSCEvents(JSON.parse(events));

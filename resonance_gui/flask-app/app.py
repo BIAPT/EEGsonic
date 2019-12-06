@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
+from werkzeug.utils import secure_filename
 
 import argparse
 from pythonosc import osc_server
@@ -8,20 +9,21 @@ from flask_socketio import SocketIO, emit, send
 
 import threading
 import socket
-import time
+
+UPLOAD_FOLDER = '/static/'
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 socketio = SocketIO(app)
 
 @app.route('/')
 def render_index():
     return render_template("index.html")
 
-@app.route('/<string:page_name>/')
-def render_static(page_name):
-	return f"{page_name} world!"
-
+# @app.route('/samples/<path:filename>')
+# def send_sample(filename):
+# 	return send_from_directory(app.config['UPLOAD_FOLDER'], '/static/samples/' + filename, as_attachment=True)
 
 @socketio.on("connect")
 def connect():
@@ -42,7 +44,7 @@ def launchUDPServer():
 	args = parser.parse_args()
 
 	dispatcher = Dispatcher()
-	dispatcher.map(f'/fp_dpli_left_midline', relayOSC) # this is forwarding the OSC messages to be sent to the front end
+	dispatcher.map(f'/fp_dpli_left_midline', relayOSC) # this is receiving the messages from EEGsonic and forwarding to the front end
 
 	server = osc_server.ThreadingOSCUDPServer(
 		(args.ip, args.port), dispatcher)
