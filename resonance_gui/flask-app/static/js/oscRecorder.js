@@ -72,6 +72,7 @@ class OSCPlayer {
 		this._nextEvent = null;
 		this.timeout = null;
 		this.events = []
+		this.processMessage = processMessage
 
 		this.loadOSCEvents = (events) => {
 			this.events = events;
@@ -112,4 +113,5 @@ class OSCPlayer {
 		return this._playing;
 	}
 }
+
 

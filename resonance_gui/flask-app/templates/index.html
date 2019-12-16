@@ -5,9 +5,12 @@
     <title>Resonance Audio Player</title>
 
     <script type='text/javascript' src="{{url_for('static', filename='dist/bundle.js')}}"></script>
+    <script type='text/javascript' src="{{url_for('static', filename='js/web-audio-recorder-js-master/lib/WebAudioRecorder.js')}}"></script>
     <link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='css/player.css')}}"></link>
+
   </head>
   <body>
+
     <div id='mainContainer'>
         <h1>Resonance</h1>
 
@@ -18,8 +21,8 @@
                     <div id='presetsButtons' class='flex-row'>
                         <b>Preset: </b>
                         <div class='file-input'><input type='file' id='presetSelector'></input></div>
-                        <button id='loadPreset' onClick='loadPreset()'>Load</button>
-                        <button id='savePreset' onClick='savePreset()' disabled>Save</button>
+                        <button id='loadPreset' >Load</button>
+                        <button id='savePreset' disabled>Save</button>
                     </div>
                     <div id='contextStarted' style='display:none'>
                         <div class='flex-row'>
@@ -29,9 +32,9 @@
                         <label for='masterGain'><b>Volume:</b></label>
                         <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
                         <div class='flex-row'>
-                            <button id='toggleRecording' onClick='toggleRecording()'>Start Recording Audio</button>
+                            <button id='toggleRecording'>Start Recording Audio</button>
                         </div>
-                        <div class='flex-row' id='OSCButtons'><button onClick='toggleOSCRecording()' id='OSCToggleButton'>Start Recording OSC</button></div>
+                        <div class='flex-row' id='OSCButtons'><button id='recordOSC'>Start Recording OSC</button></div>
 
                         <ul id='downloadLinks'></ul>
                     </div>  
@@ -41,20 +44,20 @@
                 <div id='oscGui'>
                     <div class='flex-row' id='OSCPlayback'>
                         <div class='file-input'><input type='file' id='OSCEventFile' size='60'></input></div>
-                        <button id='loadOSC' onClick='loadOSC()'>Load OSC</button>
-                        <button id='playOSC' onClick='toggleOSC()' disabled>Play OSC</button>
-                        <button id='resetOSC' onClick='resetOSC()' disabled>Reset OSC</button>
-                        <button id='sendOSC' onClick='sendOSC()'>Send OSC</button>
+                        <button id='loadOSC' >Load OSC</button>
+                        <button id='toggleOSC' disabled>Play OSC</button>
+                        <button id='resetOSC' disabled>Reset OSC</button>
+                        <button id='sendOSC'>Send OSC</button>
                     </div>
                     <div id='oscTableContainer'>
                         <table id='oscTable'>
                             
                         </table>
                         <div class='file-input'><input type='file' id='oscRanges'></input></div>
-                        <button id='loadRanges' onClick='loadRanges()'>Load Ranges</button>
-                        <button id='saveRanges' onClick='saveRanges()'>Save Ranges</button> 
+                        <button id='loadRanges'>Load Ranges</button>
+                        <button id='saveRanges'>Save Ranges</button> 
                     </div>
-                    <button id='toggleSPRSpeedup' onClick='toggleSPRSpeedup()'>toggle Alpha/Beta speedup</button>
+                    <button id='toggleSPRSpeedup'>toggle Alpha/Beta speedup</button>
 
                 </div>
             </div>
@@ -65,7 +68,7 @@
             </div>
 
             <input id='newTrack' type='file'></input>
-            <button id='addNewTrack' onClick='addNewTrack()'>Add Track</button>
+            <button id='addNewTrack'>Add Track</button>
         </div>
     </div>
 
