@@ -32,8 +32,7 @@ def connect():
 def relayOSC(address, message):
 	print(address)
 	print(message)
-	socketio.emit('event', message)
-    # this is sending the OSC message to the the front end
+	socketio.emit('event', {'address': address, 'args': [message]}) # this is sending the OSC message to the the front end
 
 def launchUDPServer():
 	# this is handling the messages received from EEGSonic
