@@ -32,7 +32,8 @@ def connect():
 def relayOSC(address, message):
 	print(address)
 	print(message)
-	socketio.emit('event', message) # this is sending the OSC message to the the front end
+	socketio.emit('event', message)
+    # this is sending the OSC message to the the front end
 
 def launchUDPServer():
 	# this is handling the messages received from EEGSonic
@@ -44,9 +45,10 @@ def launchUDPServer():
 	args = parser.parse_args()
 
 	dispatcher = Dispatcher()
-	dispatcher.map(f'/fp_dpli_left_midline', relayOSC) # this is receiving the messages from EEGsonic and forwarding to the front end
+	dispatcher.map('*', relayOSC)
+    # this is receiving the messages from EEGsonic and forwarding to the front end
 
-	server = osc_server.ThreadingOSCUDPServer(
+	server = osc_server.BlockingOSCUDPServer(
 		(args.ip, args.port), dispatcher)
 	print(f'Serving on {server.server_address}')
 	server.serve_forever()
@@ -60,5 +62,3 @@ if __name__ == '__main__':
 
 	# this starts the Flask app with web sockets
 	socketio.run(app, host='0.0.0.0', port=5000, debug=True, use_reloader=False)
-
-
