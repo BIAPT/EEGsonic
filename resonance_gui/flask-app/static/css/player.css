@@ -1,6 +1,6 @@
 body {
 	font-family: 'lato', sans-serif ;
-	font-size: smaller;
+	font-size: 12px;
 	background: rgba(0,0,0,0.05);
 }
 
@@ -90,6 +90,7 @@ h1 {
 }
 
 #mixerGui {
+	font-size: 12px;
 	border: 1px solid #cccccc;
 	border-radius: 3px;
 	height: 200px;
@@ -121,11 +122,12 @@ h1 {
 }
 
 .mixerTrack {
+	font-size: 10px;
 	width:80px;
 	height:320px;
 	margin:3px;
 	padding:5px;
-	overflow: hidden;
+	overflow-y: hidden;
 	border: 1px solid #cccccc;
 	border-radius: 3px;
 	display: flex;
@@ -135,7 +137,6 @@ h1 {
 }
 
 .trackInfo {
-	font-size: 12px;
 	flex-direction: column;
 	align-items:center;
 	display: flex;
@@ -178,4 +179,15 @@ h1 {
     font-size: 148%;
 }
 
+#oscTable {
+	font-size: 12px;
+}
 
+#oscTable {
+	font-size: 12px;
+}
+
+
+table {
+	font-size:12px;
+}

@@ -9,21 +9,32 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 // this is the default preset loaded when none is selected
 const defaultPreset = [
-		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: '/fp_dpli_left_midline', tone: false, reversed: false, gain: null, min: 0, max: 1, peak: 1, pinToData: true},
-		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: '/fp_wpli_left_midline', tone: false, reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},	
-		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: '/hl_relative_position', tone: false, reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
-		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: '/pe_frontal', tone: false, reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
-		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: '/pe_parietal', tone: false,  reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
-		{fileName: 'res1_drone.mp3', trackName: 'Drone', input: '/spr_beta_alpha', tone: false, reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
-		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: '/spr_alpha_theta', tone: false, reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
-		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: '/spr_alpha_theta', tone: true, reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true}
-		]
+	{fileName: 'res6-lowC.ogg', trackName: 'Low C', input:'/pe_frontal', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'res6-LLwave.ogg', trackName: 'Left Lateral', input:'/fp_wpli_left_lateral', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'res6-LMwave.ogg', trackName: 'Left Midline', input:'/fp_wpli_left_midline', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'res6-RMwave.ogg', trackName: 'Right Midline', input:'/fp_wpli_right_midline', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'res6-RLwave.ogg', trackName: 'Right Lateral', input:'/fp_wpli_right_lateral', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'slow_gloc_melody.ogg', trackName: 'SPR alpha/theta', input:'/spr_alpha_theta', tone: true, reversed: false, gain: null, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'flutefib.ogg', trackName: 'LL dPLI', input:'/fp_dpli_left_lateral', tone: true, reversed: false, gain: null, min: 0, max:1, peak: 1, pinToData: true, length: null}
+]
+// const defaultPreset = [
+// 		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: '/fp_dpli_left_midline', tone: false, reversed: false, gain: null, min: 0, max: 1, peak: 1, pinToData: true},
+// 		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: '/fp_wpli_left_midline', tone: false, reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},	
+// 		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: '/hl_relative_position', tone: false, reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
+// 		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: '/pe_frontal', tone: false, reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
+// 		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: '/pe_parietal', tone: false,  reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
+// 		{fileName: 'res1_drone.mp3', trackName: 'Drone', input: '/spr_beta_alpha', tone: false, reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
+// 		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: '/spr_alpha_theta', tone: false, reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
+// 		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: '/spr_alpha_theta', tone: true, reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true}
+// 		]
 
 // initialize sound graph
 const sound = {
 	context : null,
 	masterGain : null,
 	trackInfo : [],  	// information about soundFiles, presets populate this field
+	players: [],
+	pitchShifts: [],
 	buffers : [],      	// Buffer for loading files
 	bufferSources : [],	// Actual Web Audio Node connected to rest of graph
 	userGains: [],		// user-inputted gain for each track
@@ -85,6 +96,10 @@ function startAudio(preset) {
 
 	sound.context = new AudioContext();
 	sound.context.suspend();
+	Tone.context = sound.context;
+
+
+
 	sound.trackInfo = preset;
 
 	loadOSCTable(); 
@@ -135,11 +150,12 @@ function startAudio(preset) {
 		setUpTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
 	}
 
-	//create a synth and connect it to the master output (your speakers)
-	var synth = new Tone.Synth().toMaster();
+	console.log(sound.trackInfo);
+	// //create a synth and connect it to the master output (your speakers)
+	// var synth = new Tone.Synth().toMaster();
 
-	//play a middle 'C' for the duration of an 8th note
-	synth.triggerAttackRelease("C4", "8n");
+	// //play a middle 'C' for the duration of an 8th note
+	// synth.triggerAttackRelease("C4", "8n");
 
 }
 
@@ -178,29 +194,28 @@ function setUpTrack(i) {
 // this is separate from setUpTrack because you can load a soundfile after
 async function loadSoundfile(i) { 
 	let fileDirectory = 'static/samples/';
-
 	let fileName = fileDirectory + sound.trackInfo[i].fileName;
+	let buffer = new Tone.Buffer(fileName, ()=>{
+		console.log(buffer.duration);
+		sound.trackInfo[i].length = buffer.duration;
+	})
 
-	if (sound.trackInfo[i].tone) {
-		console.log(fileName);
-		var player = new Tone.Player(fileName).toMaster();
-		//play as soon as the buffer is loaded
-		player.autostart = true;
+	sound.players[i] = new Tone.Player(buffer);
+	
+
+	if (sound.trackInfo[i].input == '/spr_alpha_theta') {
+		sound.pitchShifts[i] = new Tone.PitchShift(0);
+		sound.pitchShifts[i].windowSize = 0.05;
+		sound.players[i].connect(sound.pitchShifts[i]);
+		Tone.connect(sound.pitchShifts[i], sound.userGains[i]);
 	}
 	else {
-		fetch(fileName, {mode: "cors"})
-			.then(function(resp) {return resp.arrayBuffer()})
-			.then((buffer) => {
-				sound.context.decodeAudioData(buffer, (abuffer) => {
-					sound.bufferSources[i] = sound.context.createBufferSource();
-					sound.bufferSources[i].buffer = abuffer;
-					sound.bufferSources[i].connect(sound.userGains[i]);
-					sound.bufferSources[i].loop = true;
-					sound.bufferSources[i].start();
-					loadMixerTrack(i);   // loads the GUI element for this track
-				});
-			});
+		Tone.connect(sound.players[i], sound.userGains[i]);
+		sound.pitchShifts[i] = null;
 	}
+	sound.players[i].loop = true;
+	sound.players[i].autostart = true;
+	loadMixerTrack(i);
 	return true;
 }
 
@@ -233,12 +248,10 @@ function loadMixerTrack(i) {
 	muteButton.addEventListener('click', ()=>{
 		if (muteButton.innerText === 'Mute') {
 			console.log(`mute track ${i}`);
-			sound.bufferSources[i].playbackRate.value = 0.0000001;
-			console.log(sound.bufferSources[i].playbackRate)
+			sound.players[i].mute = true;
 			muteButton.innerText = 'Unmute'
 		} else {
-			sound.bufferSources[i].playbackRate.value = 1;
-			console.log(sound.bufferSources[i].playbackRate)
+			sound.players[i].mute = false;
 			muteButton.innerText = 'Mute'
 		}
 	})
@@ -371,28 +384,29 @@ function addNewTrack() {
 	setUpTrack(sound.trackInfo.length - 1);
 }
 
+
+
 function removeTrack(i) {
 	let contextState = sound.context.state
 	console.log(contextState);
-	if (window.confirm('Are you sure you want to remove this track?')) { // this interrupts the audio!!
-		console.log('removing');
-		console.log(sound.bufferSources);
-		sound.bufferSources[i].disconnect();
-		sound.bufferSources.splice(i, 1);
-		sound.trackInfo.splice(i, 1);
-		sound.buffers.splice(i, 1);
-		sound.userGains.splice(i, 1);
-		sound.dataGains.splice(i, 1);
-		if (contextState == 'suspended') {
-			sound.context.suspend();
-		}
-		let mixerGui = document.getElementById('mixerGui');
-		mixerGui.innerHTML='';
-		sound.selectedTrack = null;
-		loadMixer();
-		for (let i=0; i < sound.trackInfo.length; i++) {
-			loadMixerTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
-		}	
+
+	sound.players[i].disconnect();
+	sound.players.splice(i,1);
+	sound.pitchShifts.splice(i,1);
+	sound.trackInfo.splice(i, 1);
+	sound.buffers.splice(i, 1);
+	sound.userGains.splice(i, 1);
+	sound.dataGains.splice(i, 1);
+	if (contextState == 'suspended') {
+		sound.context.suspend();
+	}
+
+	let mixerGui = document.getElementById('mixerGui');
+	mixerGui.innerHTML='';
+	sound.selectedTrack = null;
+	loadMixer();
+	for (let i=0; i < sound.trackInfo.length; i++) {
+		loadMixerTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
 	}
 }
 
@@ -547,6 +561,7 @@ function loadOSCTable() {
 }
 
 
+
 // handling presets for input ranges
 function loadRanges() {
 	let fileName = document.getElementById('oscRanges').value.split('\\'); // MAC COMPATIBILITY WARNING
@@ -618,6 +633,7 @@ function processMessage (oscMessage) {
     updateData(oscMessage);
     updateTracks(oscMessage);
     adjustModulators(oscMessage);
+
 }
 
 
@@ -655,14 +671,14 @@ function updateData (oscMessage) {
     if (data[address].max === null || oscMessage.args[0] > data[address].max) {
 		data[address].max = oscMessage.args[0]
 		console.log(data[address].max);
-		//document.getElementById(`max${address}`).innerText = data[address].max.toFixed(3);
+		document.getElementById(`max${address}`).innerText = data[address].max.toFixed(3);
 	}
 	if (data[address].min === null || oscMessage.args[0] < data[address].min) {
 		data[address].min = oscMessage.args[0]
-		//document.getElementById(`min${address}`).innerText = data[address].min.toFixed(3);
+		document.getElementById(`min${address}`).innerText = data[address].min.toFixed(3);
 	}
 	data[address].curr = oscMessage.args[0];
-	//document.getElementById(`curr${address}`).innerHTML = `${data[address].curr.toFixed(3)}`;
+	document.getElementById(`curr${address}`).innerHTML = `${data[address].curr.toFixed(3)}`;
 }
 
 function updateTracks (oscMessage) {
@@ -678,6 +694,17 @@ function updateTracks (oscMessage) {
     				sound.bufferSources[i].playbackRate.value = 1;
     			}
     		}
+
+    		if (oscMessage.address == '/spr_alpha_theta') {
+    			sound.players[i].playbackRate = Math.pow((1 + oscMessage.args[0]), 2);
+    			// console.log(sound.players[i].playbackRate);
+    			// sound.pitchShifts[i].pitch = 12*Math.log2(1/(0.8 + oscMessage.args[0]))
+    		}
+
+    		if (oscMessage.address == '/fp_dpli_left_lateral') {
+    			//sound.players[i].
+    		}
+
 
 	    	if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
 	    		let inputRange = data[sound.trackInfo[i].input].max - data[sound.trackInfo[i].input].min;
@@ -739,8 +766,9 @@ class OSCRecorder {
 			this._recording = false;
 			console.log('OSC stopped recording');
 			console.log(events);
-			this.timeStarted = null;
 			this.saveEvents();
+			this.timeStarted = null;
+			events = [];
 		}
 
 		this.toggleRecording = () => {
