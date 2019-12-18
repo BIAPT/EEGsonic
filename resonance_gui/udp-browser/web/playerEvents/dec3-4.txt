@@ -1,0 +1,12 @@
+[{"time":3191,"message":{"address":"/spr_beta_alpha","args":[0.3007097542285919]}},
+{"time":3194,"message":{"address":"/spr_alpha_theta","args":[0.15786348283290863]}},
+{"time":8078,"message":{"address":"/spr_beta_alpha","args":[0.2035505324602127]}},
+{"time":8081,"message":{"address":"/spr_alpha_theta","args":[0.6513726711273193]}},
+{"time":12972,"message":{"address":"/spr_beta_alpha","args":[0.33579403162002563]}},
+{"time":12975,"message":{"address":"/spr_alpha_theta","args":[0.25256529450416565]}},
+{"time":17858,"message":{"address":"/spr_beta_alpha","args":[0.27881595492362976]}},
+{"time":17860,"message":{"address":"/spr_alpha_theta","args":[0.2105124592781067]}},
+{"time":23242,"message":{"address":"/spr_beta_alpha","args":[0.17540626227855682]}},
+{"time":23243,"message":{"address":"/spr_alpha_theta","args":[0.2876998484134674]}},
+{"time":28147,"message":{"address":"/spr_beta_alpha","args":[0.20932236313819885]}},
+{"time":28149,"message":{"address":"/spr_alpha_theta","args":[0.5920809507369995]}}]
