@@ -1,6 +1,6 @@
 //import { processMessage, adjustModulators, updateData, updateTracks } from './playerMessages.js';
 //import { OSCPlayer, OSCRecorder } from './oscRecorder'
-import io from '../node_modules/socket.io-client';
+import io from '../node_modules/socket.io-client/dist/socket.io';
 
 console.log('player online');
 
@@ -9,7 +9,7 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 // this is the default preset loaded when none is selected
 const defaultPreset = [
 		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: '/fp_dpli_left_midline', reversed: false, gain: null, min: 0, max: 1, peak: 1, pinToData: true},
-		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: '/fp_wpli_left_midline', reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},	
+		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: '/fp_wpli_left_midline', reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
 		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: '/hl_relative_position', reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
 		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: '/pe_frontal', reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
 		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: '/pe_parietal',  reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
@@ -38,20 +38,20 @@ const sound = {
 
 var data = {
 	'/fp_dpli_left_midline': {min: null, max: null, curr: null, mute: false},
-	'/fp_dpli_left_lateral': {min: null, max: null, curr: null, mute: false}, 
-	'/fp_dpli_right_midline': {min: null, max: null, curr: null, mute: false}, 
-	'/fp_dpli_right_lateral': {min: null, max: null, curr: null, mute: false}, 
-	'/fp_wpli_left_midline': {min: null, max: null, curr: null, mute: false}, 
-	'/fp_wpli_left_lateral': {min: null, max: null, curr: null, mute: false}, 
-	'/fp_wpli_right_midline': {min: null, max: null, curr: null, mute: false}, 
-	'/fp_wpli_right_lateral': {min: null, max: null, curr: null, mute: false}, 
-	'/hl_relative_position': {min: null, max: null, curr: null, mute: false}, 
-	'/pe_frontal': {min: null, max: null, curr: null, mute: false}, 
-	'/pe_parietal': {min: null, max: null, curr: null, mute: false}, 
-	'/pac_rpt_frontal': {min: null, max: null, curr: null, mute: false}, 
-	'/pac_rpt_parietal': {min: null, max: null, curr: null, mute: false}, 
-	'/spr_beta_alpha': {min: null, max: null, curr: null, mute: false}, 
-	'/spr_alpha_theta': {min: null, max: null, curr: null, mute: false}, 
+	'/fp_dpli_left_lateral': {min: null, max: null, curr: null, mute: false},
+	'/fp_dpli_right_midline': {min: null, max: null, curr: null, mute: false},
+	'/fp_dpli_right_lateral': {min: null, max: null, curr: null, mute: false},
+	'/fp_wpli_left_midline': {min: null, max: null, curr: null, mute: false},
+	'/fp_wpli_left_lateral': {min: null, max: null, curr: null, mute: false},
+	'/fp_wpli_right_midline': {min: null, max: null, curr: null, mute: false},
+	'/fp_wpli_right_lateral': {min: null, max: null, curr: null, mute: false},
+	'/hl_relative_position': {min: null, max: null, curr: null, mute: false},
+	'/pe_frontal': {min: null, max: null, curr: null, mute: false},
+	'/pe_parietal': {min: null, max: null, curr: null, mute: false},
+	'/pac_rpt_frontal': {min: null, max: null, curr: null, mute: false},
+	'/pac_rpt_parietal': {min: null, max: null, curr: null, mute: false},
+	'/spr_beta_alpha': {min: null, max: null, curr: null, mute: false},
+	'/spr_alpha_theta': {min: null, max: null, curr: null, mute: false},
 	'/td_front_back': {min: null, max: null, curr: null, mute: false}
 }
 
@@ -71,7 +71,7 @@ window.onload = function () {
 	document.getElementById('addNewTrack').addEventListener("click", () => { addNewTrack() });
 }
 
-// Web Audio requires user input to start audio. 
+// Web Audio requires user input to start audio.
 function startAudio(preset) {
 
 	// Handle GUI
@@ -80,14 +80,14 @@ function startAudio(preset) {
 
 	const button = document.getElementById('startContext')
 	if (button) {button.parentNode.removeChild(button);}
-	
+
 
 	sound.context = new AudioContext();
 	sound.context.suspend();
 	sound.trackInfo = preset;
 
-	loadOSCTable(); 
-	
+	loadOSCTable();
+
 	sound.preFilterGain = sound.context.createGain();
 	sound.masterGain = sound.context.createGain();
 	let filter = false;
@@ -108,6 +108,7 @@ function startAudio(preset) {
 		sound.wpliGain[i].connect(sound.preFilterGain);
 		sound.wpliGain[i].gain.value = 0;
 	}
+	console.log(sound);
 
 	// default value of master gain is coded in player.html. Gain is converted to decibels
 	const masterGainSlider = document.getElementById('masterGain');
@@ -169,7 +170,7 @@ function setUpTrack(i) {
 }
 
 // this is separate from setUpTrack because you can load a soundfile after
-async function loadSoundfile(i) { 
+async function loadSoundfile(i) {
 	let fileDirectory = 'static/samples/';
 
 	let fileName = fileDirectory + sound.trackInfo[i].fileName;
@@ -259,8 +260,8 @@ function showEdit(i) {
 			<tr><td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td></tr>
 			<tr><td>Range:</td>
 				<td class='flex-row'>
-						<input id='rangeMin${i}' class='number-input' type='number' step='0.01' value='${sound.trackInfo[i].min}' > to 
-						<input id='rangeMax${i}' type='number' class='number-input' step='0.01' value='${sound.trackInfo[i].max}' > 
+						<input id='rangeMin${i}' class='number-input' type='number' step='0.01' value='${sound.trackInfo[i].min}' > to
+						<input id='rangeMax${i}' type='number' class='number-input' step='0.01' value='${sound.trackInfo[i].max}' >
 						<input id='rangeCheckbox${i}' type='checkbox' ${sound.trackInfo[i].pinToData ? 'checked': ''}> Pin range to input
 				</td>
 			</tr>
@@ -346,7 +347,7 @@ function addNewTrack() {
 	let filename = document.getElementById('newTrack').value.split('\\');
 	filename = filename[filename.length - 1];
 	sound.trackInfo.push({fileName: filename, trackName: filename.split('.')[0], input: null, reversed: false, gain: null, min: 0, max: 1, pinToData: true},)
-	
+
 
 	const mixer = document.getElementById('mixerBox');
 	mixer.insertAdjacentHTML('beforeend', `
@@ -377,7 +378,7 @@ function removeTrack(i) {
 		loadMixer();
 		for (let i=0; i < sound.trackInfo.length; i++) {
 			loadMixerTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
-		}	
+		}
 	}
 }
 
@@ -493,7 +494,7 @@ function loadOSCTable() {
                             <td>Reset</td>
                         </tr>`
 	for (const [key, value] of Object.entries(data)) {
-  		oscTable.insertAdjacentHTML('beforeend', 
+  		oscTable.insertAdjacentHTML('beforeend',
   			`<tr>
   				<td>${key}</td>
   				<td id='min${key}'>${data[key].min ? data[key].min.toFixed(3) : 'none'}</td>
@@ -579,7 +580,17 @@ function toggleSPRSpeedup () {
 
 
 // Websocket set-up and processing incoming messages
-const socket = io();
+const socket = io('http://127.0.0.1:5000');
+console.log(socket);
+
+socket.on('connect', function() {
+	socket.emit('my event', {data: "I\'m connected!"})
+})
+
+socket.on('my event', function(data){
+	oscRecorder.receiveMessage(data);
+	processMessage(data);
+});
 
 socket.on('event', function(data){
 	oscRecorder.receiveMessage(data);
@@ -631,7 +642,7 @@ function adjustModulators (oscMessage) {
     // 	console.log(Math.pow(oscMessage.args[0],6));
     // 	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],15)*7000, sound.context.currentTime, 4);
     // 	console.log(sound.filterNode.frequency.value);
-    // }	
+    // }
 }
 
 function updateData (oscMessage) {
@@ -655,7 +666,7 @@ function updateTracks (oscMessage) {
     	// calculate the new value
     	let value;
     	if (sound.trackInfo[i].input === oscMessage.address) {
-    		
+
     		if (oscMessage.address == '/spr_beta_alpha') {
 				if (sound.sprSpeedup) {
     				sound.bufferSources[i].playbackRate.value = Math.pow((1 + oscMessage.args[0]), 2);
@@ -680,7 +691,7 @@ function updateTracks (oscMessage) {
     		value = (value*2)-1; // this is a crumby way of centering the range around -10
 
 	    	let slider = document.getElementById(`dataGain${i}`);
-	    	
+
 	    	// set the value to the slider and gain
 	    	if (sound.trackInfo[i].reversed) {
 	    		value = -value;  // this is a crumby way of centering the range around -10
@@ -737,7 +748,7 @@ class OSCRecorder {
 		this.receiveMessage = (message) => {
 			if (this._recording) {
 				events.push({'time': Date.now() - this.timeStarted, 'message': message});
-			} 
+			}
 		}
 
 		this.saveEvents = () => {
@@ -767,7 +778,7 @@ class OSCRecorder {
 
 	get recording () {
 		return this._recording;
-	}	
+	}
 }
 
 class OSCPlayer {
@@ -879,8 +890,8 @@ function createDownloadLink(blob, encoding) {
     link.download = new Date().toISOString() + '.' + encoding;
     console.log(link.download);
     link.innerHTML = link.download;
-    //add the new audio and a elements to the li element 
+    //add the new audio and a elements to the li element
     list = document.getElementById('downloadLinks');
-    li.appendChild(link); //add the li element to the ordered list 
+    li.appendChild(link); //add the li element to the ordered list
     list.appendChild(li);
 }
