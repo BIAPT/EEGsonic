@@ -5,7 +5,7 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 // this is the default preset loaded when none is selected
 const defaultPreset = [
 		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: '/fp_dpli_left_midline', reversed: false, gain: null, min: 0, max: 1, peak: 1, pinToData: true},
-		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: '/fp_wpli_left_midline', reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},	
+		{fileName: 'res1_bells.mp3', trackName: 'Bells', input: '/fp_wpli_left_midline', reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
 		{fileName: 'res1_guitar.mp3', trackName: 'Guitar', input: '/hl_relative_position', reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
 		{fileName: 'res1_clarinet.mp3', trackName: 'Clarinet', input: '/pe_frontal', reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
 		{fileName: 'res1_cellos.mp3', trackName: 'Cello', input: '/pe_parietal',  reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
@@ -14,7 +14,7 @@ const defaultPreset = [
 		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: '/spr_alpha_theta', reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true}
 		]
 
-// Web Audio requires user input to start audio. 
+// Web Audio requires user input to start audio.
 function startAudio(preset) {
 
 	// Handle GUI
@@ -23,7 +23,7 @@ function startAudio(preset) {
 
 	button = document.getElementById('startContext')
 	if (button) {button.parentNode.removeChild(button);}
-	
+
 	// initialize sound graph
 	sound = {
 		context : new AudioContext(),
@@ -48,25 +48,25 @@ function startAudio(preset) {
 
 	data = {
 		'/fp_dpli_left_midline': {min: null, max: null, curr: null, mute: false},
-		'/fp_dpli_left_lateral': {min: null, max: null, curr: null, mute: false}, 
-		'/fp_dpli_right_midline': {min: null, max: null, curr: null, mute: false}, 
-		'/fp_dpli_right_lateral': {min: null, max: null, curr: null, mute: false}, 
-		'/fp_wpli_left_midline': {min: null, max: null, curr: null, mute: false}, 
-		'/fp_wpli_left_lateral': {min: null, max: null, curr: null, mute: false}, 
-		'/fp_wpli_right_midline': {min: null, max: null, curr: null, mute: false}, 
-		'/fp_wpli_right_lateral': {min: null, max: null, curr: null, mute: false}, 
-		'/hl_relative_position': {min: null, max: null, curr: null, mute: false}, 
-		'/pe_frontal': {min: null, max: null, curr: null, mute: false}, 
-		'/pe_parietal': {min: null, max: null, curr: null, mute: false}, 
-		'/pac_rpt_frontal': {min: null, max: null, curr: null, mute: false}, 
-		'/pac_rpt_parietal': {min: null, max: null, curr: null, mute: false}, 
-		'/spr_beta_alpha': {min: null, max: null, curr: null, mute: false}, 
-		'/spr_alpha_theta': {min: null, max: null, curr: null, mute: false}, 
+		'/fp_dpli_left_lateral': {min: null, max: null, curr: null, mute: false},
+		'/fp_dpli_right_midline': {min: null, max: null, curr: null, mute: false},
+		'/fp_dpli_right_lateral': {min: null, max: null, curr: null, mute: false},
+		'/fp_wpli_left_midline': {min: null, max: null, curr: null, mute: false},
+		'/fp_wpli_left_lateral': {min: null, max: null, curr: null, mute: false},
+		'/fp_wpli_right_midline': {min: null, max: null, curr: null, mute: false},
+		'/fp_wpli_right_lateral': {min: null, max: null, curr: null, mute: false},
+		'/hl_relative_position': {min: null, max: null, curr: null, mute: false},
+		'/pe_frontal': {min: null, max: null, curr: null, mute: false},
+		'/pe_parietal': {min: null, max: null, curr: null, mute: false},
+		'/pac_rpt_frontal': {min: null, max: null, curr: null, mute: false},
+		'/pac_rpt_parietal': {min: null, max: null, curr: null, mute: false},
+		'/spr_beta_alpha': {min: null, max: null, curr: null, mute: false},
+		'/spr_alpha_theta': {min: null, max: null, curr: null, mute: false},
 		'/td_front_back': {min: null, max: null, curr: null, mute: false}
 	}
 
 	loadOSCTable();
-	
+
 	sound.preFilterGain = sound.context.createGain();
 	sound.masterGain = sound.context.createGain();
 
@@ -163,7 +163,7 @@ function setUpTrack(i) {
 }
 
 // this is separate from setUpTrack because you can load a soundfile after
-async function loadSoundfile(i) { 
+async function loadSoundfile(i) {
 	fileDirectory = './samples/';
 
 	fileName = fileDirectory + sound.trackInfo[i].fileName;
@@ -233,7 +233,6 @@ function loadMixerTrack(i) {
 // displays which input stream is used in the mixer
 function insertInputInfo(i) {
 	let info = document.getElementById(`info${i}`);
-	console.log(sound.trackInfo[i].input);
 	if (sound.trackInfo[i].input == null) {
 		info.innerHTML = `<div>No input</div><div>normal</div>`
 	} else if (sound.trackInfo[i].reversed) {
@@ -255,8 +254,8 @@ function showEdit(i) {
 			<tr><td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td></tr>
 			<tr><td>Range:</td>
 				<td class='flex-row'>
-						<input id='rangeMin${i}' class='number-input' type='number' step='0.01' value='${sound.trackInfo[i].min}' > to 
-						<input id='rangeMax${i}' type='number' class='number-input' step='0.01' value='${sound.trackInfo[i].max}' > 
+						<input id='rangeMin${i}' class='number-input' type='number' step='0.01' value='${sound.trackInfo[i].min}' > to
+						<input id='rangeMax${i}' type='number' class='number-input' step='0.01' value='${sound.trackInfo[i].max}' >
 						<input id='rangeCheckbox${i}' type='checkbox' ${sound.trackInfo[i].pinToData ? 'checked': ''}> Pin range to input
 				</td>
 			</tr>
@@ -343,7 +342,7 @@ function addNewTrack() {
 	let filename = document.getElementById('newTrack').value.split('\\');
 	filename = filename[filename.length - 1];
 	sound.trackInfo.push({fileName: filename, trackName: filename.split('.')[0], input: null, reversed: false, gain: null, min: 0, max: 1, pinToData: true},)
-	
+
 
 	const mixer = document.getElementById('mixerBox');
 	mixer.insertAdjacentHTML('beforeend', `
@@ -374,7 +373,7 @@ function removeTrack(i) {
 		loadMixer();
 		for (let i=0; i < sound.trackInfo.length; i++) {
 			loadMixerTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
-		}	
+		}
 	}
 }
 
@@ -433,6 +432,7 @@ function loadOSC() {
 		fetch('./playerEvents/' + fileName)
 				.then(response => response.text())
 				.then(events => {
+					events = events.replace(/\\n/g, '')
 					oscPlayer.loadOSCEvents(JSON.parse(events));
 					document.getElementById('playOSCFile').removeAttribute('disabled');
 					document.getElementById('resetOSCFile').removeAttribute('disabled');
@@ -492,7 +492,7 @@ function loadOSCTable() {
                         </tr>`
 	for (const [key, value] of Object.entries(data)) {
   		console.log(key, value);
-  		oscTable.insertAdjacentHTML('beforeend', 
+  		oscTable.insertAdjacentHTML('beforeend',
   			`<tr>
   				<td>${key}</td>
   				<td id='min${key}'>${data[key].min ? data[key].min.toFixed(3) : 'none'}</td>

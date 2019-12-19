@@ -10,7 +10,7 @@
   "dependencies": {
     "socketio": "^1.0.0",
     "tone": "^13.8.25",
-    "webpack": "^4.41.2"
+    "webpack": "^4.41.3"
   },
   "devDependencies": {
     "webpack-cli": "^3.3.10"

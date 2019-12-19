@@ -1,3 +1,6 @@
+import eventlet
+eventlet.monkey_patch()
+
 from flask import Flask, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 
@@ -15,7 +18,7 @@ UPLOAD_FOLDER = '/static/'
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode='eventlet')
 
 @app.route('/')
 def render_index():
@@ -29,10 +32,21 @@ def render_index():
 def connect():
     print("Client connected")
 
+@socketio.on("disconnect")
+def connect():
+    print("Client disconnected")
+
+@socketio.on('my event')
+def myEvent(message):
+    print(message)
+    send(message)
+
 def relayOSC(address, message):
-	print(address)
-	print(message)
-	socketio.emit('event', {'address': address, 'args': [message]}) # this is sending the OSC message to the the front end
+    print(address)
+    print(message)
+    socketio.emit('event', {'address': address, 'args': [message]})
+    socketio.sleep(0)
+    # this is sending the OSC message to the the front end
 
 def launchUDPServer():
 	# this is handling the messages received from EEGSonic
@@ -44,21 +58,22 @@ def launchUDPServer():
 	args = parser.parse_args()
 
 	dispatcher = Dispatcher()
-	dispatcher.map('*', relayOSC) # this is receiving the messages from EEGsonic and forwarding to the front end
+	dispatcher.map('*', relayOSC)
+    # this is receiving the messages from EEGsonic and forwarding to the front end
 
-	server = osc_server.ThreadingOSCUDPServer(
+	server = osc_server.BlockingOSCUDPServer(
 		(args.ip, args.port), dispatcher)
 	print(f'Serving on {server.server_address}')
 	server.serve_forever()
 
 
 if __name__ == '__main__':
-	# this starts the OSC server that receives from EEGSonic in a separate thread
-	t = threading.Thread(target=launchUDPServer)
-	t.daemon = True
-	t.start()
 
-	# this starts the Flask app with web sockets
-	socketio.run(app, host='0.0.0.0', port=5000, debug=True, use_reloader=False)
+    # this starts the OSC server that receives from EEGSonic in a separate thread
+    t = threading.Thread(target=launchUDPServer)
+    t.daemon = True
+    t.start()
 
 
+    # this starts the Flask app with web sockets
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True, use_reloader=False)

@@ -7,15 +7,15 @@ oscRecorder = new OSCRecorder();
 oscPlayer = new OSCPlayer();
 //oscRecorder.startRecording();
 
-
+console.log(port);
 
 port.on("message", function (oscMessage) {
-    //console.log(oscMessage.args);
+    console.log(oscMessage.args);
 
     oscRecorder.receiveMessage(oscMessage);
 
     processMessage(oscMessage);
-    
+
 });
 
 function processMessage (oscMessage) {
@@ -59,13 +59,13 @@ function adjustModulators (oscMessage) {
 
     }
 
-    if (oscMessage.address === '/pac_rpt_parietal') {
-    	console.log(oscMessage.address);
-    	console.log(oscMessage.args[0]);
-    	console.log(Math.pow(oscMessage.args[0],6));
-    	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],15)*7000, sound.context.currentTime, 4);
-    	console.log(sound.filterNode.frequency.value);
-    }	
+    // if (oscMessage.address === '/pac_rpt_parietal') {
+    // 	console.log(oscMessage.address);
+    // 	console.log(oscMessage.args[0]);
+    // 	console.log(Math.pow(oscMessage.args[0],6));
+    // 	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],15)*7000, sound.context.currentTime, 4);
+    // 	console.log(sound.filterNode.frequency.value);
+    // }
 }
 
 function updateData (oscMessage) {
@@ -89,7 +89,7 @@ function updateTracks (oscMessage) {
     	// calculate the new value
     	let value;
     	if (sound.trackInfo[i].input === oscMessage.address) {
-    		
+
     		if (oscMessage.address == '/spr_beta_alpha') {
 				if (sound.sprSpeedup) {
     				sound.bufferSources[i].playbackRate.value = Math.pow((1 + oscMessage.args[0]), 2);

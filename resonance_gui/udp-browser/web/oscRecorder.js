@@ -30,16 +30,19 @@ class OSCRecorder {
 		}
 
 		this.receiveMessage = (message) => {
+			console.log(message);
 			if (this._recording) {
 				events.push({'time': Date.now() - this.timeStarted, 'message': message});
-			} 
+			}
 		}
 
 		this.saveEvents = () => {
 			console.log('saving events to file');
 			// this is a hacky way of saving a text file that I got off stack overflow
 		    var a = document.createElement("a");
-		    var file = new Blob([JSON.stringify(events)], {type: 'text/plain'});
+				let info = JSON.stringify(events);
+				info = info.replace(/},/g, '},\n');
+		    var file = new Blob([info], {type: 'text/plain'});
 		    a.href = URL.createObjectURL(file);
 		    a.download = 'oscEvents.txt';
 		    a.innerHTML = a.download;
@@ -62,7 +65,7 @@ class OSCRecorder {
 
 	get recording () {
 		return this._recording;
-	}	
+	}
 }
 
 class OSCPlayer {
@@ -112,4 +115,3 @@ class OSCPlayer {
 		return this._playing;
 	}
 }
-

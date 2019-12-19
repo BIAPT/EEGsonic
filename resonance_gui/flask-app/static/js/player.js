@@ -1,7 +1,8 @@
 //import { processMessage, adjustModulators, updateData, updateTracks } from './playerMessages.js';
 //import { OSCPlayer, OSCRecorder } from './oscRecorder'
-import io from '../node_modules/socket.io-client';
+
 import Tone from '../node_modules/tone';
+import io from '../node_modules/socket.io-client/dist/socket.io';
 
 console.log('player online');
 
@@ -18,7 +19,6 @@ const defaultPreset = [
 	{fileName: 'flutefib.ogg', trackName: 'flute', input:'/fp_dpli_left_lateral', tone: true, reversed: false, gain: null, min: 0, max:0, peak: 0, pinToData: false, length: null},
 	{fileName: 'fibbassoon.ogg', trackName: 'bassoon', input:'/fp_dpli_right_lateral', tone: true, reversed: false, gain: -15, min: 0, max:0, peak: 0, pinToData: false, length: null},
 	{fileName: 'fibclarinet.ogg', trackName: 'clarinet', input:'/fp_dpli_left_midline', tone: true, reversed: false, gain: -15, min: 0, max:0, peak: 0, pinToData: false, length: null}
-
 ]
 // const defaultPreset = [
 // 		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: '/fp_dpli_left_midline', tone: false, reversed: false, gain: null, min: 0, max: 1, peak: 1, pinToData: true},
@@ -30,6 +30,7 @@ const defaultPreset = [
 // 		{fileName: 'res1_flutes.mp3', trackName: 'Flute', input: '/spr_alpha_theta', tone: false, reversed: true,  gain: null, min: 0, max: 1, peak: 1, pinToData: true},
 // 		{fileName: 'res1_violins.mp3', trackName: 'Violin', input: '/spr_alpha_theta', tone: true, reversed: false,  gain: null, min: 0, max: 1, peak: 1, pinToData: true}
 // 		]
+
 
 // initialize sound graph
 const sound = {
@@ -102,7 +103,7 @@ window.onload = function () {
 	document.getElementById('addNewTrack').addEventListener("click", () => { addNewTrack() });
 }
 
-// Web Audio requires user input to start audio. 
+// Web Audio requires user input to start audio.
 function startAudio(preset) {
 
 	// Handle GUI
@@ -111,7 +112,7 @@ function startAudio(preset) {
 
 	const button = document.getElementById('startContext')
 	if (button) {button.parentNode.removeChild(button);}
-	
+
 
 	sound.context = new AudioContext();
 	sound.context.suspend();
@@ -121,8 +122,8 @@ function startAudio(preset) {
 
 	sound.trackInfo = preset;
 
-	loadOSCTable(); 
-	
+	loadOSCTable();
+
 	sound.preFilterGain = sound.context.createGain();
 	sound.masterGain = sound.context.createGain();
 	let filter = false;
@@ -143,6 +144,7 @@ function startAudio(preset) {
 		sound.wpliGain[i].connect(sound.preFilterGain);
 		sound.wpliGain[i].gain.value = 0;
 	}
+	console.log(sound);
 
 	// default value of master gain is coded in player.html. Gain is converted to decibels
 	const masterGainSlider = document.getElementById('masterGain');
@@ -211,7 +213,7 @@ function setUpTrack(i) {
 }
 
 // this is separate from setUpTrack because you can load a soundfile after
-async function loadSoundfile(i) { 
+async function loadSoundfile(i) {
 	let fileDirectory = 'static/samples/';
 	let fileName = fileDirectory + sound.trackInfo[i].fileName;
 	let buffer = new Tone.Buffer(fileName, ()=>{
@@ -306,8 +308,8 @@ function showEdit(i) {
 			<tr><td>Input:</td><td> <select id='selectedInput${i}'></select> <input id='reverseCheckbox${i}' type='checkbox' ${sound.trackInfo[i].reversed ? 'checked' : ''}> reversed</td></tr>
 			<tr><td>Range:</td>
 				<td class='flex-row'>
-						<input id='rangeMin${i}' class='number-input' type='number' step='0.01' value='${sound.trackInfo[i].min}' > to 
-						<input id='rangeMax${i}' type='number' class='number-input' step='0.01' value='${sound.trackInfo[i].max}' > 
+						<input id='rangeMin${i}' class='number-input' type='number' step='0.01' value='${sound.trackInfo[i].min}' > to
+						<input id='rangeMax${i}' type='number' class='number-input' step='0.01' value='${sound.trackInfo[i].max}' >
 						<input id='rangeCheckbox${i}' type='checkbox' ${sound.trackInfo[i].pinToData ? 'checked': ''}> Pin range to input
 				</td>
 			</tr>
@@ -393,7 +395,7 @@ function addNewTrack() {
 	let filename = document.getElementById('newTrack').value.split('\\');
 	filename = filename[filename.length - 1];
 	sound.trackInfo.push({fileName: filename, trackName: filename.split('.')[0], input: null, reversed: false, gain: null, min: 0, max: 1, pinToData: true},)
-	
+
 
 	const mixer = document.getElementById('mixerBox');
 	mixer.insertAdjacentHTML('beforeend', `
@@ -407,7 +409,6 @@ function addNewTrack() {
 function removeTrack(i) {
 	let contextState = sound.context.state
 	console.log(contextState);
-
 	sound.players[i].disconnect();
 	sound.players.splice(i,1);
 	sound.pitchShifts.splice(i,1);
@@ -417,6 +418,7 @@ function removeTrack(i) {
 	sound.dataGains.splice(i, 1);
 	if (contextState == 'suspended') {
 		sound.context.suspend();
+
 	}
 
 	let mixerGui = document.getElementById('mixerGui');
@@ -538,7 +540,7 @@ function loadOSCTable() {
                             <td>Reset</td>
                         </tr>`
 	for (const [key, value] of Object.entries(data)) {
-  		oscTable.insertAdjacentHTML('beforeend', 
+  		oscTable.insertAdjacentHTML('beforeend',
   			`<tr>
   				<td>${key}</td>
   				<td id='min${key}'>${data[key].min ? data[key].min.toFixed(3) : 'none'}</td>
@@ -621,7 +623,17 @@ function toggleSPRSpeedup () {
 
 
 // Websocket set-up and processing incoming messages
-const socket = io();
+const socket = io('http://127.0.0.1:5000');
+console.log(socket);
+
+socket.on('connect', function() {
+	socket.emit('my event', {data: "I\'m connected!"})
+})
+
+socket.on('my event', function(data){
+	oscRecorder.receiveMessage(data);
+	processMessage(data);
+});
 
 socket.on('event', function(data){
 	oscRecorder.receiveMessage(data);
@@ -659,7 +671,7 @@ function adjustModulators (oscMessage) {
     // 	console.log(Math.pow(oscMessage.args[0],6));
     // 	sound.filterNode.frequency.setValueAtTime(Math.pow(oscMessage.args[0],15)*7000, sound.context.currentTime, 4);
     // 	console.log(sound.filterNode.frequency.value);
-    // }	
+    // }
 }
 
 function updateData (oscMessage) {
@@ -729,6 +741,7 @@ function updateTracks (oscMessage) {
 		    if (oscMessage.address === '/fp_wpli_right_lateral') {
 		    	sound.wpliGain[3].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
 		    }
+
 
 
 
@@ -842,7 +855,7 @@ class OSCRecorder {
 		this.receiveMessage = (message) => {
 			if (this._recording) {
 				events.push({'time': Date.now() - this.timeStarted, 'message': message});
-			} 
+			}
 		}
 
 		this.saveEvents = () => {
@@ -872,7 +885,7 @@ class OSCRecorder {
 
 	get recording () {
 		return this._recording;
-	}	
+	}
 }
 
 class OSCPlayer {
@@ -984,8 +997,8 @@ function createDownloadLink(blob, encoding) {
     link.download = new Date().toISOString() + '.' + encoding;
     console.log(link.download);
     link.innerHTML = link.download;
-    //add the new audio and a elements to the li element 
+    //add the new audio and a elements to the li element
     list = document.getElementById('downloadLinks');
-    li.appendChild(link); //add the li element to the ordered list 
+    li.appendChild(link); //add the li element to the ordered list
     list.appendChild(li);
 }
