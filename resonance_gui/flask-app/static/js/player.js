@@ -7,15 +7,18 @@ console.log('player online');
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-// this is the default preset loaded when none is selected
+// this is the default preset loaded when none is selected. Min, Max and Peak all at 0 gives a sound that is always on (always above its max volume)
 const defaultPreset = [
 	{fileName: 'res6-lowC.ogg', trackName: 'Low C', input:'/pe_frontal', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
-	{fileName: 'res6-LLwave.ogg', trackName: 'Left Lateral', input:'/fp_wpli_left_lateral', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
-	{fileName: 'res6-LMwave.ogg', trackName: 'Left Midline', input:'/fp_wpli_left_midline', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
-	{fileName: 'res6-RMwave.ogg', trackName: 'Right Midline', input:'/fp_wpli_right_midline', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
-	{fileName: 'res6-RLwave.ogg', trackName: 'Right Lateral', input:'/fp_wpli_right_lateral', tone: true, reversed: false, gain: -35, min: 0, max:1, peak: 1, pinToData: true, length: null},
-	{fileName: 'slow_gloc_melody.ogg', trackName: 'SPR alpha/theta', input:'/spr_alpha_theta', tone: true, reversed: false, gain: null, min: 0, max:1, peak: 1, pinToData: true, length: null},
-	{fileName: 'flutefib.ogg', trackName: 'LL dPLI', input:'/fp_dpli_left_lateral', tone: true, reversed: false, gain: null, min: 0, max:1, peak: 1, pinToData: true, length: null}
+	{fileName: 'res6-LLwave.ogg', trackName: 'Left Lateral', input:'/fp_wpli_left_lateral', tone: true, reversed: false, gain: -30, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'res6-LMwave.ogg', trackName: 'Left Midline', input:'/fp_wpli_left_midline', tone: true, reversed: false, gain: -30, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'res6-RMwave.ogg', trackName: 'Right Midline', input:'/fp_wpli_right_midline', tone: true, reversed: false, gain: -30, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'res6-RLwave.ogg', trackName: 'Right Lateral', input:'/fp_wpli_right_lateral', tone: true, reversed: false, gain: -30, min: 0, max:1, peak: 1, pinToData: true, length: null},
+	{fileName: 'slow_gloc_melody.ogg', trackName: 'bells', input:'/spr_alpha_theta', tone: true, reversed: false, gain: null, min: 0.2, max:0.3, peak: 0.25, pinToData: false, length: null},
+	{fileName: 'flutefib.ogg', trackName: 'flute', input:'/fp_dpli_left_lateral', tone: true, reversed: false, gain: null, min: 0, max:0, peak: 0, pinToData: false, length: null},
+	{fileName: 'fibbassoon.ogg', trackName: 'bassoon', input:'/fp_dpli_right_lateral', tone: true, reversed: false, gain: -15, min: 0, max:0, peak: 0, pinToData: false, length: null},
+	{fileName: 'fibclarinet.ogg', trackName: 'clarinet', input:'/fp_dpli_left_midline', tone: true, reversed: false, gain: -15, min: 0, max:0, peak: 0, pinToData: false, length: null}
+
 ]
 // const defaultPreset = [
 // 		{fileName: 'res1_bass.mp3', trackName: 'Bass', input: '/fp_dpli_left_midline', tone: false, reversed: false, gain: null, min: 0, max: 1, peak: 1, pinToData: true},
@@ -64,7 +67,23 @@ var data = {
 	'/pac_rpt_parietal': {min: null, max: null, curr: null, mute: false}, 
 	'/spr_beta_alpha': {min: null, max: null, curr: null, mute: false}, 
 	'/spr_alpha_theta': {min: null, max: null, curr: null, mute: false}, 
-	'/td_front_back': {min: null, max: null, curr: null, mute: false}
+	'/td_front_back': {min: null, max: null, curr: null, mute: false},
+	'/fp_dpli_left_midline_avg': {min: null, max: null, curr: null, mute: false},
+	'/fp_dpli_left_lateral_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/fp_dpli_right_midline_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/fp_dpli_right_lateral_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/fp_wpli_left_midline_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/fp_wpli_left_lateral_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/fp_wpli_right_midline_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/fp_wpli_right_lateral_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/hl_relative_position_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/pe_frontal_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/pe_parietal_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/pac_rpt_frontal_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/pac_rpt_parietal_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/spr_beta_alpha_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/spr_alpha_theta_avg': {min: null, max: null, curr: null, mute: false}, 
+	'/td_front_back_avg': {min: null, max: null, curr: null, mute: false},
 }
 
 
@@ -385,7 +404,6 @@ function addNewTrack() {
 }
 
 
-
 function removeTrack(i) {
 	let contextState = sound.context.state
 	console.log(contextState);
@@ -409,7 +427,6 @@ function removeTrack(i) {
 		loadMixerTrack(i); // ASYNC function! Adds gain nodes and then loads soundfile
 	}
 }
-
 
 // *** HANDLING PRESETS ***
 function loadPreset() {
@@ -446,7 +463,6 @@ function savePreset() {
     presets.removeChild(a);
     URL.revokeObjectURL(a.href);
 }
-
 
 // OSC FUNCTIONS //
 function toggleOSCRecording() {
@@ -561,7 +577,6 @@ function loadOSCTable() {
 }
 
 
-
 // handling presets for input ranges
 function loadRanges() {
 	let fileName = document.getElementById('oscRanges').value.split('\\'); // MAC COMPATIBILITY WARNING
@@ -605,9 +620,6 @@ function toggleSPRSpeedup () {
 }
 
 
-
-
-
 // Websocket set-up and processing incoming messages
 const socket = io();
 
@@ -632,7 +644,6 @@ function processMessage (oscMessage) {
 
     updateData(oscMessage);
     updateTracks(oscMessage);
-    adjustModulators(oscMessage);
 
 }
 
@@ -640,21 +651,7 @@ function processMessage (oscMessage) {
 
 function adjustModulators (oscMessage) {
 
-    if (oscMessage.address === '/fp_wpli_left_lateral') {
-    	sound.wpliGain[0].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
-    }
-
-    if (oscMessage.address === '/fp_wpli_left_midline') {
-    	sound.wpliGain[1].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
-    }
-
-    if (oscMessage.address === '/fp_wpli_right_midline') {
-    	sound.wpliGain[2].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
-    }
-
-    if (oscMessage.address === '/fp_wpli_right_lateral') {
-    	sound.wpliGain[3].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
-    }
+    
 
     // if (oscMessage.address === '/pac_rpt_parietal') {
     // 	console.log(oscMessage.address);
@@ -687,6 +684,10 @@ function updateTracks (oscMessage) {
     	let value;
     	if (sound.trackInfo[i].input === oscMessage.address) {
     		
+
+    		// assigns all gain sliders according to their selected ranges
+	    	calculateGain(i, oscMessage);
+
     		if (oscMessage.address == '/spr_beta_alpha') {
 				if (sound.sprSpeedup) {
     				sound.bufferSources[i].playbackRate.value = Math.pow((1 + oscMessage.args[0]), 2);
@@ -696,45 +697,39 @@ function updateTracks (oscMessage) {
     		}
 
     		if (oscMessage.address == '/spr_alpha_theta') {
-    			sound.players[i].playbackRate = Math.pow((1 + oscMessage.args[0]), 2);
+    			// sound.players[i].playbackRate = Math.pow((1 + oscMessage.args[0]), 2);
     			// console.log(sound.players[i].playbackRate);
     			// sound.pitchShifts[i].pitch = 12*Math.log2(1/(0.8 + oscMessage.args[0]))
     		}
 
-    		if (oscMessage.address == '/fp_dpli_left_lateral') {
-    			//sound.players[i].
+    		// selects how far along in the sample to play back from
+    		if (oscMessage.address.substring(0,8) == '/fp_dpli') {
+    			let abs = Math.abs(oscMessage.args[0]-0.5)*2
+    			let mod = Math.log(abs+1)*6;
+    			let playbackPoint = mod*(sound.trackInfo[i].length-6);
+    			console.log(playbackPoint + ":" + sound.trackInfo[i].length);
+    			if ((playbackPoint + 6) > sound.trackInfo[i].length) {playbackPoint = sound.trackInfo[i].length-6.5};
+    			sound.players[i].setLoopPoints(playbackPoint, playbackPoint + 5 + Math.random()) ;
+    			console.log("new gain: " + mod + abs);
+    			(abs < 0.035) ? setGain(i, -1) : setGain(i, mod);
     		}
 
+    		if (oscMessage.address === '/fp_wpli_left_lateral') {
+		    	sound.wpliGain[0].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
+		    }
 
-	    	if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
-	    		let inputRange = data[sound.trackInfo[i].input].max - data[sound.trackInfo[i].input].min;
-	    		let pinRange = sound.trackInfo[i].max - sound.trackInfo[i].min;
-	    		let effectiveRange = inputRange * pinRange;
-	    		let min = (sound.trackInfo[i].min * inputRange) + data[sound.trackInfo[i].input].min;
-	    		value = (oscMessage.args[0] - min)/effectiveRange;
-	    	} else { // if it's got its own set range
-	    		let range = sound.trackInfo[i].max - sound.trackInfo[i].min;
-	    		value = (oscMessage.args[0] - sound.trackInfo[i].min)/range;
-	    	}
+		    if (oscMessage.address === '/fp_wpli_left_midline') {
+		    	sound.wpliGain[1].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
+		    }
 
-	    	if (value < 0) {value = 0} // filter sounds below input range
-    		if (value > 1) {value = 1}
-    		value = (value*2)-1; // this is a crumby way of centering the range around -10
+		    if (oscMessage.address === '/fp_wpli_right_midline') {
+		    	sound.wpliGain[2].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
+		    }
 
-	    	let slider = document.getElementById(`dataGain${i}`);
-	    	
-	    	// set the value to the slider and gain
-	    	if (sound.trackInfo[i].reversed) {
-	    		value = -value;  // this is a crumby way of centering the range around -10
-	    	}
-			if (slider) {
-				 slider.value = (value * 10)-10;
-				 let newGain = Math.pow(10, slider.value/20);
-				 if (value == -1) {newGain = 0};
+		    if (oscMessage.address === '/fp_wpli_right_lateral') {
+		    	sound.wpliGain[3].gain.setTargetAtTime(oscMessage.args[0] * 10, sound.context.currentTime, 0.5);
+		    }
 
-	    	// this actually sets the gain
-	    		sound.dataGains[i].gain.setTargetAtTime(newGain, sound.context.currentTime, 2);
-			}
 
 
 	    	// update track edit GUI
@@ -748,6 +743,73 @@ function updateTracks (oscMessage) {
     }
 }
 
+function calculateGain(i, oscMessage) {
+	let value;
+
+	// this could surely be refactored to like 4 lines
+	// when the signal's assigned peak is the same as its max, it stays on after
+	if (sound.trackInfo[i].max == sound.trackInfo[i].peak) { 
+		if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
+			let inputRange = data[sound.trackInfo[i].input].max - data[sound.trackInfo[i].input].min;
+			let pinRange = sound.trackInfo[i].max - sound.trackInfo[i].min;
+			let effectiveRange = inputRange * pinRange;
+			let min = (sound.trackInfo[i].min * inputRange) + data[sound.trackInfo[i].input].min;
+			value = (oscMessage.args[0] - min)/effectiveRange;
+		} else { // if it's got its own set range
+			let range = sound.trackInfo[i].max - sound.trackInfo[i].min;
+			value = (oscMessage.args[0] - sound.trackInfo[i].min)/range;
+		}
+	} else {
+		if (sound.trackInfo[i].pinToData) { // if it's relative to limits of data stream
+			let inputRange = data[sound.trackInfo[i].input].max - data[sound.trackInfo[i].input].min;
+			let pinRange = sound.trackInfo[i].max - sound.trackInfo[i].min;
+			let pinPeak = sound.trackInfo[i].peak - sound.trackInfo[i].min;
+			let effectiveRange = inputRange * pinRange;
+			let min = (sound.trackInfo[i].min * inputRange) + data[sound.trackInfo[i].input].min;
+			let peak = (sound.trackInfo[i].peak * inputRange) + data[sound.trackInfo[i].input].min;
+			let max = (sound.trackInfo[i].max * inputRange) + data[sound.trackInfo[i].input].min;
+			if (oscMessage.args[0] > peak && oscMessage.args[0] < max) {
+				let range = max - peak;
+				value = (range-(oscMessage.args[0] - peak))/range;
+			} else {
+				value = (oscMessage.args[0] - min)/(peak - min);
+			}
+		} else { // if it's got its own set range
+			if (oscMessage.args[0] > sound.trackInfo[i].peak) {
+				let range = sound.trackInfo[i].max - sound.trackInfo[i].peak;
+				value = (range-(oscMessage.args[0] - sound.trackInfo[i].peak))/range;
+			} else {
+				let range = sound.trackInfo[i].peak - sound.trackInfo[i].min;
+				value = (oscMessage.args[0] - sound.trackInfo[i].min)/range;
+			}
+		}
+	}
+	// case where peak is at minimum? Not completely sure of the behaviour in all cases
+
+
+	if (value < 0) {value = 0} // filter sounds below input range
+	if (value > 1) {value = 1}
+	value = (value*2)-1; // this is a crumby way of centering the range around -10
+
+	// set the value to the slider and gain
+	if (sound.trackInfo[i].reversed) {
+		value = -value; 
+	}
+
+	setGain(i, value);
+}
+
+function setGain(i, value) { // value given in range of -1 to 1, -1 is silence, 0 is -10dB, 1 is 0dB.
+	let slider = document.getElementById(`dataGain${i}`);
+	if (slider) {
+		 slider.value = (value * 10)-10;
+		 let newGain = Math.pow(10, slider.value/20);
+		 if (value == -1) {newGain = 0};
+
+	// this actually sets the gain
+		sound.dataGains[i].gain.setTargetAtTime(newGain, sound.context.currentTime, 2);
+	}
+}
 
 class OSCRecorder {
 	constructor() {
