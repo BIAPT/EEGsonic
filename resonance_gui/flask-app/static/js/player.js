@@ -21,12 +21,12 @@ const defaultPreset = [
 	},
 	{	fileName: 'res6-RLwave.ogg', 
 		gain: -35,
-		inputs: [{ 	channel:'/pe_frontal', 
+		inputs: [{ 	channel:'/pe_parietal', 
 					type:'volume', 
 					min: 0, 
 					peak: 1, 
 					max: 1, 
-					reversed: false, 
+					reversed: true, 
 					pinToData: false }
 				]
 	}
@@ -67,20 +67,20 @@ const sound = {
 // A single track manages playback of a single soundfile.
 class Track {
 	constructor (track) {
+
+		this.fileName = track.fileName;
+		this.inputs = [];
+
+		// Add the GUI element to the mixer
 		let mixerGUI = document.getElementById('resonanceMixer');
 		this.mixerTrack = document.createElement('DIV');
 		this.mixerTrack.classList.add('mixerTrack');
 		mixerGUI.appendChild(this.mixerTrack);
 
-		this.filename = track.fileName;
-		this.inputs = track.inputs;
-
-		// load the file
-		let buffer = new Tone.Buffer(fileDirectory + this.filename, ()=>{
+		// load the file and create Tone.js player
+		let buffer = new Tone.Buffer(fileDirectory + this.fileName, ()=>{
 			this.length = buffer.duration;
 		})
-
-		// create Tone.JS player
 		this.player = new Tone.Player(buffer);
 		this.player.autostart = true;
 		this.player.loop = true;
@@ -110,9 +110,12 @@ class Track {
 		this.decayGainSlider.classList.add('decayGainSlider');
 		this.decayGainSlider.setAttribute('disabled', true);
 
+		// set up track inputs
+		track.inputs.map(input => this.createInput(input));
+
 		// display the GUI
 		let info = document.createElement('div');
-		info.innerText = this.filename;
+		info.innerText = this.fileName;
 		info.setAttribute('class','mixerTrackInfo');
 		this.mixerTrack.appendChild(info);
 
@@ -130,9 +133,6 @@ class Track {
 		inputs.appendChild(this.inputsCount);
 		inputs.setAttribute('class','mixerTrackInputs')
 		this.mixerTrack.appendChild(inputs);
-
-		// set up track inputs
-		this.inputs.map(input => this.createInput(input));
 	}
 
 	static createSlider(gain) { // default gain value
@@ -158,6 +158,14 @@ class Track {
 
 	display () {
 
+	}
+
+	getJSON() {
+		let preset = { 'fileName': this.fileName, 'gain' : this.userGainSlider.value}
+		preset.inputs = this.inputs.map((input)=>{ 
+			return {'channel':input.channel, 'type': input.type, 'min': input.min, 'peak': input.peak, 'max': input.max, 'reversed': input.reversed, 'pinToData': input.pinToData }
+		})
+		return preset;
 	}
 }
 
@@ -200,6 +208,8 @@ class Message {
 // assign proper functions to GUI buttons
 window.onload = function () {
 	document.getElementById('startContextButton').addEventListener("click", () => { startAudio(defaultPreset) });
+	document.getElementById('loadPresetButton').addEventListener('click', () => { loadPreset() })
+	document.getElementById('savePresetButton').addEventListener('click', () => { savePreset() })
 }
 
 
@@ -220,7 +230,19 @@ function loadPreset() {
 }
 
 function savePreset() {
-
+	console.log('saving app state as preset');
+	// this is a hack for saving a file from the front-end
+    var a = document.createElement("a");
+    let tracksJSON = sound.tracks.map(track => track.getJSON());
+    console.log(tracksJSON);
+    var file = new Blob([JSON.stringify(tracksJSON)], {type: 'text/plain'});
+    a.href = URL.createObjectURL(file);
+    a.download = 'preset.txt';
+    a.innerHTML = a.download;
+    document.getElementById('resonancePlayer').appendChild(a);
+    a.click();
+    document.getElementById('resonancePlayer').removeChild(a);
+    URL.revokeObjectURL(a.href);
 }
 
 
