@@ -66,18 +66,17 @@ const sound = {
 
 // A single track manages playback of a single soundfile.
 class Track {
-	constructor (filename, gain = null) {
-
+	constructor (track) {
 		let mixerGUI = document.getElementById('resonanceMixer');
 		this.mixerTrack = document.createElement('DIV');
 		this.mixerTrack.classList.add('mixerTrack');
 		mixerGUI.appendChild(this.mixerTrack);
 
-		this.filename = filename;
-		this.inputs = [];
+		this.filename = track.fileName;
+		this.inputs = track.inputs;
 
 		// load the file
-		let buffer = new Tone.Buffer(fileDirectory + filename, ()=>{
+		let buffer = new Tone.Buffer(fileDirectory + this.filename, ()=>{
 			this.length = buffer.duration;
 		})
 
@@ -86,19 +85,18 @@ class Track {
 		this.player.autostart = true;
 		this.player.loop = true;
 
-		// create audio nodes
+		// create and connect audio nodes
 		this.userGain = sound.context.createGain();
 		this.dataGain = sound.context.createGain();
 		this.decayGain = sound.context.createGain();
-
-		// connect audio nodes
 		this.player.connect(this.userGain);
 		this.userGain.connect(this.dataGain);
 		this.dataGain.connect(this.decayGain);
 		this.decayGain.connect(sound.masterGain);
 
 		// create the mixer GUI elements
-		this.userGainSlider = Track.createSlider(gain);
+		this.userGainSlider = Track.createSlider(track.gain);
+		this.userGain.gain.value = Math.pow(10, this.userGainSlider.value/20);
 		this.userGainSlider.classList.add('userGainSlider');
 		this.userGainSlider.addEventListener('input', ()=>{
 			this.userGain.gain.value = Math.pow(10, this.userGainSlider.value/20);
@@ -112,8 +110,7 @@ class Track {
 		this.decayGainSlider.classList.add('decayGainSlider');
 		this.decayGainSlider.setAttribute('disabled', true);
 
-
-		// display GUI
+		// display the GUI
 		let info = document.createElement('div');
 		info.innerText = this.filename;
 		info.setAttribute('class','mixerTrackInfo');
@@ -127,10 +124,15 @@ class Track {
 		this.mixerTrack.appendChild(container);
 
 		let inputs = document.createElement('div');
-		inputs.innerHTML = `<div>IN</div><div>${this.inputs.length}</div>`
+		this.inputsCount = document.createElement('div');
+		this.inputsCount.innerText = this.inputs.length;
+		inputs.innerHTML = `<div>IN</div>`
+		inputs.appendChild(this.inputsCount);
 		inputs.setAttribute('class','mixerTrackInputs')
 		this.mixerTrack.appendChild(inputs);
 
+		// set up track inputs
+		this.inputs.map(input => this.createInput(input));
 	}
 
 	static createSlider(gain) { // default gain value
@@ -145,6 +147,10 @@ class Track {
 		return slider;
 	}	
 
+	createInput(input) {
+		this.inputs.push(new Input(input.channel, input.type, input.min, input.peak, input.max, input.reversed, input.pinToData))
+		console.log(this.inputs);
+	}
 
 	update (message) {
 		console.log(message)
@@ -168,13 +174,14 @@ class Signal {
 
 // Interfaces between channels and tracks. A track can have several inputs.
 class Input {
-	constructor () {
-		this.channel = '';
-		this.type = '';
-		this.min = null;
-		this.peak = null;
-		this.max = null;
-		this.reversed = false
+	constructor (channel, type='volume', min=0, peak=1, max=1, reversed=false, pinToData=false) {
+		this.channel = channel;
+		this.type = type;
+		this.min = min;
+		this.peak = peak;
+		this.max = max;
+		this.reversed = reversed;
+		this.pinToData = pinToData;
 	}
 }
 
@@ -239,5 +246,5 @@ function startAudio(preset) {
 }
 
 function loadTrack(track) {
-	sound.tracks.push(new Track(track.fileName));
+	sound.tracks.push(new Track(track));
 }
