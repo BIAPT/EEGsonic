@@ -94,7 +94,7 @@ class Track {
 		this.dataGain.connect(this.decayGain);
 		this.decayGain.connect(sound.masterGain);
 
-		// create the mixer GUI elements
+		// create & activate the mixer GUI elements
 		this.userGainSlider = Track.createSlider(track.gain);
 		this.userGain.gain.value = Math.pow(10, this.userGainSlider.value/20);
 		this.userGainSlider.classList.add('userGainSlider');
@@ -114,25 +114,25 @@ class Track {
 		track.inputs.map(input => this.createInput(input));
 
 		// display the GUI
-		let info = document.createElement('div');
-		info.innerText = this.fileName;
-		info.setAttribute('class','mixerTrackInfo');
-		this.mixerTrack.appendChild(info);
+		let infoGUI = document.createElement('div');
+		infoGUI.innerText = this.fileName;
+		infoGUI.setAttribute('class','mixerTrackInfo');
+		this.mixerTrack.appendChild(infoGUI);
 
-		let container = document.createElement('div');
-		container.setAttribute('class','mixerTrackSliders');
-		container.appendChild(this.userGainSlider);
-		container.appendChild(this.dataGainSlider);
-		container.appendChild(this.decayGainSlider);
-		this.mixerTrack.appendChild(container);
+		let slidersGUI = document.createElement('div');
+		slidersGUI.setAttribute('class','mixerTrackSliders');
+		slidersGUI.appendChild(this.userGainSlider);
+		slidersGUI.appendChild(this.dataGainSlider);
+		slidersGUI.appendChild(this.decayGainSlider);
+		this.mixerTrack.appendChild(slidersGUI);
 
-		let inputs = document.createElement('div');
+		let inputsGUI = document.createElement('div');
 		this.inputsCount = document.createElement('div');
 		this.inputsCount.innerText = this.inputs.length;
-		inputs.innerHTML = `<div>IN</div>`
-		inputs.appendChild(this.inputsCount);
-		inputs.setAttribute('class','mixerTrackInputs')
-		this.mixerTrack.appendChild(inputs);
+		inputsGUI.innerHTML = `<div>IN</div>`
+		inputsGUI.appendChild(this.inputsCount);
+		inputsGUI.setAttribute('class','mixerTrackInputs')
+		this.mixerTrack.appendChild(inputsGUI);
 	}
 
 	static createSlider(gain) { // default gain value
@@ -154,9 +154,21 @@ class Track {
 
 	update (message) {
 		console.log(message)
+		for (let channel in this.inputs.map(input => input.channel)) {
+			if (channel == input.channel){
+				if (input.type == 'volume') {
+					// adjust track volume
+				}
+
+				if (input.type == 'loopPoint') {
+					// adjust looping behaviour
+				}
+			}
+		}
 	}
 
 	display () {
+
 
 	}
 
