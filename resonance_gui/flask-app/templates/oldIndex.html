@@ -1,0 +1,84 @@
+<!— index.html —>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Resonance Audio Player</title>
+
+    <script type='text/javascript' src="{{url_for('static', filename='dist/bundle.js')}}"></script>
+    <script type='text/javascript' src="{{url_for('static', filename='js/web-audio-recorder-js-master/lib/WebAudioRecorder.js')}}"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='css/player.css')}}"></link>
+
+  </head>
+  <body>
+
+    <div id='mainContainer'>
+        <h1>Resonance</h1>
+
+        <div id="resonancePlayer">
+            <div id='controlContainer'>
+                <div id="playerControls">
+                    <div><button id='startContext' style='width: 100%'>Load default</button></div>
+                    <div id='presetsButtons' class='flex-row'>
+                        <b>Preset: </b>
+                        <div class='file-input'><input type='file' id='presetSelector'></input></div>
+                        <button id='loadPreset' >Load</button>
+                        <button id='savePreset' disabled>Save</button>
+                    </div>
+                    <div id='contextStarted' style='display:none'>
+                        <div class='flex-row'>
+                            <button id='startAudio'>Play</button>
+                            <button id='stopAudio'>Stop</button>
+                        </div>
+                        <label for='masterGain'><b>Volume:</b></label>
+                        <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
+                        <div class='flex-row'>
+                            <button id='toggleRecording'>Start Recording Audio</button>
+                        </div>
+                        <div class='flex-row' id='OSCButtons'><button id='recordOSC'>Start Recording OSC</button></div>
+
+                        <ul id='downloadLinks'></ul>
+                    </div>  
+                </div>
+                <div id='mixerGui'>
+                </div>
+                <div id='oscGui'>
+                    <div class='flex-row' id='OSCPlayback'>
+                        <div class='file-input'><input type='file' id='OSCEventFile' size='60'></input></div>
+                        <button id='loadOSC' >Load OSC</button>
+                        <button id='toggleOSC' disabled>Play OSC</button>
+                        <button id='resetOSC' disabled>Reset OSC</button>
+                        <button id='sendOSC'>Send OSC</button>
+                    </div>
+                    <div id='oscTableContainer'>
+                        <table id='oscTable'>
+                            
+                        </table>
+                        <div class='file-input'><input type='file' id='oscRanges'></input></div>
+                        <button id='loadRanges'>Load Ranges</button>
+                        <button id='saveRanges'>Save Ranges</button> 
+                    </div>
+                    <button id='toggleSPRSpeedup'>toggle Alpha/Beta speedup</button>
+
+                </div>
+            </div>
+            <div id="mixerContainer">
+                <table>
+                    <tr id="mixerBox"></tr>
+                </table>
+            </div>
+
+            <input id='newTrack' type='file'></input>
+            <button id='addNewTrack'>Add Track</button>
+        </div>
+    </div>
+
+    <br><br>
+    <div id="messageArea">
+        <p id="messageLabel">OSC Message:</p>
+        <pre id="message"></pre>
+    </div>
+
+    <button onclick="sayHello()">Send OSC message</button>
+
+  </body>
+</html>

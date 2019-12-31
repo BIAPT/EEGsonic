@@ -4,190 +4,51 @@ body {
 	background: rgba(0,0,0,0.05);
 }
 
-input {
-	font-family: 'lato', sans-serif ;
-	border-radius: 3px;
+button {
+	width: 100%;
 	margin: 3px;
-}
-
-label {
-	margin: 3px;
-}
-
-button {s
-	margin: 3px;
-	font-family: 'lato', sans-serif ;
-	background: rgba('0,0,0,0.05');
-	border-radius: 3px;
-	box-shadow: 0px;
-	flex-grow: 1;
-}
-
-h1 {
-	font-style: italic;
-	margin-left: 15px;
-}
-
-#mainContainer {
-	margin: 20px auto;
-	width: 95vw;
-	min-width: 500px;
 }
 
 #resonancePlayer {
-	margin: 20px auto;
-	border: 1px solid #cccccc;
-	border-radius: 3px;
+	height:100%;
+	width:100%;
+	display: grid;
+	grid-template-columns: 1fr 2fr 2fr;
+	grid-template-rows: 50px 1fr 2fr;
+	grid-template-areas: 'header header header'
+						'controls edit signalList'
+						'mixer mixer signalList';
+	grid-column-gap: 5px;
+	grid-row-gap: 5px;
 }
 
-#controlContainer {
-	display: flex;
-	flex-direction: row;
-	justify-content: left;
+#resonanceHeader {
+	grid-area: header;
+	border: 1px solid black;
 }
 
-#playerControls {
-
-	height: 200px;
-	width: 250px;
-	border: 1px solid #cccccc;
-	border-radius: 3px;
-	margin:5px;
-	padding:15px 15px;
-	display: flex;
-	flex-direction:column;
-	justify-content: start;
-}
-
-.flex-row {
-	margin: 10px 0px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	align-items: center;
-}
-
-.flex-row-between {
-	margin: 10px 0px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.number-input {
-	width: 60px;
-}
-
-.file-input {
-	width: 120px;
-	overflow: hidden;
-}
-
-#contextStarted {
-	height: 150px;
-	width: 100%;
-}
-
-#mixerGui {
-	font-size: 12px;
-	border: 1px solid #cccccc;
-	border-radius: 3px;
-	height: 200px;
-	width: 450px;
-	margin: 5px;
-	padding: 15px 15px;
-}
-
-#oscGui {
-	height: 200px;
-	width: 450px;
-	overflow-y: scroll;
-	border: 1px solid #cccccc;
-	border-radius: 3px;
-	margin:5px;
-	padding:15px 15px;
-}
-
-#mixerContainer {
-	width: 100%;
-	overflow-x: scroll;
-}
-
-#mixerBox {
-	min-height:320px;
-	display:flex;
-	flex-direction:row;
-	justify-content:left;
-}
-
-.mixerTrack {
-	font-size: 10px;
-	width:80px;
-	height:320px;
-	margin:3px;
-	padding:5px;
-	overflow-y: hidden;
-	border: 1px solid #cccccc;
-	border-radius: 3px;
+#resonanceControls {
+	grid-area: controls;
+	border: 1px solid goldenrod;
+	padding: 25px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content:space-between;	
+	justify-content: center;
 }
 
-.trackInfo {
-	flex-direction: column;
-	align-items:center;
-	display: flex;
-	justify-content: flex-start;
+#resonanceEdit {
+	grid-area: edit;
+	border: 1px solid red;
+	
 }
 
-.v-slider {
-	-webkit-appearance: slider-vertical; /* WebKit */
-	height:200px;
-	width:30px;
+#resonanceMixer {
+	grid-area: mixer;
+	border: 1px solid hotpink;
 }
 
-#toolbar {
-    padding: 0.5em 0.5em 0.75em 0.5em;
-}
-
-#messageArea {
-    color: #fff;
-    background-color: #aaa;
-    border-radius: 10px;
-    padding-left: 0.75em;
-    padding-top: 0.1em;
-    height: 93%;
-    width: 98%;
-}
-
-#udpStatus {
-    float: right;
-    font-size: 75%;
-    font-style: italic;
-    padding-top: 0.5em;
-}
-
-#messageLabel {
-    font-weight: bold;
-}
-
-#message {
-    font-family: monospace;
-    font-size: 148%;
-}
-
-#oscTable {
-	font-size: 12px;
-}
-
-#oscTable {
-	font-size: 12px;
-}
-
-
-table {
-	font-size:12px;
+#resonanceSignalList {
+	grid-area: signalList;
+	border: 1px solid blue;
 }
