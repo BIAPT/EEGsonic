@@ -96,18 +96,25 @@ class Track {
 		this.dataGain.connect(this.decayGain);
 		this.decayGain.connect(sound.masterGain);
 
-		this.userGainSlider = Track.createSlider();
+		// create the mixer GUI
+		this.userGainSlider = Track.createSlider(gain);
+		console.log(this.userGainSlider);
+		this.userGainSlider.classList.add('userGainSlider');
+		this.mixerTrack.appendChild(this.userGainSlider);
 
 
 	}
 
-	static createSlider(gain=-10) { // default gain value
-		slider = document.createElement('input');
+	static createSlider(gain) { // default gain value
+		let slider = document.createElement('input');
 		slider.setAttribute('class', 'h-slider');
 		slider.setAttribute('type', 'range');
 		slider.setAttribute('min', '-60');
+		slider.setAttribute('max', '0');
 		slider.setAttribute('step', '1');
-		slider.setAttribute('value', this.gain)
+		slider.setAttribute('value', gain ? gain : -10);
+		slider.setAttribute('orient', 'horizonal');
+		return slider;
 	}	
 
 
