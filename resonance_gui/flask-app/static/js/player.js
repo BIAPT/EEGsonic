@@ -5,20 +5,34 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 // VARIABLES, SETTINGS
 
-defaultPreset = [
+const fileDirectory = 'static/samples/';
+
+const defaultPreset = [
 	{	fileName: 'res6-lowC.ogg', 
 		gain: -35,
-		inputs: [ 	channel:'/pe_frontal', 
+		inputs: [{ 	channel:'/pe_frontal', 
 					type:'volume', 
 					min: 0, 
 					peak: 1, 
 					max: 1, 
 					reversed: false, 
-					pinToData: false ]
+					pinToData: false }
+				]
+	},
+	{	fileName: 'res6-RLwave.ogg', 
+		gain: -35,
+		inputs: [{ 	channel:'/pe_frontal', 
+					type:'volume', 
+					min: 0, 
+					peak: 1, 
+					max: 1, 
+					reversed: false, 
+					pinToData: false }
+				]
 	}
 ]
 
-channelList = [
+const channelList = [
 	'/fp_dpli_left_midline',
 	'/fp_dpli_left_lateral', 
 	'/fp_dpli_right_midline', 
@@ -47,18 +61,31 @@ const sound = {
 	tracks : []
 }
 
-
 // CLASSES
-// A single track manages playback of a single soundfile. It has a number of behaviours.
+
+// A single track manages playback of a single soundfile.
 class Track {
-	constructor (filename) {
+	constructor (filename, gain = null) {
 		this.filename = filename;
 		this.inputs = [];
 
-		this.player = null;
+		let buffer = new Tone.Buffer(fileDirectory + filename, ()=>{
+			this.length = buffer.duration;
+		})
+
+		this.player = new Tone.Player(buffer);
+		this.player.autostart = true;
+		this.player.loop = true;
+
 		this.userGain = sound.context.createGain();
 		this.dataGain = sound.context.createGain();
 		this.decayGain = sound.context.createGain();
+
+		this.player.connect(this.userGain);
+		this.userGain.connect(this.dataGain);
+		this.dataGain.connect(this.decayGain);
+		this.decayGain.connect(sound.masterGain);
+
 
 	}
 
@@ -66,6 +93,9 @@ class Track {
 		console.log(message)
 	}
 
+	display () {
+
+	}
 }
 
 // Channels are the message addresses - /spr_beta_alpha or /pe_frontal, etc.
@@ -138,12 +168,19 @@ function startAudio(preset) {
 	const button = document.getElementById('startContextButton')
 	if (button) {button.parentNode.removeChild(button);}
 
-
 	sound.context = new AudioContext();
 	sound.context.suspend();
 	Tone.context = sound.context;
+
+	sound.masterGain = sound.context.createGain();
+	sound.masterGain.connect(sound.context.destination);
+
+	//load the selected preset
+	preset.map(track => loadTrack(track));
+
+	sound.context.resume();
 }
 
-function loadTrack() {
-
+function loadTrack(track) {
+	sound.tracks.push(new Track(track.fileName));
 }
