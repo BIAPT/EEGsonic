@@ -4,11 +4,26 @@ body {
 	background: rgba(0,0,0,0.05);
 }
 
+/* COMPONENTS */
 button {
 	width: 100%;
 	margin: 3px;
 }
 
+.v-slider {
+	-webkit-appearance: slider-vertical; /* WebKit */
+	height:200px;
+	width:30px;
+}
+
+.h-slider {
+	-webkit-appearance: slider-horizontal; /* WebKit */
+	height:20px;
+	width:200px;
+}
+
+
+/* MAIN DISPLAY PANELS */
 #resonancePlayer {
 	height:100%;
 	width:100%;

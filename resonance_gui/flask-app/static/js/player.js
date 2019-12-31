@@ -61,33 +61,55 @@ const sound = {
 	tracks : []
 }
 
+
 // CLASSES
 
 // A single track manages playback of a single soundfile.
 class Track {
 	constructor (filename, gain = null) {
+
+		let mixerGUI = document.getElementById('resonanceMixer');
+		this.mixerTrack = document.createElement('DIV');
+		mixerGUI.appendChild(this.mixerTrack);
+
 		this.filename = filename;
 		this.inputs = [];
 
+		// load the file
 		let buffer = new Tone.Buffer(fileDirectory + filename, ()=>{
 			this.length = buffer.duration;
 		})
 
+		// create Tone.JS player
 		this.player = new Tone.Player(buffer);
 		this.player.autostart = true;
 		this.player.loop = true;
 
+		// create audio nodes
 		this.userGain = sound.context.createGain();
 		this.dataGain = sound.context.createGain();
 		this.decayGain = sound.context.createGain();
 
+		// connect audio nodes
 		this.player.connect(this.userGain);
 		this.userGain.connect(this.dataGain);
 		this.dataGain.connect(this.decayGain);
 		this.decayGain.connect(sound.masterGain);
 
+		this.userGainSlider = Track.createSlider();
+
 
 	}
+
+	static createSlider(gain=-10) { // default gain value
+		slider = document.createElement('input');
+		slider.setAttribute('class', 'h-slider');
+		slider.setAttribute('type', 'range');
+		slider.setAttribute('min', '-60');
+		slider.setAttribute('step', '1');
+		slider.setAttribute('value', this.gain)
+	}	
+
 
 	update (message) {
 		console.log(message)
