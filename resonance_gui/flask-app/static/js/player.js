@@ -70,6 +70,7 @@ class Track {
 
 		let mixerGUI = document.getElementById('resonanceMixer');
 		this.mixerTrack = document.createElement('DIV');
+		this.mixerTrack.classList.add('mixerTrack');
 		mixerGUI.appendChild(this.mixerTrack);
 
 		this.filename = filename;
@@ -96,15 +97,39 @@ class Track {
 		this.dataGain.connect(this.decayGain);
 		this.decayGain.connect(sound.masterGain);
 
-		// create the mixer GUI
+		// create the mixer GUI elements
 		this.userGainSlider = Track.createSlider(gain);
-		console.log(this.userGainSlider);
 		this.userGainSlider.classList.add('userGainSlider');
 		this.userGainSlider.addEventListener('input', ()=>{
 			this.userGain.gain.value = Math.pow(10, this.userGainSlider.value/20);
 		});
-		this.mixerTrack.appendChild(this.userGainSlider);
 
+		this.dataGainSlider = Track.createSlider();
+		this.dataGainSlider.classList.add('dataGainSlider');
+		this.dataGainSlider.setAttribute('disabled', true);
+
+		this.decayGainSlider = Track.createSlider();
+		this.decayGainSlider.classList.add('decayGainSlider');
+		this.decayGainSlider.setAttribute('disabled', true);
+
+
+		// display GUI
+		let info = document.createElement('div');
+		info.innerText = this.filename;
+		info.setAttribute('class','mixerTrackInfo');
+		this.mixerTrack.appendChild(info);
+
+		let container = document.createElement('div');
+		container.setAttribute('class','mixerTrackSliders');
+		container.appendChild(this.userGainSlider);
+		container.appendChild(this.dataGainSlider);
+		container.appendChild(this.decayGainSlider);
+		this.mixerTrack.appendChild(container);
+
+		let inputs = document.createElement('div');
+		inputs.innerHTML = `<div>IN</div><div>${this.inputs.length}</div>`
+		inputs.setAttribute('class','mixerTrackInputs')
+		this.mixerTrack.appendChild(inputs);
 
 	}
 
@@ -130,8 +155,8 @@ class Track {
 	}
 }
 
-// Channels are the message addresses - /spr_beta_alpha or /pe_frontal, etc.
-class Channel {
+// Signal are the message addresses - /spr_beta_alpha or /pe_frontal, etc.
+class Signal {
 	constructor () {
 		this.min = null;
 		this.max = null;

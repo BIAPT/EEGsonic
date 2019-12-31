@@ -18,7 +18,7 @@ button {
 
 .h-slider {
 	-webkit-appearance: slider-horizontal; /* WebKit */
-	height:20px;
+	height:10px;
 	width:200px;
 }
 
@@ -58,11 +58,68 @@ button {
 	
 }
 
+
+/* MIXER  */
 #resonanceMixer {
 	grid-area: mixer;
 	border: 1px solid hotpink;
+	display: flex;
+	flex-direction: column;
+	justify-content: left;
+	align-items: start;
+
+	font-size: 10px;
 }
 
+.mixerTrack {
+	height: 50px;
+	margin: 1px;
+	border: 1px solid gray;
+	border-radius: 3px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+
+}
+
+.mixerTrackInfo {
+	padding-left: 15px;
+	width: 80px;
+	overflow: hidden;
+	justify-content: center;
+}
+
+.mixerTrackSliders {
+	display: flex;
+	flex-direction: column;
+}
+
+.userGainSlider {
+	color: blue;
+}
+
+.dataGainSlider {
+	color: red;
+}
+
+.decayGainSlider {
+	color: gray;
+}
+
+.mixerTrackInputs {
+	padding: 5px;
+	width: 40px;
+	display: flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items: center;
+}
+
+
+
+
+/* SIGNALS LIST */
 #resonanceSignalList {
 	grid-area: signalList;
 	border: 1px solid blue;
