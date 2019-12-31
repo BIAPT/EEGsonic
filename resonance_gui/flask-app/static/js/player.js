@@ -100,6 +100,9 @@ class Track {
 		this.userGainSlider = Track.createSlider(gain);
 		console.log(this.userGainSlider);
 		this.userGainSlider.classList.add('userGainSlider');
+		this.userGainSlider.addEventListener('input', ()=>{
+			this.userGain.gain.value = Math.pow(10, this.userGainSlider.value/20);
+		});
 		this.mixerTrack.appendChild(this.userGainSlider);
 
 
