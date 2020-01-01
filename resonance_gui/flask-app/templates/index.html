@@ -14,14 +14,28 @@
             <div id='resonanceHeader'><h1>Resonance</h1></div>
             <div id='resonanceControls'>
                 <button id='startContextButton'>Load default</button>
-                <div class='file-input'><input type='file' id='presetFileInput'></input></div>
-                <button id='loadPresetButton'>Load preset</button>
-                <button id='savePresetButton'>Save Preset</button>
+                <div class='file-input'>Preset: <input type='file' id='presetFileInput'></input></div>
+                <div class='flex-row'>
+                    <button id='loadPresetButton'>Load preset</button>
+                    <button id='savePresetButton'>Save Preset</button>
+                </div>
+                <div id='mainControls' style='display:none'>
+                    <div id='OSCPlayback'>
+                        <div class='file-input'>OSC Events:<input type='file' id='OSCEventFile' size='60'></input></div>
+                        <div class='flex-row'>
+                            <button id='loadOSC' >Load OSC</button>
+                            <button id='toggleOSC' disabled>Play OSC</button>
+                            <button id='resetOSC' disabled>Reset OSC</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id='resonanceEdit'></div>
             <div id='resonanceMixer'></div>
             <div id='resonanceSignalList'>
-                <div id='signalContainer'></div>
+                <div id='signalContainer'>
+                    
+                </div>
             </div>
         </div>
     </div>

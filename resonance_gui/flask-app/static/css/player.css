@@ -8,6 +8,7 @@ body {
 button {
 	width: 100%;
 	margin: 3px;
+	font-size:10px;
 }
 
 table {
@@ -47,6 +48,8 @@ table {
 	grid-area: header;
 }
 
+/* MAIN CONTROLS */
+
 #resonanceControls {
 	grid-area: controls;
 	border: 1px solid gray;
@@ -55,6 +58,14 @@ table {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+}
+
+.flex-row {
+	margin: 10px 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
 }
 
 #resonanceEdit {

@@ -5,7 +5,8 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 // VARIABLES, SETTINGS
 
-const fileDirectory = 'static/samples/';
+const sampleFilePath = 'static/samples/';
+const eventsFilePath = 'static/playerEvents/';
 
 const channelList = [
 	'/fp_dpli_left_midline',
@@ -73,9 +74,9 @@ class Signal {
 		this.mute = false;
 		this.last10 = [];
 
-		// signalListContainer is a flex-box div in index.html
 		let signalListGUI = document.getElementById('signalContainer');
 
+		// create the right-side pannel of signals
 		this.signalGUI = document.createElement('div');
 		this.signalGUI.innerHTML = `<div>${this.channel}</div>`
 		let signalTableGUI = document.createElement('table');
@@ -155,7 +156,7 @@ class Track {
 		mixerGUI.appendChild(this.mixerTrack);
 
 		// load the file and create Tone.js player
-		let buffer = new Tone.Buffer(fileDirectory + this.fileName, ()=>{
+		let buffer = new Tone.Buffer(sampleFilePath + this.fileName, ()=>{
 			this.length = buffer.duration;
 		})
 		this.player = new Tone.Player(buffer);
@@ -286,16 +287,165 @@ class Message {
 
 }
 
+/// HANDLING OSC RECORDINGS/PLAYBACK
+
+class OSCPlayer {
+	constructor() {
+		this._playing = false;
+		this._currentEvent = 0;
+		this._nextEvent = null;
+		this.timeout = null;
+		this.events = [];
+
+		this.loadOSCEvents = () => {
+			let fileName = document.getElementById('OSCEventFile').value.split('\\'); 
+			fileName = fileName[fileName.length - 1];
+
+			if (fileName !== '') {
+				fetch(eventsFilePath + fileName)
+					.then(response => response.text())
+					.then(events => {
+						this.events = JSON.parse(events);
+						document.getElementById('toggleOSC').removeAttribute('disabled');
+						document.getElementById('resetOSC').removeAttribute('disabled');
+						console.log(this.events);
+					})
+			}
+		}
+
+		this.toggleOSC = () => {
+			let button = document.getElementById('toggleOSC');
+			if (this._playing) {
+				this.cancelNextEvent();
+				button.innerText = 'Play OSC';
+			} else {
+				this.playOSC();
+				button.innerText = 'Pause OSC';
+			}
+		}
+
+		this.playOSC = () => {
+			console.log('playing OSC');
+			this._playing = true;
+			this.playEvent(this._currentEvent);
+		}
+
+		this.playEvent = (i) => {
+			if (i < this.events.length) {
+				this._currentEvent = i;
+				console.log(this.events[i]);
+				this.sequenceNextEvent(i);
+			}
+		}
+
+		this.sequenceNextEvent = (i) => {
+			if (i + 1 < this.events.length) {
+				let delay = this.events[i+1].time - this.events[i].time;
+				// SAMPLE RATE PATCH
+				delay = delay/4;
+				this.timeout = setTimeout(this.playEvent, delay, i+1);
+			} else { console.log('reached end of OSC')};
+		}
+
+		this.cancelNextEvent = () => {
+			clearTimeout(this.timeout);
+			this._playing = false;
+		}
+
+		this.setOSCStep = (step) => {
+			this._currentEvent = step;
+		}
+
+		this.resetOSC = () => {
+			if (this.playing) {
+				this.toggleOSC();
+			}
+			oscPlayer.setOSCStep(0);
+		}
+	}
+
+	get playing() {
+		return this._playing;
+	}
+}
+
+class OSCRecorder {
+	constructor() {
+		this._recording = false;
+		this.timeStarted = null;
+		let events = [];
+		console.log('created OSC recorder');
+
+		this.startRecording = () => {
+			this._recording = true;
+			this.timeStarted = Date.now();
+			console.log('OSC started recording at ' + this.timeStarted);
+		}
+
+		this.stopRecording = () => {
+			this._recording = false;
+			console.log('OSC stopped recording');
+			console.log(events);
+			this.saveEvents();
+			this.timeStarted = null;
+			events = [];
+		}
+
+		this.toggleRecording = () => {
+			if (this._recording) {
+				this.stopRecording();
+			} else this.startRecording();
+		}
+
+		this.receiveMessage = (message) => {
+			if (this._recording) {
+				events.push({'time': Date.now() - this.timeStarted, 'message': message});
+			}
+		}
+
+		this.saveEvents = () => {
+			console.log('saving events to file');
+			// this is a hacky way of saving a text file
+		    var a = document.createElement("a");
+		    var file = new Blob([JSON.stringify(events)], {type: 'text/plain'});
+		    a.href = URL.createObjectURL(file);
+		    a.download = 'oscEvents.txt';
+		    a.innerHTML = a.download;
+		    let dummy = document.getElementById('messageArea');
+		    dummy.appendChild(a);
+		    a.click();
+		    dummy.removeChild(a);
+		    URL.revokeObjectURL(a.href);
+		}
+
+		this.play = () => {
+			playOSCEvents(events);
+		}
+	}
+
+	set recording (value) {
+		console.log('recording: ' + value);
+		this._recording = value;
+	}
+
+	get recording () {
+		return this._recording;
+	}
+}
+
 
 // INITIALIZE ENVIRONEMENT BEFORE LOADING AUDIO
 
 // assign proper functions to GUI buttons
 window.onload = function () {
 	document.getElementById('startContextButton').addEventListener("click", () => { startAudio(defaultPreset) });
-	document.getElementById('loadPresetButton').addEventListener('click', () => { loadPreset() })
-	document.getElementById('savePresetButton').addEventListener('click', () => { savePreset() })
-
-	// initalize channels
+	document.getElementById('loadPresetButton').addEventListener('click', () => { loadPreset() });
+	document.getElementById('savePresetButton').addEventListener('click', () => { savePreset() });
+	document.getElementById('loadOSC').addEventListener('click', () => { oscPlayer.loadOSCEvents() });
+	document.getElementById('toggleOSC').addEventListener("click", () => { oscPlayer.toggleOSC() });
+	document.getElementById('resetOSC').addEventListener("click", () => { oscPlayer.resetOSC() });
+	
+	// initalize list of channels
 	channelList.forEach(channel => {
 		sound.signals[channel] = new Signal(channel);
 	})
@@ -312,6 +462,11 @@ socket.on('event', function(message){
 	// oscRecorder.receiveMessage(data);
 	sound.signals[message.address].update(message);
 });
+
+// OSC HANDLERS
+
+const oscPlayer = new OSCPlayer();
+const oscRecorder = new OSCRecorder();
 
 // handling presets
 function loadPreset() {
@@ -354,6 +509,8 @@ function startAudio(preset) {
 	const button = document.getElementById('startContextButton')
 	if (button) {button.parentNode.removeChild(button);}
 
+	document.getElementById('mainControls').removeAttribute('style');
+
 	sound.context = new AudioContext();
 	sound.context.suspend();
 	Tone.context = sound.context;
@@ -370,3 +527,8 @@ function startAudio(preset) {
 function loadTrack(track) {
 	sound.tracks.push(new Track(track));
 }
+
+
+
+
+
