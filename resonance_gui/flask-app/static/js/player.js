@@ -110,23 +110,19 @@ class Signal {
 
 	static processMessage(message) {
 		sound.signals[message.address].update(message);
+		Track.processMessage(message);
 	}
 
 	update (message) {
-		console.log(message + this.channel);
 		// update last 10 messages
 		if (this.last10.length == 10) { this.last10.shift(); }
 		this.last10.push(message.args[0]);
 
 		if (this.max === null || message.args[0] > this.max) {this.max = message.args[0]}
-
 		if (this.min === null || message.args[0] < this.min) {this.min = message.args[0]}
 
 		this.curr = message.args[0];
 
-		console.log(this.last10);
-		console.log(this.last10.slice(-3));
-		console.log(this.last10.slice(-3).reduce((a,c)=>{return a + c}));
 		this.avg3 = this.last10.slice(-3).reduce((a,c)=>{return a+c})/this.last10.slice(-3).length;
 		this.avg5 = this.last10.slice(-5).reduce((a,c)=>{return a+c})/this.last10.slice(-5).length;
 		this.avg10 = this.last10.slice(-10).reduce((a,c)=>{return a+c})/this.last10.slice(-10).length;
@@ -228,25 +224,35 @@ class Track {
 		return slider;
 	}	
 
+	static processMessage(message) {
+		// searches the list of tracks and inputs for matching message channel
+		sound.tracks.forEach((track)=>{
+			track.inputs.forEach((input) => {
+				if (input.channel == message.address) {
+					track.update(message);
+				}
+			})
+		})
+	}
+
 	createInput(input) {
 		this.inputs.push(new Input(input.channel, input.type, input.min, input.peak, input.max, input.reversed, input.pinToData))
-		console.log(this.inputs);
 	}
 
 	update (message) {
-		console.log(message)
-		for (let channel in this.inputs.map(input => input.channel)) {
-			if (channel == message.address){
+		console.log('update');
+		this.inputs.forEach((input) => {
+			if (input.channel == message.address){
 				if (input.type == 'volume') {
 					// adjust track volume
-					console.log('update ')
+					console.log('update volume')
 				}
 
 				if (input.type == 'loopPoint') {
 					// adjust looping behaviour
 				}
 			}
-		}
+		})
 	}
 
 	display () {
@@ -311,7 +317,7 @@ class OSCPlayer {
 						this.events = JSON.parse(events);
 						document.getElementById('toggleOSC').removeAttribute('disabled');
 						document.getElementById('resetOSC').removeAttribute('disabled');
-						console.log(this.events);
+						console.log(this.events.length + ' events loaded');
 					})
 			}
 		}
@@ -329,7 +335,6 @@ class OSCPlayer {
 
 		this.playOSC = () => {
 			console.log('playing OSC');
-			console.log(sound);
 			this._playing = true;
 			this.playEvent(this._currentEvent);
 		}
