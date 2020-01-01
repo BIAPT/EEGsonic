@@ -84,9 +84,9 @@ class Signal {
 		this.signalTableRow = document.createElement('tr');
 		
 		this.minGUI = this.createGUI();
-		this.maxGUI = this.createGUI();
 		this.currGUI = this.createGUI();
 		this.currGUI.classList.add('currentValue');
+		this.maxGUI = this.createGUI();
 		this.avg3GUI = this.createGUI();
 		this.avg5GUI = this.createGUI();
 		this.avg10GUI = this.createGUI();
@@ -108,7 +108,12 @@ class Signal {
 		return gui;
 	}
 
+	static processMessage(message) {
+		sound.signals[message.address].update(message);
+	}
+
 	update (message) {
+		console.log(message + this.channel);
 		// update last 10 messages
 		if (this.last10.length == 10) { this.last10.shift(); }
 		this.last10.push(message.args[0]);
@@ -119,14 +124,12 @@ class Signal {
 
 		this.curr = message.args[0];
 
-		if (this.last10.length >= 3) {this.avg3 = Math.eval(this.last10.slice(-3).join('+'))/3;}
-		else {this.avg3 = Math.eval(this.last10.join('+'))/this.last10.length}
-
-		if (this.last10.length >= 5) { this.avg5 = Math.eval(this.last10.slice(-5).join('+'))/5;}
-		else {this.avg5 = Math.eval(this.last10.join('+'))/this.last10.length}
-
-		if (this.last10.length >= 10) {this.avg10 = Math.eval(this.last10.slice(-10).join('+'))/10} 
-		else {this.avg10 = Math.eval(this.last10.join('+'))/this.last10.length}
+		console.log(this.last10);
+		console.log(this.last10.slice(-3));
+		console.log(this.last10.slice(-3).reduce((a,c)=>{return a + c}));
+		this.avg3 = this.last10.slice(-3).reduce((a,c)=>{return a+c})/this.last10.slice(-3).length;
+		this.avg5 = this.last10.slice(-5).reduce((a,c)=>{return a+c})/this.last10.slice(-5).length;
+		this.avg10 = this.last10.slice(-10).reduce((a,c)=>{return a+c})/this.last10.slice(-10).length;
 
 		this.display();
 	}
@@ -326,6 +329,7 @@ class OSCPlayer {
 
 		this.playOSC = () => {
 			console.log('playing OSC');
+			console.log(sound);
 			this._playing = true;
 			this.playEvent(this._currentEvent);
 		}
@@ -333,7 +337,8 @@ class OSCPlayer {
 		this.playEvent = (i) => {
 			if (i < this.events.length) {
 				this._currentEvent = i;
-				console.log(this.events[i]);
+				// message processing goes here!
+				Signal.processMessage(this.events[i].message);
 				this.sequenceNextEvent(i);
 			}
 		}
@@ -432,7 +437,6 @@ class OSCRecorder {
 		return this._recording;
 	}
 }
-
 
 // INITIALIZE ENVIRONEMENT BEFORE LOADING AUDIO
 
