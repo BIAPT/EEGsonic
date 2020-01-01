@@ -7,6 +7,25 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 const fileDirectory = 'static/samples/';
 
+const channelList = [
+	'/fp_dpli_left_midline',
+	'/fp_dpli_left_lateral', 
+	'/fp_dpli_right_midline', 
+	'/fp_dpli_right_lateral', 
+	'/fp_wpli_left_midline', 
+	'/fp_wpli_left_lateral', 
+	'/fp_wpli_right_midline', 
+	'/fp_wpli_right_lateral', 
+	'/hl_relative_position', 
+	'/pe_frontal', 
+	'/pe_parietal', 
+	'/pac_rpt_frontal', 
+	'/pac_rpt_parietal', 
+	'/spr_beta_alpha', 
+	'/spr_alpha_theta', 
+	'/td_front_back'
+]
+
 const defaultPreset = [
 	{	fileName: 'res6-lowC.ogg', 
 		gain: -35,
@@ -32,37 +51,95 @@ const defaultPreset = [
 	}
 ]
 
-const channelList = [
-	'/fp_dpli_left_midline',
-	'/fp_dpli_left_lateral', 
-	'/fp_dpli_right_midline', 
-	'/fp_dpli_right_lateral', 
-	'/fp_wpli_left_midline', 
-	'/fp_wpli_left_lateral', 
-	'/fp_wpli_right_midline', 
-	'/fp_wpli_right_lateral', 
-	'/hl_relative_position', 
-	'/pe_frontal', 
-	'/pe_parietal', 
-	'/pac_rpt_frontal', 
-	'/pac_rpt_parietal', 
-	'/spr_beta_alpha', 
-	'/spr_alpha_theta', 
-	'/td_front_back'
-]
-
-
-
-
 // GLOBAL VARIABLES
 const sound = {
 	context : null,
 	masterGain : null,
-	tracks : []
+	tracks : [],
+	signals: {}
 }
 
 
 // CLASSES
+
+// Signal are the collection of messags on a channel, each also has an associated DOM element
+// A channel is the message address - /spr_beta_alpha or /pe_frontal, etc.
+class Signal {
+	constructor (channel) {
+		this.channel = channel;
+		this.min = null;
+		this.max = null;
+		this.curr = null;
+		this.mute = false;
+		this.last10 = [];
+
+		// signalListContainer is a flex-box div in index.html
+		let signalListGUI = document.getElementById('signalContainer');
+
+		this.signalGUI = document.createElement('div');
+		this.signalGUI.innerHTML = `<div>${this.channel}</div>`
+		let signalTableGUI = document.createElement('table');
+		signalTableGUI.innerHTML = `<tr><td>min</td><td>curr</td><td>max</td><td>avg3</td><td>avg5</td><td>avg10</td>`
+		this.signalTableRow = document.createElement('tr');
+		
+		this.minGUI = this.createGUI();
+		this.maxGUI = this.createGUI();
+		this.currGUI = this.createGUI();
+		this.currGUI.classList.add('currentValue');
+		this.avg3GUI = this.createGUI();
+		this.avg5GUI = this.createGUI();
+		this.avg10GUI = this.createGUI();
+
+		signalTableGUI.appendChild(this.signalTableRow);
+		let signalBox = document.createElement('div');
+		signalBox.classList.add('signalBox')
+
+		signalBox.appendChild(this.signalGUI);
+		signalBox.appendChild(signalTableGUI);
+
+		signalListGUI.appendChild(signalBox);
+	}
+
+	createGUI () {
+		let gui = document.createElement('td');
+		gui.innerText = '';
+		this.signalTableRow.appendChild(gui);
+		return gui;
+	}
+
+	update (message) {
+		// update last 10 messages
+		if (this.last10.length == 10) { this.last10.shift(); }
+		this.last10.push(message.args[0]);
+
+		if (this.max === null || message.args[0] > this.max) {this.max = message.args[0]}
+
+		if (this.min === null || message.args[0] < this.min) {this.min = message.args[0]}
+
+		this.curr = message.args[0];
+
+		if (this.last10.length >= 3) {this.avg3 = Math.eval(this.last10.slice(-3).join('+'))/3;}
+		else {this.avg3 = Math.eval(this.last10.join('+'))/this.last10.length}
+
+		if (this.last10.length >= 5) { this.avg5 = Math.eval(this.last10.slice(-5).join('+'))/5;}
+		else {this.avg5 = Math.eval(this.last10.join('+'))/this.last10.length}
+
+		if (this.last10.length >= 10) {this.avg10 = Math.eval(this.last10.slice(-10).join('+'))/10} 
+		else {this.avg10 = Math.eval(this.last10.join('+'))/this.last10.length}
+
+		this.display();
+	}
+
+	display () {
+		this.maxGUI.innerText = this.max.toFixed(3);
+		this.minGUI.innerText = this.min.toFixed(3);
+		this.currGUI.innerText = this.curr.toFixed(3);
+		this.avg3GUI.innerText = this.avg3.toFixed(3);
+		this.avg5GUI.innerText = this.avg5.toFixed(3);
+		this.avg10GUI.innerText = this.avg10.toFixed(3);
+	}
+
+}
 
 // A single track manages playback of a single soundfile.
 class Track {
@@ -73,7 +150,7 @@ class Track {
 
 		// Add the GUI element to the mixer
 		let mixerGUI = document.getElementById('resonanceMixer');
-		this.mixerTrack = document.createElement('DIV');
+		this.mixerTrack = document.createElement('div');
 		this.mixerTrack.classList.add('mixerTrack');
 		mixerGUI.appendChild(this.mixerTrack);
 
@@ -155,9 +232,10 @@ class Track {
 	update (message) {
 		console.log(message)
 		for (let channel in this.inputs.map(input => input.channel)) {
-			if (channel == input.channel){
+			if (channel == message.address){
 				if (input.type == 'volume') {
 					// adjust track volume
+					console.log('update ')
 				}
 
 				if (input.type == 'loopPoint') {
@@ -181,16 +259,7 @@ class Track {
 	}
 }
 
-// Signal are the message addresses - /spr_beta_alpha or /pe_frontal, etc.
-class Signal {
-	constructor () {
-		this.min = null;
-		this.max = null;
-		this.curr = null;
-		this.mute = false;
-		this.last5 = []
-	}
-}
+
 
 // Interfaces between channels and tracks. A track can have several inputs.
 class Input {
@@ -217,13 +286,32 @@ class Message {
 
 }
 
+
+// INITIALIZE ENVIRONEMENT BEFORE LOADING AUDIO
+
 // assign proper functions to GUI buttons
 window.onload = function () {
 	document.getElementById('startContextButton').addEventListener("click", () => { startAudio(defaultPreset) });
 	document.getElementById('loadPresetButton').addEventListener('click', () => { loadPreset() })
 	document.getElementById('savePresetButton').addEventListener('click', () => { savePreset() })
+
+	// initalize channels
+	channelList.forEach(channel => {
+		sound.signals[channel] = new Signal(channel);
+	})
 }
 
+// websocket for receiving messages
+const socket = io('http://127.0.0.1:5000');
+
+socket.on('connect', function() {
+	socket.emit('my event', {data: "New connection!"})
+})
+
+socket.on('event', function(message){
+	// oscRecorder.receiveMessage(data);
+	sound.signals[message.address].update(message);
+});
 
 // handling presets
 function loadPreset() {

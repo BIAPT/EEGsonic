@@ -10,6 +10,12 @@ button {
 	margin: 3px;
 }
 
+table {
+	font-size: 10px;
+	align-items:center;
+	justify-content: center;
+}
+
 .v-slider {
 	-webkit-appearance: slider-vertical; /* WebKit */
 	height:200px;
@@ -39,12 +45,11 @@ button {
 
 #resonanceHeader {
 	grid-area: header;
-	border: 1px solid black;
 }
 
 #resonanceControls {
 	grid-area: controls;
-	border: 1px solid goldenrod;
+	border: 1px solid gray;
 	padding: 25px;
 	display: flex;
 	flex-direction: column;
@@ -54,7 +59,7 @@ button {
 
 #resonanceEdit {
 	grid-area: edit;
-	border: 1px solid red;
+	border: 1px solid gray;
 	
 }
 
@@ -62,7 +67,7 @@ button {
 /* MIXER  */
 #resonanceMixer {
 	grid-area: mixer;
-	border: 1px solid hotpink;
+	border: 1px solid gray;
 	display: flex;
 	flex-direction: column;
 	justify-content: left;
@@ -122,5 +127,29 @@ button {
 /* SIGNALS LIST */
 #resonanceSignalList {
 	grid-area: signalList;
-	border: 1px solid blue;
+	border: 1px solid gray;
+	font-size: 10px;
+}
+
+#signalContainer {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: left;
+	align-items: left;
+}
+
+.signalBox {
+	border: 1px solid gray;
+	border-radius: 2px;
+	margin: 2px;
+	padding-left: 5px;
+	width: 200px;
+	height:48px;
+}
+
+.currentValue {
+	font-weight: bold;
 }
