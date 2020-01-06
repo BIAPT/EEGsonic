@@ -20,6 +20,12 @@
                     <button id='savePresetButton'>Save Preset</button>
                 </div>
                 <div id='mainControls' style='display:none'>
+                     <div id='masterAudioControls' class='flex-row'>
+                            <button id='startAudio'>Play</button>
+                            <button id='stopAudio'>Stop</button>
+                            <label for='masterGain'><b>Volume:</b></label>
+                            <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
+                    </div>   
                     <div id='OSCPlayback'>
                         <div class='file-input'>OSC Events:<input type='file' id='OSCEventFile' size='60'></input></div>
                         <div class='flex-row'>

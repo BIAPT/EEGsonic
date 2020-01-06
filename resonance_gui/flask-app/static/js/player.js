@@ -174,7 +174,7 @@ class Track {
 		this.userGain.gain.value = Math.pow(10, this.userGainSlider.value/20);
 		this.userGainSlider.classList.add('userGainSlider');
 		this.userGainSlider.addEventListener('input', ()=>{
-			this.userGain.gain.value = Math.pow(10, this.userGainSlider.value/20);
+			this.userGain.gain.setTargetAtTime(Math.pow(10, this.userGainSlider.value/20), sound.context.currentTime, 0.1);
 		});
 
 		this.dataGainSlider = Track.createSlider();
@@ -580,6 +580,20 @@ function startAudio(preset) {
 
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
+
+	// activate main audio GUI
+	const playButton = document.getElementById('startAudio');
+	playButton.addEventListener('click', ()=>{sound.context.resume()})
+
+	const stopButton = document.getElementById('stopAudio');
+	stopButton.addEventListener('click', ()=>{sound.context.suspend()})
+
+	const masterGainSlider = document.getElementById('masterGain');
+	sound.masterGain.gain.value = Math.pow(10, masterGainSlider.value/20);
+	masterGainSlider.addEventListener('input', ()=> {
+		sound.masterGain.gain.setTargetAtTime(Math.pow(10, masterGainSlider.value/20),sound.context.currentTime, 0.1);
+	}, false);
+
 
 	//load the selected preset
 	preset.map(track => loadTrack(track));
