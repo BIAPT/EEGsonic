@@ -350,6 +350,45 @@ class Message {
 
 }
 
+/// HANDLING AUDIO RECORDING
+
+class AudioRecorder {
+	constructor() {
+		this.recorder = new WebAudioRecorder(sound.masterGain, {
+			workerDir: 'web-audio-recorder-js-master/lib/',
+			encoding: 'mp3',
+			encodeAfterRecord: true
+		});
+		this.recorder.setOptions({timeLimit: 3600}) // maximum recording is 1 hour;
+		this.recorder.onComplete = (recorder, blob) => {
+			console.log("encoding complete");
+			this.saveRecording(blob, recorder.encoding);
+		}
+	}
+
+	toggle = () => {
+		if (this.recorder.isRecording()) {
+			this.recorder.stopRecording();
+			document.getElementById('toggleRecordingAudio').innerText = "Start Recording Audio";
+		} else {
+			this.recorder.startRecording();
+			document.getElementById('toggleRecordingAudio').innerText = "Stop Recording Audio";
+			this.saveRecording();
+		}
+	}
+
+	saveRecording = (blob, encoding) => {
+    	var link = document.createElement('a');
+    	link.href = URL.createObjectURL(blob);
+    	link.download = new Date().toISOString() + '.' + encoding;
+    	link.innerHTML = link.download;
+    	//add the new audio and a elements to the li element
+    	list = document.getElementById('audioDownloadLinks');
+    	li.appendChild(link); //add the li element to the ordered list
+    	list.appendChild(li);
+	}
+}
+
 /// HANDLING OSC RECORDINGS/PLAYBACK
 
 class OSCPlayer {
@@ -526,10 +565,11 @@ socket.on('event', function(message){
 	sound.signals[message.address].update(message);
 });
 
-// OSC HANDLERS
+// instantiate objects
 
 const oscPlayer = new OSCPlayer();
 const oscRecorder = new OSCRecorder();
+const audioRecorder = new AudioRecorder();
 
 // handling presets
 function loadPreset() {
@@ -581,7 +621,7 @@ function startAudio(preset) {
 	sound.masterGain = sound.context.createGain();
 	sound.masterGain.connect(sound.context.destination);
 
-	// activate main audio GUI
+	// activate main GUI buttons
 	const playButton = document.getElementById('startAudio');
 	playButton.addEventListener('click', ()=>{sound.context.resume()})
 
@@ -594,6 +634,9 @@ function startAudio(preset) {
 		sound.masterGain.gain.setTargetAtTime(Math.pow(10, masterGainSlider.value/20),sound.context.currentTime, 0.1);
 	}, false);
 
+
+	const toggleRecordingAudio = document.getElementById('toggleRecordingAudio');
+	toggleRecordingAudio.addEventListener('click', ()=>{audioRecorder.toggle()});
 
 	//load the selected preset
 	preset.map(track => loadTrack(track));
