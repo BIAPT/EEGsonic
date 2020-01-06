@@ -1,0 +1,1 @@
+[{"fileName":"fractalmusic.ogg","trackName":"fractal music","input":"/fp_dpli_left_lateral","reversed":true,"gain":"-1","min":0,"peak":0,"max":0.5,"pinToData":false}]

@@ -35,7 +35,6 @@ const defaultPreset = [
 					min: 0, 
 					peak: 1, 
 					max: 1, 
-					reversed: false, 
 					pinToData: false }
 				]
 	},
@@ -46,7 +45,6 @@ const defaultPreset = [
 					min: 0, 
 					peak: 1, 
 					max: 1, 
-					reversed: true, 
 					pinToData: false }
 				]
 	}
@@ -241,11 +239,69 @@ class Track {
 
 	update (message) {
 		console.log('update');
+		let gainChanged = false; // allows for several volume inputs to same track, they are multiplied
+		let changedGain;
 		this.inputs.forEach((input) => {
 			if (input.channel == message.address){
 				if (input.type == 'volume') {
 					// adjust track volume
 					console.log('update volume')
+
+					// got a message and matched it with a volume input to this track.
+					let value = message.args[0];
+
+					// determine the range of the signal we are looking for
+					let rangeMin = input.min;
+					let rangeMax = input.max;
+					let rangePeak = input.peak;
+
+					// adjust range if it's relative to the data so far
+					if (input.pinToData) {
+						let singalRangeMin = sound.signals[input.channel].min;
+						let signalRangeMax = sound.signals[input.channel].max;
+						let signalRange = signalRangeMax - signalRangeMin;
+						let rangeMin = (rangeMin * signalRange) + signalRangeMin;
+						let rangeMax = (rangeMax * signalRange) + signalRangeMin;
+						let rangePeak = (rangePeak * signalRange) + signalRangeMin;
+					} 
+
+					let NewGain;
+
+					// if range min and max are the same, signal is always on
+					if (rangeMax == rangeMin) {
+						newGain = 1;
+					}
+					// case where the peak equals the max means it stays on above the max
+					else if (rangeMax == rangePeak) {
+						newGain = (value - rangeMin)/(rangeMax-rangeMin);
+					}
+					// case where the peak equals min and the input is reversed, stays on below min
+					else if (rangeMin == rangePeak) {
+						newGain = 1 - ((value - rangeMin)/(rangeMax-rangeMin));
+					}
+					// otherwise signal value depends on whether it is above or below peak
+					else if (value > rangeMin && value < rangePeak) {
+						newGain = (value - rangeMin)/(rangePeak-rangeMin);
+					}
+					else if (value >= rangePeak && value < rangeMax) {
+						newGain = 1 - ((value - rangePeak)/(rangeMax-rangePeak));
+					}
+
+					// clean up out-of-range values
+					if (newGain < 0) {newGain = 0}
+					if (newGain > 1) {newGain = 1}
+
+					if (gainChanged) {
+						newGain = newGain * changedGain;
+						changedGain = newGain;
+					} else {
+						gainChanged = true;
+						changedGain = newGain;
+					}
+
+					// gain maps to slider value, then slider value converts to audioNode gain
+					this.dataGainSlider.value = (newGain * 20) - 20;
+					this.dataGain.gain.value = Math.pow(10, this.dataGainSlider.value/20);
 				}
 
 				if (input.type == 'loopPoint') {
@@ -273,13 +329,12 @@ class Track {
 
 // Interfaces between channels and tracks. A track can have several inputs.
 class Input {
-	constructor (channel, type='volume', min=0, peak=1, max=1, reversed=false, pinToData=false) {
+	constructor (channel, type='volume', min=0, peak=1, max=1, pinToData=false) {
 		this.channel = channel;
 		this.type = type;
 		this.min = min;
 		this.peak = peak;
 		this.max = max;
-		this.reversed = reversed;
 		this.pinToData = pinToData;
 	}
 }

@@ -91,7 +91,7 @@ window.onload = function () {
 	document.getElementById('loadPreset').addEventListener("click", () => { loadPreset() });
 	document.getElementById('savePreset').addEventListener("click", () => { savePreset() });
 	document.getElementById('loadOSC').addEventListener("click", () => { loadOSC() });
-	document.getElementById('toggleOSC').addEventListener("click", () => { toggleOSC() });
+	document.getElementById('toggleOSC').addEventListener("click", () => { oscPlayer.playOSCEvents(); });
 	document.getElementById('resetOSC').addEventListener("click", () => { resetOSC() });
 	document.getElementById('sendOSC').addEventListener("click", () => { sendOSC() });
 	document.getElementById('loadRanges').addEventListener("click", () => { loadRanges() });
@@ -196,7 +196,8 @@ function setUpTrack(i) {
 	sound.dataGains[i] = sound.context.createGain();
 	sound.userGains[i].connect(sound.dataGains[i]);
 	if (sound.trackInfo[i].input == '/fp_dpli_left_lateral') {
-		sound.dataGains[i].connect(sound.wpliGain[0]);
+		sound.dataGains[i].connect(sound.preFilterGain);
+		//sound.dataGains[i].connect(sound.wpliGain[0]);
 	} else if (sound.trackInfo[i].input == '/fp_dpli_left_midline') {
 		sound.dataGains[i].connect(sound.wpliGain[1]);
 	} else if (sound.trackInfo[i].input == '/fp_dpli_right_midline') {
@@ -485,29 +486,7 @@ function loadOSC() {
 	}
 }
 
-function toggleOSC() {
-	let button = document.getElementById('toggleOSC');
-	console.log(oscPlayer.playing);
-	if (oscPlayer.playing) {
-		oscPlayer.cancelNextEvent();
-		button.innerText = 'Play OSC';
-	} else {
-		playOSC();
-		button.innerText = 'Pause OSC';
-	}
-}
 
-function playOSC() {
-	console.log('playing OSC');
-	oscPlayer.playOSCEvents();
-}
-
-function resetOSC() {
-	if (oscPlayer.playing) {
-		toggleOSC();
-	}
-	oscPlayer.setOSCStep(0);
-}
 
 function sendOSC() {
 	console.log(Object.keys(data));
