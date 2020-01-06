@@ -29,23 +29,23 @@ const channelList = [
 
 const defaultPreset = [
 	{	fileName: 'res6-lowC.ogg', 
-		gain: -35,
+		gain: -10,
 		inputs: [{ 	channel:'/pe_frontal', 
 					type:'volume', 
 					min: 0, 
 					peak: 1, 
 					max: 1, 
-					pinToData: false }
+					pinToData: true }
 				]
 	},
 	{	fileName: 'res6-RLwave.ogg', 
-		gain: -35,
+		gain: -10,
 		inputs: [{ 	channel:'/pe_parietal', 
 					type:'volume', 
 					min: 0, 
-					peak: 1, 
+					peak: 0, 
 					max: 1, 
-					pinToData: false }
+					pinToData: true }
 				]
 	}
 ]
@@ -214,7 +214,7 @@ class Track {
 		let slider = document.createElement('input');
 		slider.setAttribute('class', 'h-slider');
 		slider.setAttribute('type', 'range');
-		slider.setAttribute('min', '-60');
+		slider.setAttribute('min', '-20');
 		slider.setAttribute('max', '0');
 		slider.setAttribute('step', '1');
 		slider.setAttribute('value', gain ? gain : -10);
@@ -234,18 +234,16 @@ class Track {
 	}
 
 	createInput(input) {
-		this.inputs.push(new Input(input.channel, input.type, input.min, input.peak, input.max, input.reversed, input.pinToData))
+		this.inputs.push(new Input(input.channel, input.type, input.min, input.peak, input.max, input.pinToData))
 	}
 
 	update (message) {
-		console.log('update');
 		let gainChanged = false; // allows for several volume inputs to same track, they are multiplied
-		let changedGain;
+		let changedGain = 0;
 		this.inputs.forEach((input) => {
 			if (input.channel == message.address){
 				if (input.type == 'volume') {
 					// adjust track volume
-					console.log('update volume')
 
 					// got a message and matched it with a volume input to this track.
 					let value = message.args[0];
@@ -257,15 +255,15 @@ class Track {
 
 					// adjust range if it's relative to the data so far
 					if (input.pinToData) {
-						let singalRangeMin = sound.signals[input.channel].min;
+						let signalRangeMin = sound.signals[input.channel].min;
 						let signalRangeMax = sound.signals[input.channel].max;
 						let signalRange = signalRangeMax - signalRangeMin;
-						let rangeMin = (rangeMin * signalRange) + signalRangeMin;
-						let rangeMax = (rangeMax * signalRange) + signalRangeMin;
-						let rangePeak = (rangePeak * signalRange) + signalRangeMin;
+						rangeMin = (rangeMin * signalRange) + signalRangeMin;
+						rangeMax = (rangeMax * signalRange) + signalRangeMin;
+						rangePeak = (rangePeak * signalRange) + signalRangeMin;
 					} 
 
-					let NewGain;
+					let newGain;
 
 					// if range min and max are the same, signal is always on
 					if (rangeMax == rangeMin) {
@@ -275,7 +273,7 @@ class Track {
 					else if (rangeMax == rangePeak) {
 						newGain = (value - rangeMin)/(rangeMax-rangeMin);
 					}
-					// case where the peak equals min and the input is reversed, stays on below min
+					// case where the peak equals min, it stays on below min
 					else if (rangeMin == rangePeak) {
 						newGain = 1 - ((value - rangeMin)/(rangeMax-rangeMin));
 					}
@@ -291,7 +289,7 @@ class Track {
 					if (newGain < 0) {newGain = 0}
 					if (newGain > 1) {newGain = 1}
 
-					if (gainChanged) {
+					if (gainChanged) { // keeps track if there are several volume inputs on a single track
 						newGain = newGain * changedGain;
 						changedGain = newGain;
 					} else {
@@ -301,7 +299,8 @@ class Track {
 
 					// gain maps to slider value, then slider value converts to audioNode gain
 					this.dataGainSlider.value = (newGain * 20) - 20;
-					this.dataGain.gain.value = Math.pow(10, this.dataGainSlider.value/20);
+					// ramps to new gain in 3 seconds
+					this.dataGain.gain.setTargetAtTime(Math.pow(10, this.dataGainSlider.value/20), sound.context.currentTime, 3);
 				}
 
 				if (input.type == 'loopPoint') {
@@ -319,7 +318,7 @@ class Track {
 	getJSON() {
 		let preset = { 'fileName': this.fileName, 'gain' : this.userGainSlider.value}
 		preset.inputs = this.inputs.map((input)=>{ 
-			return {'channel':input.channel, 'type': input.type, 'min': input.min, 'peak': input.peak, 'max': input.max, 'reversed': input.reversed, 'pinToData': input.pinToData }
+			return {'channel':input.channel, 'type': input.type, 'min': input.min, 'peak': input.peak, 'max': input.max, 'pinToData': input.pinToData }
 		})
 		return preset;
 	}
@@ -329,7 +328,7 @@ class Track {
 
 // Interfaces between channels and tracks. A track can have several inputs.
 class Input {
-	constructor (channel, type='volume', min=0, peak=1, max=1, pinToData=false) {
+	constructor (channel, type, min, peak, max, pinToData) {
 		this.channel = channel;
 		this.type = type;
 		this.min = min;
