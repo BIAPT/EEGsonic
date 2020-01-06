@@ -1,5 +1,6 @@
 import Tone from '../node_modules/tone';
 import io from '../node_modules/socket.io-client/dist/socket.io';
+import './web-audio-recorder-js-master/lib/WebAudioRecorder.js'
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -366,7 +367,7 @@ class AudioRecorder {
 		}
 	}
 
-	toggle = () => {
+	toggle() {
 		if (this.recorder.isRecording()) {
 			this.recorder.stopRecording();
 			document.getElementById('toggleRecordingAudio').innerText = "Start Recording Audio";
@@ -377,7 +378,7 @@ class AudioRecorder {
 		}
 	}
 
-	saveRecording = (blob, encoding) => {
+	saveRecording (blob, encoding) {
     	var link = document.createElement('a');
     	link.href = URL.createObjectURL(blob);
     	link.download = new Date().toISOString() + '.' + encoding;
@@ -569,7 +570,6 @@ socket.on('event', function(message){
 
 const oscPlayer = new OSCPlayer();
 const oscRecorder = new OSCRecorder();
-const audioRecorder = new AudioRecorder();
 
 // handling presets
 function loadPreset() {
@@ -637,6 +637,9 @@ function startAudio(preset) {
 
 	const toggleRecordingAudio = document.getElementById('toggleRecordingAudio');
 	toggleRecordingAudio.addEventListener('click', ()=>{audioRecorder.toggle()});
+
+	// initialize the audio recorder
+	const audioRecorder = new AudioRecorder();
 
 	//load the selected preset
 	preset.map(track => loadTrack(track));
