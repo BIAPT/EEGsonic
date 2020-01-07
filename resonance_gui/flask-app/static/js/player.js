@@ -33,8 +33,9 @@ const channelList = [
 const defaultPreset = [
 	{	fileName: 'res6-lowC.ogg', 
 		gain: -10,
+		loopLength: 0.5,
 		inputs: [{ 	channel:'/pe_frontal', 
-					type:'volume', 
+					type:'loopPoint', 
 					min: 0, 
 					peak: 1, 
 					max: 1, 
@@ -43,12 +44,13 @@ const defaultPreset = [
 	},
 	{	fileName: 'res6-RLwave.ogg', 
 		gain: -10,
+		loopLength: 3,
 		inputs: [{ 	channel:'/pe_parietal', 
-					type:'volume', 
+					type:'loopPoint', 
 					min: 0, 
-					peak: 0, 
+					peak: 1, 
 					max: 1, 
-					pinToData: true }
+					pinToData: false }
 				]
 	}
 ]
@@ -148,6 +150,7 @@ class Track {
 
 		this.fileName = track.fileName;
 		this.inputs = [];
+		this.loopLength = track.loopLength; // loop duration in seconds - actually the time between successive starts, signal plays for 1 1/2 times the loop length
 
 		// Add the GUI element to the mixer
 		let mixerGUI = document.getElementById('resonanceMixer');
@@ -159,15 +162,21 @@ class Track {
 		let buffer = new Tone.Buffer(sampleFilePath + this.fileName, ()=>{
 			this.length = buffer.duration;
 		})
+		let buffer2 = new Tone.Buffer(sampleFilePath + this.fileName, ()=>{})
 		this.player = new Tone.Player(buffer);
 		this.player.autostart = true;
 		this.player.loop = true;
+		this.player.fadeIn = this.loopLength / 2.;
+		this.player.fadeOut = this.loopLength / 2.;
+		console.log(this.player);
 
 		// set up for looping
-		this.player2 = new Tone.Player(buffer); // used in loopPoint messages
+		this.player2 = new Tone.Player(buffer2); // used in loopPoint messages
 		this.player2.autostart = false;
 		this.player2.loop = false;
-		this.loopLength = 0.5; // loop duration in seconds
+		this.player2.fadeIn = this.loopLength / 2.;
+		this.player2.fadeOut = this.loopLength / 2.;
+		this.looping = false;
 		// for now just always 50% overlap, linear fade up and down, listen to it
 
 		// create and connect audio nodes
@@ -247,6 +256,54 @@ class Track {
 		this.inputs.push(new Input(input.channel, input.type, input.min, input.peak, input.max, input.pinToData))
 	}
 
+	calculateValue(message, input) {
+		// got a message and matched it with an input to this track.
+		let value = message.args[0];
+
+		// determine the range of the signal we are looking for
+		let rangeMin = input.min;
+		let rangeMax = input.max;
+		let rangePeak = input.peak;
+
+		// adjust range if it's relative to the data so far
+		if (input.pinToData) {
+			let signalRangeMin = sound.signals[input.channel].min;
+			let signalRangeMax = sound.signals[input.channel].max;
+			let signalRange = signalRangeMax - signalRangeMin;
+			rangeMin = (rangeMin * signalRange) + signalRangeMin;
+			rangeMax = (rangeMax * signalRange) + signalRangeMin;
+			rangePeak = (rangePeak * signalRange) + signalRangeMin;
+		} 
+
+		let newValue;
+
+		// if range min and max are the same, signal is always on
+		if (rangeMax == rangeMin) {
+			newValue = 1;
+		}
+		// case where the peak equals the max means it stays on above the max
+		else if (rangeMax == rangePeak) {
+			newValue = (value - rangeMin)/(rangeMax-rangeMin);
+		}
+		// case where the peak equals min, it stays on below min
+		else if (rangeMin == rangePeak) {
+			newValue = 1 - ((value - rangeMin)/(rangeMax-rangeMin));
+		}
+		// otherwise signal value depends on whether it is above or below peak
+		else if (value > rangeMin && value < rangePeak) {
+			newValue = (value - rangeMin)/(rangePeak-rangeMin);
+		}
+		else if (value >= rangePeak && value < rangeMax) {
+			newValue = 1 - ((value - rangePeak)/(rangeMax-rangePeak));
+		}
+
+		// clean up out-of-range values
+		if (newValue < 0) {newValue = 0}
+		if (newValue > 1) {newValue = 1}
+
+		return newValue; // returns a number from 0 to 1 for this input		
+	}
+
 	update (message) {
 		let gainChanged = false; // allows for several volume inputs to same track, they are multiplied
 		let changedGain = 0;
@@ -254,50 +311,7 @@ class Track {
 			if (input.channel == message.address){
 				if (input.type == 'volume') {
 					// adjust track volume
-
-					// got a message and matched it with a volume input to this track.
-					let value = message.args[0];
-
-					// determine the range of the signal we are looking for
-					let rangeMin = input.min;
-					let rangeMax = input.max;
-					let rangePeak = input.peak;
-
-					// adjust range if it's relative to the data so far
-					if (input.pinToData) {
-						let signalRangeMin = sound.signals[input.channel].min;
-						let signalRangeMax = sound.signals[input.channel].max;
-						let signalRange = signalRangeMax - signalRangeMin;
-						rangeMin = (rangeMin * signalRange) + signalRangeMin;
-						rangeMax = (rangeMax * signalRange) + signalRangeMin;
-						rangePeak = (rangePeak * signalRange) + signalRangeMin;
-					} 
-
-					let newGain;
-
-					// if range min and max are the same, signal is always on
-					if (rangeMax == rangeMin) {
-						newGain = 1;
-					}
-					// case where the peak equals the max means it stays on above the max
-					else if (rangeMax == rangePeak) {
-						newGain = (value - rangeMin)/(rangeMax-rangeMin);
-					}
-					// case where the peak equals min, it stays on below min
-					else if (rangeMin == rangePeak) {
-						newGain = 1 - ((value - rangeMin)/(rangeMax-rangeMin));
-					}
-					// otherwise signal value depends on whether it is above or below peak
-					else if (value > rangeMin && value < rangePeak) {
-						newGain = (value - rangeMin)/(rangePeak-rangeMin);
-					}
-					else if (value >= rangePeak && value < rangeMax) {
-						newGain = 1 - ((value - rangePeak)/(rangeMax-rangePeak));
-					}
-
-					// clean up out-of-range values
-					if (newGain < 0) {newGain = 0}
-					if (newGain > 1) {newGain = 1}
+					let newGain = this.calculateValue(message, input);
 
 					if (gainChanged) { // keeps track if there are several volume inputs on a single track
 						newGain = newGain * changedGain;
@@ -315,6 +329,15 @@ class Track {
 
 				if (input.type == 'loopPoint') {
 					// adjust looping behaviour
+					// calculate at what point of the file to start
+					let startPoint = this.calculateValue(message, input)*(this.length-this.loopLength);
+
+					if (!this.looping) {
+						this.player.stop(sound.context.currentTime + (this.loopLength / 2));
+						this.player2.start(sound.context.currentTime, startPoint, sound.context.currentTime + this.loopLength);
+						this.looping = true;
+						console.log(this.looping);
+					}
 
 				}
 			}
@@ -636,7 +659,9 @@ function startAudio(preset) {
 
 	// activate main GUI buttons
 	const playButton = document.getElementById('startAudio');
-	playButton.addEventListener('click', ()=>{sound.context.resume()})
+	playButton.addEventListener('click', ()=>{
+		sound.context.resume();
+	})
 
 	const stopButton = document.getElementById('stopAudio');
 	stopButton.addEventListener('click', ()=>{sound.context.suspend()})
@@ -650,49 +675,43 @@ function startAudio(preset) {
 
 	// initialize the audio recorder
 
-	const saveRecording = (blob, encoding) => {
-		console.log('save recording');
-		console.log(blob);
-		console.log(encoding);
-    	var link = document.createElement('a');
-    	link.href = URL.createObjectURL(blob);
-    	link.download = new Date().toISOString() + '.' + encoding;
-    	link.innerHTML = link.download;
-    	//add the new audio and a elements to the li element
-    	list = document.getElementById('audioDownloadLinks');
-    	list.appendChild(link);
-    	link.click();
-	}
+	// const saveRecording = (blob, encoding) => {
+	// 	console.log('save recording');
+	// 	console.log(blob);
+	// 	console.log(encoding);
+ //    	var link = document.createElement('a');
+ //    	link.href = URL.createObjectURL(blob);
+ //    	link.download = new Date().toISOString() + '.' + encoding;
+ //    	link.innerHTML = link.download;
+ //    	//add the new audio and a elements to the li element
+ //    	list = document.getElementById('audioDownloadLinks');
+ //    	list.appendChild(link);
+ //    	link.click();
+	// }
 
-	let audioRecorder = new WebAudioRecorder(sound.masterGain, {
-			workerDir: 'static/node_modules/web-audio-recorder-js-webpack/lib/',
-			encoding: 'mp3',
-			encodeAfterRecord: true
-		});
+	// let audioRecorder = new WebAudioRecorder(sound.masterGain, {
+	// 		workerDir: 'static/node_modules/web-audio-recorder-js-webpack/lib/',
+	// 		encoding: 'mp3',
+	// 		encodeAfterRecord: true
+	// 	});
 
-	audioRecorder.setOptions({timeLimit: 3600}); // maximum recording is 1 hour;
+	// audioRecorder.setOptions({timeLimit: 3600}); // maximum recording is 1 hour;
 
-	audioRecorder.onComplete = function (recorder, blob) {
-		console.log("encoding complete");
-		saveRecording(blob, recorder.encoding);
-	}
+	// audioRecorder.onComplete = function (recorder, blob) {
+	// 	console.log("encoding complete");
+	// 	saveRecording(blob, recorder.encoding);
+	// }
 
-	const toggleRecordingAudio = document.getElementById('toggleRecordingAudio');
-	toggleRecordingAudio.addEventListener('click', ()=>{
-		if (audioRecorder.isRecording()) {
-			audioRecorder.finishRecording();
-			document.getElementById('toggleRecordingAudio').innerText = "Start Recording Audio";
-		} else {
-			audioRecorder.startRecording();
-			document.getElementById('toggleRecordingAudio').innerText = "Stop Recording Audio";
-		}
-	});
-
-
-
-
-
-
+	// const toggleRecordingAudio = document.getElementById('toggleRecordingAudio');
+	// toggleRecordingAudio.addEventListener('click', ()=>{
+	// 	if (audioRecorder.isRecording()) {
+	// 		audioRecorder.finishRecording();
+	// 		document.getElementById('toggleRecordingAudio').innerText = "Start Recording Audio";
+	// 	} else {
+	// 		audioRecorder.startRecording();
+	// 		document.getElementById('toggleRecordingAudio').innerText = "Stop Recording Audio";
+	// 	}
+	// });
 
 
 	//load the selected preset
