@@ -1,6 +1,8 @@
 import Tone from '../node_modules/tone';
 import io from '../node_modules/socket.io-client/dist/socket.io';
-import './web-audio-recorder-js-master/lib/WebAudioRecorder.js'
+import '../node_modules/web-audio-recorder-js-webpack/lib/WebAudioRecorder.js';
+// import './web-audio-recorder-js-master/lib/WebAudioRecorderMp3.js';
+
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -161,6 +163,13 @@ class Track {
 		this.player.autostart = true;
 		this.player.loop = true;
 
+		// set up for looping
+		this.player2 = new Tone.Player(buffer); // used in loopPoint messages
+		this.player2.autostart = false;
+		this.player2.loop = false;
+		this.loopLength = 0.5; // loop duration in seconds
+		// for now just always 50% overlap, linear fade up and down, listen to it
+
 		// create and connect audio nodes
 		this.userGain = sound.context.createGain();
 		this.dataGain = sound.context.createGain();
@@ -306,6 +315,7 @@ class Track {
 
 				if (input.type == 'loopPoint') {
 					// adjust looping behaviour
+
 				}
 			}
 		})
@@ -351,44 +361,47 @@ class Message {
 
 }
 
-/// HANDLING AUDIO RECORDING
+// /// HANDLING AUDIO RECORDING
 
-class AudioRecorder {
-	constructor() {
-		this.recorder = new WebAudioRecorder(sound.masterGain, {
-			workerDir: 'web-audio-recorder-js-master/lib/',
-			encoding: 'mp3',
-			encodeAfterRecord: true
-		});
-		this.recorder.setOptions({timeLimit: 3600}) // maximum recording is 1 hour;
-		this.recorder.onComplete = (recorder, blob) => {
-			console.log("encoding complete");
-			this.saveRecording(blob, recorder.encoding);
-		}
-	}
+// class AudioRecorder {
+// 	constructor() {
+// 		this.recorder = new WebAudioRecorder(sound.masterGain, {
+// 			workerDir: 'web-audio-recorder-js-master/lib/',
+// 			encoding: 'mp3',
+// 			encodeAfterRecord: false
+// 		});
+// 		this.recorder.setOptions({timeLimit: 3600}); // maximum recording is 1 hour;
+// 		this.recorder.onComplete = function (recorder, blob) {
+// 			console.log("encoding complete");
+// 			this.saveRecording(blob, recorder.encoding);
+// 		}
+// 	}
 
-	toggle() {
-		if (this.recorder.isRecording()) {
-			this.recorder.stopRecording();
-			document.getElementById('toggleRecordingAudio').innerText = "Start Recording Audio";
-		} else {
-			this.recorder.startRecording();
-			document.getElementById('toggleRecordingAudio').innerText = "Stop Recording Audio";
-			this.saveRecording();
-		}
-	}
+// 	toggle() {
+// 		if (this.recorder.isRecording()) {
+// 			console.log('finish recording');
+// 			this.recorder.finishRecording();
+// 			document.getElementById('toggleRecordingAudio').innerText = "Start Recording Audio";
+// 		} else {
+// 			this.recorder.startRecording();
+// 			document.getElementById('toggleRecordingAudio').innerText = "Stop Recording Audio";
+// 		}
+// 	}
 
-	saveRecording (blob, encoding) {
-    	var link = document.createElement('a');
-    	link.href = URL.createObjectURL(blob);
-    	link.download = new Date().toISOString() + '.' + encoding;
-    	link.innerHTML = link.download;
-    	//add the new audio and a elements to the li element
-    	list = document.getElementById('audioDownloadLinks');
-    	li.appendChild(link); //add the li element to the ordered list
-    	list.appendChild(li);
-	}
-}
+// 	saveRecording (blob, encoding) {
+// 		console.log('save recording');
+// 		console.log(blob);
+// 		console.log(encoding);
+//     	var link = document.createElement('a');
+//     	link.href = URL.createObjectURL(blob);
+//     	link.download = new Date().toISOString() + '.' + encoding;
+//     	link.innerHTML = link.download;
+//     	//add the new audio and a elements to the li element
+//     	list = document.getElementById('audioDownloadLinks');
+//     	list.appendChild(link);
+//     	link.click();
+// 	}
+// }
 
 /// HANDLING OSC RECORDINGS/PLAYBACK
 
@@ -635,11 +648,52 @@ function startAudio(preset) {
 	}, false);
 
 
-	const toggleRecordingAudio = document.getElementById('toggleRecordingAudio');
-	toggleRecordingAudio.addEventListener('click', ()=>{audioRecorder.toggle()});
-
 	// initialize the audio recorder
-	const audioRecorder = new AudioRecorder();
+
+	const saveRecording = (blob, encoding) => {
+		console.log('save recording');
+		console.log(blob);
+		console.log(encoding);
+    	var link = document.createElement('a');
+    	link.href = URL.createObjectURL(blob);
+    	link.download = new Date().toISOString() + '.' + encoding;
+    	link.innerHTML = link.download;
+    	//add the new audio and a elements to the li element
+    	list = document.getElementById('audioDownloadLinks');
+    	list.appendChild(link);
+    	link.click();
+	}
+
+	let audioRecorder = new WebAudioRecorder(sound.masterGain, {
+			workerDir: 'static/node_modules/web-audio-recorder-js-webpack/lib/',
+			encoding: 'mp3',
+			encodeAfterRecord: true
+		});
+
+	audioRecorder.setOptions({timeLimit: 3600}); // maximum recording is 1 hour;
+
+	audioRecorder.onComplete = function (recorder, blob) {
+		console.log("encoding complete");
+		saveRecording(blob, recorder.encoding);
+	}
+
+	const toggleRecordingAudio = document.getElementById('toggleRecordingAudio');
+	toggleRecordingAudio.addEventListener('click', ()=>{
+		if (audioRecorder.isRecording()) {
+			audioRecorder.finishRecording();
+			document.getElementById('toggleRecordingAudio').innerText = "Start Recording Audio";
+		} else {
+			audioRecorder.startRecording();
+			document.getElementById('toggleRecordingAudio').innerText = "Stop Recording Audio";
+		}
+	});
+
+
+
+
+
+
+
 
 	//load the selected preset
 	preset.map(track => loadTrack(track));
