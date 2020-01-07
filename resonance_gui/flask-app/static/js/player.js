@@ -35,8 +35,8 @@ const defaultPreset = [
 		gain: -10,
 		loopLength: 5,
 		inputs: [{ 	channel:'/spr_beta_alpha',
+					type:'loopPoint',
 					value:'curr',
-					type:'loopPoint', 
 					min: 0.25, 
 					peak: 0.3, 
 					max: 0.3, 
@@ -135,10 +135,10 @@ const defaultPreset = [
 		loopLength: 3,
 		inputs: [{	channel:'/spr_alpha_theta',
 					type:'loopPoint',
-					value: 'curr',
+					value: 'avg3',
 					min: 0.2,
-					peak: 0.45,
-					max: 0.45,
+					peak: 0.35,
+					max: 0.35,
 					pinToData: false },
 				{	channel:'/spr_alpha_theta',
 					type:'volume',
@@ -148,7 +148,102 @@ const defaultPreset = [
 					max: 0.45,
 					pinToData: false }
 		]
-	}
+	},
+	{ 	fileName: 'woodblock1.ogg',
+		gain: -10,
+		loopLength: 5,
+		inputs: [{	channel:'/spr_alpha_theta',
+					type:'loopPoint',
+					value: 'avg3',
+					min: 0.2,
+					peak: 0.225,
+					max: 0.23,
+					pinToData: false },
+				{	channel:'/spr_alpha_theta',
+					type:'volume',
+					value: 'avg3',
+					min: 0.2,
+					peak: 0.23,
+					max: 0.235,
+					pinToData: false }
+		]
+	},
+	{ 	fileName: 'woodblock2.ogg',
+		gain: -10,
+		loopLength: 5,
+		inputs: [{	channel:'/spr_alpha_theta',
+					type:'loopPoint',
+					value: 'avg3',
+					min: 0.22,
+					peak: 0.24,
+					max: 0.24,
+					pinToData: false },
+				{	channel:'/spr_alpha_theta',
+					type:'volume',
+					value: 'avg3',
+					min: 0.22,
+					peak: 0.23,
+					max: 0.24,
+					pinToData: false }
+		]
+	},
+	{ 	fileName: 'woodblock3.ogg',
+		gain: -10,
+		loopLength: 5,
+		inputs: [{	channel:'/spr_alpha_theta',
+					type:'loopPoint',
+					value: 'avg3',
+					min: 0.235,
+					peak: 0.255,
+					max: 0.255,
+					pinToData: false },
+				{	channel:'/spr_alpha_theta',
+					type:'volume',
+					value: 'avg3',
+					min: 0.235,
+					peak: 0.25,
+					max: 0.255,
+					pinToData: false }
+		]
+	},
+	{ 	fileName: 'woodblock4.ogg',
+		gain: -10,
+		loopLength: 5,
+		inputs: [{	channel:'/spr_alpha_theta',
+					type:'loopPoint',
+					value: 'avg3',
+					min: 0.25,
+					peak: 0.265,
+					max: 0.265,
+					pinToData: false },
+				{	channel:'/spr_alpha_theta',
+					type:'volume',
+					value: 'avg3',
+					min: 0.25,
+					peak: 0.26,
+					max: 0.265,
+					pinToData: false }
+		]
+	},
+	{ 	fileName: 'woodblock5.ogg',
+		gain: -10,
+		loopLength: 5,
+		inputs: [{	channel:'/spr_alpha_theta',
+					type:'loopPoint',
+					value: 'avg3',
+					min: 0.26,
+					peak: 0.28,
+					max: 0.28,
+					pinToData: false },
+				{	channel:'/spr_alpha_theta',
+					type:'volume',
+					value: 'avg3',
+					min: 0.26,
+					peak: 0.27,
+					max: 0.28,
+					pinToData: false }
+		]
+	},
 ]
 
 // GLOBAL VARIABLES
@@ -170,6 +265,7 @@ class Signal {
 		this.min = null;
 		this.max = null;
 		this.curr = null;
+		this.prev = null;
 		this.mute = false;
 		this.last10 = [];
 
@@ -220,6 +316,7 @@ class Signal {
 		if (this.max === null || message.args[0] > this.max) {this.max = message.args[0]}
 		if (this.min === null || message.args[0] < this.min) {this.min = message.args[0]}
 
+		this.prev = this.curr;
 		this.curr = message.args[0];
 
 		this.avg3 = this.last10.slice(-3).reduce((a,c)=>{return a+c})/this.last10.slice(-3).length;
@@ -355,6 +452,7 @@ class Track {
 	calculateValue(message, input) {
 		// got a message and matched it with an input to this track.
 		let value = sound.signals[message.address][input.value];
+		console.log(input.value);
 		console.log(value);
 
 		// determine the range of the signal we are looking for
@@ -372,7 +470,7 @@ class Track {
 			rangePeak = (rangePeak * signalRange) + signalRangeMin;
 		} 
 
-		let newValue;
+		let newValue = 0;
 
 		// if range min and max are the same, signal is always on
 		if (rangeMax == rangeMin) {
@@ -409,6 +507,9 @@ class Track {
 				if (input.type == 'volume') {
 					// adjust track volume
 					let newGain = this.calculateValue(message, input);
+					console.log(input);
+					console.log(message);
+					console.log(newGain);
 
 					if (gainChanged) { // keeps track if there are several volume inputs on a single track
 						newGain = newGain * changedGain;
@@ -491,60 +592,6 @@ class Input {
 		this.pinToData = pinToData;
 	}
 }
-
-class Volume extends Input {
-
-}
-
-class LoopPoint extends Input {
-
-}
-
-class Message {
-
-}
-
-// /// HANDLING AUDIO RECORDING
-
-// class AudioRecorder {
-// 	constructor() {
-// 		this.recorder = new WebAudioRecorder(sound.masterGain, {
-// 			workerDir: 'web-audio-recorder-js-master/lib/',
-// 			encoding: 'mp3',
-// 			encodeAfterRecord: false
-// 		});
-// 		this.recorder.setOptions({timeLimit: 3600}); // maximum recording is 1 hour;
-// 		this.recorder.onComplete = function (recorder, blob) {
-// 			console.log("encoding complete");
-// 			this.saveRecording(blob, recorder.encoding);
-// 		}
-// 	}
-
-// 	toggle() {
-// 		if (this.recorder.isRecording()) {
-// 			console.log('finish recording');
-// 			this.recorder.finishRecording();
-// 			document.getElementById('toggleRecordingAudio').innerText = "Start Recording Audio";
-// 		} else {
-// 			this.recorder.startRecording();
-// 			document.getElementById('toggleRecordingAudio').innerText = "Stop Recording Audio";
-// 		}
-// 	}
-
-// 	saveRecording (blob, encoding) {
-// 		console.log('save recording');
-// 		console.log(blob);
-// 		console.log(encoding);
-//     	var link = document.createElement('a');
-//     	link.href = URL.createObjectURL(blob);
-//     	link.download = new Date().toISOString() + '.' + encoding;
-//     	link.innerHTML = link.download;
-//     	//add the new audio and a elements to the li element
-//     	list = document.getElementById('audioDownloadLinks');
-//     	list.appendChild(link);
-//     	link.click();
-// 	}
-// }
 
 /// HANDLING OSC RECORDINGS/PLAYBACK
 
@@ -719,7 +766,8 @@ socket.on('connect', function() {
 
 socket.on('event', function(message){
 	// oscRecorder.receiveMessage(data);
-	sound.signals[message.address].update(message);
+	//sound.signals[message.address].update(message);
+	Signal.processMessage(message);
 });
 
 // instantiate objects
