@@ -31,21 +31,21 @@ const channelList = [
 ]
 
 const defaultPreset = [
-	{	fileName: 'res6-lowC.ogg', 
-		gain: -10,
-		loopLength: 0.5,
-		inputs: [{ 	channel:'/pe_frontal', 
-					type:'loopPoint', 
-					min: 0, 
-					peak: 1, 
-					max: 1, 
-					pinToData: true }
-				]
-	},
+	// {	fileName: 'res6-lowC.ogg', 
+	// 	gain: -10,
+	// 	loopLength: 0.5,
+	// 	inputs: [{ 	channel:'/pe_frontal', 
+	// 				type:'loopPoint', 
+	// 				min: 0, 
+	// 				peak: 1, 
+	// 				max: 1, 
+	// 				pinToData: true }
+	// 			]
+	// },
 	{	fileName: 'res6-RLwave.ogg', 
 		gain: -10,
-		loopLength: 3,
-		inputs: [{ 	channel:'/pe_parietal', 
+		loopLength: 0.5,
+		inputs: [{ 	channel:'/spr_alpha_theta', 
 					type:'loopPoint', 
 					min: 0, 
 					peak: 1, 
@@ -168,8 +168,6 @@ class Track {
 		this.player.loop = true;
 		this.player.fadeIn = this.loopLength / 2.;
 		this.player.fadeOut = this.loopLength / 2.;
-		console.log(this.player);
-
 		// set up for looping
 		this.player2 = new Tone.Player(buffer2); // used in loopPoint messages
 		this.player2.autostart = false;
@@ -177,6 +175,7 @@ class Track {
 		this.player2.fadeIn = this.loopLength / 2.;
 		this.player2.fadeOut = this.loopLength / 2.;
 		this.looping = false;
+		this.nextLoopPlayer = this.player;
 		// for now just always 50% overlap, linear fade up and down, listen to it
 
 		// create and connect audio nodes
@@ -334,14 +333,24 @@ class Track {
 
 					if (!this.looping) {
 						this.player.stop(sound.context.currentTime + (this.loopLength / 2));
-						this.player2.start(sound.context.currentTime, startPoint, sound.context.currentTime + this.loopLength);
+						this.player2.start(sound.context.currentTime, startPoint, sound.context.currentTime + 1.5*this.loopLength);
 						this.looping = true;
-						console.log(this.looping);
+						this.nextLoop = setTimeout(()=>{this.triggerNextGrain(startPoint, 0)}, this.loopLength*1000);
 					}
+
+
 
 				}
 			}
 		})
+	}
+
+	triggerNextGrain(startPoint, momentum) {
+		this.nextLoopPlayer.start(sound.context.currentTime, startPoint, sound.context.currentTime + 1.5*this.loopLength);
+		this.nextLoopPlayer == this.player ? this.nextLoopPlayer = this.player2 : this.nextLoopPlayer = this.player;
+
+		this.nextLoop = setTimeout(()=>{this.triggerNextGrain(startPoint + momentum, momentum)}, this.loopLength*1000);
+		return true;
 	}
 
 	display () {
