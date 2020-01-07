@@ -31,27 +31,123 @@ const channelList = [
 ]
 
 const defaultPreset = [
-	// {	fileName: 'res6-lowC.ogg', 
-	// 	gain: -10,
-	// 	loopLength: 0.5,
-	// 	inputs: [{ 	channel:'/pe_frontal', 
-	// 				type:'loopPoint', 
-	// 				min: 0, 
-	// 				peak: 1, 
-	// 				max: 1, 
-	// 				pinToData: true }
-	// 			]
-	// },
-	{	fileName: 'res6-RLwave.ogg', 
+	{	fileName: 'harpascending.ogg', 
 		gain: -10,
-		loopLength: 0.5,
-		inputs: [{ 	channel:'/spr_alpha_theta', 
+		loopLength: 5,
+		inputs: [{ 	channel:'/spr_beta_alpha',
+					value:'curr',
 					type:'loopPoint', 
-					min: 0, 
-					peak: 1, 
-					max: 1, 
+					min: 0.25, 
+					peak: 0.3, 
+					max: 0.3, 
+					pinToData: false },
+				{ 	channel:'/spr_beta_alpha', 
+					type:'volume',
+					value:'curr',
+					min: 0.25, 
+					peak: 0.3, 
+					max: 0.3, 
 					pinToData: false }
+
 				]
+	},
+	{	fileName: 'fibclarinetmicroaccel.ogg', 
+		gain: -1,
+		loopLength: 1.5,
+		inputs: [{ 	channel:'/fp_dpli_right_midline', 
+					type:'loopPoint',
+					value: 'curr',
+					min: 0.4, 
+					peak: 0.4, 
+					max: 0.49, 
+					pinToData: false },
+				{ 	channel:'/fp_wpli_right_midline', 
+					type:'volume',
+					value: 'curr',
+					min: 0.01, 
+					peak: 0.15, 
+					max: 0.15, 
+					pinToData: false },
+				{ 	channel:'/fp_dpli_right_midline', 
+					type:'volume', 
+					value: 'curr',
+					min: 0.4, 
+					peak: 0.4, 
+					max: 0.48, 
+					pinToData: false },
+				]
+	},
+	{	fileName: 'fibbsnmicroaccel.ogg', 
+		gain: -1,
+		loopLength: 1.5,
+		inputs: [{ 	channel:'/fp_dpli_left_midline', 
+					type:'loopPoint',
+					value: 'curr',
+					min: 0.4, 
+					peak: 0.4, 
+					max: 0.49, 
+					pinToData: false },
+				{ 	channel:'/fp_wpli_left_midline', 
+					type:'volume', 
+
+					value: 'curr',
+					min: 0.01, 
+					peak: 0.15, 
+					max: 0.15, 
+					pinToData: false },
+				{ 	channel:'/fp_dpli_left_midline', 
+					type:'volume', 
+					value: 'curr',
+					min: 0.4, 
+					peak: 0.4, 
+					max: 0.48, 
+					pinToData: false },
+				]
+	},
+	{	fileName: 'fibflutemicroaccel.ogg', 
+		gain: -1,
+		loopLength: 1.5,
+		inputs: [{ 	channel:'/fp_dpli_left_lateral', 
+					type:'loopPoint', 
+					value: 'curr',
+					min: 0.4, 
+					peak: 0.4, 
+					max: 0.49, 
+					pinToData: false },
+				{ 	channel:'/fp_wpli_left_lateral', 
+					type:'volume', 
+					value: 'curr',
+					min: 0.01, 
+					peak: 0.15, 
+					max: 0.15, 
+					pinToData: false },
+				{ 	channel:'/fp_dpli_left_lateral', 
+					type:'volume', 
+					value: 'curr',
+					min: 0.4, 
+					peak: 0.4, 
+					max: 0.48, 
+					pinToData: false },
+				]
+	},
+	{ 	fileName: 'softersynth2.ogg',
+		gain: -10,
+		loopLength: 3,
+		inputs: [{	channel:'/spr_alpha_theta',
+					type:'loopPoint',
+					value: 'curr',
+					min: 0.2,
+					peak: 0.45,
+					max: 0.45,
+					pinToData: false },
+				{	channel:'/spr_alpha_theta',
+					type:'volume',
+					value: 'curr',
+					min: 0.2,
+					peak: 0.35,
+					max: 0.45,
+					pinToData: false }
+		]
 	}
 ]
 
@@ -235,6 +331,7 @@ class Track {
 		slider.setAttribute('min', '-20');
 		slider.setAttribute('max', '0');
 		slider.setAttribute('step', '1');
+		console.log(gain);
 		slider.setAttribute('value', gain ? gain : -10);
 		slider.setAttribute('orient', 'horizonal');
 		return slider;
@@ -252,12 +349,13 @@ class Track {
 	}
 
 	createInput(input) {
-		this.inputs.push(new Input(input.channel, input.type, input.min, input.peak, input.max, input.pinToData))
+		this.inputs.push(new Input(input.channel, input.type, input.value, input.min, input.peak, input.max, input.pinToData))
 	}
 
 	calculateValue(message, input) {
 		// got a message and matched it with an input to this track.
-		let value = message.args[0];
+		let value = sound.signals[message.address][input.value];
+		console.log(value);
 
 		// determine the range of the signal we are looking for
 		let rangeMin = input.min;
@@ -322,34 +420,46 @@ class Track {
 
 					// gain maps to slider value, then slider value converts to audioNode gain
 					this.dataGainSlider.value = (newGain * 20) - 20;
+					let targetGain = Math.pow(10, this.dataGainSlider.value/20);
+					if (newGain == 0) {targetGain = 0;}
 					// ramps to new gain in 3 seconds
-					this.dataGain.gain.setTargetAtTime(Math.pow(10, this.dataGainSlider.value/20), sound.context.currentTime, 3);
+					this.dataGain.gain.setTargetAtTime(targetGain, sound.context.currentTime, 3);
 				}
 
 				if (input.type == 'loopPoint') {
 					// adjust looping behaviour
 					// calculate at what point of the file to start
-					let startPoint = this.calculateValue(message, input)*(this.length-this.loopLength);
+					let value  = this.calculateValue(message, input)
+					let startPoint = value*(this.length-this.loopLength);
+
+					// calculate "momentum" bsed on current signal vs average
+					let momentum = (sound.signals[input.channel].curr - sound.signals[input.channel].avg3)*this.length*0.15; // not safe for all channels!
+					console.log(momentum);
+					
 
 					if (!this.looping) {
 						this.player.stop(sound.context.currentTime + (this.loopLength / 2));
 						this.player2.start(sound.context.currentTime, startPoint, sound.context.currentTime + 1.5*this.loopLength);
 						this.looping = true;
-						this.nextLoop = setTimeout(()=>{this.triggerNextGrain(startPoint, 0)}, this.loopLength*1000);
 					}
-
-
-
+					clearTimeout(this.nextLoop);
+					this.triggerNextGrain(startPoint, momentum);
 				}
 			}
 		})
 	}
 
 	triggerNextGrain(startPoint, momentum) {
+		// catch the cases where momentum takes us outside of bounds
+		if (startPoint > (this.length - 1.5*(this.loopLength) )) { startPoint = this.length - 1.5*(this.loopLength) };
+		if (startPoint < 0)  {startPoint = 0};
+
 		this.nextLoopPlayer.start(sound.context.currentTime, startPoint, sound.context.currentTime + 1.5*this.loopLength);
 		this.nextLoopPlayer == this.player ? this.nextLoopPlayer = this.player2 : this.nextLoopPlayer = this.player;
 
-		this.nextLoop = setTimeout(()=>{this.triggerNextGrain(startPoint + momentum, momentum)}, this.loopLength*1000);
+		if (sound.context.state == 'running') {
+			this.nextLoop = setTimeout(()=>{this.triggerNextGrain(startPoint + momentum, momentum)}, this.loopLength*1000);
+		}
 		return true;
 	}
 
@@ -361,7 +471,7 @@ class Track {
 	getJSON() {
 		let preset = { 'fileName': this.fileName, 'gain' : this.userGainSlider.value}
 		preset.inputs = this.inputs.map((input)=>{ 
-			return {'channel':input.channel, 'type': input.type, 'min': input.min, 'peak': input.peak, 'max': input.max, 'pinToData': input.pinToData }
+			return {'channel':input.channel, 'type': input.type, 'value': input.value, 'min': input.min, 'peak': input.peak, 'max': input.max, 'pinToData': input.pinToData }
 		})
 		return preset;
 	}
@@ -371,9 +481,10 @@ class Track {
 
 // Interfaces between channels and tracks. A track can have several inputs.
 class Input {
-	constructor (channel, type, min, peak, max, pinToData) {
+	constructor (channel, type, value, min, peak, max, pinToData) {
 		this.channel = channel;
 		this.type = type;
+		this.value = value;
 		this.min = min;
 		this.peak = peak;
 		this.max = max;
@@ -726,7 +837,7 @@ function startAudio(preset) {
 	//load the selected preset
 	preset.map(track => loadTrack(track));
 
-	sound.context.resume();
+	//sound.context.resume();
 }
 
 function loadTrack(track) {
