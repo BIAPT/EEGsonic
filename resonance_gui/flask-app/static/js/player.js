@@ -34,31 +34,33 @@ const defaultPreset = [
 	{	fileName: 'harpascending.ogg', 
 		gain: -10,
 		loopLength: 5,
+		decayRate: 1, // decay rate is 0 to 1 value, 1 tends to stay on longer, 0 to fade quickly
 		inputs: [{ 	channel:'/spr_beta_alpha',
 					type:'loopPoint',
 					value:'curr',
 					min: 0.25, 
-					peak: 0.3, 
-					max: 0.3, 
+					peak: 0.35, 
+					max: 0.35, 
 					pinToData: false },
 				{ 	channel:'/spr_beta_alpha', 
 					type:'volume',
 					value:'curr',
 					min: 0.25, 
-					peak: 0.3, 
-					max: 0.3, 
+					peak: 0.35, 
+					max: 0.35, 
 					pinToData: false }
 
 				]
 	},
 	{	fileName: 'fibclarinetmicroaccel.ogg', 
-		gain: -1,
+		gain: -5,
 		loopLength: 1.5,
+		decayRate: 1,
 		inputs: [{ 	channel:'/fp_dpli_right_midline', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.4, 
-					peak: 0.4, 
+					min: 0.35, 
+					peak: 0.35, 
 					max: 0.49, 
 					pinToData: false },
 				{ 	channel:'/fp_wpli_right_midline', 
@@ -71,25 +73,25 @@ const defaultPreset = [
 				{ 	channel:'/fp_dpli_right_midline', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.4, 
-					peak: 0.4, 
+					min: 0.35, 
+					peak: 0.35, 
 					max: 0.48, 
 					pinToData: false },
 				]
 	},
 	{	fileName: 'fibbsnmicroaccel.ogg', 
-		gain: -1,
+		gain: -5,
 		loopLength: 1.5,
+		decayRate: 1,
 		inputs: [{ 	channel:'/fp_dpli_left_midline', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.4, 
-					peak: 0.4, 
+					min: 0.35, 
+					peak: 0.35, 
 					max: 0.49, 
 					pinToData: false },
 				{ 	channel:'/fp_wpli_left_midline', 
 					type:'volume', 
-
 					value: 'curr',
 					min: 0.01, 
 					peak: 0.15, 
@@ -98,20 +100,21 @@ const defaultPreset = [
 				{ 	channel:'/fp_dpli_left_midline', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.4, 
-					peak: 0.4, 
+					min: 0.35, 
+					peak: 0.35, 
 					max: 0.48, 
 					pinToData: false },
 				]
 	},
 	{	fileName: 'fibflutemicroaccel.ogg', 
-		gain: -1,
+		gain: -5,
 		loopLength: 1.5,
+		decayRate: 1,
 		inputs: [{ 	channel:'/fp_dpli_left_lateral', 
 					type:'loopPoint', 
 					value: 'curr',
-					min: 0.4, 
-					peak: 0.4, 
+					min: 0.35, 
+					peak: 0.35, 
 					max: 0.49, 
 					pinToData: false },
 				{ 	channel:'/fp_wpli_left_lateral', 
@@ -124,8 +127,8 @@ const defaultPreset = [
 				{ 	channel:'/fp_dpli_left_lateral', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.4, 
-					peak: 0.4, 
+					min: 0.35, 
+					peak: 0.35, 
 					max: 0.48, 
 					pinToData: false },
 				]
@@ -133,17 +136,18 @@ const defaultPreset = [
 	{ 	fileName: 'softersynth2.ogg',
 		gain: -10,
 		loopLength: 3,
+		decayRate: 1,
 		inputs: [{	channel:'/spr_alpha_theta',
 					type:'loopPoint',
-					value: 'avg3',
-					min: 0.2,
-					peak: 0.35,
-					max: 0.35,
+					value: 'curr',
+					min: 0.25,
+					peak: 0.4,
+					max: 0.4,
 					pinToData: false },
 				{	channel:'/spr_alpha_theta',
 					type:'volume',
 					value: 'curr',
-					min: 0.2,
+					min: 0.25,
 					peak: 0.35,
 					max: 0.45,
 					pinToData: false }
@@ -152,99 +156,129 @@ const defaultPreset = [
 	{ 	fileName: 'woodblock1.ogg',
 		gain: -10,
 		loopLength: 5,
+		decayRate: 1,
 		inputs: [{	channel:'/spr_alpha_theta',
 					type:'loopPoint',
-					value: 'avg3',
-					min: 0.2,
-					peak: 0.225,
-					max: 0.23,
+					value: 'avg5',
+					min: 0.24,
+					peak: 0.25,
+					max: 0.25,
 					pinToData: false },
 				{	channel:'/spr_alpha_theta',
 					type:'volume',
-					value: 'avg3',
-					min: 0.2,
-					peak: 0.23,
-					max: 0.235,
+					value: 'avg5',
+					min: 0.24,
+					peak: 0.25,
+					max: 0.255,
 					pinToData: false }
 		]
 	},
 	{ 	fileName: 'woodblock2.ogg',
 		gain: -10,
 		loopLength: 5,
+		decayRate: 1,
 		inputs: [{	channel:'/spr_alpha_theta',
 					type:'loopPoint',
-					value: 'avg3',
-					min: 0.22,
-					peak: 0.24,
-					max: 0.24,
-					pinToData: false },
-				{	channel:'/spr_alpha_theta',
-					type:'volume',
-					value: 'avg3',
-					min: 0.22,
-					peak: 0.23,
-					max: 0.24,
-					pinToData: false }
-		]
-	},
-	{ 	fileName: 'woodblock3.ogg',
-		gain: -10,
-		loopLength: 5,
-		inputs: [{	channel:'/spr_alpha_theta',
-					type:'loopPoint',
-					value: 'avg3',
-					min: 0.235,
-					peak: 0.255,
-					max: 0.255,
-					pinToData: false },
-				{	channel:'/spr_alpha_theta',
-					type:'volume',
-					value: 'avg3',
-					min: 0.235,
-					peak: 0.25,
-					max: 0.255,
-					pinToData: false }
-		]
-	},
-	{ 	fileName: 'woodblock4.ogg',
-		gain: -10,
-		loopLength: 5,
-		inputs: [{	channel:'/spr_alpha_theta',
-					type:'loopPoint',
-					value: 'avg3',
+					value: 'avg5',
 					min: 0.25,
-					peak: 0.265,
-					max: 0.265,
+					peak: 0.26,
+					max: 0.26,
 					pinToData: false },
 				{	channel:'/spr_alpha_theta',
 					type:'volume',
-					value: 'avg3',
+					value: 'avg5',
 					min: 0.25,
 					peak: 0.26,
 					max: 0.265,
 					pinToData: false }
 		]
 	},
-	{ 	fileName: 'woodblock5.ogg',
+	{ 	fileName: 'woodblock3.ogg',
 		gain: -10,
 		loopLength: 5,
+		decayRate: 1,
 		inputs: [{	channel:'/spr_alpha_theta',
 					type:'loopPoint',
-					value: 'avg3',
+					value: 'avg5',
 					min: 0.26,
+					peak: 0.27,
+					max: 0.27,
+					pinToData: false },
+				{	channel:'/spr_alpha_theta',
+					type:'volume',
+					value: 'avg5',
+					min: 0.26,
+					peak: 0.27,
+					max: 0.275,
+					pinToData: false }
+		]
+	},
+	{ 	fileName: 'woodblock4.ogg',
+		gain: -10,
+		loopLength: 5,
+		decayRate: 1,
+		inputs: [{	channel:'/spr_alpha_theta',
+					type:'loopPoint',
+					value: 'avg5',
+					min: 0.27,
 					peak: 0.28,
 					max: 0.28,
 					pinToData: false },
 				{	channel:'/spr_alpha_theta',
 					type:'volume',
-					value: 'avg3',
-					min: 0.26,
-					peak: 0.27,
-					max: 0.28,
+					value: 'avg5',
+					min: 0.27,
+					peak: 0.28,
+					max: 0.285,
 					pinToData: false }
 		]
 	},
-]
+	{ 	fileName: 'woodblock5.ogg',
+		gain: -10,
+		loopLength: 5,
+		decayRate: 1,
+		inputs: [{	channel:'/spr_alpha_theta',
+					type:'loopPoint',
+					value: 'avg5',
+					min: 0.28,
+					peak: 0.29,
+					max: 0.29,
+					pinToData: false },
+				{	channel:'/spr_alpha_theta',
+					type:'volume',
+					value: 'avg5',
+					min: 0.28,
+					peak: 0.29,
+					max: 0.295,
+					pinToData: false }
+		]
+	},
+	{	fileName: 'microtwinkle.ogg',
+		gain: -1,
+		loopLength: 4,
+		decayRate: 1,
+		inputs: [{	channel:'/td_front_back',
+					type: 'volume',
+					value: 'curr',
+					min: 0.6,
+					peak: 0.8,
+					max: 1,
+					pinToData: false 
+				},
+				{	channel:'/td_front_back',
+					type: 'loopPoint',
+					value: 'avg3',
+					min: 0.6,
+					peak: 0.6,
+					max: 1,
+					pinToData: false
+
+				}
+			]
+
+	}]
+
+
 
 // GLOBAL VARIABLES
 const sound = {
@@ -344,6 +378,7 @@ class Track {
 		this.fileName = track.fileName;
 		this.inputs = [];
 		this.loopLength = track.loopLength; // loop duration in seconds - actually the time between successive starts, signal plays for 1 1/2 times the loop length
+		this.decayRate = track.decayRate;
 
 		// Add the GUI element to the mixer
 		let mixerGUI = document.getElementById('resonanceMixer');
@@ -428,7 +463,6 @@ class Track {
 		slider.setAttribute('min', '-20');
 		slider.setAttribute('max', '0');
 		slider.setAttribute('step', '1');
-		console.log(gain);
 		slider.setAttribute('value', gain ? gain : -10);
 		slider.setAttribute('orient', 'horizonal');
 		return slider;
@@ -452,8 +486,6 @@ class Track {
 	calculateValue(message, input) {
 		// got a message and matched it with an input to this track.
 		let value = sound.signals[message.address][input.value];
-		console.log(input.value);
-		console.log(value);
 
 		// determine the range of the signal we are looking for
 		let rangeMin = input.min;
@@ -507,9 +539,6 @@ class Track {
 				if (input.type == 'volume') {
 					// adjust track volume
 					let newGain = this.calculateValue(message, input);
-					console.log(input);
-					console.log(message);
-					console.log(newGain);
 
 					if (gainChanged) { // keeps track if there are several volume inputs on a single track
 						newGain = newGain * changedGain;
@@ -519,12 +548,30 @@ class Track {
 						changedGain = newGain;
 					}
 
+					// values for calculating decay
+					let oldGainForDecay = Math.pow(10, this.dataGainSlider.value/20);
+
+
+
 					// gain maps to slider value, then slider value converts to audioNode gain
 					this.dataGainSlider.value = (newGain * 20) - 20;
 					let targetGain = Math.pow(10, this.dataGainSlider.value/20);
 					if (newGain == 0) {targetGain = 0;}
 					// ramps to new gain in 3 seconds
 					this.dataGain.gain.setTargetAtTime(targetGain, sound.context.currentTime, 3);
+
+
+					// calculate decay gain
+					let newGainForDecay = Math.pow(10, this.dataGainSlider.value/20);
+
+					let oldDecay = this.decayGain.gain.value;
+					let newDecay = this.decayRate*oldDecay + (1-oldDecay)*(Math.abs(oldGainForDecay - newGainForDecay)); // Looks at absolute difference between last two volumes
+					console.log("oldDecay: " + oldDecay + " newDecay: " + newDecay + " oldGainForDecay: " + oldGainForDecay + " newGainForDecay: " + newGainForDecay);
+					this.decayGainSlider.value = (newDecay * 20 ) - 20;
+					let targetDecay = Math.pow(10, this.decayGainSlider.value/20);
+					if (newDecay == 0) {targetDecay = 0;}
+					this.decayGain.gain.setTargetAtTime(targetDecay, sound.context.currentTime, 2);
+
 				}
 
 				if (input.type == 'loopPoint') {
@@ -535,7 +582,6 @@ class Track {
 
 					// calculate "momentum" bsed on current signal vs average
 					let momentum = (sound.signals[input.channel].curr - sound.signals[input.channel].avg3)*this.length*0.15; // not safe for all channels!
-					console.log(momentum);
 					
 
 					if (!this.looping) {
@@ -796,7 +842,6 @@ function savePreset() {
 	// this is a hack for saving a file from the front-end
     var a = document.createElement("a");
     let tracksJSON = sound.tracks.map(track => track.getJSON());
-    console.log(tracksJSON);
     var file = new Blob([JSON.stringify(tracksJSON)], {type: 'text/plain'});
     a.href = URL.createObjectURL(file);
     a.download = 'preset.txt';
