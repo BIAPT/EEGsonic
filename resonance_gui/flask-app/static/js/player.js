@@ -11,194 +11,333 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 const sampleFilePath = 'static/samples/';
 const eventsFilePath = 'static/playerEvents/';
 
-const channelList = [
-	'/fp_dpli_left_midline',
-	'/fp_dpli_left_lateral', 
-	'/fp_dpli_right_midline', 
-	'/fp_dpli_right_lateral', 
-	'/fp_wpli_left_midline', 
-	'/fp_wpli_left_lateral', 
-	'/fp_wpli_right_midline', 
-	'/fp_wpli_right_lateral', 
-	'/hl_relative_position', 
-	'/pe_frontal', 
-	'/pe_parietal', 
-	'/pac_rpt_frontal', 
-	'/pac_rpt_parietal', 
-	'/spr_beta_alpha', 
-	'/spr_alpha_theta', 
-	'/td_front_back'
-]
 
-const defaultPreset = [
+const defaultPreset = {
+	signals: [ {
+			channel: '/fp_dpli_left_midline',
+			ranges: [
+				{
+					name: 'fp_dpli_left_midline_lead',
+					min: 0.52,
+					max: 0.67
+				},
+				{
+					name: 'fp_dpli_left_midline_lag',
+					min: 0.33,
+					max: 0.48
+				}
+			]
+		},
+		{ 	channel: '/fp_dpli_left_lateral',
+			ranges: [
+				{
+					name: 'fp_dpli_left_lateral_lead',
+					min: 0.52,
+					max: 0.67
+				},
+				{
+					name: 'fp_dpli_left_lateral_lag',
+					min: 0.33,
+					max: 0.48
+				}
+			]
+		},
+		{ 	channel: '/fp_dpli_right_midline', 
+			ranges: [
+				{
+					name: 'fp_dpli_right_midline_lead',
+					min: 0.52,
+					max: 0.67
+				},
+				{
+					name: 'fp_dpli_right_midline_lag',
+					min: 0.33,
+					max: 0.48
+				}
+			]
+		},
+		{ 	channel: '/fp_dpli_right_lateral',
+			ranges: [
+				{
+					name: 'fp_dpli_right_lateral_lead',
+					min: 0.52,
+					max: 0.67
+				},
+				{
+					name: 'fp_dpli_right_lateral_lag',
+					min: 0.33,
+					max: 0.48
+				}
+			] 
+		},
+		{ 	channel: '/fp_wpli_left_midline',
+			ranges: [
+				{
+					name: 'fp_wpli_left_midline',
+					min: 0.02,
+					max: 0.3
+				}
+			]
+		},
+		{ 	channel: '/fp_wpli_left_lateral', 
+			ranges: [
+				{
+					name: 'fp_wpli_left_lateral',
+					min: 0.02,
+					max: 0.3
+				}
+			]
+		},
+		{ 	channel: '/fp_wpli_right_midline', 
+			ranges: [
+				{
+					name: 'fp_wpli_right_midline',
+					min: 0.02,
+					max: 0.3
+				}
+			]
+		},
+		{ 	channel: '/fp_wpli_right_lateral', 
+			ranges: [
+				{
+					name: 'fp_wpli_right_lateral',
+					min: 0.02,
+					max: 0.3
+				}
+			]
+		},
+		{ 	channel: '/hl_relative_position', 
+			ranges: []
+		},
+		{ 	channel: '/pe_frontal', 
+			ranges: [
+				{	name: 'pe_frontal',
+					min: 0.8,
+					max: 1
+				}
+			]
+		},
+		{ 	channel: '/pe_parietal', 
+			ranges: []
+		},
+		{ 	channel: '/pac_rpt_frontal', 
+			ranges: []
+		},
+		{ 	channel: '/pac_rpt_parietal', 
+			ranges: []
+		},
+		{ 	channel: '/spr_beta_alpha', 
+			ranges: [
+				{
+					name: 'spr_beta_alpha_low',
+					min: 0.26,
+					max: 0.32,
+				},
+				{
+					name: 'spr_beta_alpha_high',
+					min: 0.28,
+					max: 0.4
+				}
+			]
+		},
+		{ 	channel: '/spr_alpha_theta', 
+			ranges: [
+				{
+					name: 'spr_alpha_theta_low',
+					min: 0.26,
+					max: 0.32
+				},
+				{
+					name: 'spr_alpha_theta_high',
+					min: 0.27,
+					max: 0.37
+				}
+			]
+		},
+		{ 	channel: '/td_front_back',
+			ranges: []
+		}
+	],
+	tracks: [
 	{	fileName: 'harpascending2.ogg', 
 		gain: -10,
 		loopLength: 5,
-		decayRate: 1, // decay rate is 0 to 1 value, 1 tends to stay on longer, 0 to fade quickly
-		inputs: [{ 	channel:'/spr_beta_alpha',
+		inputs: [{ 	range:'spr_beta_alpha_high',
 					type:'loopPoint',
 					value:'curr',
-					min: 0.28, 
-					peak: 0.35, 
-					max: 0.35, 
-					pinToData: false },
-				{ 	channel:'/spr_beta_alpha', 
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2
+				},
+				{ 	range:'spr_beta_alpha_high', 
 					type:'volume',
 					value:'curr',
-					min: 0.28, 
-					peak: 0.34, 
-					max: 0.45, 
-					pinToData: false }
-
+					min: 0, 
+					peak: 0.8, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2
+				}
 				]
 	},
 	{ 	fileName: 'softersynth2.ogg',
 		gain: -15,
 		loopLength: 6,
-		decayRate: 1,
-		inputs: [{	channel:'/spr_beta_alpha',
+		inputs: [{	range:'spr_beta_alpha_low',
 					type:'loopPoint',
 					value: 'avg3',
-					min: 0.26,
-					peak: 0.32,
-					max: 0.32,
-					pinToData: false },
-				{	channel:'/spr_beta_alpha',
+					min: 0,
+					peak: 1,
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{	range:'spr_beta_alpha_low',
 					type:'volume',
-					value: 'avg',
-					min: 0.25,
-					peak: 0.30,
-					max: 0.35,
-					pinToData: false }
-		]
+					value: 'avg3',
+					min: 0,
+					peak: 0.8,
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
+				]
 	},
 	{	fileName: 'pianoascending.ogg', 
 		gain: -1,
 		loopLength: 5,
-		decayRate: 1, // decay rate is 0 to 1 value, 1 tends to stay on longer, 0 to fade quickly
-		inputs: [{ 	channel:'/spr_alpha_theta',
+		inputs: [{ 	range:'spr_alpha_theta_high',
 					type:'loopPoint',
 					value:'curr',
-					min: 0.25, 
-					peak: 0.35, 
-					max: 0.35, 
-					pinToData: false },
-				{ 	channel:'/spr_alpha_theta', 
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'spr_alpha_theta_high', 
 					type:'volume',
 					value:'curr',
-					min: 0.25, 
-					peak: 0.34, 
-					max: 0.45, 
-					pinToData: false }
-
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
 				]
 	},
 	{	fileName: 'dpliLLxylophone.ogg', 
 		gain: -1,
 		loopLength: 1.5,
-		decayRate: 1,
-		inputs: [{ 	channel:'/fp_dpli_left_lateral', 
+		inputs: [{ 	range:'fp_dpli_left_lateral_lag', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.35, 
-					peak: 0.35, 
-					max: 0.48,   
-					pinToData: false },
-				{ 	channel:'/fp_dpli_left_lateral', 
+					min: 0, 
+					peak: 0, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_dpli_left_lateral_lag', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.30, 
-					peak: 0.30, 
-					max: 0.48, 
-					pinToData: false },
-				{ 	channel:'/fp_wpli_left_lateral', 
+					min: 0.7, 
+					peak: 0.7, 
+					max: 0.95,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_wpli_left_lateral_lag', 
 					type:'volume',
 					value: 'curr',
-					min: 0.01, 
-					peak: 0.1, 
-					max: 0.1, 
-					pinToData: false }
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
 				]
 	},
 	{	fileName: 'dpliLMmarimba.ogg', 
 		gain: -1,
 		loopLength: 1.5,
-		decayRate: 1,
-		inputs: [{ 	channel:'/fp_dpli_left_midline', 
+		inputs: [{ 	range:'fp_dpli_left_midline_lag', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.35, 
-					peak: 0.35, 
-					max: 0.48,   
-					pinToData: false },
-				{ 	channel:'/fp_dpli_left_midline', 
+					min: 0, 
+					peak: 0, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_dpli_left_midline_lag', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.30, 
-					peak: 0.30, 
-					max: 0.48, 
-					pinToData: false },
-				{ 	channel:'/fp_wpli_left_midline', 
+					min: 0.7, 
+					peak: 0.7, 
+					max: 0.95,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_wpli_left_midline_lag', 
 					type:'volume',
 					value: 'curr',
-					min: 0.01, 
-					peak: 0.1, 
-					max: 0.1, 
-					pinToData: false }
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
 				]
 	},
 	{	fileName: 'dpliRMcelesta.ogg', 
 		gain: -1,
 		loopLength: 1.5,
-		decayRate: 1,
-		inputs: [{ 	channel:'/fp_dpli_right_midline', 
+		inputs: [{ 	range:'fp_dpli_right_midline_lag', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.35, 
-					peak: 0.35, 
-					max: 0.48,   
-					pinToData: false },
-				{ 	channel:'/fp_dpli_right_midline', 
+					min: 0, 
+					peak: 0, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_dpli_right_midline_lag', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.30, 
-					peak: 0.30, 
-					max: 0.48, 
-					pinToData: false },
-					{ 	channel:'/fp_wpli_right_midline', 
+					min: 0.7, 
+					peak: 0.7, 
+					max: 0.95,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_wpli_right_midline_lag', 
 					type:'volume',
 					value: 'curr',
-					min: 0.01, 
-					peak: 0.1, 
-					max: 0.1, 
-					pinToData: false }
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
 				]
 	},
 	{	fileName: 'dpliRLvibraphone.ogg', 
 		gain: -1,
 		loopLength: 1.5,
-		decayRate: 1,
-		inputs: [{ 	channel:'/fp_dpli_right_lateral', 
+		inputs: [{ 	range:'fp_dpli_right_lateral_lag', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.35, 
-					peak: 0.35, 
-					max: 0.48,  
-					pinToData: false },
-				{ 	channel:'/fp_dpli_right_lateral', 
+					min: 0, 
+					peak: 0, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_dpli_right_lateral_lag', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.30, 
-					peak: 0.30, 
-					max: 0.48, 
-					pinToData: false },
-				{ 	channel:'/fp_wpli_right_lateral', 
+					min: 0.7, 
+					peak: 0.7, 
+					max: 0.95,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_wpli_right_lateral_lag', 
 					type:'volume',
 					value: 'curr',
-					min: 0.01, 
-					peak: 0.1, 
-					max: 0.1, 
-					pinToData: false }
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
 				]
 	},
 
@@ -206,237 +345,145 @@ const defaultPreset = [
 	{	fileName: 'dpliLLxylophone.ogg', 
 		gain: -1,
 		loopLength: 1.5,
-		decayRate: 1,
-		inputs: [{ 	channel:'/fp_dpli_left_lateral', 
+		inputs: [{ 	range:'fp_dpli_left_lateral_lead', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.52, 
-					peak: 0.65, 
-					max: 0.65, 
-					pinToData: false },
-				{ 	channel:'/fp_dpli_left_lateral', 
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_dpli_left_lateral_lead', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.52, 
-					peak: 0.70, 
-					max: 0.70, 
-					pinToData: false },
-				{ 	channel:'/fp_wpli_left_lateral', 
+					min: 0.05, 
+					peak: 0.3, 
+					max: 0.3,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_wpli_left_lateral_lead', 
 					type:'volume',
 					value: 'curr',
-					min: 0.01, 
-					peak: 0.1, 
-					max: 0.1, 
-					pinToData: false }
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
 				]
 	},
 	{	fileName: 'dpliLMmarimba.ogg', 
 		gain: -1,
 		loopLength: 1.5,
-		decayRate: 1,
-		inputs: [{ 	channel:'/fp_dpli_left_midline', 
+		inputs:[{ 	range:'fp_dpli_left_midline_lead', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.52, 
-					peak: 0.65, 
-					max: 0.65, 
-					pinToData: false },
-				{ 	channel:'/fp_dpli_left_midline', 
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_dpli_left_midline_lead', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.52, 
-					peak: 0.70, 
-					max: 0.70, 
-					pinToData: false },
-				{ 	channel:'/fp_wpli_left_midline', 
+					min: 0.05, 
+					peak: 0.3, 
+					max: 0.3,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_wpli_left_midline_lead', 
 					type:'volume',
 					value: 'curr',
-					min: 0.01, 
-					peak: 0.1, 
-					max: 0.1, 
-					pinToData: false }
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
 				]
 	},
 	{	fileName: 'dpliRMcelesta.ogg', 
 		gain: -1,
 		loopLength: 1.5,
-		decayRate: 1,
-		inputs: [{ 	channel:'/fp_dpli_right_midline', 
+		inputs: [{ 	range:'fp_dpli_right_midline_lead', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.52, 
-					peak: 0.65, 
-					max: 0.65,   
-					pinToData: false },
-				{ 	channel:'/fp_dpli_right_midline', 
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_dpli_right_midline_lead', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.52, 
-					peak: 0.70, 
-					max: 0.70, 
-					pinToData: false },
-				{ 	channel:'/fp_wpli_right_midline', 
+					min: 0.05, 
+					peak: 0.3, 
+					max: 0.3,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_wpli_right_midline_lead', 
 					type:'volume',
 					value: 'curr',
-					min: 0.01, 
-					peak: 0.1, 
-					max: 0.1, 
-					pinToData: false },
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
 				]
 	},
 	{	fileName: 'dpliRLvibraphone.ogg', 
 		gain: -1,
 		loopLength: 1.5,
-		decayRate: 1,
-		inputs: [{ 	channel:'/fp_dpli_right_lateral', 
+		inputs: [{ 	range:'fp_dpli_right_lateral_lead', 
 					type:'loopPoint',
 					value: 'curr',
-					min: 0.52, 
-					peak: 0.65, 
-					max: 0.65,  
-					pinToData: false },
-				{ 	channel:'/fp_dpli_right_lateral', 
+					min: 0, 
+					peak: 1, 
+					max: 1 ,
+					decayRate: 0.6,
+					decayRange: 0.2},
+				{ 	range:'fp_dpli_right_lateral_lead', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.52, 
-					peak: 0.70, 
-					max: 0.70, 
-					pinToData: false },
-				{ 	channel:'/fp_wpli_right_lateral', 
+					min: 0.05, 
+					peak: 0.3, 
+					max: 0.3,
+					decayRate: 0.6,
+					decayRange: 0.2 },
+				{ 	range:'fp_wpli_right_lateral_lead', 
 					type:'volume',
 					value: 'curr',
-					min: 0.01, 
-					peak: 0.1, 
-					max: 0.1, 
-					pinToData: false },
+					min: 0, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.2 }
 				]
 	},
-	
-	// { 	fileName: 'woodblock1.ogg',
-	// 	gain: -10,
-	// 	loopLength: 5,
-	// 	decayRate: 1,
-	// 	inputs: [{	channel:'/spr_alpha_theta',
-	// 				type:'loopPoint',
-	// 				value: 'avg5',
-	// 				min: 0.24,
-	// 				peak: 0.25,
-	// 				max: 0.25,
-	// 				pinToData: false },
-	// 			{	channel:'/spr_alpha_theta',
-	// 				type:'volume',
-	// 				value: 'avg5',
-	// 				min: 0.24,
-	// 				peak: 0.25,
-	// 				max: 0.255,
-	// 				pinToData: false }
-	// 	]
-	// },
-	// { 	fileName: 'woodblock2.ogg',
-	// 	gain: -10,
-	// 	loopLength: 5,
-	// 	decayRate: 1,
-	// 	inputs: [{	channel:'/spr_alpha_theta',
-	// 				type:'loopPoint',
-	// 				value: 'avg5',
-	// 				min: 0.25,
-	// 				peak: 0.26,
-	// 				max: 0.26,
-	// 				pinToData: false },
-	// 			{	channel:'/spr_alpha_theta',
-	// 				type:'volume',
-	// 				value: 'avg5',
-	// 				min: 0.25,
-	// 				peak: 0.26,
-	// 				max: 0.265,
-	// 				pinToData: false }
-	// 	]
-	// },
-	// { 	fileName: 'woodblock3.ogg',
-	// 	gain: -10,
-	// 	loopLength: 5,
-	// 	decayRate: 1,
-	// 	inputs: [{	channel:'/spr_alpha_theta',
-	// 				type:'loopPoint',
-	// 				value: 'avg5',
-	// 				min: 0.26,
-	// 				peak: 0.27,
-	// 				max: 0.27,
-	// 				pinToData: false },
-	// 			{	channel:'/spr_alpha_theta',
-	// 				type:'volume',
-	// 				value: 'avg5',
-	// 				min: 0.26,
-	// 				peak: 0.27,
-	// 				max: 0.275,
-	// 				pinToData: false }
-	// 	]
-	// },
-	// { 	fileName: 'woodblock4.ogg',
-	// 	gain: -10,
-	// 	loopLength: 5,
-	// 	decayRate: 1,
-	// 	inputs: [{	channel:'/spr_alpha_theta',
-	// 				type:'loopPoint',
-	// 				value: 'avg5',
-	// 				min: 0.27,
-	// 				peak: 0.28,
-	// 				max: 0.28,
-	// 				pinToData: false },
-	// 			{	channel:'/spr_alpha_theta',
-	// 				type:'volume',
-	// 				value: 'avg5',
-	// 				min: 0.27,
-	// 				peak: 0.28,
-	// 				max: 0.285,
-	// 				pinToData: false }
-	// 	]
-	// },
-	// { 	fileName: 'woodblock5.ogg',
-	// 	gain: -10,
-	// 	loopLength: 8,
-	// 	decayRate: 0.6,
-	// 	inputs: [{	channel:'/spr_alpha_theta',
-	// 				type:'loopPoint',
-	// 				value: 'avg5',
-	// 				min: 0.28,
-	// 				peak: 0.29,
-	// 				max: 0.29,
-	// 				pinToData: false },
-	// 			{	channel:'/spr_alpha_theta',
-	// 				type:'volume',
-	// 				value: 'avg5',
-	// 				min: 0.28,
-	// 				peak: 0.29,
-	// 				max: 0.295,
-	// 				pinToData: false }
-	// 	]
-	// },
 	{	fileName: 'microtwinkle.ogg',
 		gain: -1,
 		loopLength: 4,
-		decayRate: 1,
-		inputs: [{	channel:'/pe_frontal',
+		inputs: [{	range:'pe_frontal',
 					type: 'volume',
 					value: 'curr',
-					min: 0.79,
-					peak: 0.85,
-					max: 0.85,
-					pinToData: false 
+					min: 0.03,
+					peak: 0.4,
+					max: 0.7,
+					decayRate: 0.6,
+					decayRange: 0.2 
 				},
-				{	channel:'/pe_frontal',
+				{	range:'pe_frontal',
 					type: 'loopPoint',
 					value: 'avg3',
-					min: 0.6,
-					peak: 0.8,
+					min: 0,
+					peak: 0.75,
 					max: 1,
-					pinToData: false
+					decayRate: 0.6,
+					decayRange: 0.2
 
 				}
 			]
 
 	}]
-
+}
 
 
 // GLOBAL VARIABLES
@@ -450,17 +497,18 @@ const sound = {
 
 // CLASSES
 
-// Signal are the collection of messags on a channel, each also has an associated DOM element
+// Signal are the collection of messags on a range, each also has an associated DOM element
 // A channel is the message address - /spr_beta_alpha or /pe_frontal, etc.
 class Signal {
-	constructor (channel) {
-		this.channel = channel;
+	constructor (signal) {
+		this.channel = signal.channel;
 		this.min = null;
 		this.max = null;
 		this.curr = null;
 		this.prev = null;
 		this.mute = false;
 		this.last10 = [];
+		this.ranges = signal.ranges;
 
 		let signalListGUI = document.getElementById('signalContainer');
 
@@ -497,6 +545,7 @@ class Signal {
 	}
 
 	static processMessage(message) {
+		//console.log(message);
 		sound.signals[message.address].update(message);
 		Track.processMessage(message);
 	}
@@ -635,48 +684,40 @@ class Track {
 	}
 
 	createInput(input) {
-		this.inputs.push(new Input(input.channel, input.type, input.value, input.min, input.peak, input.max, input.pinToData))
+		this.inputs.push(new Input(input))
 	}
 
-	calculateValue(input) {
+	calculateValue(input, range, channel) {
 		// got a message and matched it with an input to this track.
-		let value = sound.signals[input.channel][input.value];
+		let value = sound.signals[channel][input.value];
+		let rangeSpread = range.max - range.min;
 
 		// determine the range of the signal we are looking for
-		let rangeMin = input.min;
-		let rangeMax = input.max;
-		let rangePeak = input.peak;
+		let inputMin = (input.min * rangeSpread) + range.min ;
+		let inputMax = (input.max * rangeSpread) + range.min ;
+		let inputPeak = (input.peak * rangeSpread) + range.min;
 
-		// adjust range if it's relative to the data so far
-		if (input.pinToData) {
-			let signalRangeMin = sound.signals[input.channel].min;
-			let signalRangeMax = sound.signals[input.channel].max;
-			let signalRange = signalRangeMax - signalRangeMin;
-			rangeMin = (rangeMin * signalRange) + signalRangeMin;
-			rangeMax = (rangeMax * signalRange) + signalRangeMin;
-			rangePeak = (rangePeak * signalRange) + signalRangeMin;
-		} 
 
 		let newValue = 0;
 
 		// if range min and max are the same, signal is always on
-		if (rangeMax == rangeMin) {
+		if (inputMax == inputMin) {
 			newValue = 1;
 		}
 		// case where the peak equals the max means it stays on above the max
-		else if (rangeMax == rangePeak) {
-			newValue = (value - rangeMin)/(rangeMax-rangeMin);
+		else if (inputMax == inputPeak) {
+			newValue = (value - inputMin)/(inputMax-inputMin);
 		}
 		// case where the peak equals min, it stays on below min
-		else if (rangeMin == rangePeak) {
-			newValue = 1 - ((value - rangeMin)/(rangeMax-rangeMin));
+		else if (inputMin == inputPeak) {
+			newValue = 1 - ((value - inputMin)/(inputMax-inputMin));
 		}
 		// otherwise signal value depends on whether it is above or below peak
-		else if (value > rangeMin && value < rangePeak) {
-			newValue = (value - rangeMin)/(rangePeak-rangeMin);
+		else if (value > inputMin && value < inputPeak) {
+			newValue = (value - inputMin)/(inputPeak-inputMin);
 		}
-		else if (value >= rangePeak && value < rangeMax) {
-			newValue = 1 - ((value - rangePeak)/(rangeMax-rangePeak));
+		else if (value >= inputPeak && value < inputMax) {
+			newValue = 1 - ((value - inputPeak)/(inputMax-inputPeak));
 		}
 
 		// clean up out-of-range values
@@ -690,66 +731,68 @@ class Track {
 		let gainChanged = false; // allows for several volume inputs to same track, they are multiplied
 		let changedGain = 0;
 		let newGain;
+		let ranges = sound.signals[message.address].ranges;
+
 		this.inputs.forEach((input) => {
-			if (input.channel == message.address){
-				if (input.type == 'volume' && !gainChanged) { // calculates results of all volume inputs when it sees the first one
-					this.inputs.forEach((input) => {
-						if (input.type == 'volume') {
-							console.log(input);
-							newGain = this.calculateValue(input);
+			ranges.forEach((range) => {
+				// console.log(input, range);
+				if (input.range == range.name){
 
-							if (gainChanged) { // keeps track if there are several volume inputs on a single track
-								//newGain = (newGain + changedGain)/2;
-								newGain = newGain * changedGain;
-								changedGain = newGain;
-							} else {
-								gainChanged = true;
-								changedGain = newGain;
+					if (input.type == 'volume' && !gainChanged) { // calculates results of all volume inputs when it sees the first one
+						this.inputs.forEach((input) => {
+							if (input.type == 'volume') {
+								newGain = this.calculateValue(input, range, message.address);
+								input.updateDecay(newGain);
+
+								if (gainChanged) { // keeps track if there are several volume inputs on a single track
+									//newGain = (newGain + changedGain)/2;
+									newGain = newGain * changedGain;
+									changedGain = newGain;
+								} else {
+									gainChanged = true;
+									changedGain = newGain;
+								}
 							}
-						}
-					})
+						})
 
-					this.dataGainSlider.value = (newGain * 20) - 20;
-					let targetGain = Math.pow(10, this.dataGainSlider.value/20);
-					if (newGain == 0) {targetGain = 0;}
-					// ramps to new gain in 3 seconds
-					this.dataGain.gain.setTargetAtTime(targetGain, sound.context.currentTime, 3);
-							
-					// // values for calculating decay
-					// let oldGainForDecay = Math.pow(10, this.dataGainSlider.value/20);
-					// // calculate decay gain
-					// let newGainForDecay = Math.pow(10, this.dataGainSlider.value/20);
-
-					// let oldDecay = this.decayGain.gain.value;
-					// let newDecay = this.decayRate*oldDecay + (Math.abs(newGainForDecay - oldGainForDecay)); // Looks at absolute difference between last two volumes
-					// console.log("oldDecay: " + oldDecay + " newDecay: " + newDecay + " oldGainForDecay: " + oldGainForDecay + " newGainForDecay: " + newGainForDecay);
-					// this.decayGainSlider.value = (newDecay * 20 ) - 20;
-					// let targetDecay = Math.pow(10, this.decayGainSlider.value/20);
-					// if (newDecay == 0) {targetDecay = 0;}
-					// this.decayGain.gain.setTargetAtTime(targetDecay, sound.context.currentTime, 2);
-
-				}
-
-				if (input.type == 'loopPoint') {
-					// adjust looping behaviour
-					// calculate at what point of the file to start
-					let value  = this.calculateValue(input)
-					let startPoint = value*(this.length-this.loopLength);
-
-					// calculate "momentum" bsed on current signal vs average
-					//let momentum = (sound.signals[input.channel].curr - sound.signals[input.channel].avg3)*this.length*0.15; // not safe for all channels!
-					let momentum = 0.01*this.length;
-
-					if (!this.looping) {
-						this.player.stop(sound.context.currentTime + (this.loopLength / 2));
-						this.player2.start(sound.context.currentTime, startPoint, sound.context.currentTime + 1.5*this.loopLength);
-						this.looping = true;
+						this.dataGainSlider.value = (newGain * 20) - 20;
+						let targetGain = Math.pow(10, this.dataGainSlider.value/20);
+						if (newGain == 0) {targetGain = 0;}
+						// ramps to new gain in 3 seconds
+						this.dataGain.gain.setTargetAtTime(targetGain, sound.context.currentTime, 3);
+								
 					}
-					clearTimeout(this.nextLoop);
-					this.triggerNextGrain(startPoint, momentum);
+
+					if (input.type == 'loopPoint') {
+						// adjust looping behaviour
+						// calculate at what point of the file to start
+						let value  = this.calculateValue(input, range, message.address)
+						console.log(value);
+
+						input.updateDecay(value);
+
+						let startPoint = value*(this.length-this.loopLength);
+
+						// calculate "momentum" bsed on current signal vs average
+						//let momentum = (sound.signals[input.channel].curr - sound.signals[input.channel].avg3)*this.length*0.15; // not safe for all channels!
+						let momentum = 0.01*this.length;
+
+						if (!this.looping) {
+							this.player.stop(sound.context.currentTime + (this.loopLength / 2));
+							this.player2.start(sound.context.currentTime, startPoint, sound.context.currentTime + 1.5*this.loopLength);
+							this.looping = true;
+						}
+						clearTimeout(this.nextLoop);
+						this.triggerNextGrain(startPoint, momentum);
+					}
 				}
-			}
+			})
 		})
+
+		// calculate track decay
+
+
+
 
 	}
 
@@ -775,26 +818,66 @@ class Track {
 	getJSON() {
 		let preset = { 'fileName': this.fileName, 'gain' : this.userGainSlider.value}
 		preset.inputs = this.inputs.map((input)=>{ 
-			return {'channel':input.channel, 'type': input.type, 'value': input.value, 'min': input.min, 'peak': input.peak, 'max': input.max, 'pinToData': input.pinToData }
+			return {'range':input.range, 'type': input.type, 'value': input.value, 'min': input.min, 'peak': input.peak, 'max': input.max, 'decayRate': input.decayRate, 'decayRange': input.decayRange }
 		})
 		return preset;
 	}
 }
 
 
+// A range is a selected range of the signal that tracks can control a track
+class Range {
+	constructor (range) {
+		this.name = range.name;
+		this.min = range.min;
+		this.max = range.max;
+	}
 
-// Interfaces between channels and tracks. A track can have several inputs.
-class Input {
-	constructor (channel, type, value, min, peak, max, pinToData) {
-		this.channel = channel;
-		this.type = type;
-		this.value = value;
-		this.min = min;
-		this.peak = peak;
-		this.max = max;
-		this.pinToData = pinToData;
+	update () {
+
 	}
 }
+
+// Interfaces between ranges and tracks. A track can have several inputs.
+class Input {
+	constructor (input) {
+		this.range = input.range;
+		this.type = input.type;
+		this.value = input.value;
+		this.min = input.min;
+		this.peak = input.peak;
+		this.max = input.max;
+		this.decayRate = input.decayRate;
+		this.decayBoost = input.decayBoost ? input.decayBoost : 0.2;
+		this.decayThreshold = input.decayThreshold ? input.decayThreshold : 0.7;
+		this.decayRange = input.decayRange;
+		this.decayTarget = null;
+		this.decayValue = 1;
+	}
+
+	updateDecay (value) {
+		// if the decay Target is not yet defined, set it to the current value and return 1 or no decay.
+		if (this.decayTarget === null) {
+			this.decayTarget = value;
+			return 1;
+		}
+
+		// if the value is within the range of the decay target, apply one step of decay and return the new decay value.
+		if ( Math.abs(this.decayTarget - value) < this.decayRange ) {
+			this.decayValue = this.decayValue * this.decayRate;
+			return this.decayValue;
+		}
+
+		// if you get this far it means the value is outside of the the range
+		this.decayValue = this.decayValue + this.decayBoost
+		if (this.decayValue > this.decayThresold) {
+			this.decayTarget = this.decayValue;
+		}
+		return this.decayValue;
+	}
+}
+
+
 
 /// HANDLING OSC RECORDINGS/PLAYBACK
 
@@ -843,6 +926,7 @@ class OSCPlayer {
 			if (i < this.events.length) {
 				this._currentEvent = i;
 				// message processing goes here!
+				console.log(this.events[i].message);
 				Signal.processMessage(this.events[i].message);
 				this.sequenceNextEvent(i);
 			}
@@ -954,10 +1038,7 @@ window.onload = function () {
 	document.getElementById('toggleOSC').addEventListener("click", () => { oscPlayer.toggleOSC() });
 	document.getElementById('resetOSC').addEventListener("click", () => { oscPlayer.resetOSC() });
 	
-	// initalize list of channels
-	channelList.forEach(channel => {
-		sound.signals[channel] = new Signal(channel);
-	})
+	
 }
 
 // websocket for receiving messages
@@ -1043,55 +1124,22 @@ function startAudio(preset) {
 	}, false);
 
 
-	// initialize the audio recorder
 
-	// const saveRecording = (blob, encoding) => {
-	// 	console.log('save recording');
-	// 	console.log(blob);
-	// 	console.log(encoding);
- //    	var link = document.createElement('a');
- //    	link.href = URL.createObjectURL(blob);
- //    	link.download = new Date().toISOString() + '.' + encoding;
- //    	link.innerHTML = link.download;
- //    	//add the new audio and a elements to the li element
- //    	list = document.getElementById('audioDownloadLinks');
- //    	list.appendChild(link);
- //    	link.click();
-	// }
-
-	// let audioRecorder = new WebAudioRecorder(sound.masterGain, {
-	// 		workerDir: 'static/node_modules/web-audio-recorder-js-webpack/lib/',
-	// 		encoding: 'mp3',
-	// 		encodeAfterRecord: true
-	// 	});
-
-	// audioRecorder.setOptions({timeLimit: 3600}); // maximum recording is 1 hour;
-
-	// audioRecorder.onComplete = function (recorder, blob) {
-	// 	console.log("encoding complete");
-	// 	saveRecording(blob, recorder.encoding);
-	// }
-
-	// const toggleRecordingAudio = document.getElementById('toggleRecordingAudio');
-	// toggleRecordingAudio.addEventListener('click', ()=>{
-	// 	if (audioRecorder.isRecording()) {
-	// 		audioRecorder.finishRecording();
-	// 		document.getElementById('toggleRecordingAudio').innerText = "Start Recording Audio";
-	// 	} else {
-	// 		audioRecorder.startRecording();
-	// 		document.getElementById('toggleRecordingAudio').innerText = "Stop Recording Audio";
-	// 	}
-	// });
-
+	// initalize list of channels
+	preset.signals.map(signal => loadSignal(signal));
 
 	//load the selected preset
-	preset.map(track => loadTrack(track));
+	preset.tracks.map(track => loadTrack(track));
 
-	//sound.context.resume();
+	console.log(sound);
 }
 
 function loadTrack(track) {
 	sound.tracks.push(new Track(track));
+}
+
+function loadSignal(signal) {
+	sound.signals[signal.channel] = new Signal(signal);
 }
 
 
