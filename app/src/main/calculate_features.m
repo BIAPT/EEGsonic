@@ -60,7 +60,8 @@ function calculate_features(information,parameters)
         channels_location = information.headset.egi129.channels_location;
         non_scalp_channels = parameters.general.egi129.non_scalp_channels;
         sleep_delay = data_acquisition_size/10;
-        sampling_rate = parameters.general.egi129.sampling_rate;
+        %sampling_rate = parameters.general.egi129.sampling_rate;
+        sampling_rate = 1000;
         
         % Convert secs to points
         spr_data_required_size = spr_data_required_size*sampling_rate;

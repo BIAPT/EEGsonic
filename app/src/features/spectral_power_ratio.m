@@ -12,7 +12,6 @@ function [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(eeg_data,ee
 %NOTE: Gram mistake in the whole app (bandwith -> need to be bandwidth)
     
     %% Setup Variables
-        
     eeg_data = eeg_data';
     %% Create params struct for Chronux function
     params.tapers = [parameters.time_bandwith_product parameters.number_tapers];
@@ -39,6 +38,7 @@ function [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(eeg_data,ee
     avg_spectrum_alpha = mean(overall_spectrum_alpha);
     
     %% Ratio
+    
     ratio_beta_alpha = avg_spectrum_beta./avg_spectrum_alpha;
     ratio_alpha_theta = avg_spectrum_alpha./avg_spectrum_theta;
     
