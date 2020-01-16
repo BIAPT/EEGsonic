@@ -18,13 +18,18 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'fp_dpli_left_midline_lead',
-					min: 0.52,
+					min: 0.53,
 					max: 0.67
+				},
+				{
+					name: 'fp_dpli_left_midline_mid',
+					min: 0.47,
+					max: 0.53
 				},
 				{
 					name: 'fp_dpli_left_midline_lag',
 					min: 0.33,
-					max: 0.48
+					max: 0.47
 				}
 			]
 		},
@@ -32,13 +37,18 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'fp_dpli_left_lateral_lead',
-					min: 0.52,
+					min: 0.53,
 					max: 0.67
+				},
+				{
+					name: 'fp_dpli_left_lateral_mid',
+					min: 0.47,
+					max: 0.53
 				},
 				{
 					name: 'fp_dpli_left_lateral_lag',
 					min: 0.33,
-					max: 0.48
+					max: 0.47
 				}
 			]
 		},
@@ -46,13 +56,18 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'fp_dpli_right_midline_lead',
-					min: 0.52,
+					min: 0.53,
 					max: 0.67
+				},
+				{
+					name: 'fp_dpli_right_midline_mid',
+					min: 0.47,
+					max: 0.53
 				},
 				{
 					name: 'fp_dpli_right_midline_lag',
 					min: 0.33,
-					max: 0.48
+					max: 0.47
 				}
 			]
 		},
@@ -60,13 +75,18 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'fp_dpli_right_lateral_lead',
-					min: 0.52,
+					min: 0.53,
 					max: 0.67
+				},
+				{
+					name: 'fp_dpli_right_lateral_mid',
+					min: 0.47,
+					max: 0.53
 				},
 				{
 					name: 'fp_dpli_right_lateral_lag',
 					min: 0.33,
-					max: 0.48
+					max: 0.47
 				}
 			] 
 		},
@@ -74,8 +94,8 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'fp_wpli_left_midline',
-					min: 0.02,
-					max: 0.3
+					min: 0.1,
+					max: 0.4
 				}
 			]
 		},
@@ -83,8 +103,8 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'fp_wpli_left_lateral',
-					min: 0.02,
-					max: 0.3
+					min: 0.1,
+					max: 0.4
 				}
 			]
 		},
@@ -92,8 +112,8 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'fp_wpli_right_midline',
-					min: 0.02,
-					max: 0.3
+					min: 0.1,
+					max: 0.4
 				}
 			]
 		},
@@ -101,8 +121,8 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'fp_wpli_right_lateral',
-					min: 0.02,
-					max: 0.3
+					min: 0.1,
+					max: 0.4
 				}
 			]
 		},
@@ -111,14 +131,25 @@ const defaultPreset = {
 		},
 		{ 	channel: '/pe_frontal', 
 			ranges: [
-				{	name: 'pe_frontal',
-					min: 0.8,
+				{
+					name: 'pe_frontal',
+					min: 0.6,
+					max: 0.7
+				},
+				{	name: 'pe_frontal_high',
+					min: 0.78,
 					max: 1
 				}
 			]
 		},
 		{ 	channel: '/pe_parietal', 
-			ranges: []
+			ranges: [
+				{
+					name: 'pe_parietal',
+					min: 0.6,
+					max: 0.7
+				}
+			]
 		},
 		{ 	channel: '/pac_rpt_frontal', 
 			ranges: []
@@ -128,6 +159,11 @@ const defaultPreset = {
 		},
 		{ 	channel: '/spr_beta_alpha', 
 			ranges: [
+				{
+					name: 'spr_beta_alpha_gloc',
+					min: 0.2,
+					max: 0.22,
+				},
 				{
 					name: 'spr_beta_alpha_low',
 					min: 0.26,
@@ -144,8 +180,8 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'spr_alpha_theta_low',
-					min: 0.26,
-					max: 0.32
+					min: 0.18,
+					max: 0.30
 				},
 				{
 					name: 'spr_alpha_theta_high',
@@ -160,16 +196,18 @@ const defaultPreset = {
 	],
 	tracks: [
 	{	fileName: 'harpascending2.ogg', 
-		gain: -10,
+		gain: -1,
 		loopLength: 5,
+		decayCutoff: 0.1,
 		inputs: [{ 	range:'spr_beta_alpha_high',
 					type:'loopPoint',
 					value:'curr',
 					min: 0, 
 					peak: 1, 
 					max: 1,
-					decayRate: 0.6,
-					decayRange: 0.2
+					decayBoost: 0.4,
+					decayRate: 0.8,
+					decayRange: 0.1
 				},
 				{ 	range:'spr_beta_alpha_high', 
 					type:'volume',
@@ -177,35 +215,37 @@ const defaultPreset = {
 					min: 0, 
 					peak: 0.8, 
 					max: 1,
-					decayRate: 0.6,
-					decayRange: 0.2
+					decayRate: 0.8,
+					decayRange: 0.1
 				}
 				]
 	},
 	{ 	fileName: 'softersynth2.ogg',
-		gain: -15,
+		gain: -18,
 		loopLength: 6,
+		decayCutoff: 0.1,
 		inputs: [{	range:'spr_beta_alpha_low',
 					type:'loopPoint',
 					value: 'avg3',
 					min: 0,
 					peak: 1,
 					max: 1,
-					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRate: 0.5,
+					decayRange: 0.25 },
 				{	range:'spr_beta_alpha_low',
 					type:'volume',
 					value: 'avg3',
 					min: 0,
 					peak: 0.8,
 					max: 1,
-					decayRate: 0.6,
-					decayRange: 0.2 }
+					decayRate: 0.5,
+					decayRange: 0.25 }
 				]
 	},
 	{	fileName: 'pianoascending.ogg', 
 		gain: -1,
 		loopLength: 5,
+		decayCutoff: 0.1,
 		inputs: [{ 	range:'spr_alpha_theta_high',
 					type:'loopPoint',
 					value:'curr',
@@ -224,9 +264,47 @@ const defaultPreset = {
 					decayRange: 0.2 }
 				]
 	},
-	{	fileName: 'dpliLLxylophone.ogg', 
+	{	fileName: 'fractalmusic.ogg',
+		gain: -10,
+		loopLength: 6,
+		decayCutoff: 0.1,
+		inputs: [{	range: 'spr_alpha_theta_low',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 0.5,
+					max: 1,
+					decayRate: 0.7,
+					decayRange: 0.2 
+				},{	
+					range: 'spr_alpha_theta_low',
+					type: 'loopPoint',
+					value: 'curr',
+					min: 0,
+					peak: 1,
+					max: 1,
+					decayRate: 0.7,
+					decayRange: 0.2 
+
+		}]
+
+	},
+	{	fileName: 'slow_gloc_melody.ogg',
+		gain: -10,
+		inputs: [{	range: 'spr_beta_alpha_gloc',
+					type: 'volume',
+					value: 'curr',
+					min: 0,
+					peak: 0,
+					max: 1,
+					decayRate: 0.7,
+					decayRange: 0.2 
+		}]
+	},
+	{	fileName: 'dPLI-LL-xylophone.ogg', 
 		gain: -1,
 		loopLength: 1.5,
+		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_left_lateral_lag', 
 					type:'loopPoint',
 					value: 'curr',
@@ -234,15 +312,16 @@ const defaultPreset = {
 					peak: 0, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_dpli_left_lateral_lag', 
 					type:'volume', 
 					value: 'curr',
 					min: 0.7, 
 					peak: 0.7, 
 					max: 0.95,
+					decayBoost: 0.5,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_wpli_left_lateral_lag', 
 					type:'volume',
 					value: 'curr',
@@ -250,12 +329,13 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 }
+					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliLMmarimba.ogg', 
+	{	fileName: 'dPLI-LM-marimba.ogg', 
 		gain: -1,
 		loopLength: 1.5,
+		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_left_midline_lag', 
 					type:'loopPoint',
 					value: 'curr',
@@ -263,15 +343,16 @@ const defaultPreset = {
 					peak: 0, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_dpli_left_midline_lag', 
 					type:'volume', 
 					value: 'curr',
 					min: 0.7, 
 					peak: 0.7, 
 					max: 0.95,
+					decayBoost: 0.5,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_wpli_left_midline_lag', 
 					type:'volume',
 					value: 'curr',
@@ -279,20 +360,22 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 }
+					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRMcelesta.ogg', 
+	{	fileName: 'dPLI-RM-celesta.ogg', 
 		gain: -1,
 		loopLength: 1.5,
+		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_right_midline_lag', 
 					type:'loopPoint',
 					value: 'curr',
 					min: 0, 
 					peak: 0, 
 					max: 1,
+					decayBoost: 0.5,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_dpli_right_midline_lag', 
 					type:'volume', 
 					value: 'curr',
@@ -300,7 +383,7 @@ const defaultPreset = {
 					peak: 0.7, 
 					max: 0.95,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_wpli_right_midline_lag', 
 					type:'volume',
 					value: 'curr',
@@ -308,12 +391,13 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 }
+					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRLvibraphone.ogg', 
+	{	fileName: 'dPLI-RL-vibraphone.ogg', 
 		gain: -1,
 		loopLength: 1.5,
+		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_right_lateral_lag', 
 					type:'loopPoint',
 					value: 'curr',
@@ -321,15 +405,16 @@ const defaultPreset = {
 					peak: 0, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_dpli_right_lateral_lag', 
 					type:'volume', 
 					value: 'curr',
 					min: 0.7, 
 					peak: 0.7, 
 					max: 0.95,
+					decayBoost: 0.5,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_wpli_right_lateral_lag', 
 					type:'volume',
 					value: 'curr',
@@ -337,14 +422,15 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 }
+					decayRange: 0.1 }
 				]
 	},
 
 	// positive values of dPLI
-	{	fileName: 'dpliLLxylophone.ogg', 
+	{	fileName: 'dPLI-LL-xylophone.ogg', 
 		gain: -1,
 		loopLength: 1.5,
+		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_left_lateral_lead', 
 					type:'loopPoint',
 					value: 'curr',
@@ -352,15 +438,16 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_dpli_left_lateral_lead', 
 					type:'volume', 
 					value: 'curr',
 					min: 0.05, 
 					peak: 0.3, 
 					max: 0.3,
+					decayBoost: 0.5,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_wpli_left_lateral_lead', 
 					type:'volume',
 					value: 'curr',
@@ -368,12 +455,13 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 }
+					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliLMmarimba.ogg', 
+	{	fileName: 'dPLI-LM-marimba.ogg', 
 		gain: -1,
 		loopLength: 1.5,
+		decayCutoff: 0.1,
 		inputs:[{ 	range:'fp_dpli_left_midline_lead', 
 					type:'loopPoint',
 					value: 'curr',
@@ -381,15 +469,16 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_dpli_left_midline_lead', 
 					type:'volume', 
 					value: 'curr',
 					min: 0.05, 
 					peak: 0.3, 
 					max: 0.3,
+					decayBoost: 0.5,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_wpli_left_midline_lead', 
 					type:'volume',
 					value: 'curr',
@@ -397,12 +486,13 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 }
+					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRMcelesta.ogg', 
+	{	fileName: 'dPLI-RM-celesta.ogg', 
 		gain: -1,
 		loopLength: 1.5,
+		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_right_midline_lead', 
 					type:'loopPoint',
 					value: 'curr',
@@ -410,15 +500,16 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_dpli_right_midline_lead', 
 					type:'volume', 
 					value: 'curr',
 					min: 0.05, 
 					peak: 0.3, 
 					max: 0.3,
+					decayBoost: 0.5,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_wpli_right_midline_lead', 
 					type:'volume',
 					value: 'curr',
@@ -426,12 +517,13 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 }
+					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRLvibraphone.ogg', 
+	{	fileName: 'dPLI-RL-vibraphone.ogg', 
 		gain: -1,
 		loopLength: 1.5,
+		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_right_lateral_lead', 
 					type:'loopPoint',
 					value: 'curr',
@@ -439,15 +531,16 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1 ,
 					decayRate: 0.6,
-					decayRange: 0.2},
+					decayRange: 0.1},
 				{ 	range:'fp_dpli_right_lateral_lead', 
 					type:'volume', 
 					value: 'curr',
 					min: 0.05, 
 					peak: 0.3, 
 					max: 0.3,
+					decayBoost: 0.5,
 					decayRate: 0.6,
-					decayRange: 0.2 },
+					decayRange: 0.1 },
 				{ 	range:'fp_wpli_right_lateral_lead', 
 					type:'volume',
 					value: 'curr',
@@ -455,34 +548,379 @@ const defaultPreset = {
 					peak: 1, 
 					max: 1,
 					decayRate: 0.6,
-					decayRange: 0.2 }
+					decayRange: 0.1 }
 				]
+	},
+	{
+		fileName: 'wPLI-LL-flute-low.ogg',
+		gain: -15,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_left_lateral',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.5,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_left_lateral_lag',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 0,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-LL-flute-mid.ogg',
+		gain: -15,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_left_lateral',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_left_lateral_mid',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 0.5,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-LL-flute-high.ogg',
+		gain: -15,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_left_lateral',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_left_lateral_lead',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-LM-bsn-low.ogg',
+		gain: -15,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_left_midline',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_left_midline_lag',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 0,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-LM-bsn-mid.ogg',
+		gain: -15,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_left_midline',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_left_midline_mid',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 0.5,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-LM-bsn-high.ogg',
+		gain: -15,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_left_midline',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_left_midline_lead',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-RM-horn-low.ogg',
+		gain: -12,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_right_midline',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_right_midline_lag',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 0,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-RM-horn-mid.ogg',
+		gain: -12,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_right_midline',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_right_midline_mid',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 0.5,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-RM-horn-high.ogg',
+		gain: -12,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_right_midline',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_right_midline_lead',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-RL-clar-low.ogg',
+		gain: -15,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_right_lateral',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_right_lateral_lag',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 0,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-RL-clar-mid.ogg',
+		gain: -15,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_right_lateral',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_right_midline_mid',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 0.5,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'wPLI-RL-clar-high.ogg',
+		gain: -15,
+		decayCutoff: 0.15,
+		inputs: [{	range: 'fp_wpli_right_midline',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.3,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				},
+				{	range: 'fp_dpli_right_midline_lead',
+					type: 'volume',
+					value: 'avg3',
+					min: 0,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.1,
+					decayRate: 0.4,
+					decayRange: 0.2
+				}
+			]
+	},
+	{
+		fileName: 'PE-noise.ogg',
+		gain: -20,
+		decayCutoff: 0.1,
+		inputs: [{	range: 'pe_frontal',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.0,
+					peak: 0.5,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.3,
+					decayBoost: 0.1
+		}]
+	},
+		{
+		fileName: 'PE-noise2.ogg',
+		gain: -20,
+		decayCutoff: 0.1,
+		inputs: [{	range: 'pe_parietal',
+					type: 'volume',
+					value: 'avg3',
+					min: 0.0,
+					peak: 0.5,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.3,
+					decayBoost: 0.1
+		}]
 	},
 	{	fileName: 'microtwinkle.ogg',
 		gain: -1,
 		loopLength: 4,
-		inputs: [{	range:'pe_frontal',
+		decayCutoff: 0.,
+		inputs: [{	range:'pe_frontal_high',
 					type: 'volume',
 					value: 'curr',
-					min: 0.03,
+					min: 0.0,
 					peak: 0.4,
 					max: 0.7,
-					decayRate: 0.6,
+					decayRate: 0.9,
 					decayRange: 0.2 
 				},
-				{	range:'pe_frontal',
+				{	range:'pe_frontal_high',
 					type: 'loopPoint',
 					value: 'avg3',
 					min: 0,
 					peak: 0.75,
 					max: 1,
-					decayRate: 0.6,
+					decayBoost: 0.5,
+					decayRate: 0.9,
 					decayRange: 0.2
 
 				}
 			]
 
-	}]
+	}
+	]
 }
 
 
@@ -587,6 +1025,7 @@ class Track {
 		this.inputs = [];
 		this.loopLength = track.loopLength; // loop duration in seconds - actually the time between successive starts, signal plays for 1 1/2 times the loop length
 		this.decayRate = track.decayRate;
+		this.decayCutoff = track.decayCutoff;
 
 		// Add the GUI element to the mixer
 		let mixerGUI = document.getElementById('resonanceMixer');
@@ -634,6 +1073,7 @@ class Track {
 		this.dataGainSlider = Track.createSlider();
 		this.dataGainSlider.classList.add('dataGainSlider');
 		this.dataGainSlider.setAttribute('disabled', true);
+		this.dataGain.gain.setTargetAtTime(0, sound.context.currentTime, 0.1);
 
 		this.decayGainSlider = Track.createSlider();
 		this.decayGainSlider.classList.add('decayGainSlider');
@@ -767,7 +1207,6 @@ class Track {
 						// adjust looping behaviour
 						// calculate at what point of the file to start
 						let value  = this.calculateValue(input, range, message.address)
-						console.log(value);
 
 						input.updateDecay(value);
 
@@ -791,7 +1230,15 @@ class Track {
 
 		// calculate track decay
 
+		// let's take... the average of all the decays.
+		let newDecayGain = this.inputs.reduce((sum, input) => { return sum + input.decayValue }, 0)/this.inputs.length;
 
+
+		this.decayGainSlider.value = (newDecayGain * 20) - 20;
+		let targetGain = Math.pow(10, this.decayGainSlider.value/20);
+		if (newDecayGain < this.decayCutoff) {targetGain = 0;}
+		// ramps to new gain in 3 seconds
+		this.decayGain.gain.setTargetAtTime(targetGain, sound.context.currentTime, 3);
 
 
 	}
@@ -816,7 +1263,7 @@ class Track {
 	}
 
 	getJSON() {
-		let preset = { 'fileName': this.fileName, 'gain' : this.userGainSlider.value}
+		let preset = { 'fileName': this.fileName, 'gain' : this.userGainSlider.value, 'loopLength': this.loopLength, 'decayCutoff': this.decayCutoff }
 		preset.inputs = this.inputs.map((input)=>{ 
 			return {'range':input.range, 'type': input.type, 'value': input.value, 'min': input.min, 'peak': input.peak, 'max': input.max, 'decayRate': input.decayRate, 'decayRange': input.decayRange }
 		})
@@ -852,7 +1299,7 @@ class Input {
 		this.decayThreshold = input.decayThreshold ? input.decayThreshold : 0.7;
 		this.decayRange = input.decayRange;
 		this.decayTarget = null;
-		this.decayValue = 1;
+		this.decayValue = 0;
 	}
 
 	updateDecay (value) {
@@ -871,8 +1318,9 @@ class Input {
 		// if you get this far it means the value is outside of the the range
 		this.decayValue = this.decayValue + this.decayBoost
 		if (this.decayValue > this.decayThresold) {
-			this.decayTarget = this.decayValue;
+			this.decayTarget = value;
 		}
+		if (this.decayValue > 1) {this.decayValue = 1}
 		return this.decayValue;
 	}
 }
@@ -935,8 +1383,8 @@ class OSCPlayer {
 		this.sequenceNextEvent = (i) => {
 			if (i + 1 < this.events.length) {
 				let delay = this.events[i+1].time - this.events[i].time;
-				// SAMPLE RATE PATCH
-				delay = delay/4;
+				// SAMPLE RATE PATCH - for WSAS07 uncomment this
+				//delay = delay/4;
 				this.timeout = setTimeout(this.playEvent, delay, i+1);
 			} else { console.log('reached end of OSC')};
 		}
