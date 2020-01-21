@@ -35,7 +35,7 @@ table {
 	height:100%;
 	width:100%;
 	display: grid;
-	grid-template-columns: 1fr 2fr 2fr;
+	grid-template-columns: 1fr 2fr 1fr;
 	grid-template-rows: 50px 1fr 2fr;
 	grid-template-areas: 'header header header'
 						'controls edit signalList'
@@ -124,8 +124,28 @@ table {
 }
 
 .mixerTrackInputs {
+	table-layout: fixed;
 	padding: 5px;
-	width: 200px;
+}
+
+.input-type {
+	min-width: 45px;
+	max-width: 45px;
+}
+
+.input-range {
+	min-width: 120px;
+	max-width: 120px;
+}
+
+.input-minpeakmax {
+	min-width: 15px;
+	max-width: 15px;
+}
+
+.input-data {
+	min-width: 30px;
+	max-width: 30px;
 }
 
 
@@ -140,12 +160,11 @@ table {
 
 #signalContainer {
 	display: flex;
-	height: 100%;
 	width: 100%;
 	flex-direction: column;
-	flex-wrap: wrap;
 	justify-content: left;
 	align-items: left;
+
 }
 
 .signalBox {

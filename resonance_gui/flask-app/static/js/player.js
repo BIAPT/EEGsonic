@@ -316,13 +316,13 @@ const defaultPreset = {
 				{ 	range:'fp_dpli_left_lateral_lag', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.7, 
-					peak: 0.7, 
-					max: 0.95,
+					min: 0, 
+					peak: 0, 
+					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
-				{ 	range:'fp_wpli_left_lateral_lag', 
+				{ 	range:'fp_wpli_left_lateral', 
 					type:'volume',
 					value: 'curr',
 					min: 0, 
@@ -347,13 +347,13 @@ const defaultPreset = {
 				{ 	range:'fp_dpli_left_midline_lag', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.7, 
-					peak: 0.7, 
-					max: 0.95,
+					min: 0, 
+					peak: 0, 
+					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
-				{ 	range:'fp_wpli_left_midline_lag', 
+				{ 	range:'fp_wpli_left_midline', 
 					type:'volume',
 					value: 'curr',
 					min: 0, 
@@ -379,12 +379,12 @@ const defaultPreset = {
 				{ 	range:'fp_dpli_right_midline_lag', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.7, 
-					peak: 0.7, 
-					max: 0.95,
+					min: 0, 
+					peak: 0, 
+					max: 1,
 					decayRate: 0.6,
 					decayRange: 0.1 },
-				{ 	range:'fp_wpli_right_midline_lag', 
+				{ 	range:'fp_wpli_right_midline', 
 					type:'volume',
 					value: 'curr',
 					min: 0, 
@@ -409,13 +409,13 @@ const defaultPreset = {
 				{ 	range:'fp_dpli_right_lateral_lag', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.7, 
-					peak: 0.7, 
-					max: 0.95,
+					min: 0, 
+					peak: 0, 
+					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
-				{ 	range:'fp_wpli_right_lateral_lag', 
+				{ 	range:'fp_wpli_right_lateral', 
 					type:'volume',
 					value: 'curr',
 					min: 0, 
@@ -442,13 +442,13 @@ const defaultPreset = {
 				{ 	range:'fp_dpli_left_lateral_lead', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.05, 
-					peak: 0.3, 
-					max: 0.3,
+					min: 0, 
+					peak: 1, 
+					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
-				{ 	range:'fp_wpli_left_lateral_lead', 
+				{ 	range:'fp_wpli_left_lateral', 
 					type:'volume',
 					value: 'curr',
 					min: 0, 
@@ -473,13 +473,13 @@ const defaultPreset = {
 				{ 	range:'fp_dpli_left_midline_lead', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.05, 
-					peak: 0.3, 
-					max: 0.3,
+					min: 0, 
+					peak: 1, 
+					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
-				{ 	range:'fp_wpli_left_midline_lead', 
+				{ 	range:'fp_wpli_left_midline', 
 					type:'volume',
 					value: 'curr',
 					min: 0, 
@@ -504,13 +504,13 @@ const defaultPreset = {
 				{ 	range:'fp_dpli_right_midline_lead', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.05, 
-					peak: 0.3, 
-					max: 0.3,
+					min: 0, 
+					peak: 1, 
+					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
-				{ 	range:'fp_wpli_right_midline_lead', 
+				{ 	range:'fp_wpli_right_midline', 
 					type:'volume',
 					value: 'curr',
 					min: 0, 
@@ -535,13 +535,13 @@ const defaultPreset = {
 				{ 	range:'fp_dpli_right_lateral_lead', 
 					type:'volume', 
 					value: 'curr',
-					min: 0.05, 
-					peak: 0.3, 
-					max: 0.3,
+					min: 0, 
+					peak: 1, 
+					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
-				{ 	range:'fp_wpli_right_lateral_lead', 
+				{ 	range:'fp_wpli_right_lateral', 
 					type:'volume',
 					value: 'curr',
 					min: 0, 
@@ -970,7 +970,11 @@ class Signal {
 		this.prev = null;
 		this.mute = false;
 		this.last10 = [];
-		this.ranges = signal.ranges;
+		this.ranges = {}
+
+		signal.ranges.forEach(range => {
+			this.ranges[range.name] = new Range(range);
+		});
 
 		let signalListGUI = document.getElementById('signalContainer');
 
@@ -1010,6 +1014,21 @@ class Signal {
 		//console.log(message);
 		sound.signals[message.address].update(message);
 		Track.processMessage(message);
+	}
+
+	static getChannel(rangeName) {
+		// takes a string rangeName and returns the channel that has that range
+		for (const signal in sound.signals) {
+			console.log(signal);
+			for (const range in sound.signals[signal].ranges ) {
+				console.log(range);
+				if (rangeName === range) {
+					return signal;
+				}
+			}
+		}
+
+		return 'not found';
 	}
 
 	update (message) {
@@ -1119,14 +1138,10 @@ class Track {
 
 
 		// display info about inputs
-		let inputsGUI = document.createElement('table');
-		this.inputs.forEach((input) => {
-			let newInput = document.createElement('tr');
-			newInput.innerHTML = `<td>${input.range}</td><td>${input.type}</td>`
-			inputsGUI.appendChild(newInput);
-		})
-		inputsGUI.setAttribute('class','mixerTrackInputs')
-		this.mixerTrack.appendChild(inputsGUI);
+		this.inputsGUI = document.createElement('table');
+		this.displayInputs();
+		this.inputsGUI.setAttribute('class','mixerTrackInputs')
+		this.mixerTrack.appendChild(this.inputsGUI);
 	}
 
 	static createSlider(gain) { // default gain value
@@ -1146,6 +1161,29 @@ class Track {
 		sound.tracks.forEach((track)=>{
 			track.update(message);
 		})
+	}
+
+	displayInputs () {
+		this.inputsGUI.innerHTML = '';
+		this.inputs.forEach((input) => {
+
+			let channel = Signal.getChannel(input.range);
+			console.log(channel);
+
+			let newInput = document.createElement('tr');
+			newInput.innerHTML = `
+				<td class='input-type'>${input.type}</td>
+				<td class='input-data'>${input.value}</td>
+				<td class='input-range'>${channel}</td>
+				<td class='input-range'>${input.range}</td>
+				<td class='input-minpeakmax'>${input.min}</td>
+				<td class='input-minpeakmax'>${input.peak}</td>
+				<td class='input-minpeakmax'>${input.max}</td>
+				<td class='input-data'><b>${input.current.toFixed(3)}<b></td>
+				<td class='input-data'>${input.decayValue.toFixed(3)}</td>`
+			this.inputsGUI.appendChild(newInput);
+		})
+
 	}
 
 	createInput(input) {
@@ -1248,21 +1286,21 @@ class Track {
 
 		let newDecayGain = this.inputs.reduce((sum, input) => { 
 			//console.log(input.range, input.decayValue);
-			if (this.fileName === 'wPLI-RL-clar-mid.ogg') {
-				if (message.address === '/fp_wpli_right_lateral' || message.address === '/fp_dpli_right_lateral'){
-					console.log('input = ' + input.range);
-					console.log("decayValue = " + input.decayValue);
-				}
-			}
+			// if (this.fileName === 'wPLI-RL-clar-mid.ogg') {
+			// 	if (message.address === '/fp_wpli_right_lateral' || message.address === '/fp_dpli_right_lateral'){
+			// 		console.log('input = ' + input.range);
+			// 		console.log("decayValue = " + input.decayValue);
+			// 	}
+			// }
 			return sum + input.decayValue;
 		}, 0)/this.inputs.length;
 
-		if (this.fileName === 'wPLI-RL-clar-mid.ogg') {
-			if (message.address === '/fp_wpli_right_lateral' || message.address === '/fp_dpli_right_lateral'){
-				console.log(message.address);
-				console.log("newDecayGain = " + newDecayGain);
-			}
-		}
+		// if (this.fileName === 'wPLI-RL-clar-mid.ogg') {
+		// 	if (message.address === '/fp_wpli_right_lateral' || message.address === '/fp_dpli_right_lateral'){
+		// 		console.log(message.address);
+		// 		console.log("newDecayGain = " + newDecayGain);
+		// 	}
+		// }
 
 		this.decayGainSlider.value = (newDecayGain * 20) - 20;
 		let targetGain = Math.pow(10, this.decayGainSlider.value/20);
@@ -1298,6 +1336,8 @@ class Track {
 		if (newGain == 0) {targetGain = 0;}
 		// ramps to new gain in 3 seconds
 		this.dataGain.gain.setTargetAtTime(targetGain, sound.context.currentTime, 3);
+
+		this.displayInputs();
 	}
 
 	triggerNextGrain(startPoint, momentum) {
@@ -1312,11 +1352,6 @@ class Track {
 			this.nextLoop = setTimeout(()=>{this.triggerNextGrain(startPoint + momentum, momentum)}, this.loopLength*1000);
 		}
 		return true;
-	}
-
-	display () {
-
-
 	}
 
 	getJSON() {
