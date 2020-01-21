@@ -125,11 +125,7 @@ table {
 
 .mixerTrackInputs {
 	padding: 5px;
-	width: 40px;
-	display: flex;
-	flex-direction:column;
-	justify-content: center;
-	align-items: center;
+	width: 200px;
 }
 
 
