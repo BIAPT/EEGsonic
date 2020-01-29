@@ -18,6 +18,7 @@ For the JavaScript front-end
 ```
 NPM
 Webpack
+Tone.js
 ```
 
 ### Installing
@@ -26,7 +27,7 @@ To configure the JavaScript modules navigate to flask-app/static and run
 
 ```
 npm run build (for one-time use)
-nmp run watch (if you are changing files)
+npm run watch (if you are changing files)
 ```
 
 ### Running the Server
@@ -34,7 +35,16 @@ nmp run watch (if you are changing files)
 To run the flask app, navigate to flask-app/server and run
 
 ```
-python app.py
+python3 app.py
 ```
 
 The server runs in two threads, one listening for UDP messages from EEGSonic and the second hosting the actual flask server.
+
+### When editing files
+
+If you are editing the javascript or HTML/CSS files and the changes are not reflected in the site, you need to navigate to flask-app/static and run
+
+```
+npm run watch
+```
+

@@ -135,7 +135,7 @@ const defaultPreset = {
 				},
 				{
 					name: 'hl_back',
-					min: 0.4,
+					min: 0.5,
 					max: 1
 				}
 			]
@@ -145,7 +145,7 @@ const defaultPreset = {
 				{
 					name: 'pe_frontal',
 					min: 0.4,
-					max: 0.82
+					max: 1
 				},
 				{	name: 'pe_frontal_high',
 					min: 0.8,
@@ -222,8 +222,8 @@ const defaultPreset = {
 					min: 0.2, 
 					peak: 0.5, 
 					max: 0.5,
-					decayBoost: 0.4,
-					decayRate: 0.7,
+					decayBoost: 0.3,
+					decayRate: 0.4,
 					decayRange: 0.2
 				},
 				{ 	range:'spr_alpha_theta_fullrange', 
@@ -232,7 +232,7 @@ const defaultPreset = {
 					min: 0.2, 
 					peak: 0.4, 
 					max: 0.5,
-					decayRate: 0.7,
+					decayRate: 0.5,
 					decayRange: 0.2
 				}
 				]
@@ -248,7 +248,7 @@ const defaultPreset = {
 					peak: 0.6,
 					max: 0.6,
 					decayBoost: 0.3,
-					decayRate: 0.6,
+					decayRate: 0.4,
 					decayRange: 0.2 },
 				{	range:'spr_beta_alpha_full',
 					type:'volume',
@@ -257,7 +257,7 @@ const defaultPreset = {
 					peak: 0.45,
 					max: 0.5,
 					decayBoost: 0.3,
-					decayRate: 0.6,
+					decayRate: 0.4,
 					decayRange: 0.2 }
 				]
 	},
@@ -271,7 +271,7 @@ const defaultPreset = {
 					min: 0, 
 					peak: 1, 
 					max: 1,
-					decayRate: 0.7,
+					decayRate: 0.5,
 					decayRange: 0.2 },
 				{ 	range:'spr_alpha_theta_high', 
 					type:'volume',
@@ -279,7 +279,7 @@ const defaultPreset = {
 					min: 0, 
 					peak: 0.8, 
 					max: 1,
-					decayRate: 0.7,
+					decayRate: 0.4,
 					decayRange: 0.2 }
 				]
 	},
@@ -297,20 +297,97 @@ const defaultPreset = {
 	},
 	{
 		fileName: 'flutedrone.ogg',
-		gain: -6,
+		gain: -10,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_front',
 					type: 'volume',
 					value: 'avg5',
 					min: 0,
-					peak: 0,
-					max: 1,
+					peak: .3,
+					max: 0.7,
 					decayRate: 0.6,
 					decayRange: 0.2
 				}
 			]
 	},
-
+	{
+		fileName: 'thindrone.ogg',
+		gain: -10,
+		decayCutoff: 0.2,
+		inputs: [{	range: 'hl_front',
+					type: 'volume',
+					value: 'avg5',
+					min: 0.5,
+					peak: 0.8,
+					max: 1,
+					decayRate: 0.6,
+					decayRange: 0.4,
+					decayBoost: 0.2,
+				}
+			]
+	},
+	{
+		fileName: 'HLcello.ogg',
+		gain: -15,
+		decayCutoff: 0.2,
+		inputs: [{	range: 'hl_back',
+					type: 'volume',
+					value: 'avg5',
+					min: 0,
+					peak: 0.5,
+					max: 1,
+					decayRate: 0.3,
+					decayRange: 0.3,
+					decayBoost: 0.15
+				}
+			]
+	},
+		{
+		fileName: 'HLviola.ogg',
+		gain: -15,
+		decayCutoff: 0.2,
+		inputs: [{	range: 'hl_back',
+					type: 'volume',
+					value: 'avg5',
+					min: 0.25,
+					peak: 0.66,
+					max: 1,
+					decayRate: 0.3,
+					decayRange: 0.2,
+					decayBoost: 0.15
+				}
+			]
+	},	{
+		fileName: 'HLviolin2.ogg',
+		gain: -15,
+		decayCutoff: 0.2,
+		inputs: [{	range: 'hl_back',
+					type: 'volume',
+					value: 'avg5',
+					min: 0.33,
+					peak: 0.75,
+					max: 1,
+					decayRate: 0.3,
+					decayRange: 0.15,
+					decayBoost: 0.15
+				}
+			]
+	},	{
+		fileName: 'HLviolin.ogg',
+		gain: -15,
+		decayCutoff: 0.2,
+		inputs: [{	range: 'hl_back',
+					type: 'volume',
+					value: 'avg5',
+					min: 0.5,
+					peak: 0.8,
+					max: 1,
+					decayRate: 0.3,
+					decayRange: 0.1,
+					decayBoost: 0.15
+				}
+			]
+	},
 	{
 		fileName: 'PE-noise.ogg',
 		gain: -13,
@@ -350,7 +427,7 @@ const defaultPreset = {
 					peak: 1,
 					max: 1,
 					decayRate: 0.7,
-					decayRange: 0.1,
+					decayRange: 0.2,
 					decayBoost: 0.1
 		}]
 	},
@@ -1044,7 +1121,7 @@ class Signal {
 		sound.signals[message.address].update(message);
 
 		if (message.address === '/td_front_back') {
-			let newFrequency = Math.pow(sound.signals['/td_front_back'].avg5,20) * 6000
+			let newFrequency = Math.pow(sound.signals['/td_front_back'].avg5,5) * 8000
 			console.log(newFrequency)
 			if (newFrequency > 800) {
 				sound.filter.frequency.linearRampToValueAtTime(newFrequency, 10);
