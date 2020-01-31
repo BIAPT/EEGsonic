@@ -1,0 +1,189 @@
+// WSAS07 - problem w sample rate, samples being played back 4x speed
+
+
+
+
+
+
+
+signals: [ {
+			channel: '/fp_dpli_left_midline',
+			ranges: [
+				{
+					name: 'fp_dpli_left_midline_lead',
+					min: 0.53,
+					max: 0.67
+				},
+				{
+					name: 'fp_dpli_left_midline_mid',
+					min: 0.47,
+					max: 0.53
+				},
+				{
+					name: 'fp_dpli_left_midline_lag',
+					min: 0.33,
+					max: 0.47
+				}
+			]
+		},
+		{ 	channel: '/fp_dpli_left_lateral',
+			ranges: [
+				{
+					name: 'fp_dpli_left_lateral_lead',
+					min: 0.53,
+					max: 0.67
+				},
+				{
+					name: 'fp_dpli_left_lateral_mid',
+					min: 0.47,
+					max: 0.53
+				},
+				{
+					name: 'fp_dpli_left_lateral_lag',
+					min: 0.33,
+					max: 0.47
+				}
+			]
+		},
+		{ 	channel: '/fp_dpli_right_midline', 
+			ranges: [
+				{
+					name: 'fp_dpli_right_midline_lead',
+					min: 0.53,
+					max: 0.67
+				},
+				{
+					name: 'fp_dpli_right_midline_mid',
+					min: 0.47,
+					max: 0.53
+				},
+				{
+					name: 'fp_dpli_right_midline_lag',
+					min: 0.33,
+					max: 0.47
+				}
+			]
+		},
+		{ 	channel: '/fp_dpli_right_lateral',
+			ranges: [
+				{
+					name: 'fp_dpli_right_lateral_lead',
+					min: 0.53,
+					max: 0.67
+				},
+				{
+					name: 'fp_dpli_right_lateral_mid',
+					min: 0.47,
+					max: 0.53
+				},
+				{
+					name: 'fp_dpli_right_lateral_lag',
+					min: 0.33,
+					max: 0.47
+				}
+			] 
+		},
+		{ 	channel: '/fp_wpli_left_midline',
+			ranges: [
+				{
+					name: 'fp_wpli_left_midline',
+					min: 0.1,
+					max: 0.4
+				}
+			]
+		},
+		{ 	channel: '/fp_wpli_left_lateral', 
+			ranges: [
+				{
+					name: 'fp_wpli_left_lateral',
+					min: 0.1,
+					max: 0.4
+				}
+			]
+		},
+		{ 	channel: '/fp_wpli_right_midline', 
+			ranges: [
+				{
+					name: 'fp_wpli_right_midline',
+					min: 0.1,
+					max: 0.4
+				}
+			]
+		},
+		{ 	channel: '/fp_wpli_right_lateral', 
+			ranges: [
+				{
+					name: 'fp_wpli_right_lateral',
+					min: 0.1,
+					max: 0.4
+				}
+			]
+		},
+		{ 	channel: '/hl_relative_position', 
+			ranges: []
+		},
+		{ 	channel: '/pe_frontal', 
+			ranges: [
+				{
+					name: 'pe_frontal',
+					min: 0.6,
+					max: 0.7
+				},
+				{	name: 'pe_frontal_high',
+					min: 0.78,
+					max: 1
+				}
+			]
+		},
+		{ 	channel: '/pe_parietal', 
+			ranges: [
+				{
+					name: 'pe_parietal',
+					min: 0.6,
+					max: 0.7
+				}
+			]
+		},
+		{ 	channel: '/pac_rpt_frontal', 
+			ranges: []
+		},
+		{ 	channel: '/pac_rpt_parietal', 
+			ranges: []
+		},
+		{ 	channel: '/spr_beta_alpha', 
+			ranges: [
+				{
+					name: 'spr_beta_alpha_gloc',
+					min: 0.2,
+					max: 0.22,
+				},
+				{
+					name: 'spr_beta_alpha_low',
+					min: 0.26,
+					max: 0.32,
+				},
+				{
+					name: 'spr_beta_alpha_high',
+					min: 0.28,
+					max: 0.4
+				}
+			]
+		},
+		{ 	channel: '/spr_alpha_theta', 
+			ranges: [
+				{
+					name: 'spr_alpha_theta_low',
+					min: 0.18,
+					max: 0.30
+				},
+				{
+					name: 'spr_alpha_theta_high',
+					min: 0.27,
+					max: 0.37
+				}
+			]
+		},
+		{ 	channel: '/td_front_back',
+			ranges: []
+		}
+	],
