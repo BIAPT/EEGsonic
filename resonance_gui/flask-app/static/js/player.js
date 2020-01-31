@@ -193,11 +193,6 @@ const defaultPreset = {
 					name: 'spr_alpha_theta_fullrange',
 					min: -1.5,
 					max: 1.5
-				},
-				{
-					name: 'spr_alpha_theta_high',
-					min: -0.5,
-					max: 1
 				}
 			]
 		},
@@ -220,21 +215,91 @@ const defaultPreset = {
 					type:'loopPoint',
 					value:'avg5',
 					min: 0.2, 
-					peak: 0.5, 
-					max: 0.5,
+					peak: 0.6, 
+					max: 0.6,
 					decayBoost: 0.3,
 					decayRate: 0.4,
-					decayRange: 0.2
+					decayRange: 0.15
 				},
 				{ 	range:'spr_alpha_theta_fullrange', 
 					type:'volume',
 					value:'avg3',
 					min: 0.2, 
 					peak: 0.4, 
-					max: 0.5,
+					max: 0.6,
 					decayRate: 0.5,
-					decayRange: 0.2
+					decayRange: 0.15
 				}
+				]
+	},
+	{	fileName: 'pianoascending.ogg', 
+		gain: -5,
+		loopLength: 5,
+		decayCutoff: 0.1,
+		inputs: [{ 	range:'spr_alpha_theta_fullrange',
+					type:'loopPoint',
+					value:'avg5',
+					min: 0.4, 
+					peak: 0.8, 
+					max: 0.8,
+					decayBosst: 0.25,
+					decayRate: 0.5,
+					decayRange: 0.15 },
+				{ 	range:'spr_alpha_theta_fullrange', 
+					type:'volume',
+					value:'avg3',
+					min: 0.4, 
+					peak: 0.6, 
+					max: 0.8,
+					decayBosst: 0.25,
+					decayRate: 0.4,
+					decayRange: 0.15 }
+				]
+	},
+	{	fileName: 'rhodes.ogg', 
+		gain: -10,
+		loopLength: 5,
+		decayCutoff: 0.1,
+		inputs: [{ 	range:'spr_alpha_theta_fullrange',
+					type:'loopPoint',
+					value:'avg5',
+					min: 0.6, 
+					peak: 1, 
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15 },
+				{ 	range:'spr_alpha_theta_fullrange', 
+					type:'volume',
+					value:'avg3',
+					min: 0.6, 
+					peak: 0.8, 
+					max: 1,
+					decayRate: 0.4,
+					decayRange: 0.15 }
+				]
+	},
+	{ 	fileName: 'synthwithtriangleampmod.ogg', 
+		gain: -5,
+		loopLength: 4,
+		decayCutoff: 0.2,
+		inputs: [{	range:'spr_beta_alpha_full',
+					type:'volume',
+					value: 'avg3',
+					min: 0.2,
+					peak: 0.4,
+					max: 0.6,
+					decayBoost: 0.3,
+					decayRate: 0.5,
+					decayRange: 0.2 },
+				{	range:'spr_beta_alpha_full',
+					type:'loopPoint',
+					value: 'avg3',
+					min: 0.2,
+					peak: 0.6,
+					max: 0.6,
+					decayBoost: 0.3,
+					decayRate: 0.5,
+					decayRange: 0.2 }
 				]
 	},
 	{ 	fileName: 'softersynth.ogg',
@@ -244,53 +309,32 @@ const defaultPreset = {
 		inputs: [{	range:'spr_beta_alpha_full',
 					type:'loopPoint',
 					value: 'avg3',
-					min: 0.25,
-					peak: 0.6,
-					max: 0.6,
+					min: 0.4,
+					peak: 0.8,
+					max: 0.8,
 					decayBoost: 0.3,
 					decayRate: 0.4,
 					decayRange: 0.2 },
 				{	range:'spr_beta_alpha_full',
 					type:'volume',
 					value: 'avg3',
-					min: 0.25,
-					peak: 0.45,
-					max: 0.5,
+					min: 0.4,
+					peak: 0.6,
+					max: 0.8,
 					decayBoost: 0.3,
 					decayRate: 0.4,
 					decayRange: 0.2 }
 				]
 	},
-	{	fileName: 'pianoascending.ogg', 
-		gain: -10,
-		loopLength: 5,
-		decayCutoff: 0.1,
-		inputs: [{ 	range:'spr_alpha_theta_high',
-					type:'loopPoint',
-					value:'avg5',
-					min: 0, 
-					peak: 1, 
-					max: 1,
-					decayRate: 0.5,
-					decayRange: 0.2 },
-				{ 	range:'spr_alpha_theta_high', 
-					type:'volume',
-					value:'avg3',
-					min: 0, 
-					peak: 0.8, 
-					max: 1,
-					decayRate: 0.4,
-					decayRange: 0.2 }
-				]
-	},
+	
 	{	fileName: 'slow_gloc_melody.ogg',
 		gain: -10,
-		inputs: [{	range: 'spr_beta_alpha_gloc',
+		inputs: [{	range: 'spr_beta_alpha_full',
 					type: 'volume',
 					value: 'curr',
 					min: 0,
-					peak: 0,
-					max: 1,
+					peak: 0.1,
+					max: 0.2,
 					decayRate: 0.7,
 					decayRange: 0.2 
 		}]
@@ -312,7 +356,7 @@ const defaultPreset = {
 	},
 	{
 		fileName: 'thindrone.ogg',
-		gain: -10,
+		gain: -7,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_front',
 					type: 'volume',
@@ -327,7 +371,7 @@ const defaultPreset = {
 			]
 	},
 	{
-		fileName: 'HLcello.ogg',
+		fileName: 'HL-cello.ogg',
 		gain: -15,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_back',
@@ -343,7 +387,7 @@ const defaultPreset = {
 			]
 	},
 		{
-		fileName: 'HLviola.ogg',
+		fileName: 'HL-viola.ogg',
 		gain: -15,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_back',
@@ -353,12 +397,12 @@ const defaultPreset = {
 					peak: 0.66,
 					max: 1,
 					decayRate: 0.3,
-					decayRange: 0.2,
+					decayRange: 0.3,
 					decayBoost: 0.15
 				}
 			]
 	},	{
-		fileName: 'HLviolin2.ogg',
+		fileName: 'HL-violin2.ogg',
 		gain: -15,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_back',
@@ -368,12 +412,12 @@ const defaultPreset = {
 					peak: 0.75,
 					max: 1,
 					decayRate: 0.3,
-					decayRange: 0.15,
+					decayRange: 0.3,
 					decayBoost: 0.15
 				}
 			]
 	},	{
-		fileName: 'HLviolin.ogg',
+		fileName: 'HL-violin1.ogg',
 		gain: -15,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_back',
@@ -383,11 +427,12 @@ const defaultPreset = {
 					peak: 0.8,
 					max: 1,
 					decayRate: 0.3,
-					decayRange: 0.1,
+					decayRange: 0.3,
 					decayBoost: 0.15
 				}
 			]
 	},
+
 	{
 		fileName: 'PE-noise.ogg',
 		gain: -13,
@@ -395,7 +440,7 @@ const defaultPreset = {
 		inputs: [{	range: 'pe_frontal',
 					type: 'volume',
 					value: 'avg3',
-					min: 0.6,
+					min: 0,
 					peak: 0.8,
 					max: 1,
 					decayRate: 0.5,
@@ -794,7 +839,7 @@ const defaultPreset = {
 	},
 	{
 		fileName: 'wPLI-LM-bassoon-low.ogg',
-		gain: -10,
+		gain: -7,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_left_midline',
 					type: 'volume',
@@ -822,7 +867,7 @@ const defaultPreset = {
 	},
 	{
 		fileName: 'wPLI-LM-bassoon-mid.ogg',
-		gain: -10,
+		gain: -7,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_left_midline',
 					type: 'volume',
@@ -850,7 +895,7 @@ const defaultPreset = {
 	},
 	{
 		fileName: 'wPLI-LM-bassoon-high.ogg',
-		gain: -10,
+		gain: -7,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_left_midline',
 					type: 'volume',
