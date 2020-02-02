@@ -191,15 +191,18 @@ Below the main controls is a list of all the tracks, each with three blue slider
 
 The soundfiles I refer to here are in flask-app/static/samples.
 
+There are two ways sound files are played back in Resonance - those with a loopPoint input and those without. Those with no loopPoint are only controlled in volume, they are heard when a signal is in certain range, and they simply play through and loop the contents of the sound file. 
+
+
 ### volume Inputs
 
-There are two ways sound files are played back in Resonance - those with a loopPoint input and those without. Those with no loopPoint are only controlled in volume, they are heard when a signal is in certain range, and they simply play through and loop the contents of the sound file. Receiving a message, the volume input calculates a 0-1 value and reassigns the track's level accordingly. 
+Receiving a message, the volume input calculates a 0-1 value and reassigns the track's level accordingly. 
 
 The level is the *product* of all the volume inputs on a track - this way a signal can be heard only if the dPLI is in a given range AND the wPLI is in some range, if either value comes to 0 the overall loudness will be 0. The potential issue with this choice is that when several inputs all have small but relevant values the product will be smaller still, I worked around this by adjusting my input ranges accordingly.
 
 These soundfiles can either be shorter loops like the HL drones, or longer melodies like the wPLI woodwinds or the HL strings. Including longer soundfiles that loop at different intervals (like in Brian Eno's Music for Airports) helps to give some stability to the overall musical Gestalt, I found that when using only loopPoint the music was too choppy and incoherent.
 
-The current level of a Track is shown by the middle of the three blue sliders.
+The current level of a Track is shown by the middle of the three horizontal sliders.
 
 
 ### loopPoint Inputs
@@ -219,7 +222,7 @@ An important thing to realize is that Resonance is designed to highlight *change
 
 ** This decay behaviour right now might be masking important micro-variations in a given signal if it has been in a similar range for a while. In the future it would be interesting to have the decay range shrink or expand depending on its present decay value.
 
-The current decay value of a track is shown on the third blue slider of each track in the tracks panel.
+The current decay value of a track is shown on the third horzontal slider of each track in the tracks panel.
 
 
 
@@ -240,6 +243,8 @@ I like to begin and end each sound-file with
 
 
 ## About the Design of the Default Preset
+
+The trick is to be able to hear out each of the features independently
 
 
 
