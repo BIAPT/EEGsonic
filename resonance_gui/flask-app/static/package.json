@@ -11,7 +11,7 @@
     "socketio": "^1.0.0",
     "tone": "^13.8.25",
     "web-audio-recorder-js-webpack": "0.0.1",
-    "webpack": "^4.41.3"
+    "webpack": "^4.41.5"
   },
   "devDependencies": {
     "webpack-cli": "^3.3.10"

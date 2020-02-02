@@ -26,7 +26,7 @@
                             <button id='stopAudio'>Stop</button>
                             <label for='masterGain'><b>Volume:</b></label>
                             <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
-                    </div>   
+                    </div>
                     <div id='OSCPlayback'>
                         <div class='file-input'>OSC Events:<input type='file' id='OSCEventFile' size='60'></input></div>
                         <div class='flex-row'>
@@ -35,13 +35,14 @@
                             <button id='resetOSC' disabled>Reset OSC</button>
                         </div>
                     </div>
+                    <div class='flex-row' id='OSCButtons'><button id='recordOSC'>Start Recording OSC</button></div>
                 </div>
             </div>
             <div id='resonanceEdit'></div>
             <div id='resonanceMixer'></div>
             <div id='resonanceSignalList'>
                 <div id='signalContainer'>
-                    
+
                 </div>
             </div>
         </div>
