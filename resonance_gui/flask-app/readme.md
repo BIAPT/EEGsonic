@@ -95,7 +95,16 @@ Click the "Launch" button in the bottom right corner of EEGSonic to open the rep
 
 ### Streaming live EEG data
 
-Open the EEGSonic_app.mlapp file in MATLAB. Click "Select Saving Directory" and select an output folder, and next to Folder Name, input a name of the new folder to be created. Select the "EGI-129" tab. Make sure the configuration is the same as listed above under "Replaying a converted folder". Start the app and open the browser page in the same way as when replaying a folder. Press the Launch button to start recording data and broadcasting messages. (? This part might not be completely right)
+In Net Station Aquisition, before measuring impedences, set the Filter to Highpass: 0.1 Hz, Lowpass 30 Hz. Set the Sampling rate to 1000 s/s.
+
+Open the EEGSonic_app.mlapp file in MATLAB. Click "Select Saving Directory" and select an output folder, and next to Folder Name, input a name of the new folder to be created. Select the "EGI-129" tab. Make sure the configuration is the same as listed above under "Replaying a converted folder". 
+
+
+
+Start the Flask app and open the browser page in the same way as when replaying a folder. Make sure that EEGSonic is not in Debug mode, then press the Launch button to start recording data and broadcasting messages. 
+
+
+*** Add instructions on disconnecting the amplifier afterwards
 
 
 
@@ -121,7 +130,7 @@ This idea of using algorithms to amplify the characteristics, the latent potenti
 
 In previous versions of the app it was possible to directly record and save the streaming audio. However, I have found it more practical to use a third-party software for this, it also allows us to record a single sound-file for the entire experimental session, not having to restart it if we refresh the page or change the Resonance Player's settings.
 
-For this, use Audacity to record the Windows WASAPI if you are on PC, or a combination of SoundFlower and Audacity on a Mac.
+For this, use Audacity to record the Windows WASAPI if you are on PC, or a combination of SoundFlower and QuickTime on a Mac.
 
 
 ### Signals, Ranges, Tracks and Inputs
@@ -248,3 +257,9 @@ The trick is to be able to hear out each of the features independently
 
 
 
+### Troubleshooting
+
+```
+"Error: buffer is either not set or not loaded"
+```
+This is a thing with Tone.js and I don't quite understand it, but it's got something to do with having loaded a buffer from inside a function. It only happens sometimes. If it does, just click Reset OSC and Play OSC again.

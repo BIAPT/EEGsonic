@@ -144,12 +144,12 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'pe_frontal',
-					min: 0.4,
+					min: 0.5,
 					max: 1
 				},
 				{	name: 'pe_frontal_high',
 					min: 0.8,
-					max: 0.9
+					max: 1
 				}
 			]
 		},
@@ -193,6 +193,12 @@ const defaultPreset = {
 					name: 'spr_alpha_theta_fullrange',
 					min: -1.5,
 					max: 1.5
+				},
+				{
+					name: 'spr_alpha_theta_relative',
+					min: -0.6,
+					max: 0,
+					relative: true
 				}
 			]
 		},
@@ -201,13 +207,13 @@ const defaultPreset = {
 				{
 					name: 'td_front_back',
 					min: 0.9,
-					max: 1.1
+					max: 1.1,
 				}
 			]
 		}
 	],
 	tracks: [
-	{	fileName: 'harp.ogg',
+	{	fileName: 'harp_main.ogg',
 		gain: -5,
 		loopLength: 5,
 		decayCutoff: 0.1,
@@ -218,7 +224,32 @@ const defaultPreset = {
 					peak: 0.6,
 					max: 0.6,
 					decayBoost: 0.3,
-					decayRate: 0.4,
+					decayRate: 0.7,
+					decayRange: 0.15
+				},
+				{ 	range:'spr_alpha_theta_fullrange',
+					type:'volume',
+					value:'avg3',
+					min: 0.2,
+					peak: 0.4,
+					max: 0.6,
+					decayRate: 0.7,
+					decayRange: 0.15
+				}
+				]
+	},
+	{	fileName: 'harp_melody.ogg',
+		gain: -5,
+		loopLength: 5,
+		decayCutoff: 0.1,
+		inputs: [{ 	range:'spr_alpha_theta_fullrange',
+					type:'loopPoint',
+					value:'avg5',
+					min: 0.2,
+					peak: 0.6,
+					max: 0.6,
+					decayBoost: 0.3,
+					decayRate: 0.7,
 					decayRange: 0.15
 				},
 				{ 	range:'spr_alpha_theta_fullrange',
@@ -228,6 +259,15 @@ const defaultPreset = {
 					peak: 0.4,
 					max: 0.6,
 					decayRate: 0.5,
+					decayRange: 0.15
+				},
+				{ 	range:'pe_frontal',
+					type:'volume',
+					value:'avg3',
+					min: 0.5,
+					peak: 1,
+					max: 1,
+					decayRate: 0.9,
 					decayRange: 0.15
 				}
 				]
@@ -278,30 +318,30 @@ const defaultPreset = {
 					decayRange: 0.15 }
 				]
 	},
-	{ 	fileName: 'synthwithtriangleampmod.ogg',
-		gain: -5,
-		loopLength: 4,
-		decayCutoff: 0.2,
-		inputs: [{	range:'spr_beta_alpha_full',
-					type:'volume',
-					value: 'avg3',
-					min: 0.2,
-					peak: 0.4,
-					max: 0.6,
-					decayBoost: 0.3,
-					decayRate: 0.5,
-					decayRange: 0.2 },
-				{	range:'spr_beta_alpha_full',
-					type:'loopPoint',
-					value: 'avg3',
-					min: 0.2,
-					peak: 0.6,
-					max: 0.6,
-					decayBoost: 0.3,
-					decayRate: 0.5,
-					decayRange: 0.2 }
-				]
-	},
+	// { 	fileName: 'synthwithtriangleampmod.ogg',
+	// 	gain: -5,
+	// 	loopLength: 4,
+	// 	decayCutoff: 0.2,
+	// 	inputs: [{	range:'spr_beta_alpha_full',
+	// 				type:'volume',
+	// 				value: 'avg3',
+	// 				min: 0.2,
+	// 				peak: 0.4,
+	// 				max: 0.6,
+	// 				decayBoost: 0.3,
+	// 				decayRate: 0.5,
+	// 				decayRange: 0.2 },
+	// 			{	range:'spr_beta_alpha_full',
+	// 				type:'loopPoint',
+	// 				value: 'avg3',
+	// 				min: 0.2,
+	// 				peak: 0.6,
+	// 				max: 0.6,
+	// 				decayBoost: 0.3,
+	// 				decayRate: 0.5,
+	// 				decayRange: 0.2 }
+	// 			]
+	// },
 	{ 	fileName: 'softersynth.ogg',
 		gain: -10,
 		loopLength: 4,
@@ -309,7 +349,7 @@ const defaultPreset = {
 		inputs: [{	range:'spr_beta_alpha_full',
 					type:'loopPoint',
 					value: 'avg3',
-					min: 0.4,
+					min: 0.2,
 					peak: 0.8,
 					max: 0.8,
 					decayBoost: 0.3,
@@ -318,8 +358,8 @@ const defaultPreset = {
 				{	range:'spr_beta_alpha_full',
 					type:'volume',
 					value: 'avg3',
-					min: 0.4,
-					peak: 0.6,
+					min: 0.2,
+					peak: 0.5,
 					max: 0.8,
 					decayBoost: 0.3,
 					decayRate: 0.4,
@@ -341,7 +381,7 @@ const defaultPreset = {
 	},
 	{
 		fileName: 'flutedrone.ogg',
-		gain: -10,
+		gain: -15,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_front',
 					type: 'volume',
@@ -356,7 +396,7 @@ const defaultPreset = {
 	},
 	{
 		fileName: 'thindrone.ogg',
-		gain: -7,
+		gain: -12,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_front',
 					type: 'volume',
@@ -444,8 +484,8 @@ const defaultPreset = {
 					peak: 0.8,
 					max: 1,
 					decayRate: 0.5,
-					decayRange: 0.3,
-					decayBoost: 0.1
+					decayRange: 0.15,
+					decayBoost: 0.2
 		}]
 	},
 	{	fileName: 'PE-noise2.ogg',
@@ -458,8 +498,8 @@ const defaultPreset = {
 					peak: 0.8,
 					max: 1,
 					decayRate: 0.5,
-					decayRange: 0.3,
-					decayBoost: 0.1
+					decayRange: 0.15,
+					decayBoost: 0.2
 		}]
 	},
 	{	fileName: 'expanseloop.ogg',
@@ -472,8 +512,8 @@ const defaultPreset = {
 					peak: 1,
 					max: 1,
 					decayRate: 0.7,
-					decayRange: 0.2,
-					decayBoost: 0.1
+					decayRange: 0.1,
+					decayBoost: 0.2
 		}]
 	},
 	{	fileName: 'microtwinkle.ogg',
@@ -503,8 +543,10 @@ const defaultPreset = {
 				}
 			]
 	},
-	{	fileName: 'dpliLLlag.ogg',
-		gain: -5,
+
+	// values of dPLI that are less than 0.5 - these are the ones that indicate consciousness
+	{	fileName: 'dpliLL_lag.ogg',
+		gain: -2,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_left_lateral_lag',
@@ -513,6 +555,7 @@ const defaultPreset = {
 					min: 0,
 					peak: 0,
 					max: 1,
+					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
 				{ 	range:'fp_dpli_left_lateral_lag',
@@ -530,12 +573,13 @@ const defaultPreset = {
 					min: 0,
 					peak: 1,
 					max: 1,
+					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliLMlag.ogg',
-		gain: -5,
+	{	fileName: 'dpliLM_lag.ogg',
+		gain: -2,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_left_midline_lag',
@@ -544,6 +588,7 @@ const defaultPreset = {
 					min: 0,
 					peak: 0,
 					max: 1,
+					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
 				{ 	range:'fp_dpli_left_midline_lag',
@@ -561,12 +606,13 @@ const defaultPreset = {
 					min: 0,
 					peak: 1,
 					max: 1,
+					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRMlag.ogg',
-		gain: -5,
+	{	fileName: 'dpliRM_lag.ogg',
+		gain: -2,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_right_midline_lag',
@@ -584,6 +630,8 @@ const defaultPreset = {
 					min: 0.8,
 					peak: 0.8,
 					max: 1,
+
+					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
 				{ 	range:'fp_wpli_right_midline',
@@ -592,12 +640,13 @@ const defaultPreset = {
 					min: 0,
 					peak: 1,
 					max: 1,
+					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRLlag.ogg',
-		gain: -5,
+	{	fileName: 'dpliRL_lag.ogg',
+		gain: -2,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_right_lateral_lag',
@@ -606,6 +655,7 @@ const defaultPreset = {
 					min: 0,
 					peak: 0,
 					max: 1,
+					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 },
 				{ 	range:'fp_dpli_right_lateral_lag',
@@ -623,13 +673,14 @@ const defaultPreset = {
 					min: 0,
 					peak: 1,
 					max: 1,
+					decayBoost: 0.5,
 					decayRate: 0.6,
 					decayRange: 0.1 }
 				]
 	},
 
-	// positive values of dPLI
-	{	fileName: 'dpliLLlead.ogg',
+	//  phase-lead values of dPLI
+	{	fileName: 'dpliLL_lead.ogg',
 		gain: -5,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
@@ -660,7 +711,7 @@ const defaultPreset = {
 					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliLMlead.ogg',
+	{	fileName: 'dpliLM_lead.ogg',
 		gain: -5,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
@@ -691,7 +742,7 @@ const defaultPreset = {
 					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRMlead.ogg',
+	{	fileName: 'dpliRM_lead.ogg',
 		gain: -5,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
@@ -722,7 +773,7 @@ const defaultPreset = {
 					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRLlead.ogg',
+	{	fileName: 'dpliRL_lead.ogg',
 		gain: -5,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
@@ -1159,12 +1210,19 @@ class Signal {
 	}
 
 	static processMessage(message) {
-		//console.log(message);
+		// This function is the first step in processing an incoming message. 
+		// It does the things that apply to the piece as a whole before passing it on
+		// to modify each track one-by-one.
+
+		// This is taking the log 10 of the spectral power ratios, this makes a nicer signal to sonify
 		if (message.address === '/spr_beta_alpha' || message.address === '/spr_alpha_theta') {
+			console.log(message.args[0]);
 			message.args[0] = Math.log10(message.args[0]);
+			console.log(message.args[0]);
 		}
 		sound.signals[message.address].update(message);
 
+		// This is setting the threshold of a low-pass filter, depending on the TD.
 		if (message.address === '/td_front_back') {
 			let newFrequency = Math.pow(sound.signals['/td_front_back'].avg5,5) * 8000
 			console.log(newFrequency)
@@ -1173,9 +1231,9 @@ class Signal {
 			} else {
 				sound.filter.frequency.linearRampToValueAtTime(800, 10);
 			}
-
 		}
 
+		// Send the transformed message to each track.
 		Track.processMessage(message);
 	}
 
@@ -1206,6 +1264,10 @@ class Signal {
 		this.avg3 = this.last10.slice(-3).reduce((a,c)=>{return a+c})/this.last10.slice(-3).length;
 		this.avg5 = this.last10.slice(-5).reduce((a,c)=>{return a+c})/this.last10.slice(-5).length;
 		this.avg10 = this.last10.slice(-10).reduce((a,c)=>{return a+c})/this.last10.slice(-10).length;
+
+		// update ranges
+
+
 
 		this.display();
 	}
@@ -1520,6 +1582,9 @@ class Range {
 		this.name = range.name;
 		this.min = range.min;
 		this.max = range.max;
+		this.relative = range.relative ? range.relative : false;
+		console.log(range.relative);
+		console.log(this.relative);
 	}
 
 	update () {
@@ -1550,6 +1615,7 @@ class Input {
 		this.current = value;
 		if (this.decayTarget === null) {
 			this.decayTarget = value;
+			this.decayValue = this.decayThreshold;
 			return 1;
 		}
 
