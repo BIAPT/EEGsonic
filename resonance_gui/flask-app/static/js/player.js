@@ -222,7 +222,7 @@ const defaultPreset = {
 		loopLength: 5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'spr_alpha_theta_fullrange',
-					type:'playbackRate',
+					type:'loopPoint',
 					value:'avg5',
 					min: 0.2,
 					peak: 0.45,
@@ -1505,8 +1505,12 @@ class Track {
 						let value = this.calculateValue(input, range, message.address);
 						input.updateDecay(value);
 
-						this.player.playbackRate = 1 + value;
-						this.player2.playbackRate = 1 + value;
+						let playbackMin = input.playbackMin;
+						let playbackTimes = input.playbackSpeedup;
+						console.log(playbackTimes);
+
+						this.player.playbackRate = playbackMin + value*playbackTimes;
+						this.player2.playbackRate = playbackMin + value*playbackTimes;
 					}
 				}
 			}
@@ -1607,6 +1611,8 @@ class Input {
 		this.peak = input.peak;
 		this.max = input.max;
 		this.current = 0;
+		this.playbackMin = input.playbackMin ? input.playbackMin : 1;
+		this.playbackSpeedup = input.playbackSpeedup ? input.playbackSpeedup : 1;
 		this.decayRate = input.decayRate;
 		this.decayBoost = input.decayBoost ? input.decayBoost : 0.2;
 		this.decayThreshold = input.decayThreshold ? input.decayThreshold : 0.7;
