@@ -143,12 +143,11 @@ const defaultPreset = {
 		{ 	channel: '/pe_frontal',
 			ranges: [
 				{
-					name: 'pe_frontal',
-					min: 0.5,
-					max: 1
+					name: 'pe_frontal_rel',
+					relative: true,				
 				},
-				{	name: 'pe_frontal_high',
-					min: 0.8,
+				{	name: 'pe_frontal_abs',
+					min: 0.4,
 					max: 1
 				}
 			]
@@ -156,9 +155,12 @@ const defaultPreset = {
 		{ 	channel: '/pe_parietal',
 			ranges: [
 				{
-					name: 'pe_parietal',
+					name: 'pe_parietal_rel',
+					relative: true,
+				},
+				{	name: 'pe_parietal_abs',
 					min: 0.4,
-					max: 0.9
+					max: 1
 				}
 			]
 		},
@@ -197,9 +199,11 @@ const defaultPreset = {
 				{
 					name: 'spr_alpha_theta_relative',
 					min: -0.6,
-					max: 0,
-					relative: true
-				}
+					max: -0.4,
+					relative: true,
+					value: 'avg3'
+				},
+
 			]
 		},
 		{ 	channel: '/td_front_back',
@@ -218,13 +222,13 @@ const defaultPreset = {
 		loopLength: 5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'spr_alpha_theta_fullrange',
-					type:'loopPoint',
+					type:'playbackRate',
 					value:'avg5',
 					min: 0.2,
-					peak: 0.6,
-					max: 0.6,
+					peak: 0.45,
+					max: 0.45,
 					decayBoost: 0.3,
-					decayRate: 0.7,
+					decayRate: 0.4,
 					decayRange: 0.15
 				},
 				{ 	range:'spr_alpha_theta_fullrange',
@@ -233,7 +237,7 @@ const defaultPreset = {
 					min: 0.2,
 					peak: 0.4,
 					max: 0.6,
-					decayRate: 0.7,
+					decayRate: 0.4,
 					decayRange: 0.15
 				}
 				]
@@ -246,28 +250,19 @@ const defaultPreset = {
 					type:'loopPoint',
 					value:'avg5',
 					min: 0.2,
-					peak: 0.6,
-					max: 0.6,
+					peak: 0.45,
+					max: 0.45,
 					decayBoost: 0.3,
 					decayRate: 0.7,
 					decayRange: 0.15
 				},
 				{ 	range:'spr_alpha_theta_fullrange',
 					type:'volume',
-					value:'avg3',
-					min: 0.2,
-					peak: 0.4,
-					max: 0.6,
-					decayRate: 0.5,
-					decayRange: 0.15
-				},
-				{ 	range:'pe_frontal',
-					type:'volume',
-					value:'avg3',
+					value:'diff5',
 					min: 0.5,
-					peak: 1,
-					max: 1,
-					decayRate: 0.9,
+					peak: 0.75,
+					max: 0.75,
+					decayRate: 0.5,
 					decayRange: 0.15
 				}
 				]
@@ -475,9 +470,9 @@ const defaultPreset = {
 
 	{
 		fileName: 'PE-noise.ogg',
-		gain: -13,
+		gain: -20,
 		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_frontal',
+		inputs: [{	range: 'pe_frontal_rel',
 					type: 'volume',
 					value: 'avg3',
 					min: 0,
@@ -489,9 +484,9 @@ const defaultPreset = {
 		}]
 	},
 	{	fileName: 'PE-noise2.ogg',
-		gain: -13,
+		gain: -20,
 		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_parietal',
+		inputs: [{	range: 'pe_parietal_rel',
 					type: 'volume',
 					value: 'avg3',
 					min: 0.6,
@@ -505,7 +500,7 @@ const defaultPreset = {
 	{	fileName: 'expanseloop.ogg',
 		gain: -20,
 		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_frontal',
+		inputs: [{	range: 'pe_frontal_abs',
 					type: 'volume',
 					value: 'avg3',
 					min: 0.0,
@@ -520,17 +515,17 @@ const defaultPreset = {
 		gain: -10,
 		loopLength: 4,
 		decayCutoff: 0.15,
-		inputs: [{	range:'pe_frontal_high',
+		inputs: [{	range:'pe_frontal_abs',
 					type: 'volume',
 					value: 'curr',
-					min: 0.0,
-					peak: 0.5,
+					min: 0.85,
+					peak: 1,
 					max: 1,
 					decayBoost: 0.3,
 					decayRate: 0.4,
 					decayRange: 0.25
 				},
-				{	range:'pe_frontal_high',
+				{	range:'pe_frontal_abs',
 					type: 'loopPoint',
 					value: 'avg3',
 					min: 0,
@@ -545,15 +540,15 @@ const defaultPreset = {
 	},
 
 	// values of dPLI that are less than 0.5 - these are the ones that indicate consciousness
-	{	fileName: 'dpliLL_lag.ogg',
+	{	fileName: 'dpliLLconscious.ogg',
 		gain: -2,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_left_lateral_lag',
 					type:'loopPoint',
 					value: 'curr',
-					min: 0,
-					peak: 0,
+					min: 0.5,
+					peak: 0.5,
 					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
@@ -578,15 +573,15 @@ const defaultPreset = {
 					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliLM_lag.ogg',
+	{	fileName: 'dpliLMconscious.ogg',
 		gain: -2,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_left_midline_lag',
 					type:'loopPoint',
 					value: 'curr',
-					min: 0,
-					peak: 0,
+					min: 0.5,
+					peak: 0.5,
 					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
@@ -611,15 +606,15 @@ const defaultPreset = {
 					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRM_lag.ogg',
+	{	fileName: 'dpliRMconscious.ogg',
 		gain: -2,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_right_midline_lag',
 					type:'loopPoint',
 					value: 'curr',
-					min: 0,
-					peak: 0,
+					min: 0.5,
+					peak: 0.5,
 					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
@@ -645,15 +640,15 @@ const defaultPreset = {
 					decayRange: 0.1 }
 				]
 	},
-	{	fileName: 'dpliRL_lag.ogg',
+	{	fileName: 'dpliRLconscious.ogg',
 		gain: -2,
 		loopLength: 1.5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'fp_dpli_right_lateral_lag',
 					type:'loopPoint',
 					value: 'curr',
-					min: 0,
-					peak: 0,
+					min: 0.5,
+					peak: 0.5,
 					max: 1,
 					decayBoost: 0.5,
 					decayRate: 0.6,
@@ -805,8 +800,8 @@ const defaultPreset = {
 				]
 	},
 	{
-		fileName: 'wPLI-LL-flute-low.ogg',
-		gain: -10,
+		fileName: 'wPLI-LL-flute-high.ogg',
+		gain: -2,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_left_lateral',
 					type: 'volume',
@@ -861,7 +856,7 @@ const defaultPreset = {
 			]
 	},
 	{
-		fileName: 'wPLI-LL-flute-high.ogg',
+		fileName: 'wPLI-LL-flute-low.ogg',
 		gain: -10,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_left_lateral',
@@ -889,8 +884,8 @@ const defaultPreset = {
 			]
 	},
 	{
-		fileName: 'wPLI-LM-bassoon-low.ogg',
-		gain: -7,
+		fileName: 'wPLI-LM-bassoon-high.ogg',
+		gain: -2,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_left_midline',
 					type: 'volume',
@@ -945,7 +940,7 @@ const defaultPreset = {
 			]
 	},
 	{
-		fileName: 'wPLI-LM-bassoon-high.ogg',
+		fileName: 'wPLI-LM-bassoon-low.ogg',
 		gain: -7,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_left_midline',
@@ -973,8 +968,8 @@ const defaultPreset = {
 			]
 	},
 	{
-		fileName: 'wPLI-RM-horn-low.ogg',
-		gain: -10,
+		fileName: 'wPLI-RM-horn-high.ogg',
+		gain: -2,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_right_midline',
 					type: 'volume',
@@ -1029,7 +1024,7 @@ const defaultPreset = {
 			]
 	},
 	{
-		fileName: 'wPLI-RM-horn-high.ogg',
+		fileName: 'wPLI-RM-horn-low.ogg',
 		gain: -10,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_right_midline',
@@ -1057,8 +1052,8 @@ const defaultPreset = {
 			]
 	},
 	{
-		fileName: 'wPLI-RL-clarinet-low.ogg',
-		gain: -10,
+		fileName: 'wPLI-RL-clarinet-high.ogg',
+		gain: -2,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_right_lateral',
 					type: 'volume',
@@ -1113,7 +1108,7 @@ const defaultPreset = {
 			]
 	},
 	{
-		fileName: 'wPLI-RL-clarinet-high.ogg',
+		fileName: 'wPLI-RL-clarinet-low.ogg',
 		gain: -10,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'fp_wpli_right_midline',
@@ -1168,6 +1163,10 @@ class Signal {
 		this.avg3 = 0;
 		this.avg5 = 0;
 		this.avg10 = 0;
+		this.diff3 = 0;
+		this.diff5 = 0;
+		this.diff10 = 0;
+		this.diff3_10 = 0;
 		this.last10 = [];
 		this.ranges = {}
 
@@ -1214,18 +1213,17 @@ class Signal {
 		// It does the things that apply to the piece as a whole before passing it on
 		// to modify each track one-by-one.
 
+		let messageIn = JSON.parse(JSON.stringify(message)); // fix problem w aliasing
+
 		// This is taking the log 10 of the spectral power ratios, this makes a nicer signal to sonify
-		if (message.address === '/spr_beta_alpha' || message.address === '/spr_alpha_theta') {
-			console.log(message.args[0]);
-			message.args[0] = Math.log10(message.args[0]);
-			console.log(message.args[0]);
+		if (messageIn.address === '/spr_beta_alpha' || messageIn.address === '/spr_alpha_theta') {
+			messageIn.args[0] = Math.log10(messageIn.args[0]);
 		}
-		sound.signals[message.address].update(message);
+		sound.signals[messageIn.address].update(messageIn);
 
 		// This is setting the threshold of a low-pass filter, depending on the TD.
-		if (message.address === '/td_front_back') {
+		if (messageIn.address === '/td_front_back') {
 			let newFrequency = Math.pow(sound.signals['/td_front_back'].avg5,5) * 8000
-			console.log(newFrequency)
 			if (newFrequency > 800) {
 				sound.filter.frequency.linearRampToValueAtTime(newFrequency, 10);
 			} else {
@@ -1234,7 +1232,7 @@ class Signal {
 		}
 
 		// Send the transformed message to each track.
-		Track.processMessage(message);
+		Track.processMessage(messageIn);
 	}
 
 	static getChannel(rangeName) {
@@ -1261,13 +1259,20 @@ class Signal {
 		this.prev = this.curr;
 		this.curr = message.args[0];
 
+		this.diff3 = this.curr - this.avg3;
+		this.diff5 = this.curr - this.avg5;
+		this.diff10 = this.curr - this.diff10;
+
 		this.avg3 = this.last10.slice(-3).reduce((a,c)=>{return a+c})/this.last10.slice(-3).length;
 		this.avg5 = this.last10.slice(-5).reduce((a,c)=>{return a+c})/this.last10.slice(-5).length;
 		this.avg10 = this.last10.slice(-10).reduce((a,c)=>{return a+c})/this.last10.slice(-10).length;
 
+		this.diff3_10 = this.avg3 - this.avg10;
+
 		// update ranges
-
-
+		for (const range in this.ranges) {
+			this.ranges[range].update();
+		}
 
 		this.display();
 	}
@@ -1460,24 +1465,16 @@ class Track {
 		let newGain;
 		let ranges = sound.signals[message.address].ranges;
 
-		if (this.fileName === 'wPLI-RL-clar-mid.ogg') {
-			if (message.address === '/fp_wpli_right_lateral' || message.address === '/fp_dpli_right_lateral'){
-				console.log('RANGES');
-				console.log(ranges);
-			}
-		}
 
 
 		this.inputs.forEach((input) => {
 			for (const rangeName in ranges) {
 				let range = ranges[rangeName];
-				// console.log(input, range);
 				if (input.range == range.name){
 
 					if (input.type === 'volume' ) { // calculates results of all volume inputs when it sees the first one
 
 						newGain = this.calculateValue(input, range, message.address);
-
 						input.updateDecay(newGain);
 					}
 
@@ -1503,6 +1500,14 @@ class Track {
 						clearTimeout(this.nextLoop);
 						this.triggerNextGrain(startPoint, momentum);
 					}
+
+					if (input.type == 'playbackRate') {
+						let value = this.calculateValue(input, range, message.address);
+						input.updateDecay(value);
+
+						this.player.playbackRate = 1 + value;
+						this.player2.playbackRate = 1 + value;
+					}
 				}
 			}
 		})
@@ -1510,22 +1515,9 @@ class Track {
 		// calculate track decay
 
 		let newDecayGain = this.inputs.reduce((sum, input) => {
-			//console.log(input.range, input.decayValue);
-			// if (this.fileName === 'wPLI-RL-clar-mid.ogg') {
-			// 	if (message.address === '/fp_wpli_right_lateral' || message.address === '/fp_dpli_right_lateral'){
-			// 		console.log('input = ' + input.range);
-			// 		console.log("decayValue = " + input.decayValue);
-			// 	}
-			// }
 			return sum + input.decayValue;
 		}, 0)/this.inputs.length;
 
-		// if (this.fileName === 'wPLI-RL-clar-mid.ogg') {
-		// 	if (message.address === '/fp_wpli_right_lateral' || message.address === '/fp_dpli_right_lateral'){
-		// 		console.log(message.address);
-		// 		console.log("newDecayGain = " + newDecayGain);
-		// 	}
-		// }
 
 		this.decayGainSlider.value = (newDecayGain * 20) - 20;
 		let targetGain = Math.pow(10, this.decayGainSlider.value/20);
@@ -1580,15 +1572,28 @@ class Track {
 class Range {
 	constructor (range) {
 		this.name = range.name;
-		this.min = range.min;
-		this.max = range.max;
+		this.min = range.min ? range.min : null;
+		this.max = range.max ? range.max : null;
+		this.value = range.value ? range.value : 'curr';
 		this.relative = range.relative ? range.relative : false;
-		console.log(range.relative);
-		console.log(this.relative);
 	}
 
 	update () {
 
+		if (this.relative) {
+			let channel = Signal.getChannel(this.name);
+			let newValue = sound.signals[channel][this.value];
+			if (this.max === null ) {
+				this.max = Number(newValue.toFixed(2));
+				this.min = Number(newValue.toFixed(2));
+			}
+			if (newValue > this.max) {
+				this.max = Number(newValue.toFixed(2));
+			}
+			if (newValue < this.min) {
+				this.min = Number(newValue.toFixed(2));
+			}
+		}
 	}
 }
 
@@ -1630,7 +1635,6 @@ class Input {
 		this.decayValue = this.decayValue + this.decayBoost
 		if (this.decayValue > this.decayThreshold) {
 			this.decayTarget = value;
-			console.log('set new decay target: ' + this.decayTarget)
 		}
 		if (this.decayValue > 1) {this.decayValue = 1}
 		return this.decayValue;
@@ -1660,7 +1664,6 @@ class OSCPlayer {
 						this.events = JSON.parse(events);
 						document.getElementById('toggleOSC').removeAttribute('disabled');
 						document.getElementById('resetOSC').removeAttribute('disabled');
-						console.log(this.events.length + ' events loaded');
 					})
 			}
 		}
