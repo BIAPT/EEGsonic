@@ -485,12 +485,12 @@ const defaultPreset = {
 					decayRange: 0.15,
 					decayBoost: 0.5
 		},
-		{			range: 'pe_frontal_diff',
+		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
-					value: 'diff3_10',
-					playbackMin: 0.8,
-					playbackSpeedup: 3,
-					min: 0.25,
+					value: 'avg3',
+					playbackMin: 0.4,
+					playbackSpeedup: 2,
+					min: 0.7,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -513,12 +513,12 @@ const defaultPreset = {
 					decayRange: 0.15,
 					decayBoost: 0.2
 		},
-		{			range: 'pe_frontal_diff',
+		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
-					value: 'diff3_10',
-					playbackMin: 0.8,
-					playbackSpeedup: 3,
-					min: 0.25,
+					value: 'avg3',
+					playbackMin: 0.4,
+					playbackSpeedup: 2,
+					min: 0.7,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -541,12 +541,12 @@ const defaultPreset = {
 					decayRange: 0.15,
 					decayBoost: 0.2
 		},
-		{			range: 'pe_frontal_diff',
+		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
-					value: 'diff3_10',
-					playbackMin: 0.8,
-					playbackSpeedup: 3,
-					min: 0.25,
+					value: 'avg3',
+					playbackMin: 0.4,
+					playbackSpeedup: 2,
+					min: 0.7,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -568,12 +568,12 @@ const defaultPreset = {
 					decayRange: 0.15,
 					decayBoost: 0.2
 			},
-		{			range: 'pe_frontal_diff',
+		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
-					value: 'diff3_10',
-					playbackMin: 0.8,
-					playbackSpeedup: 3,
-					min: 0.25,
+					value: 'avg3',
+					playbackMin: 0.4,
+					playbackSpeedup: 2,
+					min: 0.7,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -596,12 +596,12 @@ const defaultPreset = {
 					decayRange: 0.15,
 					decayBoost: 0.2
 		},
-		{			range: 'pe_frontal_diff',
+		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
-					value: 'diff3_10',
-					playbackMin: 0.8,
-					playbackSpeedup: 3,
-					min: 0.25,
+					value: 'avg3',
+					playbackMin: 0.2,
+					playbackSpeedup: 2,
+					min: 0.7,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -679,6 +679,35 @@ const defaultPreset = {
 				}
 			]
 	},
+	{	fileName: 'TDsound.ogg',
+		gain: -15,
+		loopLength: 0.5,
+		decayCutoff: 0.15,
+		inputs: [
+				// {	range:'td_front_back',
+				// 	type: 'volume',
+				// 	value: 'curr',
+				// 	min: 0.85,
+				// 	peak: 1,
+				// 	max: 1,
+				// 	decayBoost: 0.3,
+				// 	decayRate: 0.4,
+				// 	decayRange: 0.25
+				// },
+				{	range:'td_front_back',
+					type: 'loopPoint',
+					value: 'avg3',
+					min: 0,
+					peak: 1,
+					max: 1,
+					decayBoost: 0.4,
+					decayRate: 0.8,
+					decayRange: 0.2
+
+				}
+			]
+	},
+
 
 	// values of dPLI that are less than 0.5 - these are the ones that indicate consciousness
 	{	fileName: 'dpliLLconscious.ogg',
@@ -1629,9 +1658,16 @@ class Track {
 						let startPoint = value*(this.length-this.loopLength);
 
 						// calculate "momentum" bsed on current signal vs average
-						let momentum = (sound.signals[Signal.getChannel(input.range)].curr - sound.signals[Signal.getChannel(input.range)].avg3)*this.length*0.15; // not safe for all channels!
+						let momentum = (sound.signals[Signal.getChannel(input.range)].curr - sound.signals[Signal.getChannel(input.range)].avg3)*this.length*0.05; // not safe for all channels!
 						//let momentum = 0.01*this.length;
 						//let momentum = 0;
+
+						console.log("momentum: " + momentum);
+						console.log("startPoint " + startPoint);
+						console.log("loopLength" + this.loopLength);
+						console.log("length" + this.length);
+
+						
 
 						if (!this.looping) {
 							this.player.stop(sound.context.currentTime + (this.loopLength / 2));
@@ -1693,8 +1729,9 @@ class Track {
 	}
 
 	triggerNextGrain(startPoint, momentum) {
+
 		// catch the cases where momentum takes us outside of bounds
-		if (startPoint > (this.length - 1.5*(this.loopLength) )) { startPoint = this.length - 1.5*(this.loopLength) };
+		if (startPoint > (this.length - 1.5*(this.loopLength) - momentum )) { startPoint = this.length - 1.5*(this.loopLength) - momentum - 1};
 		if (startPoint < 0)  {startPoint = 0};
 
 		this.nextLoopPlayer.start(sound.context.currentTime, startPoint, sound.context.currentTime + 1.5*this.loopLength);
