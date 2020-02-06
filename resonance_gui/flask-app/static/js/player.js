@@ -130,7 +130,7 @@ const defaultPreset = {
 			ranges: [
 				{
 					name: 'hl_front',
-					min: 0,
+					min: 0.,
 					max: 0.6
 				},
 				{
@@ -148,6 +148,10 @@ const defaultPreset = {
 				},
 				{	name: 'pe_frontal_abs',
 					min: 0.4,
+					max: 1
+				},
+				{	name: 'pe_frontal_diff',
+					min: -1,
 					max: 1
 				}
 			]
@@ -218,7 +222,7 @@ const defaultPreset = {
 	],
 	tracks: [
 	{	fileName: 'harp_main.ogg',
-		gain: -5,
+		gain: -2,
 		loopLength: 5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'spr_alpha_theta_fullrange',
@@ -243,7 +247,7 @@ const defaultPreset = {
 				]
 	},
 	{	fileName: 'harp_melody.ogg',
-		gain: -5,
+		gain: -2,
 		loopLength: 5,
 		decayCutoff: 0.1,
 		inputs: [{ 	range:'spr_alpha_theta_fullrange',
@@ -338,7 +342,7 @@ const defaultPreset = {
 	// 			]
 	// },
 	{ 	fileName: 'softersynth.ogg',
-		gain: -10,
+		gain: -5,
 		loopLength: 4,
 		decayCutoff: 0.2,
 		inputs: [{	range:'spr_beta_alpha_full',
@@ -376,7 +380,7 @@ const defaultPreset = {
 	},
 	{
 		fileName: 'flutedrone.ogg',
-		gain: -15,
+		gain: -12,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_front',
 					type: 'volume',
@@ -391,7 +395,7 @@ const defaultPreset = {
 	},
 	{
 		fileName: 'thindrone.ogg',
-		gain: -12,
+		gain: -8,
 		decayCutoff: 0.2,
 		inputs: [{	range: 'hl_front',
 					type: 'volume',
@@ -467,12 +471,149 @@ const defaultPreset = {
 				}
 			]
 	},
-
+	{
+		fileName: 'PE_snare.ogg',
+		gain: -5,
+		decayCutoff: 0.1,
+		inputs: [{	range: 'pe_frontal_rel',
+					type: 'volume',
+					value: 'curr',
+					min: 0.4,
+					peak: 0.6,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.5
+		},
+		{			range: 'pe_frontal_diff',
+					type: 'playbackRate',
+					value: 'diff3_10',
+					playbackMin: 0.8,
+					playbackSpeedup: 3,
+					min: 0.25,
+					peak: 1,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.5
+		}
+		]
+	},
+	{
+		fileName: 'PE_kick.ogg',
+		gain: -5,
+		decayCutoff: 0.1,
+		inputs: [{	range: 'pe_frontal_rel',
+					type: 'volume',
+					value: 'curr',
+					min: 0.5,
+					peak: 0.7,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.2
+		},
+		{			range: 'pe_frontal_diff',
+					type: 'playbackRate',
+					value: 'diff3_10',
+					playbackMin: 0.8,
+					playbackSpeedup: 3,
+					min: 0.25,
+					peak: 1,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.5
+		}
+		]
+	},
+	{
+		fileName: 'PE_hi-hat.ogg',
+		gain: -5,
+		decayCutoff: 0.1,
+		inputs: [{	range: 'pe_parietal_rel',
+					type: 'volume',
+					value: 'curr',
+					min: 0.5,
+					peak: 0.7,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.2
+		},
+		{			range: 'pe_frontal_diff',
+					type: 'playbackRate',
+					value: 'diff3_10',
+					playbackMin: 0.8,
+					playbackSpeedup: 3,
+					min: 0.25,
+					peak: 1,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.5
+		}]
+	},	
+	{
+		fileName: 'PE_bell.ogg',
+		gain: -5,
+		decayCutoff: 0.1,
+		inputs: [{	range: 'pe_frontal_rel',
+					type: 'volume',
+					value: 'curr',
+					min: 0.7,
+					peak: 0.85,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.2
+			},
+		{			range: 'pe_frontal_diff',
+					type: 'playbackRate',
+					value: 'diff3_10',
+					playbackMin: 0.8,
+					playbackSpeedup: 3,
+					min: 0.25,
+					peak: 1,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.5
+		}
+		]
+	},	
+	{
+		fileName: 'PE_offbeatcymbal.ogg',
+		gain: -5,
+		decayCutoff: 0.1,
+		inputs: [{	range: 'pe_parietal_rel',
+					type: 'volume',
+					value: 'curr',
+					min: 0.7,
+					peak: 0.85,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.2
+		},
+		{			range: 'pe_frontal_diff',
+					type: 'playbackRate',
+					value: 'diff3_10',
+					playbackMin: 0.8,
+					playbackSpeedup: 3,
+					min: 0.25,
+					peak: 1,
+					max: 1,
+					decayRate: 0.5,
+					decayRange: 0.15,
+					decayBoost: 0.5
+		}]
+	},
 	{
 		fileName: 'PE-noise.ogg',
 		gain: -20,
 		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_frontal_rel',
+		inputs: [{	range: 'pe_frontal_abs',
 					type: 'volume',
 					value: 'avg3',
 					min: 0,
@@ -486,10 +627,10 @@ const defaultPreset = {
 	{	fileName: 'PE-noise2.ogg',
 		gain: -20,
 		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_parietal_rel',
+		inputs: [{	range: 'pe_parietal_abs',
 					type: 'volume',
 					value: 'avg3',
-					min: 0.6,
+					min: 0.0,
 					peak: 0.8,
 					max: 1,
 					decayRate: 0.5,
@@ -855,34 +996,34 @@ const defaultPreset = {
 				}
 			]
 	},
-	{
-		fileName: 'wPLI-LL-flute-low.ogg',
-		gain: -10,
-		decayCutoff: 0.2,
-		inputs: [{	range: 'fp_wpli_left_lateral',
-					type: 'volume',
-					value: 'avg3',
-					min: 0,
-					peak: 1,
-					max: 1,
-					decayThreshold: 0.4,
-					decayBoost: 0.1,
-					decayRate: 0.4,
-					decayRange: 0.2
-				},
-				{	range: 'fp_dpli_left_lateral_lead',
-					type: 'volume',
-					value: 'avg3',
-					min: 0,
-					peak: 0.2,
-					max: 0.2,
-					decayThreshold: 0.4,
-					decayBoost: 0.1,
-					decayRate: 0.4,
-					decayRange: 0.2
-				}
-			]
-	},
+	// {
+	// 	fileName: 'wPLI-LL-flute-low.ogg',
+	// 	gain: -10,
+	// 	decayCutoff: 0.2,
+	// 	inputs: [{	range: 'fp_wpli_left_lateral',
+	// 				type: 'volume',
+	// 				value: 'avg3',
+	// 				min: 0,
+	// 				peak: 1,
+	// 				max: 1,
+	// 				decayThreshold: 0.4,
+	// 				decayBoost: 0.1,
+	// 				decayRate: 0.4,
+	// 				decayRange: 0.2
+	// 			},
+	// 			{	range: 'fp_dpli_left_lateral_lead',
+	// 				type: 'volume',
+	// 				value: 'avg3',
+	// 				min: 0,
+	// 				peak: 0.2,
+	// 				max: 0.2,
+	// 				decayThreshold: 0.4,
+	// 				decayBoost: 0.1,
+	// 				decayRate: 0.4,
+	// 				decayRange: 0.2
+	// 			}
+	// 		]
+	// },
 	{
 		fileName: 'wPLI-LM-bassoon-high.ogg',
 		gain: -2,
@@ -939,34 +1080,34 @@ const defaultPreset = {
 				}
 			]
 	},
-	{
-		fileName: 'wPLI-LM-bassoon-low.ogg',
-		gain: -7,
-		decayCutoff: 0.2,
-		inputs: [{	range: 'fp_wpli_left_midline',
-					type: 'volume',
-					value: 'avg3',
-					min: 0,
-					peak: 1,
-					max: 1,
-					decayThreshold: 0.4,
-					decayBoost: 0.1,
-					decayRate: 0.4,
-					decayRange: 0.2
-				},
-				{	range: 'fp_dpli_left_midline_lead',
-					type: 'volume',
-					value: 'avg3',
-					min: 0,
-					peak: 0.2,
-					max: 0.2,
-					decayThreshold: 0.4,
-					decayBoost: 0.1,
-					decayRate: 0.4,
-					decayRange: 0.2
-				}
-			]
-	},
+	// {
+	// 	fileName: 'wPLI-LM-bassoon-low.ogg',
+	// 	gain: -7,
+	// 	decayCutoff: 0.2,
+	// 	inputs: [{	range: 'fp_wpli_left_midline',
+	// 				type: 'volume',
+	// 				value: 'avg3',
+	// 				min: 0,
+	// 				peak: 1,
+	// 				max: 1,
+	// 				decayThreshold: 0.4,
+	// 				decayBoost: 0.1,
+	// 				decayRate: 0.4,
+	// 				decayRange: 0.2
+	// 			},
+	// 			{	range: 'fp_dpli_left_midline_lead',
+	// 				type: 'volume',
+	// 				value: 'avg3',
+	// 				min: 0,
+	// 				peak: 0.2,
+	// 				max: 0.2,
+	// 				decayThreshold: 0.4,
+	// 				decayBoost: 0.1,
+	// 				decayRate: 0.4,
+	// 				decayRange: 0.2
+	// 			}
+	// 		]
+	// },
 	{
 		fileName: 'wPLI-RM-horn-high.ogg',
 		gain: -2,
@@ -1023,34 +1164,34 @@ const defaultPreset = {
 				}
 			]
 	},
-	{
-		fileName: 'wPLI-RM-horn-low.ogg',
-		gain: -10,
-		decayCutoff: 0.2,
-		inputs: [{	range: 'fp_wpli_right_midline',
-					type: 'volume',
-					value: 'avg3',
-					min: 0,
-					peak: 1,
-					max: 1,
-					decayThreshold: 0.4,
-					decayBoost: 0.1,
-					decayRate: 0.4,
-					decayRange: 0.2
-				},
-				{	range: 'fp_dpli_right_midline_lead',
-					type: 'volume',
-					value: 'avg3',
-					min: 0,
-					peak: 0.2,
-					max: 0.2,
-					decayThreshold: 0.4,
-					decayBoost: 0.1,
-					decayRate: 0.4,
-					decayRange: 0.2
-				}
-			]
-	},
+	// {
+	// 	fileName: 'wPLI-RM-horn-low.ogg',
+	// 	gain: -10,
+	// 	decayCutoff: 0.2,
+	// 	inputs: [{	range: 'fp_wpli_right_midline',
+	// 				type: 'volume',
+	// 				value: 'avg3',
+	// 				min: 0,
+	// 				peak: 1,
+	// 				max: 1,
+	// 				decayThreshold: 0.4,
+	// 				decayBoost: 0.1,
+	// 				decayRate: 0.4,
+	// 				decayRange: 0.2
+	// 			},
+	// 			{	range: 'fp_dpli_right_midline_lead',
+	// 				type: 'volume',
+	// 				value: 'avg3',
+	// 				min: 0,
+	// 				peak: 0.2,
+	// 				max: 0.2,
+	// 				decayThreshold: 0.4,
+	// 				decayBoost: 0.1,
+	// 				decayRate: 0.4,
+	// 				decayRange: 0.2
+	// 			}
+	// 		]
+	// },
 	{
 		fileName: 'wPLI-RL-clarinet-high.ogg',
 		gain: -2,
@@ -1107,34 +1248,34 @@ const defaultPreset = {
 				}
 			]
 	},
-	{
-		fileName: 'wPLI-RL-clarinet-low.ogg',
-		gain: -10,
-		decayCutoff: 0.2,
-		inputs: [{	range: 'fp_wpli_right_midline',
-					type: 'volume',
-					value: 'avg3',
-					min: 0,
-					peak: 1,
-					max: 1,
-					decayThreshold: 0.4,
-					decayBoost: 0.1,
-					decayRate: 0.4,
-					decayRange: 0.2
-				},
-				{	range: 'fp_dpli_right_midline_lead',
-					type: 'volume',
-					value: 'avg3',
-					min: 0,
-					peak: 0.2,
-					max: 0.2,
-					decayThreshold: 0.4,
-					decayBoost: 0.1,
-					decayRate: 0.4,
-					decayRange: 0.2
-				}
-			]
-	}
+	// {
+	// 	fileName: 'wPLI-RL-clarinet-low.ogg',
+	// 	gain: -10,
+	// 	decayCutoff: 0.2,
+	// 	inputs: [{	range: 'fp_wpli_right_midline',
+	// 				type: 'volume',
+	// 				value: 'avg3',
+	// 				min: 0,
+	// 				peak: 1,
+	// 				max: 1,
+	// 				decayThreshold: 0.4,
+	// 				decayBoost: 0.1,
+	// 				decayRate: 0.4,
+	// 				decayRange: 0.2
+	// 			},
+	// 			{	range: 'fp_dpli_right_midline_lead',
+	// 				type: 'volume',
+	// 				value: 'avg3',
+	// 				min: 0,
+	// 				peak: 0.2,
+	// 				max: 0.2,
+	// 				decayThreshold: 0.4,
+	// 				decayBoost: 0.1,
+	// 				decayRate: 0.4,
+	// 				decayRange: 0.2
+	// 			}
+	// 		]
+	// }
 	]
 }
 
@@ -1294,7 +1435,7 @@ class Track {
 
 		this.fileName = track.fileName;
 		this.inputs = [];
-		this.loopLength = track.loopLength; // loop duration in seconds - actually the time between successive starts, signal plays for 1 1/2 times the loop length
+		this.loopLength = track.loopLength ? track.loopLength : 6; // loop duration in seconds - actually the time between successive starts, signal plays for 1 1/2 times the loop length
 		this.decayRate = track.decayRate;
 		this.decayCutoff = track.decayCutoff;
 
@@ -1507,10 +1648,13 @@ class Track {
 
 						let playbackMin = input.playbackMin;
 						let playbackTimes = input.playbackSpeedup;
-						console.log(playbackTimes);
 
-						this.player.playbackRate = playbackMin + value*playbackTimes;
-						this.player2.playbackRate = playbackMin + value*playbackTimes;
+
+						let newRate = playbackMin + value*playbackTimes;
+						newRate = Number(newRate.toFixed(4));
+
+						this.player.playbackRate = newRate;
+						this.player2.playbackRate = newRate;
 					}
 				}
 			}
@@ -1902,6 +2046,8 @@ function startAudio(preset) {
 	preset.tracks.map(track => loadTrack(track));
 
 	console.log(sound);
+
+	sound.context.resume();
 }
 
 function loadTrack(track) {
