@@ -206,7 +206,8 @@ If a range is marked "relative: true", its minimum and maximum will update to ma
 						max: 0.45,
 						decayBoost: 0.3,
 						decayRate: 0.4,
-						decayRange: 0.15
+						decayRange: 0.15,
+						decayThreshold: 0.6
 					},
 					{ 	range:'spr_alpha_theta_fullrange',
 						type:'volume',
@@ -227,15 +228,74 @@ Each soundfile is a single Track, and the way these are played back depends on t
 
 #### Inputs
 
+Inputs control how the Track responds to incoming messages. Each input specifies a range, type and value, as well as min, peak and max values and information about the decay behaviour. The range specifies which Signal and which Range the Input responds to, and the value says which statistic of that signal is being referenced. The type can either be 'volume', 'loopPoint', or 'playbackRate', explained below.
+
+Starting from the min, peak and max, the input calculates a value between 0 and 1. The value increases linearly between min and peak, then reduces back to 0 at max, so that the value is 0 any time the signal is outside of the relevant values. The *exception* to this is when the peak is equal to either the min or the max, in these cases, the input *stays at 1* above or below the relevant range. This is so that you can have an input that ramps up and then stays on when above or below a given amount. This is ideal for loopPoint inputs.
+
+Min, peak and max are *relative to the range*, so that you can place several tracks with Inputs referencing the same Range. If an input is referencing a Range that has a min of 0.5 and a max of 1, and the input also has a min of 0.5 and a max of 1, then the input responds when the signal is between 0.75 and 1. 
+
+The calculation is
+```
+inputMin = ((rangeMax - rangeMin) * inputMin) + rangeMin
+inputPeak = ((rangeMax - rangeMin) * inputPeak) + rangeMin
+inputMax = ((rangeMax - rangeMin) * inputMax) + rangeMin
+```
+This way, if you want 5 Tracks spaced evenly across the Range, you can use
+```
+input1: min = 0, peak = 0.1, max: 0.2,
+input2: min = 0.2, peak = 0.3, max: 0.4,
+input3: min = 0.4, peak = 0.5, max: 0.6,
+input4: min = 0.6, peak = 0.7, max: 0.8, 
+input5: min = 0.8, peak = 0.9, max: 1.0.
+```
+It is set up this way, so if you adjust the range for a specific brain, you only need to adjust the range and all 5 of these Tracks will adjust accordingly.
+
+
+
+##### volume Inputs
+
+Receiving a message, the volume input calculates a 0-1 value and reassigns the track's level accordingly. 
+
+There can be more than one volume input on a given track, and the level is the *product* of all the volume inputs - this way a signal can be heard only if the dPLI is in a given range AND the wPLI is in some range, if either value comes to 0 the overall loudness will be 0. The potential issue with this choice is that when several inputs all have small but relevant values the product will be smaller still, I worked around this by adjusting my input ranges accordingly.
+
+These soundfiles can either be shorter loops like the HL drones, or longer melodies like the wPLI woodwinds or the HL strings. Including longer soundfiles that loop at different intervals (like in Brian Eno's Music for Airports) helps to give some stability to the overall musicalal form, I found that when using only loopPoint the music was too choppy and incoherent.
+
+The current level of a Track is shown by the middle of the three horizontal sliders.
+
+
+##### loopPoint Inputs
+
+The tracks with loopPoints are sampled using a greatly simplified version of Berio's technique described above. There is one soundfile for each instrument heard. These are composed so that there is an obvious, gradual change from beginning to end, usually with the pitch moving from low to high. For examples, listen to harp.ogg, rhodes.ogg, softersynth.ogg, or any of the dPLI sounds. Moving the playhead from left to right on the soundfiles gives an obvious gradual change. 
+
+The loopPoint input repeatedly plays through a short segment of the soundfile; you can specify the length with the loopLength field in the Track object. When receiving a message, the loopPoint input calculates a 0-1 value in exactly the same way as a volume input, but uses this to decide where within the soundfile to begin the next loop segment. So, a value of 0.5 would begin the segment at halfway through the file, and so on. The segments are slighly overlapped so that one is fading out while the next one is fading in.
+
+So, the loopPoint is chaining together short segments of a soundfile, in order to give a sort of melody that rises and falls with the control signal. It also works to shorten the loopLength to less than a second and use the loopPoint as a sort of concatinative synthesizer.
+
+
+##### playbackRate Inputs
+
+The playbackRate changes the rate at which the samples are played through, resulting in an increase/decrease of both speed and pitch. There are two variables: playbackMin and playbackSpeedup. playbackMin gives the slowest rate, and playbackSpeedup is the factor by which the calculated 0-1 value of the input is multiplied by.
+
+The calculation is
+```
+newPlaybackRate = playbackMin + calculatedValue * playbackSpeedup.
+```
+
+If you want a track to vary between half-speed (0.5) and double-speed (2.0), this would mean a playbackMin of 0.5 and a playbackSpeedup of 1.5 (because 0.5 + 1.5 comes to 2.)
+
+
+
+#### The Decay Feature
+
+An important thing to realize is that Resonance is designed to highlight *changes* in the signals, as well as reflecting the values of the signals themselves. Tracks associated with a signal that has stayed very constant will gradually fade out, and only be heard again once the control signal moves into a new range.
+
+** This decay behaviour right now might be masking important micro-variations in a given signal if it has been in a similar range for a while. In the future it would be interesting to have the decay range shrink or expand depending on its present decay value.
+
+The current decay value of a track is shown on the third horzontal slider of each track in the tracks panel.
 
 
 
 
-
-
-
-
-** bit about min peak max behaviour in inputs
 
 
 
@@ -261,39 +321,6 @@ The soundfiles I refer to here are in flask-app/static/samples.
 
 There are two ways sound files are played back in Resonance - those with a loopPoint input and those without. Those with no loopPoint are only controlled in volume, they are heard when a signal is in certain range, and they simply play through and loop the contents of the sound file.
 
-
-### volume Inputs
-
-Receiving a message, the volume input calculates a 0-1 value and reassigns the track's level accordingly. 
-
-The level is the *product* of all the volume inputs on a track - this way a signal can be heard only if the dPLI is in a given range AND the wPLI is in some range, if either value comes to 0 the overall loudness will be 0. The potential issue with this choice is that when several inputs all have small but relevant values the product will be smaller still, I worked around this by adjusting my input ranges accordingly.
-
-These soundfiles can either be shorter loops like the HL drones, or longer melodies like the wPLI woodwinds or the HL strings. Including longer soundfiles that loop at different intervals (like in Brian Eno's Music for Airports) helps to give some stability to the overall musical Gestalt, I found that when using only loopPoint the music was too choppy and incoherent.
-
-The current level of a Track is shown by the middle of the three horizontal sliders.
-
-
-### loopPoint Inputs
-
-The tracks with loopPoints are sampled using a greatly simplified version of Berio's technique described above. There is one soundfile for each instrument heard. These are composed so that there is an obvious, gradual change from beginning to end, usually with the pitch moving from low to high. For examples, listen to harp.ogg, rhodes.ogg, softersynth.ogg, or any of the dPLI sounds. Moving the playhead from left to right on the soundfiles gives an obvious gradual change. 
-
-The loopPoint input repeatedly plays through a short segment of the soundfile; you can specify the length with the loopLength field in the Track object. When receiving a message, the loopPoint input calculates a 0-1 value in exactly the same way as a volume input, but uses this to decide where within the soundfile to begin the next loop segment. So, a value of 0.5 would begin the segment at halfway through the file, and so on. The segments are slighly overlapped so that one is fading out while the next one is fading in.
-
-So, the loopPoint is chaining together short segments of a soundfile, in order to give a sort of melody that rises and falls with the control signal. It also works to shorten the loopLength to less than a second and use the loopPoint as a sort of concatinative synthesizer.
-
-
-### playbackRate Inputs
-
-
-
-
-## The Decay Feature
-
-An important thing to realize is that Resonance is designed to highlight *changes* in the signals, as well as reflecting the values of the signals themselves. Tracks associated with a signal that has stayed very constant will gradually fade out, and only be heard again once the control signal moves into a new range.
-
-** This decay behaviour right now might be masking important micro-variations in a given signal if it has been in a similar range for a while. In the future it would be interesting to have the decay range shrink or expand depending on its present decay value.
-
-The current decay value of a track is shown on the third horzontal slider of each track in the tracks panel.
 
 
 
@@ -324,4 +351,4 @@ The trick is to be able to hear out each of the features independently
 ```
 "Error: buffer is either not set or not loaded"
 ```
-This is a thing with Tone.js and I don't quite understand it, but it's got something to do with having loaded a buffer from inside a function. It only happens sometimes. If it does, just click Reset OSC and Play OSC again.
+This error comes up if you try to play a list of OSC messages before the soundfiles are fully loaded. Just give it a moment.
