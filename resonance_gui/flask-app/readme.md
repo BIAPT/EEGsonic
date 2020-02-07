@@ -303,7 +303,9 @@ If the new value is within this range, we consider the signal not to have change
 
 If instead the new value is outside of this range, we consider the signal to have changed, and we *add* the decayBoost to the existing decayValue. After this boost, if the new decayValue is above the decayThreshold, then we re-assign a new target value of the decay as the new reference point for deciding whether the signal has changed or not.
 
-The result of this is that when a Signal changes significantly, a Track will slowly increase in volume so long as the incoming values are outside of the current decayRange, until it reaches the decayThreshold, at which point if the Signal stays steady, the decay will slowly decrease.
+The result of this is that when a Signal changes significantly, a Track will slowly increase in volume so long as the incoming values are outside of the current decayRange, until it reaches the decayThreshold, at which point the target value will change. If the Signal then stays steady, the decay will slowly decrease.
+
+To make a sound more present, you can lower its decayRange so that a smaller change causes an increase in volume, you can increase its decayBoost so that each message outside the range causes a larger increase, you can increase the decayRate so that the track fades out more slowly, or you can increase the decayThreshold so that more change is noticeable when the signal is outside of the decayRange. You can also change how often the entire track is present by decreasing its decayCutoff.
 
 The current decay value of a track is shown on the third horzontal slider of each track in the tracks panel.
 
@@ -324,10 +326,14 @@ Below the main controls is a list of all the tracks, each with three blue slider
 
 ### Making Contrast on Different Orders of Magnitude
 
-One of the most difficult things to figure out for Resonance was how to have audible changes in response to both small- and large-range variations of a signal. One thing that music is very good for is to be able to make contrasts at different time-scales and to have both micro- and macro-variations. 
+One of the most difficult things to figure out for Resonance was how to have audible changes in response to both small- and large-range variations of a signal. One thing that music is very good for is to be able to make contrasts at different time-scales and to have both micro- and macro-variations.
+
+I am using pitch a lot for large-scale structure - the harp, piano, synth, etc go from low to high.
 
 
+### How You Could Do Harmony
 
+Another very noticeable way that you could vary the timbre or harmony would be to have matching sound-files in different modes/keys/instruments, etc. If you take a soundfile as it's currently defined, duplicate it with exactly the same inputs, assign a soundfile of the same duration with a different harmony/timbre, then add another volume input to both, related to the new feature you want to code for. That way, the looping point and the volume will be the same for either track, and you could hear a cross-fade in timbre between the two Tracks. 
 
 
 ### Troubleshooting

@@ -353,7 +353,7 @@ const defaultPreset = {
 					max: 0.8,
 					decayBoost: 0.3,
 					decayRate: 0.4,
-					decayRange: 0.2 },
+					decayRange: 0.15 },
 				{	range:'spr_beta_alpha_full',
 					type:'volume',
 					value: 'avg3',
@@ -362,7 +362,7 @@ const defaultPreset = {
 					max: 0.8,
 					decayBoost: 0.3,
 					decayRate: 0.4,
-					decayRange: 0.2 }
+					decayRange: 0.15 }
 				]
 	},
 
@@ -472,14 +472,14 @@ const defaultPreset = {
 			]
 	},
 	{
-		fileName: 'PE_snare.ogg',
+		fileName: 'PE-drum.ogg',
 		gain: -5,
 		decayCutoff: 0.1,
 		inputs: [{	range: 'pe_frontal_rel',
 					type: 'volume',
 					value: 'curr',
 					min: 0.4,
-					peak: 0.6,
+					peak: 1,
 					max: 1,
 					decayRate: 0.5,
 					decayRange: 0.15,
@@ -488,7 +488,7 @@ const defaultPreset = {
 		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
 					value: 'avg3',
-					playbackMin: 0.4,
+					playbackMin: 0.6,
 					playbackSpeedup: 2,
 					min: 0.7,
 					peak: 1,
@@ -500,14 +500,14 @@ const defaultPreset = {
 		]
 	},
 	{
-		fileName: 'PE_kick.ogg',
+		fileName: 'PE-kick.ogg',
 		gain: -5,
 		decayCutoff: 0.1,
 		inputs: [{	range: 'pe_frontal_rel',
 					type: 'volume',
 					value: 'curr',
 					min: 0.5,
-					peak: 0.7,
+					peak: 1,
 					max: 1,
 					decayRate: 0.5,
 					decayRange: 0.15,
@@ -516,7 +516,7 @@ const defaultPreset = {
 		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
 					value: 'avg3',
-					playbackMin: 0.4,
+					playbackMin: 0.6,
 					playbackSpeedup: 2,
 					min: 0.7,
 					peak: 1,
@@ -528,14 +528,14 @@ const defaultPreset = {
 		]
 	},
 	{
-		fileName: 'PE_hi-hat.ogg',
+		fileName: 'PE-hi-hat.ogg',
 		gain: -5,
 		decayCutoff: 0.1,
 		inputs: [{	range: 'pe_parietal_rel',
 					type: 'volume',
 					value: 'curr',
 					min: 0.5,
-					peak: 0.7,
+					peak: 1,
 					max: 1,
 					decayRate: 0.5,
 					decayRange: 0.15,
@@ -544,7 +544,7 @@ const defaultPreset = {
 		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
 					value: 'avg3',
-					playbackMin: 0.4,
+					playbackMin: 0.6,
 					playbackSpeedup: 2,
 					min: 0.7,
 					peak: 1,
@@ -555,14 +555,14 @@ const defaultPreset = {
 		}]
 	},	
 	{
-		fileName: 'PE_bell.ogg',
+		fileName: 'PE-tambourine.ogg',
 		gain: -5,
 		decayCutoff: 0.1,
 		inputs: [{	range: 'pe_frontal_rel',
 					type: 'volume',
 					value: 'curr',
 					min: 0.7,
-					peak: 0.85,
+					peak: 1,
 					max: 1,
 					decayRate: 0.5,
 					decayRange: 0.15,
@@ -571,7 +571,7 @@ const defaultPreset = {
 		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
 					value: 'avg3',
-					playbackMin: 0.4,
+					playbackMin: 0.6,
 					playbackSpeedup: 2,
 					min: 0.7,
 					peak: 1,
@@ -583,14 +583,14 @@ const defaultPreset = {
 		]
 	},	
 	{
-		fileName: 'PE_offbeatcymbal.ogg',
+		fileName: 'PE-cymbal.ogg',
 		gain: -5,
 		decayCutoff: 0.1,
 		inputs: [{	range: 'pe_parietal_rel',
 					type: 'volume',
 					value: 'curr',
 					min: 0.7,
-					peak: 0.85,
+					peak: 1,
 					max: 1,
 					decayRate: 0.5,
 					decayRange: 0.15,
@@ -599,9 +599,9 @@ const defaultPreset = {
 		{			range: 'pe_frontal_rel',
 					type: 'playbackRate',
 					value: 'avg3',
-					playbackMin: 0.2,
+					playbackMin: 0.6,
 					playbackSpeedup: 2,
-					min: 0.7,
+					min: 0.,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -679,9 +679,9 @@ const defaultPreset = {
 				}
 			]
 	},
-	{	fileName: 'TDsound.ogg',
-		gain: -15,
-		loopLength: 0.5,
+	{	fileName: 'TD-synthwithfilters.ogg',
+		gain: -18,
+		loopLength: 0.75,
 		decayCutoff: 0.15,
 		inputs: [
 				// {	range:'td_front_back',
@@ -700,9 +700,9 @@ const defaultPreset = {
 					min: 0,
 					peak: 1,
 					max: 1,
-					decayBoost: 0.4,
-					decayRate: 0.8,
-					decayRange: 0.2
+					decayBoost: 0.3,
+					decayRate: 0.6,
+					decayRange: 0.25
 
 				}
 			]
@@ -1660,14 +1660,7 @@ class Track {
 						// calculate "momentum" bsed on current signal vs average
 						let momentum = (sound.signals[Signal.getChannel(input.range)].curr - sound.signals[Signal.getChannel(input.range)].avg3)*this.length*0.05; // not safe for all channels!
 						//let momentum = 0.01*this.length;
-						//let momentum = 0;
-
-						console.log("momentum: " + momentum);
-						console.log("startPoint " + startPoint);
-						console.log("loopLength" + this.loopLength);
-						console.log("length" + this.length);
-
-						
+						//let momentum = 0
 
 						if (!this.looping) {
 							this.player.stop(sound.context.currentTime + (this.loopLength / 2));
