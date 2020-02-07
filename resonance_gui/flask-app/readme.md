@@ -322,7 +322,7 @@ Below the main controls is a list of all the tracks, each with three blue slider
 
 ## Sound Design and Composing New Pieces
 
-### Making Contrast on Different Orders of Magnitude (Fractal Design)
+### Making Contrast on Different Orders of Magnitude
 
 One of the most difficult things to figure out for Resonance was how to have audible changes in response to both small- and large-range variations of a signal. One thing that music is very good for is to be able to make contrasts at different time-scales and to have both micro- and macro-variations. 
 
