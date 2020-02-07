@@ -225,6 +225,8 @@ If a range is marked "relative: true", its minimum and maximum will update to ma
 
 Each soundfile is a single Track, and the way these are played back depends on the inputs. As well as an array of inputs, the track has a fileName (required), a gain (between -20 and 0), a loopLength in seconds, only needed when there is an input of type "loopPoint" (default is 6 seconds), and a decayCutoff, which is a value between 0 and 1. When the *average* decay values of the track's inputs is below the decayCutoff, the track will be muted.
 
+There are two ways sound files are played back in Resonance - those with a loopPoint input and those without. Those with no loopPoint are only controlled in volume, they are heard when a signal is in certain range, and they simply play through and loop the contents of the sound file.
+
 
 #### Inputs
 
@@ -248,8 +250,7 @@ input3: min = 0.4, peak = 0.5, max: 0.6,
 input4: min = 0.6, peak = 0.7, max: 0.8, 
 input5: min = 0.8, peak = 0.9, max: 1.0.
 ```
-It is set up this way, so if you adjust the range for a specific brain, you only need to adjust the range and all 5 of these Tracks will adjust accordingly.
-
+It is set up this way, so if you adjust the range for a specific brain, you only need to adjust the Range and all 5 of these Tracks will adjust accordingly. In this case, when steadily increasing the Signal across the Range, you would hear Track1 ramp up and down, then silence at 0.2, then Track2, silence at 0.4 and so on. To overlap the sounds you would slightly overlap the input min and max of the different Tracks.
 
 
 ##### volume Inputs
@@ -281,22 +282,26 @@ The calculation is
 newPlaybackRate = playbackMin + calculatedValue * playbackSpeedup.
 ```
 
-If you want a track to vary between half-speed (0.5) and double-speed (2.0), this would mean a playbackMin of 0.5 and a playbackSpeedup of 1.5 (because 0.5 + 1.5 comes to 2.)
-
+If you want a track to vary between half-speed (0.5) and double-speed (2.0), this would mean a playbackMin of 0.5 and a playbackSpeedup of 1.5 (because 0.5 + 1.5 comes to 2).
 
 
 #### The Decay Feature
 
 An important thing to realize is that Resonance is designed to highlight *changes* in the signals, as well as reflecting the values of the signals themselves. Tracks associated with a signal that has stayed very constant will gradually fade out, and only be heard again once the control signal moves into a new range.
 
-** This decay behaviour right now might be masking important micro-variations in a given signal if it has been in a similar range for a while. In the future it would be interesting to have the decay range shrink or expand depending on its present decay value.
+This works by an interaction of four variables defined in the input: decayRate, decayRange, decayBoost and decayThreshold. These work with the *calculated value* of the input, as described above with min, peak and max variables. The Decay also stores an internal value called decayValue that is the result of the calculation. The decayValue of a track is the *average* of the decayValues of each of its inputs, so that novelty in any of the Inputs reflects as novelty in the Track.
+
+To begin, the first message an input receives is stored as a new target value, and the decayValue is set equal to the decayBoost. 
+
+With each subsequent message, first we check whether the absolute difference between the new value and the target value is less than the decayRange - in other words, if the decayRange is 0.2, we check whether the new value is within 0.2 of the value we have stored.
+
+If the new value is within this range, we consider the signal not to have changed, so we *multiply* the decayValue by the decayRate. If the decayRate is high, like 0.9, the decayValue will decrease slowly. If it is low, it will decrease more quickly and the Track will soon fade out.
+
+If instead the new value is outside of this range, we consider the signal to have changed, and we *add* the decayBoost to the existing decayValue. After this boost, if the new decayValue is above the decayThreshold, then we re-assign a new target value of the decay as the new reference point for deciding whether the signal has changed or not.
+
+The result of this is that when a Signal changes significantly, a Track will slowly increase in volume so long as the incoming values are outside of the current decayRange, until it reaches the decayThreshold, at which point if the Signal stays steady, the decay will slowly decrease.
 
 The current decay value of a track is shown on the third horzontal slider of each track in the tracks panel.
-
-
-
-
-
 
 
 ## The GUI
@@ -311,20 +316,6 @@ Below the main controls is a list of all the tracks, each with three blue slider
 
 
 
-
-
-
-
-## How Resonance Plays Back Soundfiles
-
-The soundfiles I refer to here are in flask-app/static/samples.
-
-There are two ways sound files are played back in Resonance - those with a loopPoint input and those without. Those with no loopPoint are only controlled in volume, they are heard when a signal is in certain range, and they simply play through and loop the contents of the sound file.
-
-
-
-
-
 ## Sound Design and Composing New Pieces
 
 ### Making Contrast on Different Orders of Magnitude (Fractal Design)
@@ -332,17 +323,6 @@ There are two ways sound files are played back in Resonance - those with a loopP
 One of the most difficult things to figure out for Resonance was how to have audible changes in response to both small- and large-range variations of a signal. One thing that music is very good for is to be able to make contrasts at different time-scales and to have both micro- and macro-variations. 
 
 
-I like to begin and end each sound-file with 
-
-
-### Making a Soundscape
-
-
-
-
-## About the Design of the Default Preset
-
-The trick is to be able to hear out each of the features independently
 
 
 

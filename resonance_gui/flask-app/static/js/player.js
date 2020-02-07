@@ -1794,10 +1794,10 @@ class Input {
 		this.current = 0;
 		this.playbackMin = input.playbackMin ? input.playbackMin : 1;
 		this.playbackSpeedup = input.playbackSpeedup ? input.playbackSpeedup : 1;
-		this.decayRate = input.decayRate;
+		this.decayRate = input.decayRate ? input.decayRate : 0.5;
 		this.decayBoost = input.decayBoost ? input.decayBoost : 0.2;
 		this.decayThreshold = input.decayThreshold ? input.decayThreshold : 0.7;
-		this.decayRange = input.decayRange;
+		this.decayRange = input.decayRange ? input.decayRange: 0.2;
 		this.decayTarget = null;
 		this.decayValue = 0;
 	}
@@ -1807,7 +1807,8 @@ class Input {
 		this.current = value;
 		if (this.decayTarget === null) {
 			this.decayTarget = value;
-			this.decayValue = this.decayThreshold;
+			//this.decayValue = this.decayThreshold;
+			this.decayValue = this.decayBoost;
 			return 1;
 		}
 
