@@ -114,6 +114,10 @@ This section is about the JavaScript program that is hosted at 127.0.0.1:5000 in
 
 The app uses the Web Audio API and Tone.js for coordinating and playing back the music.
 
+### Replaying saved OSC messages
+
+In order to use Resonance independently from MATLAB EEGSonic, simply press "load Default", the select an OSC file from the playerEvents folder (it must be in this folder!), and click "load OSC". Next click "play OSC." If it plays a couple messages then stops, this just means that the soundfiles had not fully loaded. Wait a moment and press "play OSC" again.
+
 
 ### About the Process that Generates the Music
 
