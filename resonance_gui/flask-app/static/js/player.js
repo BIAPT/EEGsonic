@@ -1431,7 +1431,7 @@ class Signal {
 
 		this.diff3 = this.curr - this.avg3;
 		this.diff5 = this.curr - this.avg5;
-		this.diff10 = this.curr - this.diff10;
+		this.diff10 = this.curr - this.avg10;
 
 		this.avg3 = this.last10.slice(-3).reduce((a,c)=>{return a+c})/this.last10.slice(-3).length;
 		this.avg5 = this.last10.slice(-5).reduce((a,c)=>{return a+c})/this.last10.slice(-5).length;

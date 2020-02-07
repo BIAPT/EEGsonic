@@ -133,6 +133,17 @@ In previous versions of the app it was possible to directly record and save the 
 For this, use Audacity to record the Windows WASAPI if you are on PC, or a combination of SoundFlower and QuickTime on a Mac.
 
 
+## Presets
+
+A preset is structured as follows:
+```
+const preset = {
+	signals: [ array of signal objects ],
+	tracks: [ array of track objects ]
+}
+```
+
+
 ### Signals, Ranges, Tracks and Inputs
 
 The four main "moving parts" in Resonance are the Signal, Range, Track, and Input objects.
@@ -143,34 +154,82 @@ A Track is a single soundfile that is controlled by one or several Inputs, it al
 
 This way, there can be several different Tracks that all have Inputs that are relative to a single Range, and to optimize Resonance for a specific brain we only have to adjust the values of the Ranges and all the related Tracks and Inputs will behave accordingly. 
 
-Lists of these make up a preset. To be more concrete, here is an example preset:
 
-```
-...
-```
 
 #### Signals
 
+```
+	signals: [
+		{ 	channel: '/pe_frontal',
+			ranges: [
+				{
+					name: 'pe_frontal_rel',
+					relative: true,				
+				},
+				{	name: 'pe_frontal_abs',
+					min: 0.4,
+					max: 1
+				},
+				{	name: 'pe_frontal_diff',
+					min: -0.5,
+					max: 0.5
+				}
+			]
+		}
+	]
+```
+
 A signal keeps track of information from a single input channel, there is one for each different kind of message that can be received from EEGSonic. When Resonance loads it creates a Signal object for each element in the preset's signals array.
 
-With each message, the corresponding Signal stores the current value, previous, minimum seen so far, max so far, as well as the average of the last 3, 5 and 10 messages.
+With each incoming message, the corresponding Signal stores the current value, previous, minimum seen so far, max so far, as well as the average of the last 3, 5 and 10 messages. It also tracks the difference of the most recent value with the average of the last 3, 5 and 10 as diff3, diff5, and diff10 respectively, and stores the difference between the avg3 and avg10 as diff3_10. These are useful for indicating when a signal is changing - positive values indicate the signal increasing and negative values, decreasing.
 
 #### Ranges
 
 A Signal can have several Ranges, a Range is a sub-section of the Signal that has its own name- for instance the range of 0.1 to 0.3 of one of the Spectral Power Ratio signals could be called "spr_low". 
 
-** It would also be useful to include the option to have the Range automatically update with the min and max of a Signal, this would allow some ranges to be absolute and others to be relative to the values of the Signal so far.
+If a range is marked "relative: true", its minimum and maximum will update to match the min and max of the corresponding signal. If no default min and max are given, then it will match the signal's min and max exactly, however if you provide a min and max for the range, these will only change when the signal exceeds these bounds, in which case the min or max will update to the new value.
 
 
 #### Tracks
+
+```
+	tracks: [
+		{	fileName: 'harp_main.ogg',
+			gain: -2,
+			loopLength: 5,
+			decayCutoff: 0.1,
+			inputs: [{ 	range:'spr_alpha_theta_fullrange',
+						type:'loopPoint',
+						value:'avg5',
+						min: 0.2,
+						peak: 0.45,
+						max: 0.45,
+						decayBoost: 0.3,
+						decayRate: 0.4,
+						decayRange: 0.15
+					},
+					{ 	range:'spr_alpha_theta_fullrange',
+						type:'volume',
+						value:'avg3',
+						min: 0.2,
+						peak: 0.4,
+						max: 0.6,
+						decayRate: 0.4,
+						decayRange: 0.15
+					}
+				]
+		}
+	]
+```
+
+Each soundfile is a single Track, and the way these are played back depends on the inputs. As well as an array of inputs, the track has a fileName (required), a gain (between -20 and 0), a loopLength in seconds, only needed when there is an input of type "loopPoint" (default is 6 seconds), and a decayCutoff, which is a value between 0 and 1. When the *average* decay values of the track's inputs is below the decayCutoff, the track will be muted.
+
 
 #### Inputs
 
 
 
 
-
-### Presets
 
 
 
@@ -200,7 +259,7 @@ Below the main controls is a list of all the tracks, each with three blue slider
 
 The soundfiles I refer to here are in flask-app/static/samples.
 
-There are two ways sound files are played back in Resonance - those with a loopPoint input and those without. Those with no loopPoint are only controlled in volume, they are heard when a signal is in certain range, and they simply play through and loop the contents of the sound file. 
+There are two ways sound files are played back in Resonance - those with a loopPoint input and those without. Those with no loopPoint are only controlled in volume, they are heard when a signal is in certain range, and they simply play through and loop the contents of the sound file.
 
 
 ### volume Inputs
@@ -216,16 +275,19 @@ The current level of a Track is shown by the middle of the three horizontal slid
 
 ### loopPoint Inputs
 
-The tracks with loopPoints are sampled using a greatly simplified version of Berio's technique described above. There is one soundfile for each instrument heard. These are composed so that there is an obvious, gradual change from beginning to end, usually with the pitch moving from low to high. For examples, listen to harp.ogg, rhodes.ogg, softersynth.ogg, or any of the dPLI sounds. Moving the playhead from left to right on the soundfiles gives an obvious gradual change. There is more about how these soundfiles are designed below in the Sound Design section.
+The tracks with loopPoints are sampled using a greatly simplified version of Berio's technique described above. There is one soundfile for each instrument heard. These are composed so that there is an obvious, gradual change from beginning to end, usually with the pitch moving from low to high. For examples, listen to harp.ogg, rhodes.ogg, softersynth.ogg, or any of the dPLI sounds. Moving the playhead from left to right on the soundfiles gives an obvious gradual change. 
 
 The loopPoint input repeatedly plays through a short segment of the soundfile; you can specify the length with the loopLength field in the Track object. When receiving a message, the loopPoint input calculates a 0-1 value in exactly the same way as a volume input, but uses this to decide where within the soundfile to begin the next loop segment. So, a value of 0.5 would begin the segment at halfway through the file, and so on. The segments are slighly overlapped so that one is fading out while the next one is fading in.
 
-So, the loopPoint is chaining together short segments of a soundfile, in order to give a sort of melody that rises and falls with the control signal. I haven't tried it yet but I suspect it would also work to shorten the loopLength to less than a second and use the loopPoint as a sort of concatinative synthesizer.
-
-** If you're digging through the code, there's a "momentum" variable I left in that's not fully implemented- this could be used to interpolate between values or communicate something in how the track's playback varies between messages. Right now is just nudges the loop point along a tiny bit so that the loops aren't so static.
+So, the loopPoint is chaining together short segments of a soundfile, in order to give a sort of melody that rises and falls with the control signal. It also works to shorten the loopLength to less than a second and use the loopPoint as a sort of concatinative synthesizer.
 
 
-### The Decay Feature
+### playbackRate Inputs
+
+
+
+
+## The Decay Feature
 
 An important thing to realize is that Resonance is designed to highlight *changes* in the signals, as well as reflecting the values of the signals themselves. Tracks associated with a signal that has stayed very constant will gradually fade out, and only be heard again once the control signal moves into a new range.
 
