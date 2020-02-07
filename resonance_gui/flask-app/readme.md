@@ -187,7 +187,7 @@ With each incoming message, the corresponding Signal stores the current value, p
 
 A Signal can have several Ranges, a Range is a sub-section of the Signal that has its own name- for instance the range of 0.1 to 0.3 of one of the Spectral Power Ratio signals could be called "spr_low". 
 
-If a range is marked "relative: true", its minimum and maximum will update to match the min and max of the corresponding signal. If no default min and max are given, then it will match the signal's min and max exactly, however if you provide a min and max for the range, these will only change when the signal exceeds these bounds, in which case the min or max will update to the new value.
+If a range is marked "relative: true", its minimum and maximum will update to match the min and max of the corresponding signal. If no default min and max are given, then it will match the signal's min and max exactly, however if you provide a min and max for the range and also specify "relatve: true", these will only change when the signal exceeds these bounds, in which case the min or max will update to the new value.
 
 
 #### Tracks
