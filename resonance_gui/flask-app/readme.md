@@ -314,7 +314,7 @@ The current decay value of a track is shown on the third horzontal slider of eac
 
 ### The Tracks Panel
 
-Below the main controls is a list of all the tracks, each with three blue sliders. Of these you are only able to control the top one, the other two are for visual feedback only. The top slider is the user-controlled gain on the track. Use this to turn up or down the level on a single track. The middle slider shows the current calculated volume of the track, this is the average of all the volume inputs on the track and it updates with each message the input receives. The final slider is the decay value, which reduces the volume of the track if it has been playing for a while without changing much. The decay function is explained further below.
+Below the main controls is a list of all the tracks, each with three blue sliders. Of these you are only able to control the top one, the other two are for visual feedback only. The top slider is the user-controlled gain on the track. Use this to turn up or down the level on a single track. The middle slider shows the current calculated volume of the track, this is the average of all the volume inputs on the track and it updates with each message the input receives. The final slider is the decay value, which reduces the volume of the track if it has been playing for a while without changing much. 
 
 
 
@@ -328,7 +328,14 @@ Below the main controls is a list of all the tracks, each with three blue slider
 
 One of the most difficult things to figure out for Resonance was how to have audible changes in response to both small- and large-range variations of a signal. One thing that music is very good for is to be able to make contrasts at different time-scales and to have both micro- and macro-variations.
 
-I am using pitch a lot for large-scale structure - the harp, piano, synth, etc go from low to high.
+I am using pitch a lot for large-scale structure - the harp, piano, synth, etc go from low to high. Then, I make similarities in terms of phrasing, repeating sections of melodies with more and more ornamentation, etc., so that the overall 'character' of the music changes gradually as the pitch goes steadily from low to high. I will also pass between 'accompaniment-sounding' to 'melodic-sounding' in different points in the soundfile. I'll also gradually add more activity, but I also like to decrease the amount of activity in a part when it gets in to the higher register, because this allows to put two different soundfiles in subsequently higher ranges on the same Signal. If both move from low to high, you can have the low part of the higher soundfile playing at the same time as the higher part of the lower one, and do a sort of transfer of the focal point, so that you can hear the direction the change is going.
+
+
+### Using loopLength to Distinguish Between Different Features
+
+It seems like for most of the parts, in order to be able to hear out the variations, a loopLenght of about 4 or 5 seconds is good. If each part has a slightly different loopLength, that gives the overall music a certain character, the regularity of the loops helps hold the music together in way that you might not notice at first - but the changes are always coming at the same intervals.
+
+In the default preset, the TD signal is coded with a much shorter loopLength, of only 0.5 seconds. The correspoing sound file changes more quickly, and has contrasts in timbre as well as pitch. This is a different way that you can catch the listener's ear and is a characteristic that lets you recognize this signal as distinct from the others. 
 
 
 ### How You Could Do Harmony
