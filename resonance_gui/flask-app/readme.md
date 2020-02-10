@@ -357,7 +357,7 @@ As stated above, Resonance is intended to amplify the changes in the signals, as
 
 ### How You Could Do Harmony
 
-Another very noticeable way that you could vary the timbre or harmony would be to have matching sound-files in different modes/keys/instruments, etc. If you take a soundfile as it's currently defined, duplicate it with exactly the same inputs, assign a soundfile of the same duration with a different harmony/timbre, then add another volume input to both, related to the new feature you want to code for. That way, the looping point and otherwise the volume will be the same for either track, and you could hear a cross-fade in timbre between the two Tracks, or if you use a smaller min-peak-max, a sudden change in mode/harmony when you cross some threshold.
+Another very noticeable way that you could vary the timbre or harmony would be to have matching sound-files in different modes/keys/instruments, etc. You could take a Track, duplicate it with exactly the same inputs, assign a corresponding soundfile of the same duration with a different harmony/timbre, then add another volume input to both, related to the new feature you want to code for. That way, the looping point and otherwise the volume will be the same for either track, but you would also hear a cross-fade in timbre between the two Tracks, or if you use a smaller min-peak-max, a sudden change in mode/harmony when you cross some threshold.
 
 
 ### Troubleshooting
