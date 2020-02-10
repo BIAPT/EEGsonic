@@ -249,7 +249,7 @@ Receiving a message, the volume input calculates a 0-1 value and reassigns the t
 
 There can be more than one volume input on a given track, and the level is the *product* of all the volume inputs - this way a signal can be heard only if the dPLI is in a given range AND the wPLI is in some range, if either value comes to 0 the overall loudness will be 0. The potential issue with this choice is that when several inputs all have small but relevant values the product will be smaller still, I worked around this by adjusting my input ranges accordingly.
 
-These soundfiles can either be shorter loops like the HL drones, or longer melodies like the wPLI woodwinds or the HL strings. Including longer soundfiles that loop at different intervals (like in Brian Eno's Music for Airports) helps to give some stability to the overall musicalal form, I found that when using only loopPoint the music was too choppy and incoherent.
+These soundfiles can either be shorter loops like the HL drones, or longer melodies like the wPLI woodwinds or the HL strings. Including longer soundfiles that loop at different intervals (like in Brian Eno's Music for Airports) helps to give some stability to the overall musical form, I found that when using only loopPoint the music was too choppy and incoherent.
 
 The current level of a Track is shown by the middle of the three horizontal sliders.
 
@@ -260,7 +260,7 @@ The tracks with loopPoints are sampled using a greatly simplified version of Ber
 
 The loopPoint input repeatedly plays through a short segment of the soundfile; you can specify the length with the loopLength field in the Track object. When receiving a message, the loopPoint input calculates a 0-1 value in exactly the same way as a volume input, but uses this to decide where within the soundfile to begin the next loop segment. So, a value of 0.5 would begin the segment at halfway through the file, and so on. The segments are slighly overlapped so that one is fading out while the next one is fading in.
 
-So, the loopPoint is chaining together short segments of a soundfile, in order to give a sort of melody that rises and falls with the control signal. It also works to shorten the loopLength to less than a second and use the loopPoint as a sort of concatinative synthesizer.
+So, the loopPoint is chaining together short segments of a soundfile, in order to give a sort of melody that rises and falls with the control signal. It also works to shorten the loopLength to less than a second and use the loopPoint as a sort of concatinative/granular synthesizer.
 
 
 ##### playbackRate Inputs
@@ -279,19 +279,19 @@ If you want a track to vary between half-speed (0.5) and double-speed (2.0), thi
 
 An important thing to realize is that Resonance is designed to highlight *changes* in the signals, as well as reflecting the values of the signals themselves. Tracks associated with a signal that has stayed very constant will gradually fade out, and only be heard again once the control signal moves into a new range.
 
-This works by an interaction of four variables defined in the input: decayRate, decayRange, decayBoost and decayThreshold. These work with the *calculated value* of the input, as described above with min, peak and max variables. The Decay also stores an internal value called decayValue that is the result of the calculation. The decayValue of a track is the *average* of the decayValues of each of its inputs, so that novelty in any of the Inputs reflects as novelty in the Track.
+This works by an interaction of four variables defined in the input: decayRate, decayRange, decayBoost and decayThreshold. These work with the *calculated value* of the input, as described above with min, peak and max variables. The Decay also stores an internal value called decayValue that is the result of the calculation. The decayValue of a Track is the *average* of the decayValues of each of its Inputs, so that novelty in any of the Inputs reflects as novelty in the Track.
 
 To begin, the first message an input receives is stored as a new target value, and the decayValue is set equal to the decayBoost. 
 
-With each subsequent message, first we check whether the absolute difference between the new value and the target value is less than the decayRange - in other words, if the decayRange is 0.2, we check whether the new value is within 0.2 of the value we have stored.
+With each subsequent message, first we check whether the absolute difference between the new value and the target value is less than the decayRange - in other words, if the decayRange is 0.2, we check whether the new value is within 0.2 above or below the value we have stored. Again, this is not referring to the actual value of the Signal, but to the result of the calculations done by the Input, which will always be in a range of 0 to 1.
 
-If the new value is within this range, we consider the signal not to have changed, so we *multiply* the decayValue by the decayRate. If the decayRate is high, like 0.9, the decayValue will decrease slowly. If it is low, it will decrease more quickly and the Track will soon fade out.
+If the new value is within this range, we consider the signal not to have changed, so we *multiply* the decayValue by the decayRate. If the decayRate is high, like 0.9, the decayValue will decrease slowly. If it is low, it will decrease more quickly and the Track will soon fade out. (this should really be adjusted because the name implies the opposite of what it does... todo)
 
 If instead the new value is outside of this range, we consider the signal to have changed, and we *add* the decayBoost to the existing decayValue. After this boost, if the new decayValue is above the decayThreshold, then we re-assign a new target value of the decay as the new reference point for deciding whether the signal has changed or not.
 
-The result of this is that when a Signal changes significantly, a Track will slowly increase in volume so long as the incoming values are outside of the current decayRange, until it reaches the decayThreshold, at which point the target value will change. If the Signal then stays steady, the decay will slowly decrease.
+The result of this is that when a Signal changes significantly, a Track will slowly increase in volume so long as the incoming values are outside of the current decayRange, until it reaches the decayThreshold, at which point the target value will change. If the Signal then stays steady, the decay will slowly decrease because the new values are being compared with the updated target value.
 
-To make a sound more present, you can lower its decayRange so that a smaller change causes an increase in volume, you can increase its decayBoost so that each message outside the range causes a larger increase, you can increase the decayRate so that the track fades out more slowly, or you can increase the decayThreshold so that more change is noticeable when the signal is outside of the decayRange. You can also change how often the entire track is present by decreasing its decayCutoff.
+To make a sound more present, you can lower its decayRange so that a smaller change causes an increase in volume, you can increase its decayBoost so that each message that falls outside the range causes a larger increase, you can increase the decayRate so that the track fades out more slowly, or you can increase the decayThreshold so that more change is noticeable when the signal is outside of the decayRange. You can also change how often the entire track is present by decreasing its decayCutoff.
 
 The current decay value of a track is shown on the third horzontal slider of each track in the tracks panel.
 
@@ -311,7 +311,7 @@ The primary inspiration for the algorithmic process that Resonance uses comes fr
 
 https://www.youtube.com/watch?v=vGogPD1H6YI
 
-I've always appreciated this technique because it allows for a systemic, rule-bound and structural way of manipulating an expressive and intuitively composed musical idea. Of course, this manipulation itself can also be expressive and intuitive. It is difficult to reconcile the place of intuition and the composer's free spirit with a technological and algorithmic, data-driven working process. Berio's technique in this Sequenza allows the composer complete creative control over the sound material, and offers a process that can be used to draw out and amplify contrasts while still giving the piece a coherent and self-contained structure, giving it an identity and a clear form.
+I've always appreciated this technique because it allows for a systemic, rule-bound and structural way of manipulating an expressive musical idea. It is difficult to reconcile the place of intuition and the composer's free spirit with a technological and algorithmic, data-driven working process. Berio's technique in this Sequenza allows the composer complete creative control over the sound material, and offers a process that can be used to draw out and amplify contrasts while still giving the piece a coherent and self-contained structure, giving it an identity and a clear form.
 
 This idea of using algorithms to amplify the characteristics, the latent potential of a freely expressed "seed crystal melody" is central to how I approach music in general. This was also a concern of Claude Vivier, a notable Quebecois composer, who similarly used algorithmic processes to draw out the latent qualities of his freely composed melodies.
 
@@ -351,16 +351,16 @@ With EEGSonic, the Spectral Power Ratio signals are sent every 5 seconds and the
 
 ### Making Contrast on Different Orders of Magnitude
 
-One of the most difficult things to figure out for Resonance was how to have recognizable, audible changes in response to both small- and large-range variations of a signal. One thing that music is very good for is to be able to make contrasts at different time-scales and to have both micro- and macro-variations - the music has a fractal form where you can track the change every 30 seconds, every 10, every 5, etc.
+One of the most difficult things to figure out for Resonance was how to have recognizable, audible changes in response to both small- and large-range variations of a signal. One thing that music is very good for is to be able to make contrasts at different time-scales and to have both micro- and macro-variations - the music has a fractal form where you can hear different sorts of contrasts every 30 seconds, every 10, every 5, etc.
 
 I am using pitch a lot for large-scale structure - the harp, piano, synth, etc go from low to high. Then, I compose the details of the soundfile so that sections close to each-other are similar in terms of phrasing, repeating sections of melodies with more and more ornamentation, etc. This way, the overall 'character' of the soundfile changes gradually as the pitch goes steadily from low to high. By using a loopPoint input that samples 5-second long segments of the soundfile in a moving window, small changes in the signal will result in small but noticeable changes in detail of the sound, while larger changes will be much more noticeable and drastic changes.
 
-I also like to pass between 'accompaniment-sounding' to 'melodic-sounding' in different points in the soundfile. I'll also gradually add more activity, but I also like to decrease the amount of activity when it gets in to the higher register, because this allows to put two different soundfiles that overlap slightly in subsequently higher ranges on the same Signal. If both move from low to high, you can have the low part of the higher soundfile playing at the same time as the higher part of the lower one, and do a sort of transfer of the focal point, so that you can hear the direction the change is going.
+I also like to pass between 'accompaniment-sounding' to 'melodic-sounding' in different points in the soundfile. I'll also gradually add more activity, but I also like to decrease the amount of activity when it gets into the higher register, because this allows to put two different soundfiles that overlap slightly in subsequently higher ranges on the same Signal. If both move from low to high pitch and pass from an accompaniment to a lead role, you can have the low part of the higher soundfile playing at the same time as the higher part of the lower one and do a sort of transfer of the focal point, so that you can hear the direction the change is going.
 
 
 ### Using loopLength to Distinguish Between Different Features
 
-It seems like for most of the parts, in order to be able to hear out the variations, a loopLength of about 4 or 5 seconds is good. If each part has a slightly different loopLength, that gives the overall music a distinctive character, the regularity of the loops helps hold the music together in way that you might not notice at first - but the changes are always coming at the same intervals and this gives the music structural integrity.
+It seems like for most of the parts, in order to be able to hear out the variations, a loopLength of about 4 or 5 seconds is good. If each part has a slightly different loopLength, that gives the overall music a distinctive character, the regularity of the loops helps hold the music together in way that you might not notice at first - but the changes are always coming at the same intervals and this gives the music structural integrity. It also helps to have some Tracks without loopLength inputs so they loop through a longer, more static musical segment and make the music feel less choppy.
 
 In the default preset, the TD signal is coded with a much shorter loopLength, of only 0.5 seconds. The correspoing sound file changes more quickly, and has contrasts in timbre as well as pitch. This is a different way that you can catch the listener's ear and is a characteristic that lets you recognize this signal as distinct from the others. 
 
@@ -372,7 +372,12 @@ As stated above, Resonance is intended to amplify the changes in the signals, as
 
 ### How You Could Do Harmony
 
-Another very noticeable way that you could vary the timbre or harmony would be to have matching sound-files in different modes/keys/instruments, etc. You could take a Track, duplicate it with exactly the same inputs, assign a corresponding soundfile of the same duration with a different harmony/timbre, then add another volume input to both, related to the new feature you want to code for. That way, the looping point and otherwise the volume will be the same for either track, but you would also hear a cross-fade in timbre between the two Tracks, or if you use a smaller min-peak-max, a sudden change in mode/harmony when you cross some threshold.
+Another very noticeable way that you could vary the timbre or harmony would be to have matching sound-files in different modes/keys/instruments, etc. You could take a Track, duplicate it with exactly the same inputs, assign a different, corresponding soundfile of the same duration with a contrasting harmony/timbre, then add another volume input to both, related to the new feature you want to code for. That way, the looping point and otherwise the volume will be the same for either track so the two will always be properly aligned, but you would also hear a cross-fade in timbre between the two Tracks, or if you use a smaller min-peak-max, a sudden change in mode/harmony when you cross some threshold.
+
+
+### Making More Use of the Tone.JS Library
+
+If you look up the documentation of Tone.JS, there are a bunch of filters and other effects that could be used to manipulate the sound in Resonance. I've only explored this a little bit, adding a low-pass filter when the TD moves towards the front of the brain (indicating sedation I think?), but adding more effects like this on individual tracks would be another way of distinguising the different Signals.
 
 
 ## Troubleshooting
