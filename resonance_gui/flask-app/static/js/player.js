@@ -1381,10 +1381,12 @@ class Signal {
 		this.muteButton.addEventListener('click', () => {
 			if (this.muted) {
 				this.muteButton.innerText = 'MUTE';
+				this.muteButton.classList.remove('muted');
 				this.muted = false;
 				console.log(this.channel + ' is no longer muted');
 			} else {
 				this.muteButton.innerText = 'UNMUTE';
+				this.muteButton.classList.add('muted');
 				this.muted = true;
 				console.log(this.channel + " is now muted");
 			}
@@ -1414,6 +1416,12 @@ class Signal {
 
 		let messageIn = JSON.parse(JSON.stringify(message)); // fix problem w aliasing
 
+		// filter out muted signals
+		if (sound.signals[messageIn.address].muted) {
+			console.log('messageIn muted! ' + messageIn.address);
+			return 0;
+		}
+
 		// This is taking the log 10 of the spectral power ratios, this makes a nicer signal to sonify
 		if (messageIn.address === '/spr_beta_alpha' || messageIn.address === '/spr_alpha_theta') {
 			messageIn.args[0] = Math.log10(messageIn.args[0]);
@@ -1428,12 +1436,6 @@ class Signal {
 			} else {
 				sound.filter.frequency.linearRampToValueAtTime(800, 10);
 			}
-		}
-
-		// filter out muted signals
-		if (sound.signals[messageIn.address].muted) {
-			console.log('messageIn muted!')
-			return 0;
 		}
 
 		// Send the transformed message to each track.
