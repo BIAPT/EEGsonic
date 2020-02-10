@@ -99,13 +99,10 @@ In Net Station Aquisition, before measuring impedences, set the Filter to Highpa
 
 Open the EEGSonic_app.mlapp file in MATLAB. Click "Select Saving Directory" and select an output folder, and next to Folder Name, input a name of the new folder to be created. Select the "EGI-129" tab. Make sure the configuration is the same as listed above under "Replaying a converted folder". 
 
-
-
 Start the Flask app and open the browser page in the same way as when replaying a folder. Make sure that EEGSonic is not in Debug mode, then press the Launch button to start recording data and broadcasting messages. 
 
 
 *** Add instructions on disconnecting the amplifier afterwards
-
 
 
 ## Working with the Resonance Player - Playback
@@ -117,17 +114,6 @@ The app uses the Web Audio API and Tone.js for coordinating and playing back the
 ### Replaying saved OSC messages
 
 In order to use Resonance independently from MATLAB EEGSonic, simply press "load Default", the select an OSC file from the playerEvents folder (it must be in this folder!), and click "load OSC". Next click "play OSC." If it plays a couple messages then stops, this just means that the soundfiles had not fully loaded. Wait a moment and press "play OSC" again.
-
-
-### About the Process that Generates the Music
-
-The inspiration for the algorithmic process that Resonance uses comes from Luciano Berio's Sequenza IXa for solo clarinet. Berio was a pre-eminent Italian composer of the mid-20th century, and his works include a series of pieces exploring the possibilities of different solo instruments. For his clarinet sequenza, Berio first wrote a technically challenging melody that explores the range of sounds the clarinet can make, and he then used this as source material to compose the Sequenza. He made the Sequenza by sampling, looping and manipulating short fragments of his melody, repeating them, playing them forwards and backwards, similar to popular tape-editing techniques. He explores the space that the melody traces out by using a "sliding window" that draws out features and contrasts.
-
-https://www.youtube.com/watch?v=vGogPD1H6YI
-
-I've always appreciated this technique because it allows for a systemic, rule-bound and structural way of manipulating an expressive and intuitively composed musical core. Of course, this manipulation itself can also be expressive and intuitive. It is difficult to reconcile the place of intuition and the composer's free spirit with a technological and algorithmic, data-driven working process. Berio's technique in this Sequenza allows the composer complete creative control over the sound material, and offers a process that can be used to draw out and amplify contrasts while still giving the piece a coherent and self-contained structure, giving it an identity and a clear form.
-
-This idea of using algorithms to amplify the characteristics, the latent potential of a freely expressed "seed crystal melody" is central to how I approach music in general. This was also a concern of Claude Vivier, a notable Quebecois composer, who similarly used algorithmic processes to draw out the latent qualities of his freely composed melodies.
 
 
 ### Recording Audio Output
@@ -159,7 +145,6 @@ A Track is a single soundfile that is controlled by one or several Inputs, it al
 This way, there can be several different Tracks that all have Inputs that are relative to a single Range, and to optimize Resonance for a specific brain we only have to adjust the values of the Ranges and all the related Tracks and Inputs will behave accordingly. 
 
 
-
 #### Signals
 
 ```
@@ -186,6 +171,7 @@ This way, there can be several different Tracks that all have Inputs that are re
 A signal keeps track of information from a single input channel, there is one for each different kind of message that can be received from EEGSonic. When Resonance loads it creates a Signal object for each element in the preset's signals array.
 
 With each incoming message, the corresponding Signal stores the current value, previous, minimum seen so far, max so far, as well as the average of the last 3, 5 and 10 messages. It also tracks the difference of the most recent value with the average of the last 3, 5 and 10 as diff3, diff5, and diff10 respectively, and stores the difference between the avg3 and avg10 as diff3_10. These are useful for indicating when a signal is changing - positive values indicate the signal increasing and negative values, decreasing.
+
 
 #### Ranges
 
@@ -317,18 +303,40 @@ The current decay value of a track is shown on the third horzontal slider of eac
 Below the main controls is a list of all the tracks, each with three blue sliders. Of these you are only able to control the top one, the other two are for visual feedback only. The top slider is the user-controlled gain on the track. Use this to turn up or down the level on a single track. The middle slider shows the current calculated volume of the track, this is the average of all the volume inputs on the track and it updates with each message the input receives. The final slider is the decay value, which reduces the volume of the track if it has been playing for a while without changing much. 
 
 
+## Sound Design
+
+### About the Process that Generates the Music
+
+The inspiration for the algorithmic process that Resonance uses comes from Luciano Berio's Sequenza IXa for solo clarinet. Berio was a pre-eminent Italian composer of the mid-20th century, and his works include a series of pieces exploring the possibilities of different solo instruments. For his clarinet sequenza, Berio first wrote a technically challenging melody that explores the range of sounds the clarinet can make, and he then used this as source material to compose the Sequenza. He made the Sequenza by sampling, looping and manipulating short fragments of his melody, repeating them, playing them forwards and backwards, similar to popular tape-editing techniques. He explores the space that the melody traces out by using a "sliding window" that draws out features and contrasts.
+
+https://www.youtube.com/watch?v=vGogPD1H6YI
+
+I've always appreciated this technique because it allows for a systemic, rule-bound and structural way of manipulating an expressive and intuitively composed musical core. Of course, this manipulation itself can also be expressive and intuitive. It is difficult to reconcile the place of intuition and the composer's free spirit with a technological and algorithmic, data-driven working process. Berio's technique in this Sequenza allows the composer complete creative control over the sound material, and offers a process that can be used to draw out and amplify contrasts while still giving the piece a coherent and self-contained structure, giving it an identity and a clear form.
+
+This idea of using algorithms to amplify the characteristics, the latent potential of a freely expressed "seed crystal melody" is central to how I approach music in general. This was also a concern of Claude Vivier, a notable Quebecois composer, who similarly used algorithmic processes to draw out the latent qualities of his freely composed melodies.
 
 
+### Sound Design of the Default Preset
+
+The 'parti pris' or organizing principal that I arrived at in composing the music for Resonance is of a 'deconstructed lullaby'. When considering the sounds to be used, a lot of my thought was that 1) this was going to be used with children, 2) family members visiting a loved one are likely to be in a certain emotional state, 3) it needs to be appropriate for a hospital setting, 4) it needs to be something you could listen to for a long while without it becoming tedious. I also to some extent wanted to create a sense of magic.
+
+A lot of my early musical experiences came from the looping music of video games, in which 4) is a big factor of the design - it's maybe a bit of a kitschy example, but the music of the original Pokemon Red/Blue games needed to convey a lot of character with a extreme economy of means, just because of the storage space on a GameBoy cartrige. If you listen to the music of Vermillion City (it's on YouTube), the entire loop is about 40 seconds long, but you could listen to it for a very long time and anyone who grew up playing those games would recognize it in a heartbeat.
+
+Another reference to loops is in Ambient music, especially in works like "Music for Airports" by Brian Eno. This music is made up of loops of different durations that overlap differently with each repetition, so the musicality is in the play of between their internal stasis and the changing contrasts they have with other loops.
 
 
+### Mobile Form
 
-## Sound Design and Composing New Pieces
+A popular trend in mid-20th Century music was of "mobile form" - named after a hanging mobile like you might see in an infant's bedroom - the idea was to create music where the parts are able to re-arrange their order. This falls under the umbrella of Aleatoric Music. The idea is that the piece is not a pre-determined, ordered progression of sounds that goes in a straight line from beginning to end; the sound of the piece can vary from performance to performance and the identity of the piece is in the form of the interactions. Later, the composer Agostino Di Scipio described this new role of the composer not as creating specific instructions to be dutifully carried out by the performers, but as "composing desirable interactions". These sorts of ideas are ideal for making the flexible sort of music that Resonance requires.
 
-### Making a Soundscape where each Signal has its own Role
 
-An advantage of music is that it is more "transparent" - there can be sevearal sounds playing at once and we hear all of them, unlike a visual representation where one signal can cover up or interfere more with another. Despite this, if the signals do not have their own identity it will be much harder to tell them apart. A big part of the compositional process was to find a 'niche', a unique place in the ecosystem for each sound so that they can all be harmonious, and all be slowly changing without making the overall result too crowded and messy.
+## Concepts for Composing New Pieces
 
-In the default preset, the PE is represented by drums which speed up and slow down, and also by a noisy texture. The SPR are melodic instruments that form the foreground of the music. The dPLI and wPLI are spatialized, with left-lobe signals playing in the left speaker and right-lobe in the right. The dPLI and wPLI share this spatialization, but the sounds associated with them are very different. The HL fills out the background of the piece, especially in the lower registers, and helps to create contrast between stasis and movement when the HL is towards the front and back, respecively. The TD plays a similar supporting role to the HL, but in a higher frequency range, it adds "energy" or "excitement" to the sound. This way, for each signal if you know where to listen for it, you can find that information easily.
+### Making a Soundscape where each Signal has its own Role and Identity
+
+An advantage of music is that it is more "transparent" - there can be sevearal sounds playing at once and we hear all of them, unlike a visual representation where one signal can cover up or interfere more with another. Despite this, if the signals do not have their own identity it will be much harder to tell them apart. A big part of the compositional process was to find a 'niche', a unique place in the ecosystem for each sound so that they can all be harmonious, and all be slowly changing so you can hear all the changes without making the overall result too crowded and messy.
+
+In the default preset, the PE is represented by drums which speed up and slow down, and also by a noisy texture. The SPR are melodic instruments that form the foreground of the music. The dPLI and wPLI are spatialized, with left-lobe signals playing in the left speaker and right-lobe in the right. The dPLI and wPLI share this spatialization, but the sounds associated with them are very different. Furthermore, the dPLI sounds are made using a microtonal process - they are not in 12-tone equal temperament, do not adhere to any scale and this helps distinguish them from the other pitched material. The HL fills out the background of the piece, especially in the lower registers, and helps to create contrast between stasis and movement when the HL is towards the front and back, respecively. The TD plays a similar supporting role to the HL, but in a higher frequency range, it adds "energy" or "excitement" to the sound. This way, for each signal if you know where to listen for it, you can find that information easily.
 
 
 ### Composing in Detail to Fill Gaps Between Messages
@@ -360,9 +368,14 @@ As stated above, Resonance is intended to amplify the changes in the signals, as
 Another very noticeable way that you could vary the timbre or harmony would be to have matching sound-files in different modes/keys/instruments, etc. You could take a Track, duplicate it with exactly the same inputs, assign a corresponding soundfile of the same duration with a different harmony/timbre, then add another volume input to both, related to the new feature you want to code for. That way, the looping point and otherwise the volume will be the same for either track, but you would also hear a cross-fade in timbre between the two Tracks, or if you use a smaller min-peak-max, a sudden change in mode/harmony when you cross some threshold.
 
 
-### Troubleshooting
+## Troubleshooting
 
 ```
 "Error: buffer is either not set or not loaded"
 ```
 This error comes up if you try to play a list of OSC messages before the soundfiles are fully loaded. Just give it a moment.
+
+
+#### Signals for EEGSonic are Way Too Constant
+
+Make sure that EEGSonic is not in Debug mode. In Debug mode for every signal it sends random noise between 0 and 1.
