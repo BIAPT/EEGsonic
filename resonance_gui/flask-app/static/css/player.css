@@ -107,6 +107,13 @@ table {
 	justify-content: center;
 }
 
+.mixerTrackButtons {
+	width: 80px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
 .mixerTrackSliders {
 	display: flex;
 	flex-direction: column;

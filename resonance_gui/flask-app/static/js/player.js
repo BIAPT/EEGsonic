@@ -1504,6 +1504,7 @@ class Track {
 	constructor (track) {
 
 		this.fileName = track.fileName;
+		this.muted = false; // muted tracks do update with data, just volume stays 0
 		this.inputs = [];
 		this.loopLength = track.loopLength ? track.loopLength : 6; // loop duration in seconds - actually the time between successive starts, signal plays for 1 1/2 times the loop length
 		this.decayRate = track.decayRate;
@@ -1566,7 +1567,36 @@ class Track {
 		let infoGUI = document.createElement('div');
 		infoGUI.innerText = this.fileName;
 		infoGUI.setAttribute('class','mixerTrackInfo');
-		this.mixerTrack.appendChild(infoGUI);
+
+		this.editButton = document.createElement('button');
+		this.editButton.innerText = 'EDIT';
+		this.editButton.addEventListener('click', () => {
+			this.showEditGUI();
+		})
+		this.muteButton = document.createElement('button'); // button mutes prevents signals from passing through
+		this.muteButton.innerText = 'M';
+		//this.muteButton.classList.add('')
+		this.muteButton.addEventListener('click', () => {
+			if (this.muted) {
+				this.muteButton.classList.remove('muted');
+				this.muted = false;
+				console.log(this.fileName + ' is no longer muted');
+			} else {
+				this.muteButton.classList.add('muted');
+				this.muted = true;
+				console.log(this.fileName + " is now muted");
+			}
+		})
+
+		let buttons = document.createElement('div');
+		buttons.appendChild(this.editButton);
+		buttons.appendChild(this.muteButton);
+		buttons.classList.add('mixerTrackButtons');
+
+		let infoAndButtons = document.createElement('div');
+		infoAndButtons.appendChild(infoGUI);
+		infoAndButtons.appendChild(buttons);
+		this.mixerTrack.appendChild(infoAndButtons);
 
 		let slidersGUI = document.createElement('div');
 		slidersGUI.setAttribute('class','mixerTrackSliders');
@@ -1574,7 +1604,6 @@ class Track {
 		slidersGUI.appendChild(this.dataGainSlider);
 		slidersGUI.appendChild(this.decayGainSlider);
 		this.mixerTrack.appendChild(slidersGUI);
-
 
 		// display info about inputs
 		this.inputsGUI = document.createElement('table');
@@ -1671,6 +1700,7 @@ class Track {
 	}
 
 	update (message) {
+
 		let gainChanged = false; // allows for several volume inputs to same track, they are multiplied
 		let changedGain = 0;
 		let newGain;
@@ -1755,7 +1785,10 @@ class Track {
 
 		this.dataGainSlider.value = (newGain * 20) - 20;
 		targetGain = Math.pow(10, this.dataGainSlider.value/20);
-		if (newGain == 0) {targetGain = 0;}
+
+		// assures that muted tracks and tracks where the new gain is 0 are not audible
+		// newGain check has to happen because the previous calculation does not return 0
+		if (newGain == 0 || this.muted) {targetGain = 0;}
 		// ramps to new gain in 3 seconds
 		this.dataGain.gain.setTargetAtTime(targetGain, sound.context.currentTime, 3);
 

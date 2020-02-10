@@ -97,7 +97,7 @@ Click the "Launch" button in the bottom right corner of EEGSonic to open the rep
 
 In Net Station Aquisition, before measuring impedences, set the Filter to Highpass: 0.1 Hz, Lowpass 30 Hz. Set the Sampling rate to 1000 s/s.
 
-Open the EEGSonic_app.mlapp file in MATLAB. Click "Select Saving Directory" and select an output folder, and next to Folder Name, input a name of the new folder to be created. Select the "EGI-129" tab. Make sure the configuration is the same as listed above under "Replaying a converted folder". 
+Open the EEGSonic_app.mlapp file in MATLAB. Click "Select Saving Directory" and select an output folder, and next to Folder Name, input a name of the new folder to be created. The default output folder is the desktop. Select the "EGI-129" tab. Make sure the configuration is the same as listed above under "Replaying a converted folder". 
 
 Start the Flask app and open the browser page in the same way as when replaying a folder. Make sure that EEGSonic is not in Debug mode, then press the Launch button to start recording data and broadcasting messages. 
 
