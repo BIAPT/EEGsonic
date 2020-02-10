@@ -1,7 +1,5 @@
 import Tone from '../node_modules/tone';
 import io from '../node_modules/socket.io-client/dist/socket.io';
-import '../node_modules/web-audio-recorder-js-webpack/lib/WebAudioRecorder.js';
-// import './web-audio-recorder-js-master/lib/WebAudioRecorderMp3.js';
 
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1325,6 +1323,7 @@ const sound = {
 class Signal {
 	constructor (signal) {
 		this.channel = signal.channel;
+		this.muted = false;
 		this.min = null;
 		this.max = null;
 		this.curr = 0;
@@ -1340,19 +1339,22 @@ class Signal {
 		this.last10 = [];
 		this.ranges = {}
 
+		// populate the signal with Range objects
 		signal.ranges.forEach(range => {
 			this.ranges[range.name] = new Range(range);
 		});
 
-		let signalListGUI = document.getElementById('signalContainer');
 
-		// create the right-side pannel of signals
+		// generate the GUI on the right side of the screen
+		// most elements have DOM handles so that they can be accessed easily later
+		let signalListGUI = document.getElementById('signalContainer'); // the larger box w all signals
+
 		this.signalGUI = document.createElement('div');
 		this.signalGUI.innerHTML = `<div>${this.channel}</div>`
-		let signalTableGUI = document.createElement('table');
-		signalTableGUI.innerHTML = `<tr><td>min</td><td>curr</td><td>max</td><td>avg3</td><td>avg5</td><td>avg10</td>`
-		this.signalTableRow = document.createElement('tr');
-
+		let signalTableGUI = document.createElement('table'); // table with titles and stats
+		signalTableGUI.innerHTML = `<tr><td>min</td><td>curr</td><td>max</td><td>avg3</td><td>avg5</td><td>avg10</td></tr>`
+		
+		this.signalTableRow = document.createElement('tr');  // the row with the actual stats
 		this.minGUI = this.createGUI();
 		this.currGUI = this.createGUI();
 		this.currGUI.classList.add('currentValue');
@@ -1362,11 +1364,38 @@ class Signal {
 		this.avg10GUI = this.createGUI();
 
 		signalTableGUI.appendChild(this.signalTableRow);
-		let signalBox = document.createElement('div');
-		signalBox.classList.add('signalBox')
 
-		signalBox.appendChild(this.signalGUI);
-		signalBox.appendChild(signalTableGUI);
+		let signalStats = document.createElement('div'); // contains title, labels and stats
+		signalStats.appendChild(this.signalGUI);
+		signalStats.appendChild(signalTableGUI);
+
+		let signalButtons = document.createElement('div');
+		signalButtons.classList.add('signalButtons');
+		this.editButton = document.createElement('button');
+		this.editButton.innerText = 'EDIT';
+		this.editButton.addEventListener('click', () => {
+			this.showEditGUI();
+		})
+		this.muteButton = document.createElement('button'); // button mutes prevents signals from passing through
+		this.muteButton.innerText = 'MUTE';
+		this.muteButton.addEventListener('click', () => {
+			if (this.muted) {
+				this.muteButton.innerText = 'MUTE';
+				this.muted = false;
+				console.log(this.channel + ' is no longer muted');
+			} else {
+				this.muteButton.innerText = 'UNMUTE';
+				this.muted = true;
+				console.log(this.channel + " is now muted");
+			}
+		})
+		signalButtons.appendChild(this.editButton);
+		signalButtons.appendChild(this.muteButton);
+
+		let signalBox = document.createElement('div'); // the box around this specific signal
+		signalBox.classList.add('signalBox'); // for CSS formatting
+		signalBox.appendChild(signalStats);
+		signalBox.appendChild(signalButtons);
 
 		signalListGUI.appendChild(signalBox);
 	}
@@ -1399,6 +1428,12 @@ class Signal {
 			} else {
 				sound.filter.frequency.linearRampToValueAtTime(800, 10);
 			}
+		}
+
+		// filter out muted signals
+		if (sound.signals[messageIn.address].muted) {
+			console.log('messageIn muted!')
+			return 0;
 		}
 
 		// Send the transformed message to each track.
@@ -1454,6 +1489,10 @@ class Signal {
 		this.avg3GUI.innerText = this.avg3.toFixed(3);
 		this.avg5GUI.innerText = this.avg5.toFixed(3);
 		this.avg10GUI.innerText = this.avg10.toFixed(3);
+	}
+
+	showEditGUI () {
+		console.log("showing edit for " + this.channel);
 	}
 
 }
@@ -1736,6 +1775,10 @@ class Track {
 		return true;
 	}
 
+	showEditGUI() {
+		console.log("Show edit GUI for track " + this.fileName);
+	}
+
 	getJSON() {
 		let preset = { 'fileName': this.fileName, 'gain' : this.userGainSlider.value, 'loopLength': this.loopLength, 'decayCutoff': this.decayCutoff }
 		preset.inputs = this.inputs.map((input)=>{
@@ -1757,7 +1800,6 @@ class Range {
 	}
 
 	update () {
-
 		if (this.relative) {
 			let channel = Signal.getChannel(this.name);
 			let newValue = sound.signals[channel][this.value];
@@ -1772,6 +1814,10 @@ class Range {
 				this.min = Number(newValue.toFixed(2));
 			}
 		}
+	}
+
+	showGUI () {
+		console.log("show GUI for range " + this.name);
 	}
 }
 

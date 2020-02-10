@@ -372,12 +372,12 @@ As stated above, Resonance is intended to amplify the changes in the signals, as
 
 ### How You Could Do Harmony
 
-Another very noticeable way that you could vary the timbre or harmony would be to have matching sound-files in different modes/keys/instruments, etc. You could take a Track, duplicate it with exactly the same inputs, assign a different, corresponding soundfile of the same duration with a contrasting harmony/timbre, then add another volume input to both, related to the new feature you want to code for. That way, the looping point and otherwise the volume will be the same for either track so the two will always be properly aligned, but you would also hear a cross-fade in timbre between the two Tracks, or if you use a smaller min-peak-max, a sudden change in mode/harmony when you cross some threshold.
+Another very noticeable way that you could vary the timbre or harmony would be to have matching soundfiles in different modes/keys/instruments, etc. You could take a Track, duplicate it with exactly the same inputs, assign a different, corresponding soundfile of the same duration with a contrasting harmony/timbre, then add another volume input to both, related to the new feature you want to code for. That way, the looping point and otherwise the volume will be the same for either track so the two will always be properly aligned, but you would also hear a cross-fade in timbre between the two Tracks, or if you use a smaller min-peak-max, a sudden change in mode/harmony when you cross some threshold.
 
 
 ### Making More Use of the Tone.JS Library
 
-If you look up the documentation of Tone.JS, there are a bunch of filters and other effects that could be used to manipulate the sound in Resonance. I've only explored this a little bit, adding a low-pass filter when the TD moves towards the front of the brain (indicating sedation I think?), but adding more effects like this on individual tracks would be another way of distinguising the different Signals.
+If you look up the documentation of Tone.JS, there are a bunch of filters and other effects that could be used to manipulate the sound in Resonance. I've only explored this a little bit, adding a low-pass filter when the TD moves towards the front of the brain (indicating sedation I think?), but adding more effects like this on individual tracks or on the whole thing just before the master gain would be another way of distinguising the different Signals.
 
 
 ## Troubleshooting

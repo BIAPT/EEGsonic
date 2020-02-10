@@ -168,12 +168,19 @@ table {
 }
 
 .signalBox {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
 	border: 1px solid gray;
 	border-radius: 2px;
 	margin: 2px;
 	padding-left: 5px;
-	width: 200px;
+	width: 250px;
 	height:48px;
+}
+
+.signalButtons {
+	width: 75px;
 }
 
 .currentValue {
