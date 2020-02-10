@@ -1,0 +1,27 @@
+Gui features
+
+ability to reset relative ranges in event of a glitch
+
+add and remove tracks
+edit tracks
+add and remove inputs
+edit inputs
+adjust ranges on-the-fly
+
+ability to globally reset all ranges, and have it do that automatically when you load a new events list
+
+ability to turn off one lobe or the other
+
+
+
+SIGNAL LIST
+
+add edit button
+add mute button
+add reset button? (reset all to 0 & send message) - need it to silence all those tracks
+
+able to list all ranges of this signal
+able to list all tracks w inputs of this signal
+
+able to reset min/max
+able to send a specific value (panic);
