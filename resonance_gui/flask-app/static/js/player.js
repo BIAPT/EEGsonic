@@ -1544,6 +1544,7 @@ class Track {
 		this.decayGain.connect(sound.masterGain);
 
 		// create & activate the mixer GUI elements
+		// this would all be so simple in React
 		this.userGainSlider = Track.createSlider(track.gain);
 		this.userGain.gain.value = Math.pow(10, this.userGainSlider.value/20);
 		this.userGainSlider.classList.add('userGainSlider');
@@ -1575,15 +1576,16 @@ class Track {
 		})
 		this.muteButton = document.createElement('button'); // button mutes prevents signals from passing through
 		this.muteButton.innerText = 'M';
-		//this.muteButton.classList.add('')
 		this.muteButton.addEventListener('click', () => {
 			if (this.muted) {
 				this.muteButton.classList.remove('muted');
 				this.muted = false;
 				console.log(this.fileName + ' is no longer muted');
+				// when a track is unmuted it only comes back after the next message
 			} else {
 				this.muteButton.classList.add('muted');
 				this.muted = true;
+				this.dataGain.gain.setTargetAtTime(0, sound.context.currentTime, 0.5);
 				console.log(this.fileName + " is now muted");
 			}
 		})
@@ -1998,12 +2000,14 @@ class OSCRecorder {
 		this.startRecording = () => {
 			this._recording = true;
 			this.timeStarted = Date.now();
+			document.getElementById('recordOSC').innerText = 'Stop Recording OSC';
 			console.log('OSC started recording at ' + this.timeStarted);
 		}
 
 		this.stopRecording = () => {
 			this._recording = false;
 			console.log('OSC stopped recording');
+			document.getElementById('recordOSC').innerText = 'Start Recording OSC';
 			console.log(events);
 			this.saveEvents();
 			this.timeStarted = null;
@@ -2148,8 +2152,6 @@ function startAudio(preset) {
 	masterGainSlider.addEventListener('input', ()=> {
 		sound.masterGain.gain.setTargetAtTime(Math.pow(10, masterGainSlider.value/20),sound.context.currentTime, 0.1);
 	}, false);
-
-
 
 	// initalize list of channels
 	preset.signals.map(signal => loadSignal(signal));
