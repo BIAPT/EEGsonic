@@ -6,7 +6,7 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 // VARIABLES, SETTINGS
 
-const sampleFilePath = 'static/samples/';
+const sampleFilePath = 'static/playerSamples/';
 const eventsFilePath = 'static/playerEvents/';
 
 
@@ -163,6 +163,20 @@ const defaultPreset = {
 				{	name: 'pe_parietal_abs',
 					min: 0.4,
 					max: 1
+				}
+			]
+		},
+		{
+			channel: '/pe_combined', // custom signal combining frontal and parietal
+			ranges: [
+				{
+					name: 'pe_combined', // frontal minus parietal
+					min: 0.,
+					max: 0.07
+				},
+				{
+					name: 'pe_combined_rel',
+					relative: true
 				}
 			]
 		},
@@ -472,23 +486,23 @@ const defaultPreset = {
 	{
 		fileName: 'PE-drum.ogg',
 		gain: -5,
-		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_frontal_rel',
+		decayCutoff: 0.05,
+		inputs: [{	range: 'pe_combined',
 					type: 'volume',
-					value: 'curr',
-					min: 0.4,
-					peak: 1,
-					max: 1,
+					value: 'avg5',
+					min: 0.1,
+					peak: 0.5,
+					max: 0.5,
 					decayRate: 0.5,
-					decayRange: 0.15,
-					decayBoost: 0.5
+					decayRange: 0.2,
+					decayBoost: 0.3
 		},
-		{			range: 'pe_frontal_rel',
+		{			range: 'pe_combined',
 					type: 'playbackRate',
-					value: 'avg3',
+					value: 'avg5',
 					playbackMin: 0.6,
 					playbackSpeedup: 2,
-					min: 0.7,
+					min: 0,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -500,23 +514,23 @@ const defaultPreset = {
 	{
 		fileName: 'PE-kick.ogg',
 		gain: -5,
-		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_frontal_rel',
+		decayCutoff: 0.05,
+		inputs: [{	range: 'pe_combined',
 					type: 'volume',
-					value: 'curr',
-					min: 0.5,
-					peak: 1,
-					max: 1,
+					value: 'avg5',
+					min: 0,
+					peak: 0.4,
+					max: 0.4,
 					decayRate: 0.5,
-					decayRange: 0.15,
-					decayBoost: 0.2
+					decayRange: 0.2,
+					decayBoost: 0.3
 		},
-		{			range: 'pe_frontal_rel',
+		{			range: 'pe_combined',
 					type: 'playbackRate',
-					value: 'avg3',
+					value: 'avg5',
 					playbackMin: 0.6,
 					playbackSpeedup: 2,
-					min: 0.7,
+					min: 0,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -528,23 +542,23 @@ const defaultPreset = {
 	{
 		fileName: 'PE-hi-hat.ogg',
 		gain: -5,
-		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_parietal_rel',
+		decayCutoff: 0.05,
+		inputs: [{	range: 'pe_combined',
 					type: 'volume',
-					value: 'curr',
+					value: 'avg5',
 					min: 0.5,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
-					decayRange: 0.15,
-					decayBoost: 0.2
+					decayRange: 0.1,
+					decayBoost: 0.5
 		},
-		{			range: 'pe_frontal_rel',
+		{			range: 'pe_combined',
 					type: 'playbackRate',
-					value: 'avg3',
+					value: 'avg5',
 					playbackMin: 0.6,
 					playbackSpeedup: 2,
-					min: 0.7,
+					min: 0,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -555,23 +569,23 @@ const defaultPreset = {
 	{
 		fileName: 'PE-tambourine.ogg',
 		gain: -5,
-		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_frontal_rel',
+		decayCutoff: 0.05,
+		inputs: [{	range: 'pe_combined',
 					type: 'volume',
-					value: 'curr',
-					min: 0.7,
-					peak: 1,
-					max: 1,
+					value: 'avg5',
+					min: 0.3,
+					peak: 0.6,
+					max: 0.6,
 					decayRate: 0.5,
-					decayRange: 0.15,
-					decayBoost: 0.2
+					decayRange: 0.2,
+					decayBoost: 0.3
 			},
-		{			range: 'pe_frontal_rel',
+		{			range: 'pe_combined',
 					type: 'playbackRate',
-					value: 'avg3',
+					value: 'avg5',
 					playbackMin: 0.6,
 					playbackSpeedup: 2,
-					min: 0.7,
+					min: 0,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
@@ -583,20 +597,20 @@ const defaultPreset = {
 	{
 		fileName: 'PE-cymbal.ogg',
 		gain: -5,
-		decayCutoff: 0.1,
-		inputs: [{	range: 'pe_parietal_rel',
+		decayCutoff: 0.05,
+		inputs: [{	range: 'pe_combined',
 					type: 'volume',
-					value: 'curr',
+					value: 'avg5',
 					min: 0.7,
 					peak: 1,
 					max: 1,
 					decayRate: 0.5,
-					decayRange: 0.15,
-					decayBoost: 0.2
+					decayRange: 0.2,
+					decayBoost: 0.3
 		},
-		{			range: 'pe_frontal_rel',
+		{			range: 'pe_combined',
 					type: 'playbackRate',
-					value: 'avg3',
+					value: 'avg5',
 					playbackMin: 0.6,
 					playbackSpeedup: 2,
 					min: 0.,
@@ -1411,9 +1425,9 @@ class Signal {
 
 	static processMessage(message) {
 		// This function is the first step in processing an incoming message. 
-		// It does the things that apply to the piece as a whole before passing it on
-		// to modify each track one-by-one.
+		// It does pre-processing and creates any combined signals
 
+		console.log(message);
 		let messageIn = JSON.parse(JSON.stringify(message)); // fix problem w aliasing
 
 		// filter out muted signals
@@ -1426,7 +1440,27 @@ class Signal {
 		if (messageIn.address === '/spr_beta_alpha' || messageIn.address === '/spr_alpha_theta') {
 			messageIn.args[0] = Math.log10(messageIn.args[0]);
 		}
+
+
+		// This actually updates the signals
 		sound.signals[messageIn.address].update(messageIn);
+
+		// post-processing:
+
+		// This is creating a signal that compares the parietal and frontal Permutation Entropy
+		// Of two permutation entropy signals, frontal is always sent first, then parietal, so we're
+		// looking for parietal in order to make the comparison
+		if (messageIn.address === '/pe_parietal') {
+
+			let newValue = sound.signals['/pe_frontal'].curr - sound.signals['/pe_parietal'].curr;
+
+			let newMessage = {
+				address: '/pe_combined',
+				args: [newValue]
+			}
+
+			Signal.processMessage(newMessage);
+		}
 
 		// This is setting the threshold of a low-pass filter, depending on the TD.
 		if (messageIn.address === '/td_front_back') {
@@ -1434,7 +1468,7 @@ class Signal {
 			if (newFrequency > 800) {
 				sound.filter.frequency.linearRampToValueAtTime(newFrequency, 10);
 			} else {
-				sound.filter.frequency.linearRampToValueAtTime(800, 10);
+				sound.filter.frequency.linearRampToValueAtTime(1200, 10);
 			}
 		}
 
@@ -1507,8 +1541,8 @@ class Track {
 		this.muted = false; // muted tracks do update with data, just volume stays 0
 		this.inputs = [];
 		this.loopLength = track.loopLength ? track.loopLength : 6; // loop duration in seconds - actually the time between successive starts, signal plays for 1 1/2 times the loop length
-		this.decayRate = track.decayRate;
-		this.decayCutoff = track.decayCutoff;
+		this.decayRate = track.decayRate ? track.decayRate : 0.5;
+		this.decayCutoff = track.decayCutoff ? track.decayCutoff : 0.1;
 
 		// Add the GUI element to the mixer
 		let mixerGUI = document.getElementById('resonanceMixer');
@@ -1772,7 +1806,7 @@ class Track {
 		this.decayGainSlider.value = (newDecayGain * 20) - 20;
 		let targetGain = Math.pow(10, this.decayGainSlider.value/20);
 		if (newDecayGain < this.decayCutoff) {targetGain = 0;}
-		// ramps to new gain in 3 seconds
+		// ramps to new gain in 3 secondsk
 		this.decayGain.gain.setTargetAtTime(targetGain, sound.context.currentTime, 3);
 
 
@@ -1797,6 +1831,14 @@ class Track {
 		this.displayInputs();
 	}
 
+	checkForLoop() {
+		let hasLoop = false
+		this.inputs.forEach(input => {
+			if (input.type === 'loopPoint') { hasLoop = true }
+		})
+		return hasLoop
+	}
+
 	triggerNextGrain(startPoint, momentum) {
 
 		// catch the cases where momentum takes us outside of bounds
@@ -1814,6 +1856,24 @@ class Track {
 
 	showEditGUI() {
 		console.log("Show edit GUI for track " + this.fileName);
+		let editPanel = document.getElementById('resonanceEdit');
+
+
+		editPanel.innerHTML = `
+			<div class='flex-row'>
+				<b>${this.fileName}</b>
+				<button id='deleteTrackButton'>Delete Track</button>
+			</div>
+			<div class='flex-row'>
+				<input type='file' id='editTrackSoundfile'></input>
+				<button id='editTrackSoundfileButton'>Change Soundfile</button>	
+			</div>
+			<div class='flex-row'>
+				loop length (seconds): ${this.checkForLoop() ? "<input id='editLoopLength' type='number' min='0' step='0.1' value=" + this.loopLength + "></input>" : 'No loopPoint inputs'}
+				decay cutoff: <input id='editDecayCutoff' type='number' min='0' max='1' step='0.01' value='${this.decayCutoff}'></input>
+			</div>
+			<div id='editInputs'></div>
+		`
 	}
 
 	getJSON() {
@@ -1830,8 +1890,8 @@ class Track {
 class Range {
 	constructor (range) {
 		this.name = range.name;
-		this.min = range.min ? range.min : null;
-		this.max = range.max ? range.max : null;
+		this.min = range.min ? range.min : 0.;
+		this.max = range.max ? range.max : 0.;
 		this.value = range.value ? range.value : 'curr';
 		this.relative = range.relative ? range.relative : false;
 	}
@@ -2139,6 +2199,8 @@ function startAudio(preset) {
 	sound.filter.connect(sound.context.destination);
 
 	// activate main GUI buttons
+	document.getElementById('savePresetButton').removeAttribute('disabled');
+
 	const playButton = document.getElementById('startAudio');
 	playButton.addEventListener('click', ()=>{
 		sound.context.resume();
@@ -2153,6 +2215,20 @@ function startAudio(preset) {
 		sound.masterGain.gain.setTargetAtTime(Math.pow(10, masterGainSlider.value/20),sound.context.currentTime, 0.1);
 	}, false);
 
+	const newTrackButton = document. getElementById('newTrack');
+	newTrackButton.addEventListener('click', () => {
+		let filename = document.getElementById('newTrackFileInput').value.split('\\');
+		if (filename != '') {
+			filename = filename[filename.length - 1];
+			let newTrack = loadTrack({fileName: filename, inputs: []});
+			document.getElementById('newTrackFileInput').value = '';
+			console.log('added track ' + filename);
+			newTrack.showEditGUI();
+		} else {
+			console.log('please select a sound file before adding a Track');
+		}
+	})
+
 	// initalize list of channels
 	preset.signals.map(signal => loadSignal(signal));
 
@@ -2165,7 +2241,9 @@ function startAudio(preset) {
 }
 
 function loadTrack(track) {
-	sound.tracks.push(new Track(track));
+	let newTrack = new Track(track)
+	sound.tracks.push(newTrack);
+	return newTrack;
 }
 
 function loadSignal(signal) {

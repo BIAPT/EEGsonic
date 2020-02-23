@@ -296,7 +296,22 @@ To make a sound more present, you can lower its decayRange so that a smaller cha
 The current decay value of a track is shown on the third horzontal slider of each track in the tracks panel.
 
 
+### Making new combined features
+
+Sometimes we need to do a calculation that takes into account more than one signal, for example the '/pe_combined' signal is not sent by EEGSonic but instead calculated within the processMessage function of the Signal object in player.js. 
+
+In order to add a new channel, you must do two things:
+1) add its name to the signals list and assign it a range 
+2) create a new if statement in Signal.processMessage that creates a new message and sends it.
+
+You can look at how the '/pe_combined' is made by detecting a '/pe_parietal' message.
+
+
 ## The GUI
+
+### Main Controls Panel
+
+The panel in the upper left corner lets you control the audio and interact with the saved presets and OSC (Open Sound Control) messages, and allows you to add a new Track. It is important to note that Resonance looks in specific folders for these files - by default these are the playerPresets, playerEvents and playerSamples folders respectively. This can be changed in the code at the top of player.js.
 
 ### The Tracks Panel
 
@@ -318,7 +333,7 @@ This idea of using algorithms to amplify the characteristics, the latent potenti
 
 ### Sound Design of the Default Preset
 
-The 'parti pris' or organizing principal that I arrived at in composing the music for Resonance is of a 'deconstructed lullaby'. When considering the sounds to be used, a lot of my thought was that 1) this was going to be used with children, 2) family members visiting a loved one are likely to be in a certain emotional state, 3) it needs to be appropriate for a hospital setting, 4) it needs to be something you could listen to for a long while without it becoming tedious. I also to some extent wanted to create a sense of magic.
+The 'parti pris' or organizing principle that I arrived at in composing the music for Resonance is of a 'deconstructed lullaby'. When considering the sounds to be used, a lot of my thought was that 1) this was going to be used with children, 2) family members visiting a loved one are likely to be in a certain emotional state, 3) it needs to be appropriate for a hospital setting, 4) it needs to be something you could listen to for a long while without it becoming tedious. I also to some extent wanted to create a sense of magic.
 
 A lot of my own early musical experiences came from the looping music of video games, in which 4) is a big factor of the design - it's maybe a bit of a kitschy example, but the music of the original Pokemon Red/Blue games needed to convey a lot of character with a extreme economy of means, just because of the storage space on a GameBoy cartrige. If you listen to the music of Vermillion City (it's on YouTube), the entire loop is about 40 seconds long, but you could listen to it for a very long time and anyone who grew up playing those games would recognize it in a heartbeat.
 
@@ -332,7 +347,7 @@ A popular trend in mid-20th Century music was of "mobile form" - named after a h
 
 ### Suspended Time, Moment Form, Flexible Meter & Elastic Rhythm
 
-An immediately noticeable aspect of the music of Resonance is that it does not adhere to a meter and that different parts may be going along at entirely different tempos. The inspiration here is from another mid-century concept of "suspended time", music where the rhythms are much more "floaty" and the interest is in the contrast between moments. This give a variation of the sort of interactions from Music for Airports - the harp part and drums will have contrasts between their tempos, in a way that sometimes they cohere and other times they are disjunct. All of these interactions add to the interest of the music, but admittedly it does sometimes result in musical "glitches" and takes a certain amount of skill to make it work without being too jarring. 
+An immediately noticeable aspect of the music of Resonance is that it does not adhere to a meter and that different parts may be going along at entirely different tempos. The inspiration here is from another mid-century concept of "suspended time", music where the rhythms are much more "floaty" and the interest is in the contrast between moments. This give a variation of the sort of interactions from Music for Airports - the harp part and drums will have contrasts between their tempos, in a way that sometimes they cohere and other times they are disjunct. All of these interactions add to the interest of the music, although admittedly it does sometimes result in musical "glitches" and takes a certain amount of skill to make it work without being too jarring. 
 
 
 ## Concepts for Composing New Pieces
@@ -381,6 +396,18 @@ If you look up the documentation of Tone.JS, there are a bunch of filters and ot
 
 
 ## Troubleshooting
+
+#### Trouble adding soundfiles for new tracks
+
+The soundfiles need to be in the samples folder.
+
+#### Range that starts at 0 displays as 'null'
+
+This is because in JavaScript 0 is false. You might have to put the range as '0.'
+
+#### OSC messages stop after a couple seconds
+
+The console will show:
 
 ```
 "Error: buffer is either not set or not loaded"

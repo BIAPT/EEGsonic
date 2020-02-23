@@ -1,14 +1,78 @@
 Gui features
 
-ability to reset relative ranges in event of a glitch
+1 ) decide where the add track button goes
 
-add and remove tracks
+
+
+
+
+
+
+
+
+add 
+
+X- split top left pannel w horizonal lines
+X- reformat buttons in top left pannel
+X- add add track button to GUI
+X- add event listener to button
+X- generate new track object
+
+--  
+
+...
+
+pop-over instructions
+
+filename - field to change file
+copy of the gain slider
+loopLength - grayed out if it has no loop inputs
+decaycutoff - maxed to 0 - 1
+
+
+
+...
+
+
 edit tracks
-add and remove inputs
+- set up GUI
+- make buttons/sliders for each feature
+ - remove track button
+ - display filename (allow to change file but keep everything else?)
+ - mute / change gain
+ - looplength (only applies if you have loopPoint inputs)
+ - decay cutoff
+
+- inputs panel
+
+
+- make a hover-over info panel for how it works w ? sign
+
+
+and remove tracks
+
+
+
+
+add 
+
+and remove inputs
+
+
 edit inputs
+
+
 adjust ranges on-the-fly
 
+
+
+ability to reset relative ranges in event of a glitch
+
+
+
+
 ability to globally reset all ranges, and have it do that automatically when you load a new events list
+
 
 ability to turn off one lobe or the other
 
@@ -17,7 +81,7 @@ ability to turn off one lobe or the other
 SIGNAL LIST
 
 add edit button
-add mute button
+X add mute button
 add reset button? (reset all to 0 & send message) - need it to silence all those tracks
 
 able to list all ranges of this signal

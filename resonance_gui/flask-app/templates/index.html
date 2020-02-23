@@ -15,20 +15,22 @@
             <div id='resonanceHeader'><h1>Resonance</h1></div>
             <div id='resonanceControls'>
                 <button id='startContextButton'>Load default</button>
-                <div class='file-input'>Preset: <input type='file' id='presetFileInput'></input></div>
                 <div class='flex-row'>
-                    <button id='loadPresetButton'>Load preset</button>
-                    <button id='savePresetButton'>Save Preset</button>
+                    <div>Preset: <input type='file' id='presetFileInput'></input></div>
+                    <button class='button' id='loadPresetButton'>Load preset</button>
+                    <button class='button' id='savePresetButton' disabled>Save preset</button>
                 </div>
                 <div id='mainControls' style='display:none'>
-                     <div id='masterAudioControls' class='flex-row'>
+                    <hr>
+                    <div id='masterAudioControls' class='flex-row'>Audio: 
                             <button id='startAudio'>Play</button>
                             <button id='stopAudio'>Stop</button>
                             <label for='masterGain'><b>Volume:</b></label>
                             <input type='range' min='-60' max='10' step='1' value='0' class='slider' id='masterGain'>
                     </div>
+                    <hr>
                     <div id='OSCPlayback'>
-                        <div class='file-input'>OSC Events:<input type='file' id='OSCEventFile' size='60'></input></div>
+                        <div class='file-input'>OSC Events: <input type='file' id='OSCEventFile' size='60'></input></div>
                         <div class='flex-row'>
                             <button id='loadOSC' >Load OSC</button>
                             <button id='toggleOSC' disabled>Play OSC</button>
@@ -36,6 +38,11 @@
                         </div>
                     </div>
                     <div class='flex-row' id='OSCButtons'><button id='recordOSC'>Start Recording OSC</button></div>
+                    <hr>
+                    <div id='addTrack'>
+                        New Track: <input type='file' id='newTrackFileInput'></input>
+                        <button id='newTrack'>Add Track</button>
+                    </div>
                 </div>
             </div>
             <div id='resonanceEdit'></div>
