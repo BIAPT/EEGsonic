@@ -74,15 +74,25 @@ hr {
 	margin: 5px 0px;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 }
+
+
+/* EDIT PANEL */
 
 #resonanceEdit {
 	grid-area: edit;
 	border: 1px solid gray;
 	padding: 25px;
 	
+}
+
+#editInputs {
+	border: 1px solid gray;
+	margin: 3px;
+	padding: 20px;
+	overflow-y: scroll;
 }
 
 
@@ -94,7 +104,7 @@ hr {
 	flex-direction: column;
 	justify-content: left;
 	align-items: start;
-
+	overflow-y: scroll;
 	font-size: 10px;
 }
 
@@ -174,6 +184,7 @@ hr {
 	grid-area: signalList;
 	border: 1px solid gray;
 	font-size: 10px;
+	overflow-y: scroll;
 }
 
 #signalContainer {

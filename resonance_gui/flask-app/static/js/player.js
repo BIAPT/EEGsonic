@@ -1858,7 +1858,6 @@ class Track {
 		console.log("Show edit GUI for track " + this.fileName);
 		let editPanel = document.getElementById('resonanceEdit');
 
-
 		editPanel.innerHTML = `
 			<div class='flex-row'>
 				<b>${this.fileName}</b>
@@ -1874,6 +1873,60 @@ class Track {
 			</div>
 			<div id='editInputs'></div>
 		`
+
+		let editInputsPanel = document.getElementById('editInputs');
+		for (let input in this.inputs) {
+			let editInputItem = document.createElement('div');
+
+			if (this.inputs[input].type === 'volume') {
+				editInputItem.innerHTML = `
+					<div class='flex-row'>
+						<b>Input ${input}</b>
+						<div>Type: 
+							<select id='input${input}'>
+								<option value='volume' selected>volume</option>
+								<option value='loopPoint'>loopPoint</option>
+								<option value='playbackRate'>playbackRate<option>
+							</select>
+						</div>
+					</div>
+				`
+			}
+
+			if (this.inputs[input].type === 'loopPoint') {
+				editInputItem.innerHTML = `
+					
+					<div class='flex-row'>
+						<b>Input ${input}</b>
+						<div>Type: 
+							<select id='input${input}'>
+								<option value='volume'>volume</option>
+								<option value='loopPoint' selected>loopPoint</option>
+								<option value='playbackRate'>playbackRate<option>
+							</select>
+						</div>
+					</div>
+				`
+			}
+
+			if (this.inputs[input].type === 'playbackRate') {
+				editInputItem.innerHTML = `
+					<div class='flex-row'>
+						<b>Input ${input}</b>
+						<div>Type: 
+							<select id='input${input}'>
+								<option value='volume'>volume</option>
+								<option value='loopPoint'>loopPoint</option>
+								<option value='playbackRate' selected>playbackRate<option>
+							</select>
+						</div>
+					</div>
+				`
+			}
+
+			editInputsPanel.appendChild(editInputItem);
+		}
+
 	}
 
 	getJSON() {
