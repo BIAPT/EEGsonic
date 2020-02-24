@@ -1534,7 +1534,7 @@ class Signal {
 	getJSON () {
 		let preset = {'channel':this.channel}
 		preset.ranges = Object.keys(this.ranges).map((range) => {
-			return {'name':this.ranges[range].name, 'min': this.ranges[range].min, 'max': this.ranges[range].max}
+			return {'name':this.ranges[range].name, 'min': this.ranges[range].min, 'max': this.ranges[range].max, 'relative': this.ranges[range].relative}
 		})
 		return preset;
 	}
@@ -1675,6 +1675,17 @@ class Track {
 		})
 	}
 
+	deleteTrack () {
+		for (let i = 0; i++ ; i<sound.tracks.length) {
+			if (Object.is(sound.tracks[i], this)) {
+				sound.tracks.splice(i, 1);
+				break;
+			}
+		}
+		this.mixerTrack.remove();
+
+	}
+
 	displayInputs () {
 		this.inputsGUI.innerHTML = '';
 		this.inputs.forEach((input) => {
@@ -1749,8 +1760,6 @@ class Track {
 		let changedGain = 0;
 		let newGain;
 		let ranges = sound.signals[message.address].ranges;
-
-
 
 		this.inputs.forEach((input) => {
 			for (const rangeName in ranges) {
@@ -1869,7 +1878,7 @@ class Track {
 
 		editPanel.innerHTML = `
 			<div class='flex-row'>
-				<b>${this.fileName}</b>
+				<div><b>${this.fileName}</b><button id='closeTrackEdit'>Close</div>
 				<button id='deleteTrackButton'>Delete Track</button>
 			</div>
 			<div class='flex-row'>
@@ -1882,6 +1891,19 @@ class Track {
 			</div>
 			<div id='editInputs'></div>
 		`
+
+		document.getElementById('closeTrackEdit').addEventListener('click', () => {
+			editPanel.innerHTML = '';
+		})
+
+		document.getElementById('deleteTrackButton').addEventListener('click', () => {
+			if (event.target.innerText === 'Delete Track') {
+				event.target.innerText = 'Confirm?';
+			} else {
+				this.deleteTrack();
+				editPanel.innerHTML = '';
+			}
+		})
 
 		// create and populate the list of inputs
 		let editInputsPanel = document.getElementById('editInputs');

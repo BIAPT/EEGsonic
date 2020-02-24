@@ -399,7 +399,11 @@ If you look up the documentation of Tone.JS, there are a bunch of filters and ot
 
 #### Trouble adding soundfiles for new tracks
 
-The soundfiles need to be in the samples folder.
+The soundfiles need to be in the playerSamples folder. (similarly, presets and events need to be in their own labeled files as well.)
+
+#### Trouble saving and loading presets
+
+The browser saves a cached version of any file you open. So, if you're saving the preset by overwriting the previous one, it will load the cached version instead of updating and loading the new file. It's a bit of a nuissance but the work-around is to save each iteration of the preset as its own file (preset1.txt, preset2.txt, etc.)
 
 #### Range that starts at 0 displays as 'null'
 
