@@ -1881,8 +1881,6 @@ class Track {
 			let editInputItem = document.createElement('div');
 			editInputItem.setAttribute('class', 'editInput');
 
-			console.log(this.inputs[input].getRange().min);
-
 			editInputItem.innerHTML = `
 					<b>Input ${input}</b><br>
 					<div class='flex-row'>
@@ -1906,7 +1904,7 @@ class Track {
 							</select>
 						</div>
 						<div>Range:
-							<select id='input${input}Ranges'>
+							<select id='input${input}Range'>
 							</select>
 						</div>
 						<button id='deleteInput${input}'>Delete</button>
@@ -1929,12 +1927,8 @@ class Track {
 
 			editInputsPanel.appendChild(editInputItem);
 
-			// populate the list of values (curr, avg3, avg5, etc);
-
-
-
 			// this is populating the drop-down list of ranges and selecting the current range
-			let inputRangesList = document.getElementById(`input${input}Ranges`);
+			let inputRangesList = document.getElementById(`input${input}Range`);
 			Object.keys(sound.signals).forEach(signal => {
 				Object.keys(sound.signals[signal].ranges).forEach(range => {
 					let rangeListElement = document.createElement('option');
@@ -1942,19 +1936,57 @@ class Track {
 					rangeListElement.innerText = range;
 					if (range === this.inputs[input].range) {
 						rangeListElement.setAttribute('selected', true);
-
-						inputRangesList.appendChild(rangeListElement);
 					}
+					inputRangesList.appendChild(rangeListElement);
 				})
 			})
 
+			// create the event listeners for the inputs
+			let inputType = document.getElementById(`input${input}Type`)
+			inputType.addEventListener('change', () => {
+				this.inputs[input].type = inputType.value;
+				this.displayInputs(); // updates in the track list
+			})
+
+			let inputValue = document.getElementById(`input${input}Value`)
+			inputValue.addEventListener('change', () => {
+				this.inputs[input].value = inputValue.value;
+				this.displayInputs(); // updates in the track list
+			})
+
+			let inputRange = document.getElementById(`input${input}Range`)
+			inputRange.addEventListener('change', () => {
+				this.inputs[input].range = inputRange.value;
+				this.showEditGUI(); // required because range min/max changes
+				this.displayInputs(); // updates in the track list
+			})
+
+			let inputDeleteButton = document.getElementById(`deleteInput${input}`);
+			inputDeleteButton.addEventListener('click', () => {
+				this.inputs.splice(input, 1);
+				this.showEditGUI();
+				this.displayInputs();
+			})
 
 
+			
 		}
 		let newInputButton = document.createElement('button')
-		newInputButton.setAttribute('id', 'newInput');
+		newInputButton.setAttribute('id', 'newInputButton');
 		newInputButton.innerText = 'Add New Input';
 		editInputsPanel.appendChild(newInputButton);
+
+		// adds a new input, automatically selects the range of first currently existing input,
+		// otherwise it selects 'td_front_back' as a placeholder
+		let inputAddButton = document.getElementById(`newInputButton`);
+		inputAddButton.addEventListener('click', () => {
+			let newInputRange = this.inputs[0] ? this.inputs[0].range : 'td_front_back'
+			this.inputs.push(new Input({'range':newInputRange, 'type':'volume', 'value':'curr', 'min':0, 'peak':1, 'max':1}))
+			console.log(this.inputs);
+			this.showEditGUI();
+			this.displayInputs();
+		})
+
 	}
 
 	getJSON() {
@@ -2327,8 +2359,6 @@ function startAudio(preset) {
 
 	//load the selected preset
 	preset.tracks.map(track => loadTrack(track));
-
-	console.log(sound);
 
 	sound.context.resume();
 }
