@@ -6,7 +6,6 @@ body {
 
 /* COMPONENTS */
 button {
-	width: 100%;
 	margin: 3px;
 	font-size:10px;
 }
@@ -19,6 +18,10 @@ table {
 
 hr {
 	color:  rgba(0,0,0,0.5);
+}
+
+input {
+	margin: 2px;
 }
 
 .v-slider {
@@ -84,20 +87,25 @@ hr {
 #resonanceEdit {
 	grid-area: edit;
 	border: 1px solid gray;
-	padding: 25px;
+	padding: 5px;
 	
 }
 
 #editInputs {
 	border: 1px solid gray;
 	margin: 3px;
-	padding: 20px;
+	padding: 5px;
+	height: 150px;
 	overflow-y: scroll;
 }
 
 .editInput {
 	border: 1px solid gray;
 	padding: 3px;
+}
+
+.numberInput {
+	width: 60px;
 }
 
 /* MIXER  */

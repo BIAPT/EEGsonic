@@ -1340,9 +1340,9 @@ class Signal {
 		this.muted = false;
 		this.min = null;
 		this.max = null;
-		this.curr = 0;
 		this.prev = null;
 		this.mute = false;
+		this.curr = 0;
 		this.avg3 = 0;
 		this.avg5 = 0;
 		this.avg10 = 0;
@@ -1855,6 +1855,7 @@ class Track {
 	}
 
 	showEditGUI() {
+		// creates the edit GUI
 		console.log("Show edit GUI for track " + this.fileName);
 		let editPanel = document.getElementById('resonanceEdit');
 
@@ -1868,40 +1869,72 @@ class Track {
 				<button id='editTrackSoundfileButton'>Change Soundfile</button>	
 			</div>
 			<div class='flex-row'>
-				loop length (seconds): ${this.checkForLoop() ? "<input id='editLoopLength' type='number' min='0' step='0.1' value=" + this.loopLength + "></input>" : 'No loopPoint inputs'}
-				decay cutoff: <input id='editDecayCutoff' type='number' min='0' max='1' step='0.01' value='${this.decayCutoff}'></input>
+				<div>loop length (seconds): ${this.checkForLoop() ? "<input id='editLoopLength' class='numberInput' type='number' min='0' step='0.1' value=" + this.loopLength + "></input>" : 'No loopPoint inputs'}</div>
+				<div>decay cutoff: <input id='editDecayCutoff' class='numberInput' type='number' min='0' max='1' step='0.01' value='${this.decayCutoff}'></input></div>
 			</div>
 			<div id='editInputs'></div>
 		`
 
+		// create and populate the list of inputs
 		let editInputsPanel = document.getElementById('editInputs');
 		for (let input in this.inputs) {
 			let editInputItem = document.createElement('div');
+			editInputItem.setAttribute('class', 'editInput');
 
+			console.log(this.inputs[input].getRange().min);
 
 			editInputItem.innerHTML = `
-					<div class='editInput flex-row'>
-						<b>Input ${input}</b>
+					<b>Input ${input}</b><br>
+					<div class='flex-row'>
 						<div>Type: 
-							<select id='input${input}'>
-								<option value='volume'>volume</option>
-								<option value='loopPoint'>loopPoint</option>
-								<option value='playbackRate'>playbackRate<option>
+							<select id='input${input}Type'>
+								<option value='volume' ${(this.inputs[input].type === 'volume') ? 'selected' : ''}>volume</option>
+								<option value='loopPoint' ${(this.inputs[input].type === 'loopPoint') ? 'selected' : ''}>loopPoint</option>
+								<option value='playbackRate' ${(this.inputs[input].type === 'playbackRate') ? 'selected' : ''}>playbackRate<option>
+							</select>
+						</div>
+						<div>Value:
+							<select id='input${input}Value'>
+								<option value='curr' ${(this.inputs[input].value === 'curr') ? 'selected' : ''}>current</option>
+								<option value='avg3' ${(this.inputs[input].value === 'avg3') ? 'selected' : ''}>avg3</option>
+								<option value='avg5' ${(this.inputs[input].value === 'avg5') ? 'selected' : ''}>avg5</option>
+								<option value='avg10' ${(this.inputs[input].value === 'avg10') ? 'selected' : ''}>avg10</option>
+								<option value='diff3' ${(this.inputs[input].value === 'diff3') ? 'selected' : ''}>diff3</option>
+								<option value='diff5' ${(this.inputs[input].value === 'diff5') ? 'selected' : ''}>diff5</option>
+								<option value='diff10' ${(this.inputs[input].value === 'diff10') ? 'selected' : ''}>diff10</option>
+								<option value='diff3_10' ${(this.inputs[input].value === 'diff3_10') ? 'selected' : ''}>diff3_10</option>
 							</select>
 						</div>
 						<div>Range:
 							<select id='input${input}Ranges'>
 							</select>
 						</div>
+						<button id='deleteInput${input}'>Delete</button>
+					</div>
+					<div class='flex-row'>
+						Min: <input class='numberInput' type='number' value='${this.inputs[input].min}' step='0.01'></input>
+						Peak: <input class='numberInput' type='number' value='${this.inputs[input].peak}' step='0.01'></input>
+						Max: <input class='numberInput' type='number' value='${this.inputs[input].max}' step='0.01'></input>
+						Range Min: <input class='numberInput' type='number' value='${this.inputs[input].getRange().min}' step='0.01'></input>
+						Range Max: <input class='numberInput' type='number' value='${this.inputs[input].getRange().max}' step='0.01'></input>
+					</div>
+					<b>Decay Settings</b>
+					<div class='flex=row'>
+						Boost: <input class='numberInput' type='number' value='${this.inputs[input].decayBoost}' step='0.01'></input>
+						Decay Rate: <input class='numberInput' type='number' value='${this.inputs[input].decayRate}' step='0.01'></input>
+						Threshold: <input class='numberInput' type='number' value='${this.inputs[input].decayThreshold}' step='0.01'></input>
+						Range: <input class='numberInput' type='number' value='${this.inputs[input].decayRange}' step='0.01'></input>
 					</div>
 				`
 
-
 			editInputsPanel.appendChild(editInputItem);
 
-			let inputRangesList = document.getElementById(`input${input}Ranges`);
+			// populate the list of values (curr, avg3, avg5, etc);
+
+
 
 			// this is populating the drop-down list of ranges and selecting the current range
+			let inputRangesList = document.getElementById(`input${input}Ranges`);
 			Object.keys(sound.signals).forEach(signal => {
 				Object.keys(sound.signals[signal].ranges).forEach(range => {
 					let rangeListElement = document.createElement('option');
@@ -1909,69 +1942,19 @@ class Track {
 					rangeListElement.innerText = range;
 					if (range === this.inputs[input].range) {
 						rangeListElement.setAttribute('selected', true);
+
+						inputRangesList.appendChild(rangeListElement);
 					}
-					inputRangesList.appendChild(rangeListElement);
 				})
 			})
 
-			// if (this.inputs[input].type === 'volume') {
-			// 	editInputItem.innerHTML = `
-			// 		<div class='editInput flex-row'>
-			// 			<b>Input ${input}</b>
-			// 			<div>Type: 
-			// 				<select id='input${input}'>
-			// 					<option value='volume' selected>volume</option>
-			// 					<option value='loopPoint'>loopPoint</option>
-			// 					<option value='playbackRate'>playbackRate<option>
-			// 				</select>
-			// 			</div>
-			// 		</div>
-			// 	`
-			// }
 
-			// if (this.inputs[input].type === 'loopPoint') {
-			// 	editInputItem.innerHTML = `
-			// 		<div class='editInput flex-row'>
-			// 			<b>Input ${input}</b>
-			// 			<div>Type: 
-			// 				<select id='input${input}'>
-			// 					<option value='volume'>volume</option>
-			// 					<option value='loopPoint' selected>loopPoint</option>
-			// 					<option value='playbackRate'>playbackRate<option>
-			// 				</select>
-			// 			</div>
-			// 			<div>Range:
-			// 				<select id='input${input}Range'>
-			// 				</select>
-			// 			</div>
-			// 		</div>
-			// 	`
-			// }
-
-			// if (this.inputs[input].type === 'playbackRate') {
-			// 	editInputItem.innerHTML = `
-			// 		<div class='editInput flex-row'>
-			// 			<b>Input ${input}</b>
-			// 			<div>Type: 
-			// 				<select id='input${input}'>
-			// 					<option value='volume'>volume</option>
-			// 					<option value='loopPoint'>loopPoint</option>
-			// 					<option value='playbackRate' selected>playbackRate<option>
-			// 				</select>
-			// 			</div>
-			// 			<div>Range:
-			// 				<select id='input${input}Range'>
-			// 				</select>
-			// 			</div>
-			// 		</div>
-			// 	`
-
-			// 	let ranges = document.getElementById(`input${input}Range`);
-			// 	ranges.innerHTML = 
-			// }
 
 		}
-
+		let newInputButton = document.createElement('button')
+		newInputButton.setAttribute('id', 'newInput');
+		newInputButton.innerText = 'Add New Input';
+		editInputsPanel.appendChild(newInputButton);
 	}
 
 	getJSON() {
@@ -2060,6 +2043,18 @@ class Input {
 		}
 		if (this.decayValue > 1) {this.decayValue = 1}
 		return this.decayValue;
+	}
+
+	getRange () {
+		let rangeToSend = null
+		Object.keys(sound.signals).forEach(signal => {
+			Object.keys(sound.signals[signal].ranges).forEach(range => {
+				if (range === this.range) {
+					rangeToSend = sound.signals[signal].ranges[this.range];
+				}
+			})
+		})
+		return rangeToSend
 	}
 }
 
