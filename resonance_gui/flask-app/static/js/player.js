@@ -1676,8 +1676,10 @@ class Track {
 	}
 
 	deleteTrack () {
-		for (let i = 0; i++ ; i<sound.tracks.length) {
+		for (let i = 0; i<sound.tracks.length; i++) {
+			console.log(i);
 			if (Object.is(sound.tracks[i], this)) {
+				console.log('track ' + i);
 				sound.tracks.splice(i, 1);
 				break;
 			}
