@@ -1878,53 +1878,98 @@ class Track {
 		for (let input in this.inputs) {
 			let editInputItem = document.createElement('div');
 
-			if (this.inputs[input].type === 'volume') {
-				editInputItem.innerHTML = `
-					<div class='flex-row'>
-						<b>Input ${input}</b>
-						<div>Type: 
-							<select id='input${input}'>
-								<option value='volume' selected>volume</option>
-								<option value='loopPoint'>loopPoint</option>
-								<option value='playbackRate'>playbackRate<option>
-							</select>
-						</div>
-					</div>
-				`
-			}
 
-			if (this.inputs[input].type === 'loopPoint') {
-				editInputItem.innerHTML = `
-					
-					<div class='flex-row'>
-						<b>Input ${input}</b>
-						<div>Type: 
-							<select id='input${input}'>
-								<option value='volume'>volume</option>
-								<option value='loopPoint' selected>loopPoint</option>
-								<option value='playbackRate'>playbackRate<option>
-							</select>
-						</div>
-					</div>
-				`
-			}
-
-			if (this.inputs[input].type === 'playbackRate') {
-				editInputItem.innerHTML = `
-					<div class='flex-row'>
+			editInputItem.innerHTML = `
+					<div class='editInput flex-row'>
 						<b>Input ${input}</b>
 						<div>Type: 
 							<select id='input${input}'>
 								<option value='volume'>volume</option>
 								<option value='loopPoint'>loopPoint</option>
-								<option value='playbackRate' selected>playbackRate<option>
+								<option value='playbackRate'>playbackRate<option>
+							</select>
+						</div>
+						<div>Range:
+							<select id='input${input}Ranges'>
 							</select>
 						</div>
 					</div>
 				`
-			}
+
 
 			editInputsPanel.appendChild(editInputItem);
+
+			let inputRangesList = document.getElementById(`input${input}Ranges`);
+
+			// this is populating the drop-down list of ranges and selecting the current range
+			Object.keys(sound.signals).forEach(signal => {
+				Object.keys(sound.signals[signal].ranges).forEach(range => {
+					let rangeListElement = document.createElement('option');
+					rangeListElement.setAttribute('value', range);
+					rangeListElement.innerText = range;
+					if (range === this.inputs[input].range) {
+						rangeListElement.setAttribute('selected', true);
+					}
+					inputRangesList.appendChild(rangeListElement);
+				})
+			})
+
+			// if (this.inputs[input].type === 'volume') {
+			// 	editInputItem.innerHTML = `
+			// 		<div class='editInput flex-row'>
+			// 			<b>Input ${input}</b>
+			// 			<div>Type: 
+			// 				<select id='input${input}'>
+			// 					<option value='volume' selected>volume</option>
+			// 					<option value='loopPoint'>loopPoint</option>
+			// 					<option value='playbackRate'>playbackRate<option>
+			// 				</select>
+			// 			</div>
+			// 		</div>
+			// 	`
+			// }
+
+			// if (this.inputs[input].type === 'loopPoint') {
+			// 	editInputItem.innerHTML = `
+			// 		<div class='editInput flex-row'>
+			// 			<b>Input ${input}</b>
+			// 			<div>Type: 
+			// 				<select id='input${input}'>
+			// 					<option value='volume'>volume</option>
+			// 					<option value='loopPoint' selected>loopPoint</option>
+			// 					<option value='playbackRate'>playbackRate<option>
+			// 				</select>
+			// 			</div>
+			// 			<div>Range:
+			// 				<select id='input${input}Range'>
+			// 				</select>
+			// 			</div>
+			// 		</div>
+			// 	`
+			// }
+
+			// if (this.inputs[input].type === 'playbackRate') {
+			// 	editInputItem.innerHTML = `
+			// 		<div class='editInput flex-row'>
+			// 			<b>Input ${input}</b>
+			// 			<div>Type: 
+			// 				<select id='input${input}'>
+			// 					<option value='volume'>volume</option>
+			// 					<option value='loopPoint'>loopPoint</option>
+			// 					<option value='playbackRate' selected>playbackRate<option>
+			// 				</select>
+			// 			</div>
+			// 			<div>Range:
+			// 				<select id='input${input}Range'>
+			// 				</select>
+			// 			</div>
+			// 		</div>
+			// 	`
+
+			// 	let ranges = document.getElementById(`input${input}Range`);
+			// 	ranges.innerHTML = 
+			// }
+
 		}
 
 	}

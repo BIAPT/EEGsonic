@@ -95,6 +95,10 @@ hr {
 	overflow-y: scroll;
 }
 
+.editInput {
+	border: 1px solid gray;
+	padding: 3px;
+}
 
 /* MIXER  */
 #resonanceMixer {
