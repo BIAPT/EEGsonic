@@ -1531,6 +1531,14 @@ class Signal {
 		console.log("showing edit for " + this.channel);
 	}
 
+	getJSON () {
+		let preset = {'channel':this.channel}
+		preset.ranges = Object.keys(this.ranges).map((range) => {
+			return {'name':this.ranges[range].name, 'min': this.ranges[range].min, 'max': this.ranges[range].max}
+		})
+		return preset;
+	}
+
 }
 
 // A single track manages playback of a single soundfile.
@@ -1910,18 +1918,18 @@ class Track {
 						<button id='deleteInput${input}'>Delete</button>
 					</div>
 					<div class='flex-row'>
-						Min: <input class='numberInput' type='number' value='${this.inputs[input].min}' step='0.01'></input>
-						Peak: <input class='numberInput' type='number' value='${this.inputs[input].peak}' step='0.01'></input>
-						Max: <input class='numberInput' type='number' value='${this.inputs[input].max}' step='0.01'></input>
-						Range Min: <input class='numberInput' type='number' value='${this.inputs[input].getRange().min}' step='0.01'></input>
-						Range Max: <input class='numberInput' type='number' value='${this.inputs[input].getRange().max}' step='0.01'></input>
+						Min: <input id='input${input}Min' class='numberInput' type='number' value='${this.inputs[input].min}' step='0.01'></input>
+						Peak: <input id='input${input}Peak' class='numberInput' type='number' value='${this.inputs[input].peak}' step='0.01'></input>
+						Max: <input id='input${input}Max' class='numberInput' type='number' value='${this.inputs[input].max}' step='0.01'></input>
+						Range Min: <input id='input${input}RangeMin' class='numberInput' type='number' value='${this.inputs[input].getRange().min}' step='0.01'></input>
+						Range Max: <input id='input${input}RangeMax' class='numberInput' type='number' value='${this.inputs[input].getRange().max}' step='0.01'></input>
 					</div>
 					<b>Decay Settings</b>
 					<div class='flex=row'>
-						Boost: <input class='numberInput' type='number' value='${this.inputs[input].decayBoost}' step='0.01'></input>
-						Decay Rate: <input class='numberInput' type='number' value='${this.inputs[input].decayRate}' step='0.01'></input>
-						Threshold: <input class='numberInput' type='number' value='${this.inputs[input].decayThreshold}' step='0.01'></input>
-						Range: <input class='numberInput' type='number' value='${this.inputs[input].decayRange}' step='0.01'></input>
+						Boost: <input id='input${input}DecayBoost' class='numberInput' type='number' value='${this.inputs[input].decayBoost}' step='0.01'></input>
+						Decay Rate: <input id='input${input}DecayRate' class='numberInput' type='number' value='${this.inputs[input].decayRate}' step='0.01'></input>
+						Threshold: <input id='input${input}DecayThreshold' class='numberInput' type='number' value='${this.inputs[input].decayThreshold}' step='0.01'></input>
+						Range: <input id='input${input}DecayRange' class='numberInput' type='number' value='${this.inputs[input].decayRange}' step='0.01'></input>
 					</div>
 				`
 
@@ -1968,9 +1976,59 @@ class Track {
 				this.displayInputs();
 			})
 
+			let inputMin = document.getElementById(`input${input}Min`);
+			inputMin.addEventListener('change', () => {
+				this.inputs[input].min = inputMin.value;
+				this.displayInputs();
+			})
 
+			let inputPeak = document.getElementById(`input${input}Peak`);
+			inputPeak.addEventListener('change', () => {
+				this.inputs[input].peak = inputPeak.value;
+				this.displayInputs();
+			})
+
+			let inputMax = document.getElementById(`input${input}Max`);
+			inputMax.addEventListener('change', () => {
+				this.inputs[input].max = inputMax.value;
+				this.displayInputs();
+			})
+
+			let inputRangeMin = document.getElementById(`input${input}RangeMin`);
+			inputRangeMin.addEventListener('change', () => {
+				this.inputs[input].getRange().min = inputRangeMin.value;
+				this.displayInputs();
+			})
+
+			let inputRangeMax = document.getElementById(`input${input}RangeMax`);
+			inputRangeMax.addEventListener('change', () => {
+				this.inputs[input].getRange().max = inputRangeMax.value;
+				this.displayInputs();
+			})
+
+			let inputDecayBoost = document.getElementById(`input${input}DecayBoost`)
+			inputDecayBoost.addEventListener('change', () => {
+				this.inputs[input].decayBoost = inputDecayBoost.value;
+			})
+
+			let inputDecayRate = document.getElementById(`input${input}DecayRate`)
+			inputDecayRate.addEventListener('change', () => {
+				this.inputs[input].decayRate = inputDecayRate.value;
+			})
+
+			let inputDecayThreshold = document.getElementById(`input${input}DecayThreshold`)
+			inputDecayThreshold.addEventListener('change', () => {
+				this.inputs[input].decayThreshold = inputDecayThreshold.value;
+			})
+
+			let inputDecayRange = document.getElementById(`input${input}DecayRange`)
+			inputDecayRange.addEventListener('change', () => {
+				this.inputs[input].decayRange = inputDecayRange.value;
+			})
 			
-		}
+			
+		} // end of list of inputs
+
 		let newInputButton = document.createElement('button')
 		newInputButton.setAttribute('id', 'newInputButton');
 		newInputButton.innerText = 'Add New Input';
@@ -1992,7 +2050,7 @@ class Track {
 	getJSON() {
 		let preset = { 'fileName': this.fileName, 'gain' : this.userGainSlider.value, 'loopLength': this.loopLength, 'decayCutoff': this.decayCutoff }
 		preset.inputs = this.inputs.map((input)=>{
-			return {'range':input.range, 'type': input.type, 'value': input.value, 'min': input.min, 'peak': input.peak, 'max': input.max, 'decayRate': input.decayRate, 'decayRange': input.decayRange }
+			return {'range':input.range, 'type': input.type, 'value': input.value, 'min': input.min, 'peak': input.peak, 'max': input.max, 'decayRate': input.decayRate, 'decayRange': input.decayRange, 'decayBoost': input.decayBoost, 'decayThreshold': input.decayThreshold }
 		})
 		return preset;
 	}
@@ -2289,10 +2347,15 @@ function loadPreset() {
 
 function savePreset() {
 	console.log('saving app state as preset');
-	// this is a hack for saving a file from the front-end
+
+	let savedPreset = {};
+	savedPreset.signals = Object.keys(sound.signals).map(signal => sound.signals[signal].getJSON());
+    savedPreset.tracks = sound.tracks.map(track => track.getJSON()); // saves tracks JSON
+    
+    var file = new Blob([JSON.stringify(savedPreset)], {type: 'text/plain'});
+
+    // this is a way of saving a file from the front-end
     var a = document.createElement("a");
-    let tracksJSON = sound.tracks.map(track => track.getJSON());
-    var file = new Blob([JSON.stringify(tracksJSON)], {type: 'text/plain'});
     a.href = URL.createObjectURL(file);
     a.download = 'preset.txt';
     a.innerHTML = a.download;
