@@ -39,11 +39,12 @@ npm run watch
 
 ### Running the Flask Server
 
-To run the flask app, open a terminal window and navigate to flask-app/server. Run
+To run the flask app, open a terminal window and navigate to flask-app/. Run
 
 ```
 python3 app.py
 ```
+(or python app.py on windows)
 
 The server runs in two threads, one listening for UDP messages from EEGSonic and the second hosting the actual flask server. The rounting is handled by flask-app/app.py.
 

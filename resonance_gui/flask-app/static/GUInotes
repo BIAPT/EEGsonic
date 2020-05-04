@@ -89,3 +89,8 @@ able to list all tracks w inputs of this signal
 
 able to reset min/max
 able to send a specific value (panic);
+
+
+
+presets - save and load
+ranges - save and load, associate with person
