@@ -16,7 +16,8 @@ function [ratio_beta_alpha,ratio_alpha_theta] = spectral_power_ratio(eeg_data,ee
     eeg_data = eeg_data';
     %% Create params struct for Chronux function
     params.tapers = [parameters.time_bandwith_product parameters.number_tapers];
-    params.Fs = 1000; %eeg_info.sampling_rate;
+    %params.Fs = 1000; %eeg_info.sampling_rate;
+    params.Fs = eeg_info.sampling_rate;
     params.trialave = 1;
     window_parameters = [parameters.window_size parameters.step_size];    
 
